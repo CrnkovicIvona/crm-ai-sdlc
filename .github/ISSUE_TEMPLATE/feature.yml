@@ -1,0 +1,24 @@
+name: Feature request
+description: Propose a product or engineering change
+title: '[FEATURE] '
+labels: ['feature']
+body:
+  - type: textarea
+    id: request
+    attributes:
+      label: Business request
+      description: State only known needs. Do not ask the agent to invent requirements.
+    validations:
+      required: true
+  - type: textarea
+    id: unknowns
+    attributes:
+      label: Open questions
+      description: What must a human still decide?
+  - type: dropdown
+    id: risk
+    attributes:
+      label: Initial risk guess
+      options: [Low, Medium, High, Critical]
+    validations:
+      required: true

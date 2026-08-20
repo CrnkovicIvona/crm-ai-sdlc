@@ -1,0 +1,9 @@
+node_modules
+coverage
+dist
+build
+.next
+playwright-report
+test-results
+package-lock.json
+.git

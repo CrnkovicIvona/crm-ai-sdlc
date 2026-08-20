@@ -1,0 +1,10 @@
+---
+description: Definition of Done constraints
+alwaysApply: true
+---
+
+# Definition of Done
+
+Do not claim a feature is done unless `docs/sdlc/definition-of-done.md` is satisfied.
+
+Tests listed as passed must have been executed with verifiable evidence. Docs-only changes use a reduced DoD (format, review, PR to `test`) with documented Low risk.
