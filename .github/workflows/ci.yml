@@ -74,17 +74,19 @@ jobs:
             echo "Application source found. ESLint, Vitest, and Playwright will run."
           else
             echo "present=false" >> "$GITHUB_OUTPUT"
-            {
-              echo "## Application suites: NOT APPLICABLE"
-              echo ""
-              echo "Reason: no application source directory (\`src/\`)."
-              echo ""
-              echo "| Suite | Status |"
-              echo "| --- | --- |"
-              echo "| ESLint | NOT APPLICABLE (job SKIPPED; not executed; not passed) |"
-              echo "| Vitest | NOT APPLICABLE (job SKIPPED; not executed; not passed) |"
-              echo "| Playwright | NOT APPLICABLE (job SKIPPED; not executed; not passed) |"
-            } >> "$GITHUB_STEP_SUMMARY"
+            echo "Application suites: NOT APPLICABLE"
+            echo "Reason: no application source directory (src/)."
+            echo "ESLint, Vitest, and Playwright will be SKIPPED. They were not executed and are not passed."
+            echo "## Application suites: NOT APPLICABLE" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "Reason: no application source directory (src/)." >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "| Suite | Status |" >> "$GITHUB_STEP_SUMMARY"
+            echo "| --- | --- |" >> "$GITHUB_STEP_SUMMARY"
+            echo "| ESLint | NOT APPLICABLE (job SKIPPED; not executed; not passed) |" >> "$GITHUB_STEP_SUMMARY"
+            echo "| Vitest | NOT APPLICABLE (job SKIPPED; not executed; not passed) |" >> "$GITHUB_STEP_SUMMARY"
+            echo "| Playwright | NOT APPLICABLE (job SKIPPED; not executed; not passed) |" >> "$GITHUB_STEP_SUMMARY"
+          fi
 
   eslint:
     name: ESLint
