@@ -17,6 +17,16 @@ There is **no application**. Do not add fake passing Vitest or
 Playwright tests. Foundation CI runs Prettier, commitlint, and secret
 scanning only.
 
+CI must report each suite as one of:
+
+- **PASSED** — executed and succeeded, with evidence
+- **FAILED** — executed and failed
+- **SKIPPED** — GitHub skipped the job (not executed)
+- **NOT APPLICABLE** — cannot run yet (no `src/`); GitHub shows the
+  ESLint, Vitest, and Playwright jobs as **SKIPPED**
+
+NOT APPLICABLE and SKIPPED are not PASSED.
+
 ## ESLint strategy (deferred configuration)
 
 When `src/` is introduced:

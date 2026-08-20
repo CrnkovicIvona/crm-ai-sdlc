@@ -54,13 +54,76 @@ jobs:
       - name: Detect secrets
         run: gitleaks detect --source . --verbose --no-banner --redact
 
-  application-suites:
-    name: Application test suites (deferred)
+  # CI reporting: PASSED | FAILED | SKIPPED | NOT APPLICABLE.
+  # GitHub has no native NOT APPLICABLE conclusion. When there is no
+  # application source, ESLint / Vitest / Playwright jobs are skipped at
+  # the job level (GitHub: SKIPPED) and the detector summary states
+  # NOT APPLICABLE. A skipped or N/A suite is not passed.
+  application-source:
+    name: Detect application source
+    runs-on: ubuntu-latest
+    outputs:
+      present: ${{ steps.check.outputs.present }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: check
+        name: Check for src/
+        run: |
+          if [ -d src ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+            echo "Application source found. ESLint, Vitest, and Playwright will run."
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            {
+              echo "## Application suites: NOT APPLICABLE"
+              echo ""
+              echo "Reason: no application source directory (\`src/\`)."
+              echo ""
+              echo "| Suite | Status |"
+              echo "| --- | --- |"
+              echo "| ESLint | NOT APPLICABLE (job SKIPPED; not executed; not passed) |"
+              echo "| Vitest | NOT APPLICABLE (job SKIPPED; not executed; not passed) |"
+              echo "| Playwright | NOT APPLICABLE (job SKIPPED; not executed; not passed) |"
+            } >> "$GITHUB_STEP_SUMMARY"
+
+  eslint:
+    name: ESLint
+    needs: application-source
+    if: needs.application-source.outputs.present == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Record not executed
-        run: |
-          echo "ESLint, Vitest, and Playwright are not executed; src/ does not exist."
-          echo "These jobs must become required gates when the application is bootstrapped."
-          echo "Do not report this job as product tests passed."
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+
+  vitest:
+    name: Vitest
+    needs: application-source
+    if: needs.application-source.outputs.present == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+  playwright:
+    name: Playwright
+    needs: application-source
+    if: needs.application-source.outputs.present == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright test
