@@ -1,0 +1,13 @@
+---
+description: Formatting, lint, commits, and CI quality gates
+alwaysApply: true
+---
+
+# Quality
+
+- Format with Prettier. Do not bypass `format:check` in CI.
+- ESLint is required once application source exists. Until then, document the strategy; do not fake an app lint suite.
+- Conventional Commits are required.
+- Do not weaken GitHub Actions quality gates.
+- Do not use `continue-on-error: true` on required CI jobs.
+- Do not force-push to `test` or `main`.

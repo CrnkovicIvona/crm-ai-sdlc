@@ -1,0 +1,19 @@
+{
+  "name": "bankcrm",
+  "private": true,
+  "version": "0.0.0",
+  "description": "BankCRM engineering process foundation (no application runtime yet)",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "commitlint": "commitlint"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "prettier": "^3.6.2"
+  }
+}

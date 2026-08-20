@@ -1,0 +1,20 @@
+---
+description: Where artifacts belong; product docs are source of truth
+alwaysApply: true
+---
+
+# Documentation placement
+
+- Cursor rules = persistent constraints
+- Cursor skills = procedures for a specific activity
+- `docs/sdlc/` = lifecycle orchestration
+- `docs/product/` = business/product truth (do not invent)
+- `docs/requirements/`, `user-stories/`, `bdd/` = specification artifacts
+- `docs/test-*` and `docs/bugs/` = QA artifacts
+- `docs/architecture/` and `docs/adr/` = technical decisions
+- `docs/ai/` = AI operating model
+- `src/` = application implementation (does not exist in ENG-001)
+- `.github/workflows/` = CI automation
+
+Do not put process rules only in chat. Update the canonical file.
+Do not treat example IDs in templates as real BankCRM features.

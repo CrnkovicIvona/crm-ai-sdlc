@@ -1,0 +1,27 @@
+name: Bug
+description: Report a defect
+title: '[BUG] '
+labels: ['bug']
+body:
+  - type: textarea
+    id: symptoms
+    attributes:
+      label: Symptoms
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Logs, SHA, test IDs. Do not paste secrets.
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options: [Critical, High, Medium, Low]
+    validations:
+      required: true
+  - type: input
+    id: ac
+    attributes:
+      label: Linked AC / TC / Issue
