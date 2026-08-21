@@ -4,7 +4,7 @@
 | ------- | --- | --- | --- | --- | --- | --------------------------------------------- | ---- |
 | ENG-001 | —   | —   | —   | —   | —   | Foundation CI: Prettier, commitlint, gitleaks | Low  |
 
-Release: [REL-001](../releases/REL-001.md) promotes ENG-001 from
-`test` to `main`. No product requirements.
+Release: [REL-001](../releases/REL-001.md) promoted ENG-001 to `main`.
+[REL-002](../releases/REL-002.md) promotes the Git sync rules (`release/<rel-id>` → `main`, then into `test`).
 
 Product rows are added only from approved requirements.
