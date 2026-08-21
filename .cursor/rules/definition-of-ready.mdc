@@ -1,0 +1,21 @@
+---
+description: Definition of Ready constraints
+alwaysApply: true
+---
+
+# Definition of Ready
+
+Do not start implementation (application code) unless DoR is met. See `docs/sdlc/definition-of-ready.md`.
+
+Minimum:
+
+- GitHub Issue exists
+- Requirements in `docs/requirements/` without invented scope
+- User stories and acceptance criteria in `docs/user-stories/`
+- BDD in `docs/bdd/` derived from AC
+- Test cases and a risk-based test plan exist
+- Traceability rows exist
+- Implementation plan exists
+- Human has approved the implementation plan
+
+Docs-only or chore work may use a reduced DoR documented in the issue. Still do not invent product behavior.

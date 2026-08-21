@@ -1,0 +1,15 @@
+---
+description: Security constraints for secrets, production, and controls
+alwaysApply: true
+---
+
+# Security
+
+- Never commit `.env` files with secrets, keys, tokens, or service-role credentials
+- Never print secrets
+- Never bypass authn/authz in tests or code as a shortcut
+- Never modify production data or production schema without explicit human authorization
+- Never disable branch protection, required checks, or secret scanning
+- Production deploy is not an agent action
+- Follow `docs/sdlc/security-review.md` for security-sensitive changes
+- Report vulnerabilities per `SECURITY.md`

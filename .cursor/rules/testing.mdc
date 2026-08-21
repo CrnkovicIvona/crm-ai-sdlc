@@ -1,0 +1,14 @@
+---
+description: Risk-based testing and no-fabrication rules
+alwaysApply: true
+---
+
+# Testing
+
+- Determine scope from change impact and risk. Full regression is not automatic for trivial changes.
+- Vitest: unit and integration (when the application exists).
+- Playwright: e2e (when the application exists).
+- Never delete, skip, or weaken tests to pass CI.
+- Never report a test as passed unless it was actually executed and verifiable execution evidence exists (CI log, local command output, or a test report that cites that evidence).
+- `execute-tests` records evidence. `heal` diagnoses and remediates failures. Do not mix those responsibilities.
+- Do not add fake passing tests for a product that does not exist yet.

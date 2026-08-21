@@ -1,0 +1,14 @@
+name: Security
+description: Non-sensitive security process item (use SECURITY.md for vulnerabilities)
+title: '[SECURITY] '
+labels: ['security']
+body:
+  - type: markdown
+    attributes:
+      value: If this could be exploited in production, do **not** use this form. Follow SECURITY.md.
+  - type: textarea
+    id: request
+    attributes:
+      label: Request
+    validations:
+      required: true
