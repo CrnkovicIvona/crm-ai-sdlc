@@ -26,8 +26,8 @@ specification without restarting the lifecycle.
 ## Technical specification (how)
 
 Prerequisite: functional specification; existing ADRs and
-`docs/architecture/`. Prefer also US, AC, BDD, tests, and
-traceability.
+`docs/architecture/`; user stories, AC, BDD, test cases/plan, and
+traceability (orchestrator: technical spec **after** traceability).
 
 1. Create `docs/specifications/technical/<WORK-ITEM-ID>.md`.
 2. Reuse accepted ADRs. Do not replace them. Do not introduce

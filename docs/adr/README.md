@@ -10,3 +10,6 @@ Template: [TEMPLATE.md](TEMPLATE.md)
 
 The `author-adr` skill is used to add new ADRs. Do not invent product
 architecture beyond decisions that are actually made.
+
+Work-item proposals that are not ADRs live in
+[../decisions/](../decisions/).

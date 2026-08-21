@@ -14,7 +14,8 @@ alwaysApply: true
 - `docs/specifications/technical/` = how it will be implemented in the existing architecture
 - `docs/user-stories/`, `bdd/` = stories, AC, Gherkin
 - `docs/test-*` and `docs/bugs/` = QA artifacts
-- `docs/architecture/` and `docs/adr/` = technical decisions
+- `docs/architecture/` and `docs/adr/` = durable platform decisions
+- `docs/decisions/` = work-item decision logs (proposed until a human accepts them; not a substitute for ADRs)
 - `docs/ai/` = AI operating model
 - `src/` = application implementation (does not exist in ENG-001)
 - `.github/workflows/` = CI automation

@@ -94,6 +94,13 @@ Derived only from REQ-001 stated requirements.
 | FR-007 | Users must be able to log out.                                                                 | 6                                      |
 | FR-008 | After logout, the user is not authenticated and cannot access the CRM until they log in again. | 5, 6 (as specified in US-004 / AC-007) |
 
+FR-001 and FR-006 are two views of REQ-001 item 1 (allowed access after
+login vs the need to log in). They are not separate product
+capabilities.
+
+FR-003 (two roles exist) has no dedicated acceptance criterion. It is
+covered only through AC-004 and AC-005.
+
 FR-008 is the combination of “only authenticated users may access the
 CRM” and “users must be able to log out”, already recorded as AC-007.
 Session timeout is **not** an FR.
@@ -232,16 +239,16 @@ Copied from REQ-001. Do not implement until a human answers them.
 
 ## Traceability
 
-| FR     | REQ     | US             | AC                                        | BDD (docs/bdd/AUTH-001.md)                                      | TC             |
-| ------ | ------- | -------------- | ----------------------------------------- | --------------------------------------------------------------- | -------------- |
-| FR-001 | REQ-001 | US-001         | AC-001                                    | Authenticated employee can access the CRM                       | TC-001         |
-| FR-002 | REQ-001 | US-001, US-002 | AC-002, AC-003                            | Accessing the CRM requires login; unauthenticated cannot access | TC-002         |
-| FR-003 | REQ-001 | US-003         | (role existence; access in AC-004/AC-005) | ADMIN and VIEWER access feature                                 | TC-003, TC-004 |
-| FR-004 | REQ-001 | US-003         | AC-004                                    | ADMIN has full access                                           | TC-003         |
-| FR-005 | REQ-001 | US-003         | AC-005                                    | VIEWER has read-only access                                     | TC-004         |
-| FR-006 | REQ-001 | US-001         | AC-001, AC-002                            | Log in to access BankCRM                                        | TC-001, TC-002 |
-| FR-007 | REQ-001 | US-004         | AC-006                                    | Authenticated user can log out                                  | TC-005         |
-| FR-008 | REQ-001 | US-004         | AC-007                                    | After logout CRM access is denied                               | TC-006         |
+| FR     | REQ     | US             | AC             | BDD (docs/bdd/AUTH-001.md)                                      | TC             |
+| ------ | ------- | -------------- | -------------- | --------------------------------------------------------------- | -------------- |
+| FR-001 | REQ-001 | US-001         | AC-001         | Authenticated employee can access the CRM                       | TC-001         |
+| FR-002 | REQ-001 | US-001, US-002 | AC-002, AC-003 | Accessing the CRM requires login; unauthenticated cannot access | TC-002         |
+| FR-003 | REQ-001 | US-003         | AC-004, AC-005 | ADMIN and VIEWER access feature                                 | TC-003, TC-004 |
+| FR-004 | REQ-001 | US-003         | AC-004         | ADMIN has full access                                           | TC-003         |
+| FR-005 | REQ-001 | US-003         | AC-005         | VIEWER has read-only access                                     | TC-004         |
+| FR-006 | REQ-001 | US-001         | AC-001, AC-002 | Log in to access BankCRM                                        | TC-001, TC-002 |
+| FR-007 | REQ-001 | US-004         | AC-006         | Authenticated user can log out                                  | TC-005         |
+| FR-008 | REQ-001 | US-004         | AC-007         | After logout CRM access is denied                               | TC-006         |
 
 Technical design elements: [../technical/AUTH-001.md](../technical/AUTH-001.md).
 Implementation: none (pre-implementation).

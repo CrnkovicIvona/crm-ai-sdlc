@@ -10,8 +10,9 @@ bypass human approval gates.
 REQUESTED → REQUIREMENTS → **Functional Specification** → User Stories
 → Acceptance Criteria → BDD/Gherkin → Test Cases → Test Plan →
 Traceability → **Technical Specification** → **Definition of Ready
-(human)** → Implementation Plan → **Human Approval** → Feature Branch
-→ Development → Unit Tests → Integration Tests → Playwright/E2E Tests
+(human)** → **`READY`** → Implementation Plan → **Human plan approval**
+→ **`PLANNED`** → Feature Branch → Development → Unit Tests →
+Integration Tests → Playwright/E2E Tests
 → Test Execution → Healing/Fix → Regression → Test Report → Bug
 Management if required → Code Review → Pull Request → `test` branch →
 CI/QA Gate → **Human Approval** → Release Pull Request → `main` →

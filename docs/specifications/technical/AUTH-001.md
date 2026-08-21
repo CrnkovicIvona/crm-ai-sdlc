@@ -304,11 +304,14 @@ Do not create RLS policies in this phase.
 
 ## API / RPC / Data Access
 
-ADR-0001 and environments.md point to **Supabase client access**, not
-a BankCRM REST API. AUTH-001 does **not** invent HTTP endpoints.
+ADR-0001 and environments.md record **platform intent** toward
+Supabase (PostgreSQL and auth, later), not a BankCRM REST API.
+AUTH-001 does **not** invent HTTP endpoints.
 
-Chosen mechanism (intent): **Supabase Auth APIs + (optional) table
-access via the Supabase client**, subject to RLS.
+Data-access mechanism for AUTH-001 is **not approved**. Platform
+intent is Supabase Auth APIs and optional table access via the
+Supabase client, subject to future RLS decisions. Exact sign-in
+method remains `TBD — HUMAN DECISION REQUIRED`.
 
 ### Interface: sign in
 
@@ -371,17 +374,17 @@ approves a custom API, which would conflict with current intent.
 
 ## Security
 
-| Control          | AUTH-001 treatment                                                                  |
-| ---------------- | ----------------------------------------------------------------------------------- |
-| Authentication   | Required for CRM (FR-002); via intended Supabase Auth                               |
-| Authorization    | ADMIN vs VIEWER (FR-004, FR-005); enforcement TBD                                   |
-| Session handling | Auth session; timeout TBD (business Q5)                                             |
-| Input validation | Login inputs TBD with method                                                        |
-| Access control   | UI gate + data layer TBD                                                            |
-| RLS              | Required for any application tables; policies TBD                                   |
-| Sensitive data   | Credentials never logged or committed; service role never in client                 |
-| Error disclosure | Failed-login copy TBD; do not leak whether an account exists unless a human says so |
-| Logout           | Must invalidate session for subsequent CRM access (FR-008)                          |
+| Control          | AUTH-001 treatment                                                                                                                                              |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Authentication   | Required for CRM (FR-002); via intended Supabase Auth                                                                                                           |
+| Authorization    | ADMIN vs VIEWER (FR-004, FR-005); enforcement TBD                                                                                                               |
+| Session handling | Auth session; timeout TBD (business Q5)                                                                                                                         |
+| Input validation | Login inputs TBD with method                                                                                                                                    |
+| Access control   | UI gate + data layer TBD                                                                                                                                        |
+| RLS              | If application tables exist, RLS is the expected PostgreSQL/Supabase control; whether AUTH-001 uses RLS, and which policies, is `TBD — HUMAN DECISION REQUIRED` |
+| Sensitive data   | Credentials never logged or committed; service role never in client                                                                                             |
+| Error disclosure | Failed-login copy and whether responses distinguish existing accounts: `TBD — HUMAN DECISION REQUIRED`                                                          |
+| Logout           | Must invalidate session for subsequent CRM access (FR-008)                                                                                                      |
 
 Security review remains required at High risk before
 `READY_FOR_PR` of a future implementation (test plan).
@@ -449,16 +452,16 @@ Separate from business questions in FS-AUTH-001.
 
 ## Traceability
 
-| Technical design element                  | Maps to FR             | Notes                    |
-| ----------------------------------------- | ---------------------- | ------------------------ |
-| TDE-001 Access gate / protected CRM shell | FR-001, FR-002, FR-006 | Frontend + session       |
-| TDE-002 Supabase Auth sign-in (logical)   | FR-001, FR-006         | Method TBD               |
-| TDE-003 Supabase Auth sign-out (logical)  | FR-007, FR-008         |                          |
-| TDE-004 Session read                      | FR-002, FR-008         |                          |
-| TDE-005 Role read (claims or profile)     | FR-003, FR-004, FR-005 | Store TBD                |
-| TDE-006 Role-aware UI                     | FR-004, FR-005         | Concrete CRM actions TBD |
-| TDE-007 RLS on application tables         | FR-002, FR-004, FR-005 | Tables/policies TBD      |
-| TDE-008 Playwright TC-001–TC-006          | FR-001–FR-008          | Not automated yet        |
+| Technical design element                  | Maps to FR             | Notes                                                                                      |
+| ----------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------ |
+| TDE-001 Access gate / protected CRM shell | FR-001, FR-002, FR-006 | Frontend + session                                                                         |
+| TDE-002 Supabase Auth sign-in (logical)   | FR-001, FR-006         | Method TBD                                                                                 |
+| TDE-003 Supabase Auth sign-out (logical)  | FR-007, FR-008         |                                                                                            |
+| TDE-004 Session read                      | FR-002, FR-008         |                                                                                            |
+| TDE-005 Role read (claims or profile)     | FR-003, FR-004, FR-005 | Store TBD                                                                                  |
+| TDE-006 Role-aware UI                     | FR-004, FR-005         | Concrete CRM actions TBD                                                                   |
+| TDE-007 RLS on application tables         | FR-004, FR-005         | Only if tables exist; policies TBD. Not the unauthenticated access gate (that is TDE-001). |
+| TDE-008 Playwright TC-001–TC-006          | FR-001–FR-008          | Test architecture, not a product design element; not automated yet                         |
 
 Implementation column: empty. No `src/`.
 

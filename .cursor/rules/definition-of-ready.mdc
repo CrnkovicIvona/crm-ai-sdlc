@@ -5,7 +5,12 @@ alwaysApply: true
 
 # Definition of Ready
 
-Do not start implementation (application code) unless DoR is met. See `docs/sdlc/definition-of-ready.md`.
+Definition of Ready is **necessary but not sufficient** for application
+code. See `docs/sdlc/definition-of-ready.md`.
+
+Do not start implementation (`src/`) and do not create a `feature/`
+branch unless DoR is met **and** the implementation plan is
+human-approved (`PLANNED`). Ready alone does not authorize coding.
 
 Minimum for the DoR **gate** (SPECIFIED → READY), confirmed by a human:
 
