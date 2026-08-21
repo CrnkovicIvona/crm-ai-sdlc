@@ -24,6 +24,7 @@ description: Prepare a release from test to main and describe post-deploy smoke.
   If not executed, status is "not executed".
 
 ## Steps
+
 1. Confirm `docs/sdlc/production-readiness.md`.
 2. Write `docs/releases/<rel-id>.md`.
 3. Open release PR `release/<rel-id>` → `main` if the human asked.
