@@ -6,34 +6,39 @@ alwaysApply: true
 # Git workflow
 
 ## Branches
-
 - `main` — production. Protected. No direct development. No agent commits or pushes.
 - `test` — integration / QA. Feature work merges here first.
+- `release/<rel-id>` — cut from `test` for a release. Merged into `main` only
+  by human approval.
 - `feature/<feature-id>-<description>` — implementation
 - `bugfix/<bug-id>-<description>` — fixes
 - `docs/<description>` — documentation only
 - `chore/<description>` — maintenance
 
-Work only on a feature/bugfix/docs/chore branch. Never commit on `main`.
+Work only on a feature/bugfix/docs/chore/release branch. Never commit on `main`.
 
 ## Pull requests
-
 - Implementation PRs target `test`
-- Release PRs are `test` → `main` and require human merge
+- Release PRs are `release/<rel-id>` → `main` and require human merge
 - Do not merge PRs to `main`
 - Do not approve your own human-required gates
 
+## Release merges
+After a human merges `release/<rel-id>` → `main`, the agent:
+1. Merges `release/<rel-id>` → `test`, so `main` and `test` match.
+2. Deletes `release/<rel-id>` — only if that merge succeeded.
+
+If the merge into `test` fails, stop. Don't force it, don't delete the
+branch. Flag it for the human.
+
 ## Commits
-
 Conventional Commits with work item ID when present:
-
-```
 feat(AUTH-001): implement user login
 test(AUTH-001): add login e2e tests
 fix(AUTH-001): handle invalid credentials
 docs(AUTH-001): add login test plan
-```
 
 ## Push
-
-Push only when the human asked to push or to prepare/update a pull request. Never push to `main`.
+Push only when the human asks to push or prepare/update a PR. Never push to
+`main`. Exception: the test-sync merge and branch deletion in "Release
+merges" — those happen automatically, no separate push request needed.
