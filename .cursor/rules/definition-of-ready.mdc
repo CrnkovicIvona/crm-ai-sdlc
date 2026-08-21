@@ -7,15 +7,24 @@ alwaysApply: true
 
 Do not start implementation (application code) unless DoR is met. See `docs/sdlc/definition-of-ready.md`.
 
-Minimum:
+Minimum for the DoR **gate** (SPECIFIED → READY), confirmed by a human:
 
 - GitHub Issue exists
 - Requirements in `docs/requirements/` without invented scope
+- Functional specification in `docs/specifications/functional/`
 - User stories and acceptance criteria in `docs/user-stories/`
 - BDD in `docs/bdd/` derived from AC
 - Test cases and a risk-based test plan exist
-- Traceability rows exist
-- Implementation plan exists
-- Human has approved the implementation plan
+- Traceability rows exist (REQ → FR → US → AC → BDD → TC → TDE)
+- Technical specification in `docs/specifications/technical/`
+- Open questions marked `TBD — HUMAN DECISION REQUIRED`, not guessed
+- Human has recorded Ready on the Issue
+
+Unresolved business or technical questions that would force invented
+decisions mean the item is **not Ready**.
+
+Application implementation additionally requires a human-approved
+**implementation plan** (READY → PLANNED). That plan is not part of
+DoR. No `feature/` branch and no `src/` before `PLANNED`.
 
 Docs-only or chore work may use a reduced DoR documented in the issue. Still do not invent product behavior.

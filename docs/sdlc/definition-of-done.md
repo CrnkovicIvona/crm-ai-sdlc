@@ -17,7 +17,7 @@ A work item is Done only when the following are true for its risk class.
 - [ ] PR merged to `test` (human or allowed reviewer — not a merge to `main` by the agent)
 - [ ] Human CI/QA approval recorded for release
 - [ ] For production: human merge to `main`, smoke tests executed or explicitly deferred by the human
-- [ ] Traceability matrix updated
+- [ ] Traceability matrix updated (REQ → FR → US → AC → BDD → TC → TDE → implementation)
 
 ## Docs-only / Low risk
 

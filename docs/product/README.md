@@ -7,4 +7,6 @@ invent modules, personas, workflows, or data models.
 
 When a human provides a business request, capture it as a GitHub Issue
 and follow `analyze-requirements`. Approved statements live here and in
-`docs/requirements/`.
+`docs/requirements/`. Feature “what” is
+[../specifications/functional/](../specifications/functional/). Do not
+invent modules, personas, or data models.

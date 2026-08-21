@@ -6,10 +6,12 @@ IDs link work from request through tests.
 | ----------------------------------- | --------------------------------- |
 | GitHub Issue number                 | Business request                  |
 | `ENG-###` / `AUTH-###` / feature id | Work item (example prefixes only) |
-| `REQ-###`                           | Requirement                       |
+| `REQ-###`                           | Business requirement              |
+| `FR-###`                            | Functional requirement            |
 | `US-###`                            | User story                        |
 | `AC-###`                            | Acceptance criterion              |
 | `TC-###`                            | Test case                         |
+| `TDE-###` / `TR-###`                | Technical design element          |
 | `BUG-###`                           | Bug                               |
 | `ADR-###`                           | Architecture decision             |
 | `REL-###`                           | Release                           |
@@ -18,7 +20,15 @@ IDs link work from request through tests.
 
 The canonical table is [../traceability/matrix.md](../traceability/matrix.md).
 
-Columns: Issue → REQ → US → AC → BDD → TC → automated test path → risk.
+Chain: Business Requirement → Functional Requirement → User Story →
+Acceptance Criterion → BDD Scenario → Test Case → Technical
+Requirement / Technical Design Element → Implementation.
+
+Columns: Issue → REQ → FR → US → AC → BDD → TC → TDE/TS → automated
+test path / implementation → risk.
+
+Implementation stays empty until `src/` (or equivalent) exists. Do
+not invent implementation paths.
 
 ## Rules
 

@@ -39,8 +39,9 @@ and supporting unit/integration tests. They are **not executed** now.
 
 - Entry to implementation: Definition of Ready and human-approved
   implementation plan (`PLANNED`)
-- Exit of this specification phase: artifacts below exist; human DoR
-  not yet given
+- Exit of this specification phase: REQ, functional spec, US/AC, BDD,
+  test cases/plan, traceability, and technical spec exist; human DoR
+  is not given while open questions remain
 
 ## Security review
 

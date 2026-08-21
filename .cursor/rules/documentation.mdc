@@ -9,12 +9,18 @@ alwaysApply: true
 - Cursor skills = procedures for a specific activity
 - `docs/sdlc/` = lifecycle orchestration
 - `docs/product/` = business/product truth (do not invent)
-- `docs/requirements/`, `user-stories/`, `bdd/` = specification artifacts
+- `docs/requirements/` = business requirements
+- `docs/specifications/functional/` = what the feature must do
+- `docs/specifications/technical/` = how it will be implemented in the existing architecture
+- `docs/user-stories/`, `bdd/` = stories, AC, Gherkin
 - `docs/test-*` and `docs/bugs/` = QA artifacts
 - `docs/architecture/` and `docs/adr/` = technical decisions
 - `docs/ai/` = AI operating model
 - `src/` = application implementation (does not exist in ENG-001)
 - `.github/workflows/` = CI automation
+
+Do not mix business rules into the technical specification or
+implementation choices into the functional specification.
 
 Do not put process rules only in chat. Update the canonical file.
 Do not treat example IDs in templates as real BankCRM features.

@@ -7,6 +7,7 @@ Read these before starting work:
 
 - [docs/sdlc/lifecycle.md](docs/sdlc/lifecycle.md)
 - [docs/sdlc/definition-of-ready.md](docs/sdlc/definition-of-ready.md)
+- [docs/specifications/README.md](docs/specifications/README.md)
 - [docs/sdlc/definition-of-done.md](docs/sdlc/definition-of-done.md)
 - [docs/git/branching.md](docs/git/branching.md)
 - [docs/git/commits.md](docs/git/commits.md)

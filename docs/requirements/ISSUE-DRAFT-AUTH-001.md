@@ -26,5 +26,6 @@ Users must be able to log out.
 
 ## Open questions
 
-See `docs/requirements/REQ-001.md`. Do not implement until a human
-answers them and records Definition of Ready.
+See `docs/requirements/REQ-001.md` and
+`docs/specifications/functional/AUTH-001.md`. Do not implement until a
+human answers them and records Definition of Ready.

@@ -6,15 +6,16 @@ production.
 
 ## Separation of concerns
 
-| Kind         | Location                    | Role                        |
-| ------------ | --------------------------- | --------------------------- |
-| Rules        | `.cursor/rules/`            | Persistent constraints      |
-| Skills       | `.cursor/skills/`           | Procedures for one activity |
-| SDLC         | `docs/sdlc/`                | Lifecycle orchestration     |
-| Product      | `docs/product/`             | Business truth              |
-| QA artifacts | `docs/test-*`, `docs/bugs/` | Evidence                    |
-| Code         | `src/` (later)              | Implementation              |
-| CI           | `.github/workflows/`        | Automation                  |
+| Kind         | Location                    | Role                                  |
+| ------------ | --------------------------- | ------------------------------------- |
+| Rules        | `.cursor/rules/`            | Persistent constraints                |
+| Skills       | `.cursor/skills/`           | Procedures for one activity           |
+| SDLC         | `docs/sdlc/`                | Lifecycle orchestration               |
+| Product      | `docs/product/`             | Business truth                        |
+| Specs        | `docs/specifications/`      | Functional (what) and technical (how) |
+| QA artifacts | `docs/test-*`, `docs/bugs/` | Evidence                              |
+| Code         | `src/` (later)              | Implementation                        |
+| CI           | `.github/workflows/`        | Automation                            |
 
 ## Orchestration
 
@@ -26,7 +27,8 @@ gates.
 
 ## Allowed assistance
 
-Requirements analysis, stories, AC, BDD, test design, test planning,
+Requirements analysis, functional and technical specifications,
+stories, AC, BDD, test design, test planning,
 implementation planning, coding, unit/integration/Playwright tests,
 execution, failure analysis, healing, regression analysis, reports,
 code review, commit messages, PR preparation.

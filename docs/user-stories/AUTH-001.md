@@ -1,6 +1,7 @@
 # AUTH-001 user stories
 
 - Requirement: REQ-001
+- Functional specification: `docs/specifications/functional/AUTH-001.md`
 - Work item (proposed): AUTH-001
 - Issue: [#5](https://github.com/CrnkovicIvona/crm-ai-sdlc/issues/5)
 - Status: Draft
@@ -12,6 +13,8 @@ Do not add behavior that is not in REQ-001.
 As a bank employee, I want to log into BankCRM, so that I can access
 the application.
 
+- Functional requirements: FR-001, FR-006
+
 ### Acceptance criteria
 
 - AC-001: A bank employee who has logged in may access the CRM.
@@ -21,6 +24,8 @@ the application.
 
 As BankCRM, only authenticated users may access the CRM.
 
+- Functional requirements: FR-002
+
 ### Acceptance criteria
 
 - AC-003: A person who is not authenticated cannot access the CRM.
@@ -28,6 +33,8 @@ As BankCRM, only authenticated users may access the CRM.
 ## US-003: ADMIN and VIEWER roles
 
 As BankCRM, users have role ADMIN or VIEWER, with different access.
+
+- Functional requirements: FR-003, FR-004, FR-005
 
 ### Acceptance criteria
 
@@ -41,6 +48,8 @@ specified is **TBD (human)** (REQ-001 open questions).
 
 As an authenticated bank employee, I want to log out, so that I end my
 access to the CRM.
+
+- Functional requirements: FR-007, FR-008
 
 ### Acceptance criteria
 

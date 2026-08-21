@@ -16,7 +16,9 @@ description: Design test cases and a risk-based test plan. Use after BDD and bef
 1. Classify change impact and risk (Low / Medium / High / Critical).
 2. Write test cases in `docs/test-cases/<id>.md`.
 3. Write the test plan in `docs/test-plans/<id>.md` including in-scope, out-of-scope, and regression pack.
-4. Update traceability (TC → AC/BDD).
+4. Update traceability (TC → AC/BDD → FR). After the matrix is
+   updated, hand off to `author-specifications` for the **technical**
+   specification before the DoR gate.
 
 ## Done
 

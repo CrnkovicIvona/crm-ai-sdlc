@@ -17,8 +17,11 @@ description: Analyze a business request into requirements without inventing scop
 2. Write or update `docs/requirements/<id>.md` from the template.
 3. Mark unknowns explicitly as `TBD (human)`.
 4. Update `docs/traceability/matrix.md` with the REQ row.
-5. Hand off to `author-user-stories` when the human has enough confirmed requirement text.
+5. Hand off to `author-specifications` for the **functional**
+   specification (`docs/specifications/functional/<id>.md`), then to
+   `author-user-stories`. Do not skip the functional specification on
+   new work.
 
 ## Done
 
-Requirements file exists, IDs assigned, open questions listed, no invented product behavior.
+Requirements file exists, IDs assigned, open questions listed, no invented product behavior. Functional specification is the next artifact, not application code.

@@ -16,5 +16,7 @@
 
 ## Traceability
 
+- Functional specification:
+- Technical specification:
 - Stories:
 - Tests:

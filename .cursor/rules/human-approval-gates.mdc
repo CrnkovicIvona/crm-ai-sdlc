@@ -7,7 +7,7 @@ alwaysApply: true
 
 Stop and wait for an explicit human approval before proceeding past these gates:
 
-1. **Definition of Ready** — requirements, stories, AC, BDD, tests, traceability are complete. State may become `READY` only after human confirmation.
+1. **Definition of Ready** — requirements, functional specification, stories, AC, BDD, tests, traceability, and technical specification are complete, and open questions are not silently answered. State may become `READY` only after human confirmation. Do not claim Ready if TBD items block implementation.
 2. **Implementation plan** — state may become `PLANNED` only after human approval of the plan. No application implementation before this gate.
 3. **CI / QA on `test`** — state may become `READY_FOR_RELEASE` only after human QA/release approval.
 4. **Release to production** — human merges `test` → `main`. Agent does not merge to `main` or deploy production.

@@ -1,6 +1,7 @@
 # US-###: Title
 
 - Requirement: REQ-###
+- Functional requirements: FR-###
 - Issue:
 - Status: Draft | Ready
 

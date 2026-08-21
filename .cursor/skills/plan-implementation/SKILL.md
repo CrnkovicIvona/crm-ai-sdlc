@@ -7,7 +7,12 @@ description: Produce a technical implementation plan after Definition of Ready. 
 
 ## Rules
 
-- Prerequisite: artifacts for SPECIFIED, and human DoR unless the human explicitly asked only for a draft plan.
+- Prerequisite: artifacts for SPECIFIED **including functional and
+  technical specifications**, and human DoR unless the human
+  explicitly asked only for a draft plan.
+- The technical specification is not this plan. The plan names files
+  and rollout after Ready; it must not contradict the TS or invent
+  requirements.
 - Do not start application source until the human approves this plan (READY → PLANNED).
 - Do not invent requirements to fill design gaps; list them as blockers.
 

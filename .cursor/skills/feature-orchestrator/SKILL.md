@@ -41,27 +41,28 @@ If artifacts for a later state exist but an earlier state is incomplete, the cur
 
 ## State → next skill
 
-| Current state           | Next skill                                                | Notes                                                 |
-| ----------------------- | --------------------------------------------------------- | ----------------------------------------------------- |
-| `REQUESTED`             | `analyze-requirements`                                    | Create/clarify requirements only from the request     |
-| `REQUIREMENTS`          | `analyze-requirements` then `author-user-stories`         | Stay here until REQ docs exist                        |
-| After stories/AC exist  | `author-bdd` then `plan-tests`                            | Then fill traceability                                |
-| `SPECIFIED`             | **STOP for human DoR gate**                               | Do not enter `READY` yourself                         |
-| `READY`                 | `plan-implementation`                                     | Then **STOP for human plan approval**                 |
-| `PLANNED`               | Implementation against the approved plan                  | No dedicated coding skill; still obey guardrails      |
-| `IN_DEVELOPMENT`        | Continue implementation; add automated tests as specified | Do not claim TESTING until execution starts           |
-| `TESTING`               | `execute-tests`                                           | Evidence only; no silent healing                      |
-| Failures during testing | `HEALING` → `heal`                                        | Then return to `TESTING`                              |
-| `HEALING`               | `heal`                                                    | Then `execute-tests` for the affected tests           |
-| Green targeted tests    | `REGRESSION`                                              | Scope from the test plan (risk-based)                 |
-| `REGRESSION`            | `execute-tests` (regression scope)                        | Failures → `HEALING`                                  |
-| Regression complete     | `report-tests` then `review-code`                         | Then `READY_FOR_PR`                                   |
-| `READY_FOR_PR`          | `prepare-pr`                                              | PR must target `test`                                 |
-| `IN_QA`                 | Wait for CI and **human QA approval**                     | Agent may fix CI on the feature branch via heal/tests |
-| `READY_FOR_RELEASE`     | `release-and-verify`                                      | Prepare release PR only; human merges to `main`       |
-| `RELEASED`              | `release-and-verify` post-deploy smoke                    | Requires verifiable production evidence               |
+| Current state           | Next skill                                                                                  | Notes                                                         |
+| ----------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| `REQUESTED`             | `analyze-requirements`                                                                      | Create/clarify requirements only from the request             |
+| `REQUIREMENTS`          | `analyze-requirements` then `author-specifications` (functional) then `author-user-stories` | Stay until REQ + functional spec exist; do not invent answers |
+| After stories/AC exist  | `author-bdd` then `plan-tests`                                                              | Then fill traceability                                        |
+| After traceability      | `author-specifications` (technical)                                                         | Reuse ADRs; mark technical TBDs; still `SPECIFIED`            |
+| `SPECIFIED`             | **STOP for human DoR gate**                                                                 | Do not enter `READY` yourself; FS + TS required               |
+| `READY`                 | `plan-implementation`                                                                       | Then **STOP for human plan approval**                         |
+| `PLANNED`               | Implementation against the approved plan                                                    | No dedicated coding skill; still obey guardrails              |
+| `IN_DEVELOPMENT`        | Continue implementation; add automated tests as specified                                   | Do not claim TESTING until execution starts                   |
+| `TESTING`               | `execute-tests`                                                                             | Evidence only; no silent healing                              |
+| Failures during testing | `HEALING` → `heal`                                                                          | Then return to `TESTING`                                      |
+| `HEALING`               | `heal`                                                                                      | Then `execute-tests` for the affected tests                   |
+| Green targeted tests    | `REGRESSION`                                                                                | Scope from the test plan (risk-based)                         |
+| `REGRESSION`            | `execute-tests` (regression scope)                                                          | Failures → `HEALING`                                          |
+| Regression complete     | `report-tests` then `review-code`                                                           | Then `READY_FOR_PR`                                           |
+| `READY_FOR_PR`          | `prepare-pr`                                                                                | PR must target `test`                                         |
+| `IN_QA`                 | Wait for CI and **human QA approval**                                                       | Agent may fix CI on the feature branch via heal/tests         |
+| `READY_FOR_RELEASE`     | `release-and-verify`                                                                        | Prepare release PR only; human merges to `main`               |
+| `RELEASED`              | `release-and-verify` post-deploy smoke                                                      | Requires verifiable production evidence                       |
 
-`author-adr` is invoked when a durable technical decision is required, from `READY` onward. `manage-bugs` is invoked when a defect is found (any state after `TESTING`, and production escapes after `RELEASED`).
+`author-specifications` produces the functional spec (after requirements, before stories on new work) and the technical spec (after traceability, before DoR). `author-adr` is invoked when a durable **platform** decision is required (including unresolved items listed in the technical spec). `manage-bugs` is invoked when a defect is found (any state after `TESTING`, and production escapes after `RELEASED`).
 
 ## Human gates (cannot be bypassed)
 
