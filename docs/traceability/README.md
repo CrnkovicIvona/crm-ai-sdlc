@@ -7,7 +7,8 @@ Rules: [../sdlc/traceability.md](../sdlc/traceability.md).
 Include FR and TDE columns. Implementation stays empty until code
 exists.
 
-Proposed work-item decisions: [../decisions/](../decisions/). Do not
-treat Proposed logs as approved requirements.
+Proposed work-item decisions: [../decisions/](../decisions/). AUTH-001
+BD/TD items are approved in the decision log; that is not Definition
+of Ready and not implementation.
 
 ENG-001 is process foundation and has no product REQ/US/AC rows.

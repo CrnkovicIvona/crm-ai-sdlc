@@ -2,47 +2,59 @@
 
 - Requirement: REQ-001
 - Functional specification: `docs/specifications/functional/AUTH-001.md`
-- Work item (proposed): AUTH-001
+- Decisions: BD-001–BD-007 approved
+- Work item: AUTH-001
 - Issue: [#5](https://github.com/CrnkovicIvona/crm-ai-sdlc/issues/5)
-- Status: Draft
+- Status: Specified (not Ready)
 
-Do not add behavior that is not in REQ-001.
+Do not add behavior that is not in REQ-001 or approved BD-\* items.
 
 ## US-001: Log in before using BankCRM
 
-As a bank employee, I want to log into BankCRM, so that I can access
-the application.
+As a bank employee, I want to log into BankCRM with email and
+password, so that I can access the application.
 
-- Functional requirements: FR-001, FR-006
+- Functional requirements: FR-001, FR-006, FR-009, FR-012
 
 ### Acceptance criteria
 
 - AC-001: A bank employee who has logged in may access the CRM.
 - AC-002: Logging in is required before accessing the CRM.
+- AC-008: A bank employee authenticates with email and password
+  (BD-001).
+- AC-009: Failed authentication shows a generic failure and does not
+  reveal whether a particular account exists (BD-004).
 
 ## US-002: Unauthenticated access is denied
 
 As BankCRM, only authenticated users may access the CRM.
 
-- Functional requirements: FR-002
+- Functional requirements: FR-002, FR-010
 
 ### Acceptance criteria
 
 - AC-003: A person who is not authenticated cannot access the CRM.
+- AC-010: An unauthenticated person may access only the login surface
+  (BD-007).
 
 ## US-003: ADMIN and VIEWER roles
 
-As BankCRM, users have role ADMIN or VIEWER, with different access.
+As BankCRM, each employee has exactly one role, ADMIN or VIEWER, with
+different permitted CRM operations.
 
-- Functional requirements: FR-003, FR-004, FR-005
+- Functional requirements: FR-003, FR-004, FR-005, FR-011
 
 ### Acceptance criteria
 
-- AC-004: An authenticated ADMIN user has full access to the CRM.
-- AC-005: An authenticated VIEWER user has read-only access to the CRM.
+- AC-004: An authenticated ADMIN may perform permitted CRM read
+  operations and permitted CRM write operations (BD-006).
+- AC-005: An authenticated VIEWER may perform permitted CRM read
+  operations and must not perform CRM write operations (BD-006).
+- AC-011: Each employee has exactly one application role, ADMIN or
+  VIEWER, never both (BD-003).
 
-What “full” and “read-only” mean for screens or data that are not yet
-specified is **TBD (human)** (REQ-001 open questions).
+AUTH-001 does not introduce CRM business resources. AC-004 and AC-005
+define the model future resources must follow (BD-006).
 
 ## US-004: Log out
 
@@ -55,8 +67,7 @@ access to the CRM.
 
 - AC-006: An authenticated user can log out.
 - AC-007: After logout, the user is not authenticated and cannot access
-  the CRM until they log in again.
+  the CRM until they log in again (BD-005, BD-007).
 
-AC-007 follows “only authenticated users may access the CRM” plus
-“users must be able to log out”. Session timeout is **TBD (human)**
-and is not an acceptance criterion.
+Automatic session timeout is deferred (BD-005) and is not an
+acceptance criterion.

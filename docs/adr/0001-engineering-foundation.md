@@ -29,6 +29,10 @@ Adopt this **process and platform intent** now:
 Defer the React framework choice to a future ADR at application
 bootstrap. Implementation remains framework-agnostic until then.
 
+**Supersession (framework only):** The Vite vs Next.js deferral is
+closed by [ADR-0002](0002-vite-react-typescript.md) (Accepted,
+2026-08-21). All other decisions in this ADR remain in force.
+
 ## Options considered
 
 1. Bootstrap a full React app in ENG-001 — rejected; out of scope

@@ -3,23 +3,29 @@
 - Issue: [#5](https://github.com/CrnkovicIvona/crm-ai-sdlc/issues/5)
 - Risk level: High
 - Impact summary: Authentication and authorization. No application
-  source exists yet, so automated suites cannot run.
+  source exists yet, so automated suites cannot run. BD-001–BD-007
+  and TD-001–TD-007 are approved.
 
 ## In scope
 
-- TC-001 logged-in access
-- TC-002 unauthenticated denied
-- TC-003 ADMIN full access
-- TC-004 VIEWER read-only
+- TC-001 logged-in access (email + password)
+- TC-002 unauthenticated CRM denied
+- TC-003 ADMIN permitted read and write (model; no CRM modules yet)
+- TC-004 VIEWER read-only (model; no CRM modules yet)
 - TC-005 logout
 - TC-006 access denied after logout
+- TC-007 generic failed login / no enumeration
+- TC-008 unauthenticated = login surface only
+- TC-009 exactly one role
 
 When an application exists, these are candidates for Playwright/e2e
-and supporting unit/integration tests. They are **not executed** now.
+and supporting unit/integration tests (including RLS when policies
+exist). They are **not executed** now.
 
 ## Out of scope
 
-- Failed-login, lockout, timeout, MFA, provisioning — not in REQ-001
+- Lockout, timeout, MFA, in-app provisioning
+- Automatic session expiration (BD-005 deferred)
 - Full product regression — no other product behavior exists
 - ESLint / Vitest / Playwright execution — no `src/`; **NOT APPLICABLE**
   until an app exists. Do not report them as passed.
@@ -27,27 +33,26 @@ and supporting unit/integration tests. They are **not executed** now.
 ## Regression pack
 
 - None for other product features (none exist)
-- After implementation: TC-001–TC-006 as the auth pack; skipping this
+- After implementation: TC-001–TC-009 as the auth pack; skipping this
   pack would require human approval (High risk)
 
 ## Environments
 
 - Specification only in this phase
-- Later: local / QA Preview / as decided in the implementation plan
+- Later: local Vite + non-prod Supabase / QA Preview, as decided in
+  the implementation plan
 
 ## Entry / exit criteria
 
 - Entry to implementation: Definition of Ready and human-approved
   implementation plan (`PLANNED`)
-- Exit of this specification phase: REQ, functional spec, US/AC, BDD,
-  test cases/plan, traceability, and technical spec exist; human DoR
-  is not given while open questions remain
+- Exit of this documentation update: approved BD/TD reflected in
+  specs and tests; human DoR **not** recorded by the agent
 
 ## Security review
 
 Required at High risk before `READY_FOR_PR` of the future
-implementation. Not a substitute for unanswered login-method
-questions.
+implementation. RLS is designed, not implemented.
 
 ## Healing
 

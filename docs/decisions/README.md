@@ -1,15 +1,10 @@
 # Work-item decisions
 
-Feature-level decisions that are not yet durable platform ADRs.
+Feature-level decisions. Durable platform choices also get an ADR.
 
-| Log                                            | Work item | Status                             |
-| ---------------------------------------------- | --------- | ---------------------------------- |
-| [AUTH-001-decisions.md](AUTH-001-decisions.md) | AUTH-001  | Proposed — human approval required |
+| Log                                            | Work item | Status                            |
+| ---------------------------------------------- | --------- | --------------------------------- |
+| [AUTH-001-decisions.md](AUTH-001-decisions.md) | AUTH-001  | Approved (BD-001–007, TD-001–007) |
 
-**ADRs** (`docs/adr/`) record accepted (or formally proposed) platform
-decisions. A work-item log must not be treated as an ADR. If a human
-accepts a durable technical choice here (for example the React
-hosting framework), follow `author-adr` afterward.
-
-Do not implement from a Proposed log. Do not copy Proposed values into
-functional or technical specifications as if they were approved.
+Approved AUTH-001 decisions do not authorize implementation or
+Definition of Ready. TD-001 is also [ADR-0002](../adr/0002-vite-react-typescript.md).
