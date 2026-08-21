@@ -6,6 +6,7 @@ description: Prepare a release from test to main and describe post-deploy smoke.
 # Release and verify
 
 ## Rules
+
 - Only after human QA approval (READY_FOR_RELEASE).
 - Agent prepares the release branch and the release → main PR, and release notes.
 - Agent does not merge to main. Only a human merges the release branch into main.
@@ -28,15 +29,16 @@ description: Prepare a release from test to main and describe post-deploy smoke.
 3. Open release PR `release/<rel-id>` → `main` if the human asked.
 4. After the human merges release → main:
    a. Agent merges `release/<rel-id>` → `test` and records the result
-      (success / conflict) in `docs/releases/<rel-id>.md`.
+   (success / conflict) in `docs/releases/<rel-id>.md`.
    b. If both merges succeeded, agent deletes `release/<rel-id>` and records
-      the deletion in the same file.
+   the deletion in the same file.
    c. If the merge into test failed, agent leaves the branch in place and
-      flags it for human resolution.
+   flags it for human resolution.
 5. Run the smoke checklist only if a production URL and authorization exist;
    file a test report.
 
 ## Done
+
 Release artifacts are ready, main and test are in sync on the released
 commit (or a conflict is clearly flagged), the release branch is deleted
 only after both merges succeed, and smoke evidence is filed. Production is
