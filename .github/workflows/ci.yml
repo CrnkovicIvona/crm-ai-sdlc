@@ -139,8 +139,87 @@ jobs:
           E2E_VIEWER_PASSWORD: ${{ secrets.E2E_VIEWER_PASSWORD }}
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || secrets.VITE_SUPABASE_URL_TEST }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY || secrets.VITE_SUPABASE_ANON_KEY_TEST }}
-        run: npx playwright test --reporter=list
+        run: npx playwright test
+      - name: Upload Playwright JSON
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-results
+          path: playwright-results.json
+          if-no-files-found: warn
       - name: Note skipped vs passed
         if: always()
         run: |
           echo "Playwright SKIPPED tests are not PASSED. Live Auth needs E2E_* plus VITE_SUPABASE_URL (or *_TEST alias mapped in this job)." >> "$GITHUB_STEP_SUMMARY"
+
+  test-report:
+    name: Update test report
+    needs: [application-source, playwright, vitest, eslint]
+    if: |
+      always() &&
+      needs.application-source.outputs.present == 'true' &&
+      needs.playwright.result != 'skipped'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Skip bot report commits
+        id: skip
+        run: |
+          MSG=$(git log -1 --pretty=%s)
+          if [[ "$MSG" == ci\(test-report\):* ]]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/setup-node@v5
+        if: steps.skip.outputs.skip != 'true'
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+        if: steps.skip.outputs.skip != 'true'
+      - uses: actions/download-artifact@v4
+        if: steps.skip.outputs.skip != 'true'
+        with:
+          name: playwright-results
+          path: .
+      - name: Update markdown report
+        if: steps.skip.outputs.skip != 'true'
+        id: report
+        env:
+          TEST_REPORT_ID: AUTH-001
+          VITEST_RESULT: ${{ needs.vitest.result }}
+          ESLINT_RESULT: ${{ needs.eslint.result }}
+        run: |
+          SHA="${{ github.event.pull_request.head.sha || github.sha }}"
+          OUT=$(node scripts/update-ci-test-report.mjs \
+            --id AUTH-001 \
+            --sha "$SHA" \
+            --run-id "${{ github.run_id }}" \
+            --repo "${{ github.repository }}" \
+            --json playwright-results.json)
+          echo "$OUT"
+          echo "updated=$(node -e 'const o=JSON.parse(process.argv[1]); console.log(o.updated)' "$OUT")" >> "$GITHUB_OUTPUT"
+      - name: Commit report
+        if: |
+          steps.skip.outputs.skip != 'true' &&
+          steps.report.outputs.updated == 'true' &&
+          (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/test-reports/AUTH-001.md
+          npx prettier --write docs/test-reports/AUTH-001.md
+          git add docs/test-reports/AUTH-001.md
+          SHORT=$(echo "${{ github.event.pull_request.head.sha || github.sha }}" | cut -c1-7)
+          git commit -m "ci(test-report): update AUTH-001 for ${SHORT}"
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git push origin "HEAD:${{ github.head_ref }}"
+          else
+            git push origin "HEAD:${{ github.ref_name }}"
+          fi
