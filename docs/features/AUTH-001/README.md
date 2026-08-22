@@ -1,9 +1,7 @@
 # AUTH-001
 
-State: **READY** (DoR on Issue [#5](https://github.com/CrnkovicIvona/crm-ai-sdlc/issues/5)).
+State: **`IN_DEVELOPMENT`**. DoR and plan approval are on Issue
+[#5](https://github.com/CrnkovicIvona/crm-ai-sdlc/issues/5).
 
-Specs stay on legacy AUTH-001 paths. This folder holds the
-[implementation plan](implementation-plan.md) (**Draft** until human
-approval → `PLANNED`).
-
-No `src/` until `PLANNED`.
+Specs stay on legacy AUTH-001 paths. Plan:
+[implementation-plan.md](implementation-plan.md) (**Approved**).

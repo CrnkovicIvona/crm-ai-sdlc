@@ -5,19 +5,18 @@
 - Owner: Agent (draft) / Human (approve → `PLANNED`)
 - Source: Human DoR on Issue #5 (2026-08-22). Spec PR [#6](https://github.com/CrnkovicIvona/crm-ai-sdlc/pull/6) merged to `test`.
 - Open Questions: none blocking. Copy, timeout, and CRM screens remain non-blocking per DoR.
-- Approval: **Draft — HUMAN PLAN APPROVAL REQUIRED**
+- Approval: **Approved** (human on Issue #5, 2026-08-22)
 - Traceability: [REQ-001](../../requirements/REQ-001.md), [FS](../../specifications/functional/AUTH-001.md), [TS](../../specifications/technical/AUTH-001.md), TC-001–TC-010
 - Prerequisite: human **Definition of Ready** recorded
-- Status: **Draft** (not Approved, not `PLANNED`)
+- Status: **Approved** — state **`PLANNED`**. Implementation may proceed.
 
 This is **not** the functional or technical specification.
 
-Do **not** create `src/` or a `feature/` / implementation branch until
-a human sets this file’s Approval to **Approved** on Issue #5
-(`PLANNED`).
+Human on Issue #5: “Implementation plan approved. State: PLANNED.
+Coding may start.”
 
-After approval, implementation uses branch
-`feature/auth-001-login-access` targeting `test`.
+Implementation branch for this agent run:
+`cursor/auth-001-implementation-plan-73b9` targeting `test`.
 
 ## DoR evidence
 
@@ -113,8 +112,8 @@ configure the cloud project or touch production.
 6. Seed two users (ADMIN, VIEWER) + matching `profiles` rows; optional
    third Auth user **without** profile for TC-010.
 
-Exact SQL lands in `supabase/migrations/` **after** this plan is
-approved. Do not apply migrations in this documentation PR.
+Exact SQL is in `supabase/migrations/` on the implementation branch
+after `PLANNED`. Apply to **non-prod** only.
 
 ## Mapping
 
@@ -174,7 +173,7 @@ role in the client.
 
 ## Human next step
 
-On Issue #5 reply: **Implementation plan approved** (or request
-changes). Then state is `PLANNED` and coding may start.
+Plan is **Approved** (`PLANNED`). Application source is
+**`IN_DEVELOPMENT`** on this branch.
 
-This PR is documentation only. No `src/` in this change.
+This change includes application source after plan approval.

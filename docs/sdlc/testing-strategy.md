@@ -7,19 +7,16 @@
 | Unit            | Vitest     | `tests/unit/` (and colocated tests if later adopted) |
 | Integration     | Vitest     | `tests/integration/`                                 |
 | End-to-end      | Playwright | `tests/e2e/`                                         |
-| Static analysis | ESLint     | application source (not yet present)                 |
+| Static analysis | ESLint     | `eslint.config.js` (`src/` and repo config)          |
 | Format          | Prettier   | entire repo                                          |
 | Secrets         | gitleaks   | CI                                                   |
 
 ## Current phase
 
-No application `src/` exists. AUTH-001 is **`READY`** (plan draft;
-not `PLANNED`). CRM-001 is specified under `docs/features/CRM-001/`
-(not Ready, not implemented).
-
-There is **no application**. Do not add fake passing Vitest or
-Playwright tests. Foundation CI runs Prettier, commitlint, and secret
-scanning only.
+AUTH-001 is **`IN_DEVELOPMENT`**: Vite + React `src/` exists. Vitest
+always runs. Playwright unauthenticated cases run without secrets;
+live Auth cases are **SKIPPED** until `E2E_*` / `VITE_SUPABASE_*`
+are set (skipped ≠ passed). CRM-001 remains specified only.
 
 CI must report each suite as one of:
 
@@ -31,17 +28,11 @@ CI must report each suite as one of:
 
 NOT APPLICABLE and SKIPPED are not PASSED.
 
-## ESLint strategy (deferred configuration)
+## ESLint
 
-When `src/` is introduced:
-
-- Use ESLint flat config (`eslint.config.js`) with TypeScript and React
-  plugins for Vite + React (ADR-0002)
-- Wire `npm run lint` into CI as a **required** job
-- Do not enable `continue-on-error` on lint
-- Keep Prettier for formatting; avoid conflicting stylistic ESLint rules
-
-Until then, ESLint is documented only — not a fake gate.
+Flat config in `eslint.config.js` (TypeScript + React, ADR-0002).
+`npm run lint` is a required CI job when `src/` is present. Do not
+enable `continue-on-error` on lint. Prettier owns formatting.
 
 ## Execution vs healing
 

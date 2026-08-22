@@ -6,7 +6,7 @@
 - Spec PR: [#6](https://github.com/CrnkovicIvona/crm-ai-sdlc/pull/6)
 - Decisions: [AUTH-001-decisions.md](../../decisions/AUTH-001-decisions.md)
   (BD-001–BD-008 **APPROVED**)
-- Status: **READY** (human DoR on Issue #5). Not `PLANNED`. Not implemented.
+- Status: **IN_DEVELOPMENT**.
 - Author: Agent; business decisions recorded from human approval
   2026-08-21
 
@@ -227,4 +227,6 @@ None that block specifying AUTH-001. Deferred items:
 | FR-013 | BD-008            | US-002         | AC-012                 | Session without role denied CRM            | TC-010                 |
 
 Technical design: [../technical/AUTH-001.md](../technical/AUTH-001.md).
-Implementation: none.
+Implementation: `src/auth/`, `src/lib/auth.ts`, `src/lib/access.ts`,
+`src/pages/LoginPage.tsx`, `src/pages/AppShell.tsx`,
+`src/pages/AccessDeniedPage.tsx` (AUTH-001 shell only; no Client module).

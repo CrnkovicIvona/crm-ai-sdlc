@@ -2,61 +2,56 @@
 
 - Issue: [#5](https://github.com/CrnkovicIvona/crm-ai-sdlc/issues/5)
 - Risk level: High
-- Impact summary: Authentication and authorization. Human DoR recorded
-  on Issue #5. Implementation plan is **draft**. No `src/` until
-  `PLANNED`. BD-001–BD-008 and TD-001–TD-008 are approved.
+- Impact summary: Authentication and authorization. Plan **Approved**
+  (`PLANNED`). Application source exists. BD-001–BD-008 and
+  TD-001–TD-008 are approved.
 
 ## In scope
 
-- TC-001 logged-in access (email + password)
-- TC-002 unauthenticated CRM denied
-- TC-003 ADMIN permitted read and write (model; no CRM modules yet)
-- TC-004 VIEWER read-only (model; no CRM modules yet)
-- TC-005 logout
-- TC-006 access denied after logout
-- TC-007 generic failed login / no enumeration
-- TC-008 unauthenticated = login surface only
-- TC-009 exactly one role
+- TC-001 logged-in access (email + password) — Playwright, skip without `E2E_ADMIN_*`
+- TC-002 unauthenticated CRM denied — Playwright, always
+- TC-003 ADMIN shell (no Client module) — Playwright, skip without admin e2e user
+- TC-004 VIEWER read-only shell — Playwright, skip without viewer e2e user
+- TC-005 logout — Playwright, skip without admin e2e user
+- TC-006 access denied after logout — with TC-005
+- TC-007 generic failed login — Playwright always + Vitest `tests/unit/errors.test.ts`
+- TC-008 unauthenticated = login surface only — Playwright, always
+- TC-009 exactly one role — Vitest parser always; Playwright skip without seed
+- TC-010 session without usable profile denied — Playwright, skip without `E2E_NOPROFILE_*`
 
-- TC-010 session without usable profile denied
-
-When an application exists, these are candidates for Playwright/e2e
-and supporting unit/integration tests (including RLS when policies
-exist). They are **not executed** now.
+Automated paths: `tests/e2e/auth.spec.ts`, `tests/e2e/roles.spec.ts`,
+`tests/unit/errors.test.ts`, `tests/unit/require-auth.test.ts`.
 
 ## Out of scope
 
 - Lockout, timeout, MFA, in-app provisioning
 - Automatic session expiration (BD-005 deferred)
-- Full product regression — no other product behavior exists
-- ESLint / Vitest / Playwright execution — no `src/`; **NOT APPLICABLE**
-  until an app exists. Do not report them as passed.
+- Client CRUD (CRM-001)
+- Claiming SKIPPED e2e as PASSED
 
 ## Regression pack
 
-- None for other product features (none exist)
-- After implementation: TC-001–TC-010 as the auth pack; skipping this
-  pack would require human approval (High risk)
+TC-001–TC-010 as the auth pack; skip of the live-auth subset without
+secrets is allowed and must be reported as SKIPPED.
 
 ## Environments
 
-- Specification only in this phase
-- Later: local Vite + non-prod Supabase / QA Preview, as decided in
-  the implementation plan
+- Local Vite (`npm run dev`)
+- CI: Vitest always; Playwright unauthenticated always; live Auth when
+  GitHub secrets are set
+- Non-prod Supabase for live e2e (human-configured)
 
 ## Entry / exit criteria
 
-- Entry to implementation: human-approved implementation plan
-  (`PLANNED`)
-- Exit of this documentation update: AUTH-001 recorded **READY**;
-  plan is Draft pending human approval on Issue #5
+- Entry: `PLANNED`
+- Exit to PR: executed tests with evidence in `docs/test-reports/AUTH-001.md`
 
 ## Security review
 
-Required at High risk before `READY_FOR_PR` of the future
-implementation. RLS is designed, not implemented.
+High: no service role in client; generic auth errors; fail-closed
+without provisioning UI; RLS SQL in repo is not applied to production
+by the agent.
 
 ## Healing
 
-Failures go to the `heal` skill; re-execution uses `execute-tests`.
-No test execution in this phase.
+Failures go to `heal`; re-execution uses `execute-tests`.

@@ -128,4 +128,15 @@ jobs:
           node-version: '20'
           cache: npm
       - run: npm ci
-      - run: npx playwright test
+      - run: npx playwright install --with-deps chromium
+      - name: End-to-end tests
+        env:
+          E2E_ADMIN_EMAIL: ${{ secrets.E2E_ADMIN_EMAIL }}
+          E2E_ADMIN_PASSWORD: ${{ secrets.E2E_ADMIN_PASSWORD }}
+          E2E_VIEWER_EMAIL: ${{ secrets.E2E_VIEWER_EMAIL }}
+          E2E_VIEWER_PASSWORD: ${{ secrets.E2E_VIEWER_PASSWORD }}
+          E2E_NOPROFILE_EMAIL: ${{ secrets.E2E_NOPROFILE_EMAIL }}
+          E2E_NOPROFILE_PASSWORD: ${{ secrets.E2E_NOPROFILE_PASSWORD }}
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+        run: npx playwright test

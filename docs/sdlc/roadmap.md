@@ -6,9 +6,9 @@ agentic SDLC. GitHub + `docs/` are the source of truth.
 ## Increments (do not reorder)
 
 1. **AUTH-001** — login, roles, logout, fail-closed access. State:
-   **`READY`** (human DoR on Issue #5). Implementation plan:
-   [../features/AUTH-001/implementation-plan.md](../features/AUTH-001/implementation-plan.md)
-   (draft until human approval → `PLANNED`). Spec paths stay under
+   **`IN_DEVELOPMENT`** (plan approved on Issue #5; `src/` on the
+   implementation branch).
+   Plan: [../features/AUTH-001/implementation-plan.md](../features/AUTH-001/implementation-plan.md).
    `docs/requirements/` and related AUTH-001 files. Do not migrate
    those into `docs/features/` without an explicit docs task.
 2. **CRM-001** — Client entity only. Paths:

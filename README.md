@@ -8,11 +8,12 @@ BankCRM is a **simple professional CRM** used to demonstrate an
 agentic SDLC. A human is PO/BA. Agents draft specs, tests, and (after
 gates) code. GitHub + `docs/` are the source of truth.
 
-**There is no application source yet.** AUTH-001 is **`READY`** (DoR on
-Issue #5). Implementation plan is Draft until you approve it
-([docs/features/AUTH-001/implementation-plan.md](docs/features/AUTH-001/implementation-plan.md)).
-CRM-001 is `SPECIFIED` (not Ready, not implemented). DASH-001 waits
-until CRM-001 is accepted for planning.
+**AUTH-001 is `IN_DEVELOPMENT`** (plan approved on Issue #5).
+Login UI lives under `src/`. Copy `.env.example` to `.env` and add a
+non-prod Supabase URL and anon key. Apply
+`supabase/migrations/20260822150000_profiles.sql` to **non-prod** only.
+CRM-001 is `SPECIFIED` (not Ready). DASH-001 waits until CRM-001 is
+accepted for planning.
 
 Canonical process: [docs/sdlc/lifecycle.md](docs/sdlc/lifecycle.md).
 Start feature work with `.cursor/skills/feature-orchestrator/SKILL.md`.
@@ -26,7 +27,7 @@ Start feature work with `.cursor/skills/feature-orchestrator/SKILL.md`.
 | Routing                       | React Router                               |
 | Unit / integration tests      | Vitest                                     |
 | End-to-end tests              | Playwright                                 |
-| Lint                          | ESLint (configured when `src/` exists)     |
+| Lint                          | ESLint (`eslint.config.js`)                |
 | Format                        | Prettier                                   |
 | Database, auth, authorization | Supabase Auth, PostgreSQL, RLS             |
 | Preview / production hosting  | Vercel                                     |
@@ -36,18 +37,20 @@ Start feature work with `.cursor/skills/feature-orchestrator/SKILL.md`.
 
 ## Repository layout
 
-| Path                                      | Purpose                                       |
-| ----------------------------------------- | --------------------------------------------- |
-| `.cursor/rules/`                          | Persistent project constraints                |
-| `.cursor/skills/`                         | Reusable engineering procedures               |
-| `docs/sdlc/`                              | Canonical lifecycle, risk, DoR/DoD            |
-| `docs/features/`                          | New feature packs (CRM-001+)                  |
-| `docs/product/`                           | Product truth pointers                        |
-| `docs/requirements/` through `docs/bugs/` | AUTH-001 and shared QA artifacts              |
-| `docs/architecture/` and `docs/adr/`      | Technical context and decisions               |
-| `docs/ai/`                                | AI operating model and guardrails             |
-| `tests/`                                  | Reserved for unit, integration, and e2e tests |
-| `.github/`                                | Issue/PR templates and CI                     |
+| Path                                      | Purpose                                      |
+| ----------------------------------------- | -------------------------------------------- |
+| `.cursor/rules/`                          | Persistent project constraints               |
+| `.cursor/skills/`                         | Reusable engineering procedures              |
+| `docs/sdlc/`                              | Canonical lifecycle, risk, DoR/DoD           |
+| `docs/features/`                          | New feature packs (CRM-001+)                 |
+| `docs/product/`                           | Product truth pointers                       |
+| `docs/requirements/` through `docs/bugs/` | AUTH-001 and shared QA artifacts             |
+| `docs/architecture/` and `docs/adr/`      | Technical context and decisions              |
+| `docs/ai/`                                | AI operating model and guardrails            |
+| `src/`                                    | Vite + React application (AUTH-001)          |
+| `supabase/migrations/`                    | Non-prod SQL (human applies; not production) |
+| `tests/`                                  | Vitest unit tests and Playwright e2e         |
+| `.github/`                                | Issue/PR templates and CI                    |
 
 ## Git workflow (summary)
 
@@ -58,15 +61,22 @@ Start feature work with `.cursor/skills/feature-orchestrator/SKILL.md`.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) and [docs/git/branching.md](docs/git/branching.md).
 
-## Local foundation checks
+## Local checks
 
 ```bash
 npm install
 npm run format:check
+npm run lint
+npm test
+npx playwright install chromium
+npm run test:e2e
 ```
 
-Application lint, unit, integration, and Playwright suites are not
-runnable until the application is bootstrapped in a later phase.
+Credentialed Playwright cases (TC-001, TC-003–TC-006, TC-009–TC-010)
+need `E2E_*` and `VITE_SUPABASE_*` env vars. Without them those tests
+are **skipped**, not passed.
+
+Unauthenticated e2e (TC-002, TC-007, TC-008) run without secrets.
 
 ## Security
 
