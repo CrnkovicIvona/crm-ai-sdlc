@@ -7,11 +7,23 @@ New application features live under `docs/features/<ID>/` (see
 [../features/README.md](../features/README.md)). AUTH-001 keeps its
 existing paths.
 
+## Abbreviations
+
+| Term      | Meaning                                                                                                                          |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| BD        | Business decision in the feature **decision log** (human-approved). Not an ADR.                                                  |
+| TD        | Technical decision in that same log (how, still feature-scoped). Not an ADR. Promote to ADR only if the choice is platform-wide. |
+| TDE       | Technical design element: a row in the technical spec that traces HOW to an FR.                                                  |
+| ADR       | Architecture decision record under `docs/adr/` (durable platform **WHY**).                                                       |
+| DoR / DoD | Definition of Ready / Definition of Done                                                                                         |
+
+## Artifacts
+
 | Artifact            | Answers                                   | Owner (draft / approve)        | Stage                  | Mandatory                                         |
 | ------------------- | ----------------------------------------- | ------------------------------ | ---------------------- | ------------------------------------------------- |
 | REQ                 | What the business asked                   | Agent BA / human               | REQUESTED–REQUIREMENTS | Always                                            |
 | Functional spec     | **WHAT** the system must do               | Agent BA / human DoR           | REQUIREMENTS           | Always for product features                       |
-| User stories        | Delivery slices                           | Agent BA / human               | after FS               | Always except Low docs/chore                      |
+| User stories        | Delivery slices                           | Agent BA / human               | SPECIFIED (after FS)   | Always except Low docs/chore                      |
 | AC                  | Testable conditions                       | Agent BA+QA / human            | with stories           | Always except Low docs/chore                      |
 | BDD                 | Gherkin of AC                             | Agent QA / human via DoR       | after AC               | Medium+; High always                              |
 | Test cases          | How to verify AC                          | Agent QA                       | after BDD              | Always for app features                           |
