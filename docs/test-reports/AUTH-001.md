@@ -1,10 +1,10 @@
 # Test report: AUTH-001
 
-- SHA: `7d88b4a875b7df23a1b500a0d622f4af066b6b3b`
+- SHA: `ae1bf1142492dbe4071587cbf9406dcc7ebac468`
 - Date: 2026-08-22
 - Plan: [docs/test-plans/AUTH-001.md](../test-plans/AUTH-001.md)
 - Risk level: High
-- CI: [32594359989](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/32594359989)
+- CI: [32594502011](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/32594502011)
 
 ## Summary
 
@@ -18,24 +18,24 @@
 SKIPPED is never PASSED.
 
 <!-- ci-report-meta
-sha: 7d88b4a875b7df23a1b500a0d622f4af066b6b3b
+sha: ae1bf1142492dbe4071587cbf9406dcc7ebac468
 playwrightPassed: 7
 playwrightFailed: 0
 playwrightSkipped: 0
-runId: 32594359989
+runId: 32594502011
 -->
 
 ## Latest CI
 
-- CI run: [32594359989](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/32594359989)
-- SHA: `7d88b4a875b7df23a1b500a0d622f4af066b6b3b`
-- Report updated automatically from latest CI run for SHA `7d88b4a875b7df23a1b500a0d622f4af066b6b3b`. Previous snapshot was outdated.
+- CI run: [32594502011](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/32594502011)
+- SHA: `ae1bf1142492dbe4071587cbf9406dcc7ebac468`
+- Report updated automatically from latest CI run for SHA `ae1bf1142492dbe4071587cbf9406dcc7ebac468`. Previous snapshot was outdated.
 
 | Suite      | Result                          | Evidence                                                                             |
 | ---------- | ------------------------------- | ------------------------------------------------------------------------------------ |
-| Playwright | 7 passed / 0 failed / 0 skipped | [32594359989](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/32594359989) |
-| Vitest     | PASSED                          | [32594359989](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/32594359989) |
-| ESLint     | FAILED                          | [32594359989](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/32594359989) |
+| Playwright | 7 passed / 0 failed / 0 skipped | [32594502011](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/32594502011) |
+| Vitest     | PASSED                          | [32594502011](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/32594502011) |
+| ESLint     | PASSED                          | [32594502011](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/32594502011) |
 
 No Playwright tests were skipped in this run.
 
