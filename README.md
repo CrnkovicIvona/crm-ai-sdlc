@@ -8,12 +8,13 @@ BankCRM is a **simple professional CRM** used to demonstrate an
 agentic SDLC. A human is PO/BA. Agents draft specs, tests, and (after
 gates) code. GitHub + `docs/` are the source of truth.
 
-**AUTH-001 is `IN_QA`** (plan approved on Issue #5; PR to `test`).
-Login UI lives under `src/`. Copy `.env.example` to `.env` and add a
-non-prod Supabase URL and anon key. Apply
-`supabase/migrations/20260822150000_profiles.sql` to **non-prod** only.
-CRM-001 is `SPECIFIED` (not Ready). DASH-001 waits until CRM-001 is
-accepted for planning.
+**AUTH-001 is `RELEASED`** (REL-003; human merged
+[#12](https://github.com/CrnkovicIvona/crm-ai-sdlc/pull/12) to `main`
+2026-08-22). Login UI lives under `src/`. Copy `.env.example` to `.env`
+and add a non-prod Supabase URL and anon key. Apply
+`supabase/migrations/20260822150000_profiles.sql` to **non-prod** only
+unless a human applies production. CRM-001 is `SPECIFIED` (not Ready).
+DASH-001 waits until CRM-001 is accepted for planning.
 
 Canonical process: [docs/sdlc/lifecycle.md](docs/sdlc/lifecycle.md).
 Start feature work with `.cursor/skills/feature-orchestrator/SKILL.md`.

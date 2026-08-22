@@ -7,14 +7,14 @@ agentic SDLC. GitHub + `docs/` are the source of truth.
 
 | ID       | Meaning                                   | Spec location                                     | State                                    |
 | -------- | ----------------------------------------- | ------------------------------------------------- | ---------------------------------------- |
-| AUTH-001 | Login, roles, logout, fail-closed access  | `docs/requirements/REQ-001.md` and AUTH-001 specs | **`IN_QA`** (PR targeting `test`)        |
+| AUTH-001 | Login, roles, logout, fail-closed access  | `docs/requirements/REQ-001.md` and AUTH-001 specs | **`RELEASED`** (REL-003 on `main`)       |
 | CRM-001  | Client entity, authorization, audit trail | [../features/CRM-001/](../features/CRM-001/)      | `SPECIFIED` (not Ready; not implemented) |
 | DASH-001 | Dashboard after Clients exist             | Not specified                                     | Not started                              |
 
-1. **AUTH-001** — paths stay under `docs/requirements/` and related
-   AUTH-001 files. Plan:
+1. **AUTH-001** — **`RELEASED`**. Paths stay under `docs/requirements/`
+   and related AUTH-001 files. Plan:
    [../features/AUTH-001/implementation-plan.md](../features/AUTH-001/implementation-plan.md).
-   Live Auth e2e is **SKIPPED** without secrets (skipped ≠ passed).
+   Live Auth e2e without secrets is **SKIPPED** (skipped ≠ passed).
    Do not migrate AUTH-001 into `docs/features/` without an explicit
    docs task.
 2. **CRM-001** — Client entity only. Authorization reuses AUTH-001

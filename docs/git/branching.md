@@ -36,7 +36,9 @@ These settings are **not** applied by the agent. Humans should enable:
 
 - Do not commit or push to `main`.
 - Do not merge to `main` — only a human merges `release/<rel-id>` → `main`.
-- After that merge, the agent merges `release/<rel-id>` → `test` automatically, no separate approval needed.
+- After that merge, on the next Agent turn (or “sync test”), merge the
+  release branch into `test`. Do not expect the same commit SHA after a
+  squash. Delete the release branch only after that sync lands.
 - The agent deletes `release/<rel-id>` only after both merges succeed. If the merge into `test` fails, the branch stays and the conflict is escalated to a human.
 - Do not disable protection.
 
