@@ -38,4 +38,6 @@ production deploy workflows until a later, approved phase.
 
 Document actual names in `.env.example` when the app exists. Expected
 families: public app URL, public Supabase URL and anon key, server-only
-secrets. Exact names depend on the React framework chosen in ADR 0001.
+secrets. Exact names depend on Vite (see ADR-0002) and are recorded
+when `.env.example` is added. Expected families remain: public app URL,
+public Supabase URL and anon key, server-only secrets.

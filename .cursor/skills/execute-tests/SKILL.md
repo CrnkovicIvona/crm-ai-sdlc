@@ -16,7 +16,7 @@ Never report a test as passed unless:
 1. It was actually executed in this session or in CI for this commit/SHA, and
 2. Verifiable execution evidence exists (command output, CI job log URL, or a stored report that cites that output).
 
-If a suite was not run (no application, no runner, skipped by risk plan), say **not executed** and why. Do not equate "not executed" with "passed".
+If a suite was not run (no application, no runner, skipped by risk plan), say **NOT EXECUTED** or **SKIPPED** / **NOT APPLICABLE** and why. Do not equate those with **PASSED**. Designed tests in `docs/` are **DESIGNED** until this skill runs.
 
 ## Steps
 

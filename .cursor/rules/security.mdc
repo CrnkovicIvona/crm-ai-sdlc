@@ -7,7 +7,8 @@ alwaysApply: true
 
 - Never commit `.env` files with secrets, keys, tokens, or service-role credentials
 - Never print secrets
-- Never bypass authn/authz in tests or code as a shortcut
+- Never bypass authn/authz, RLS, fail-closed missing-profile, or
+  required audit recording in tests or code as a shortcut
 - Never modify production data or production schema without explicit human authorization
 - Never disable branch protection, required checks, or secret scanning
 - Production deploy is not an agent action

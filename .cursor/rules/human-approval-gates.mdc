@@ -5,13 +5,16 @@ alwaysApply: true
 
 # Human approval gates
 
-Stop and wait for an explicit human approval before proceeding past these gates:
+Silence is not approval. Recorded human statement on Issue, PR, or
+explicit instruction for that gate.
 
-1. **Definition of Ready** — requirements, stories, AC, BDD, tests, traceability are complete. State may become `READY` only after human confirmation.
-2. **Implementation plan** — state may become `PLANNED` only after human approval of the plan. No application implementation before this gate.
-3. **CI / QA on `test`** — state may become `READY_FOR_RELEASE` only after human QA/release approval.
-4. **Release to production** — human merges `test` → `main`. Agent does not merge to `main` or deploy production.
-5. **Production data** — any production data change requires explicit human authorization.
-6. **Security exceptions** — weakening controls or handling a vulnerability disclosure requires a human.
+1. Business/technical TBDs and High-risk decision-log items
+2. **Definition of Ready** — SPECIFIED → READY (plan may be written; no code)
+3. **Implementation plan** — READY → PLANNED (code and `feature/` allowed)
+4. **CI/QA on `test`** — IN_QA → READY_FOR_RELEASE
+5. **Release** — human merges to `main`. Agent never merges `main`.
+6. Production data and security exceptions
 
-The feature-orchestrator skill must name the current gate and must not mark it satisfied without a recorded human decision in the issue, PR, or chat.
+If asked to skip a gate, refuse and name it.
+
+See `docs/sdlc/lifecycle.md` and `docs/sdlc/human-approval.md`.

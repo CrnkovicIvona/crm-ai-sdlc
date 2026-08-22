@@ -4,25 +4,35 @@ BankCRM is a customer relationship management product. This repository is
 set up for an AI-assisted software development lifecycle using Cursor,
 GitHub, GitHub Actions, Vercel, and Supabase.
 
-**This phase contains engineering process and repository foundation only.**
-There is no application source, database schema, or production deployment
-configuration yet. Product behavior must come from approved requirements
-in `docs/`; it must not be invented.
+BankCRM is a **simple professional CRM** used to demonstrate an
+agentic SDLC. A human is PO/BA. Agents draft specs, tests, and (after
+gates) code. GitHub + `docs/` are the source of truth.
 
-## Stack (intended)
+**There is no application source, database schema, or production
+deployment configuration yet.** AUTH-001 is `SPECIFIED` (not Ready).
+CRM-001 specifications live under `docs/features/CRM-001/` (not Ready,
+not implemented). Product behavior must come from approved requirements;
+it must not be invented.
 
-| Concern                      | Choice                                             |
-| ---------------------------- | -------------------------------------------------- |
-| Language                     | TypeScript                                         |
-| UI                           | React (framework choice deferred; see ADR 0001)    |
-| Unit / integration tests     | Vitest                                             |
-| End-to-end tests             | Playwright                                         |
-| Lint                         | ESLint (configured when application source exists) |
-| Format                       | Prettier                                           |
-| Database and auth            | Supabase (PostgreSQL)                              |
-| Preview / production hosting | Vercel                                             |
-| CI                           | GitHub Actions                                     |
-| Work tracking                | GitHub Issues / Projects                           |
+Canonical process: [docs/sdlc/lifecycle.md](docs/sdlc/lifecycle.md).
+Start feature work with `.cursor/skills/feature-orchestrator/SKILL.md`.
+
+## Stack (approved)
+
+| Concern                       | Choice                                     |
+| ----------------------------- | ------------------------------------------ |
+| Language                      | TypeScript                                 |
+| UI                            | Vite + React (ADR-0002; do not reopen)     |
+| Routing                       | React Router                               |
+| Unit / integration tests      | Vitest                                     |
+| End-to-end tests              | Playwright                                 |
+| Lint                          | ESLint (configured when `src/` exists)     |
+| Format                        | Prettier                                   |
+| Database, auth, authorization | Supabase Auth, PostgreSQL, RLS             |
+| Preview / production hosting  | Vercel                                     |
+| CI                            | GitHub Actions                             |
+| Secrets scan                  | gitleaks                                   |
+| Work tracking                 | GitHub Issues (not Jira / Notion-as-truth) |
 
 ## Repository layout
 
@@ -30,9 +40,10 @@ in `docs/`; it must not be invented.
 | ----------------------------------------- | --------------------------------------------- |
 | `.cursor/rules/`                          | Persistent project constraints                |
 | `.cursor/skills/`                         | Reusable engineering procedures               |
-| `docs/sdlc/`                              | Lifecycle orchestration                       |
-| `docs/product/`                           | Product truth                                 |
-| `docs/requirements/` through `docs/bugs/` | Requirements and QA artifacts                 |
+| `docs/sdlc/`                              | Canonical lifecycle, risk, DoR/DoD            |
+| `docs/features/`                          | New feature packs (CRM-001+)                  |
+| `docs/product/`                           | Product truth pointers                        |
+| `docs/requirements/` through `docs/bugs/` | AUTH-001 and shared QA artifacts              |
 | `docs/architecture/` and `docs/adr/`      | Technical context and decisions               |
 | `docs/ai/`                                | AI operating model and guardrails             |
 | `tests/`                                  | Reserved for unit, integration, and e2e tests |

@@ -11,7 +11,11 @@
 | Format          | Prettier   | entire repo                                          |
 | Secrets         | gitleaks   | CI                                                   |
 
-## Current phase (ENG-001)
+## Current phase
+
+No application `src/` exists. AUTH-001 is `SPECIFIED` (not Ready).
+CRM-001 is specified under `docs/features/CRM-001/` (not Ready, not
+implemented).
 
 There is **no application**. Do not add fake passing Vitest or
 Playwright tests. Foundation CI runs Prettier, commitlint, and secret
@@ -32,7 +36,7 @@ NOT APPLICABLE and SKIPPED are not PASSED.
 When `src/` is introduced:
 
 - Use ESLint flat config (`eslint.config.js`) with TypeScript and React
-  plugins appropriate to the chosen framework (see ADR 0001)
+  plugins for Vite + React (ADR-0002)
 - Wire `npm run lint` into CI as a **required** job
 - Do not enable `continue-on-error` on lint
 - Keep Prettier for formatting; avoid conflicting stylistic ESLint rules

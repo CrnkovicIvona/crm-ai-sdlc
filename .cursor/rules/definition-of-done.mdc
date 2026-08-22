@@ -7,4 +7,8 @@ alwaysApply: true
 
 Do not claim a feature is done unless `docs/sdlc/definition-of-done.md` is satisfied.
 
-Tests listed as passed must have been executed with verifiable evidence. Docs-only changes use a reduced DoD (format, review, PR to `test`) with documented Low risk.
+Tests listed as passed must have been executed with verifiable evidence.
+Use only DESIGNED / NOT EXECUTED / EXECUTED / PASSED / FAILED / SKIPPED /
+NOT APPLICABLE / VERIFIED. SKIPPED and NOT APPLICABLE are never PASSED.
+Docs-only changes use a reduced DoD (format, review, PR to `test`) with
+documented Low risk.

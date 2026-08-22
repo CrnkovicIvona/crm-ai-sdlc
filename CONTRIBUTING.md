@@ -5,8 +5,11 @@ approval gates, merges to `main`, and production.
 
 Read these before starting work:
 
-- [docs/sdlc/lifecycle.md](docs/sdlc/lifecycle.md)
+- [docs/sdlc/lifecycle.md](docs/sdlc/lifecycle.md) (canonical SDLC)
+- [docs/sdlc/risk-model.md](docs/sdlc/risk-model.md)
 - [docs/sdlc/definition-of-ready.md](docs/sdlc/definition-of-ready.md)
+- `.cursor/skills/feature-orchestrator/SKILL.md` (“Start CRM-001”)
+- [docs/specifications/README.md](docs/specifications/README.md)
 - [docs/sdlc/definition-of-done.md](docs/sdlc/definition-of-done.md)
 - [docs/git/branching.md](docs/git/branching.md)
 - [docs/git/commits.md](docs/git/commits.md)

@@ -5,16 +5,21 @@ alwaysApply: true
 
 # Documentation placement
 
-- Cursor rules = persistent constraints
-- Cursor skills = procedures for a specific activity
-- `docs/sdlc/` = lifecycle orchestration
-- `docs/product/` = business/product truth (do not invent)
-- `docs/requirements/`, `user-stories/`, `bdd/` = specification artifacts
-- `docs/test-*` and `docs/bugs/` = QA artifacts
-- `docs/architecture/` and `docs/adr/` = technical decisions
-- `docs/ai/` = AI operating model
-- `src/` = application implementation (does not exist in ENG-001)
-- `.github/workflows/` = CI automation
+Canonical process: `docs/sdlc/lifecycle.md` (do not invent a second
+lifecycle).
 
-Do not put process rules only in chat. Update the canonical file.
-Do not treat example IDs in templates as real BankCRM features.
+- `.cursor/rules/` = constraints
+- `.cursor/skills/` = procedures; start with `feature-orchestrator`
+- `docs/sdlc/` = lifecycle, DoR, DoD, risk, artifacts, change-control, roadmap
+- `docs/product/` = product truth pointers
+- `docs/features/<ID>/` = **new** feature packs (CRM-001+)
+- AUTH-001 stays on existing `docs/requirements|specifications|user-stories|bdd|test-*|decisions` paths
+- `docs/adr/` = platform ADRs only
+- `docs/architecture/` = shared environment/architecture
+- `docs/plans/TEMPLATE.md` = implementation plan template
+- `src/` = application (not before PLANNED)
+
+FS = WHAT. TS = HOW. ADR = WHY (platform). Plan = EXACTLY what files
+change. Decision log = feature BD/TD until human accepts.
+
+Unknowns: `TBD — HUMAN DECISION REQUIRED`.
