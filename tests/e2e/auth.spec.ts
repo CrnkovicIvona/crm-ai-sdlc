@@ -19,6 +19,9 @@ test('TC-008 unauthenticated root goes to login', async ({ page }) => {
   await page.goto('/');
   await expect(page).toHaveURL(/\/login/);
   await expect(page.getByTestId('login-form')).toBeVisible();
+  await expect(page.getByTestId('test-users')).toBeVisible();
+  await expect(page.getByTestId('test-users')).toContainText('admin@test.com');
+  await expect(page.getByTestId('test-users')).toContainText('viewer@test.com');
 });
 
 test('TC-007 failed login is generic', async ({ page }) => {

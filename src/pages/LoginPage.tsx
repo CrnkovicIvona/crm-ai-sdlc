@@ -60,6 +60,20 @@ export function LoginPage() {
           {error}
         </p>
       ) : null}
+      <aside className="test-users" data-testid="test-users">
+        <p className="test-users-heading">ADMIN user</p>
+        <p>Email: admin@test.com</p>
+        <p>Password: ADMIN</p>
+        <p>Role: full access</p>
+        <p className="test-users-heading">VIEWER user</p>
+        <p>Email: viewer@test.com</p>
+        <p>Password: VIEWER</p>
+        <p>Role: view-only access (cannot create, update, or delete)</p>
+        <p className="test-users-note">
+          Only these two test users exist in this environment, as required by
+          the specification.
+        </p>
+      </aside>
     </main>
   );
 }
