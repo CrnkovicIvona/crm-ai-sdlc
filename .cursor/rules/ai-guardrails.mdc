@@ -9,8 +9,7 @@ Follow `.cursor/skills/feature-orchestrator/SKILL.md` at the start of
 feature work. Canonical SDLC: `docs/sdlc/lifecycle.md`.
 
 BankCRM is a simple professional CRM. Source of truth is GitHub +
-`docs/`. Do not add Jira, Notion-as-truth, Next.js, GraphQL, Redux,
-microservices, or extra REST APIs.
+`docs/`.
 
 ## Never
 
