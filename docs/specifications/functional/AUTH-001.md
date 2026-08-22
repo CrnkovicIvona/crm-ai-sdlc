@@ -210,21 +210,21 @@ None that block specifying AUTH-001. Deferred items:
 
 ## Traceability
 
-| FR     | REQ / BD          | US             | AC                     | BDD                                        | TC                     |
-| ------ | ----------------- | -------------- | ---------------------- | ------------------------------------------ | ---------------------- |
-| FR-001 | REQ-001.1         | US-001         | AC-001                 | Authenticated employee can access the CRM  | TC-001                 |
-| FR-002 | REQ-001.1, .5     | US-001, US-002 | AC-002, AC-003         | CRM requires login; unauthenticated denied | TC-002                 |
-| FR-003 | REQ-001.2         | US-003         | AC-004, AC-005, AC-011 | ADMIN and VIEWER access                    | TC-003, TC-004, TC-009 |
-| FR-004 | REQ-001.3, BD-006 | US-003         | AC-004                 | ADMIN permitted read and write             | TC-003                 |
-| FR-005 | REQ-001.4, BD-006 | US-003         | AC-005                 | VIEWER read only                           | TC-004                 |
-| FR-006 | REQ-001.1         | US-001         | AC-001, AC-002         | Log in to access BankCRM                   | TC-001, TC-002         |
-| FR-007 | REQ-001.6         | US-004         | AC-006                 | Authenticated user can log out             | TC-005                 |
-| FR-008 | BD-007            | US-004         | AC-007                 | After logout CRM access is denied          | TC-006                 |
-| FR-009 | BD-004            | US-001         | AC-009                 | Failed login is generic                    | TC-007                 |
-| FR-010 | BD-007            | US-002         | AC-010                 | Unauthenticated only login surface         | TC-008                 |
-| FR-011 | BD-003            | US-003         | AC-011                 | Exactly one role                           | TC-009                 |
-| FR-012 | BD-001            | US-001         | AC-008                 | Email and password login                   | TC-001, TC-007         |
-| FR-013 | BD-008            | US-002         | AC-012                 | Session without role denied CRM            | TC-010                 |
+| FR     | REQ / BD          | US             | AC                     | BDD                                        | TC                          |
+| ------ | ----------------- | -------------- | ---------------------- | ------------------------------------------ | --------------------------- |
+| FR-001 | REQ-001.1         | US-001         | AC-001                 | Authenticated employee can access the CRM  | TC-001                      |
+| FR-002 | REQ-001.1, .5     | US-001, US-002 | AC-002, AC-003         | CRM requires login; unauthenticated denied | TC-002                      |
+| FR-003 | REQ-001.2         | US-003         | AC-004, AC-005, AC-011 | ADMIN and VIEWER access                    | TC-003, TC-004, TC-009      |
+| FR-004 | REQ-001.3, BD-006 | US-003         | AC-004                 | ADMIN permitted read and write             | TC-003                      |
+| FR-005 | REQ-001.4, BD-006 | US-003         | AC-005                 | VIEWER read only                           | TC-004                      |
+| FR-006 | REQ-001.1         | US-001         | AC-001, AC-002         | Log in to access BankCRM                   | TC-001, TC-002              |
+| FR-007 | REQ-001.6         | US-004         | AC-006                 | Authenticated user can log out             | TC-005                      |
+| FR-008 | BD-007            | US-004         | AC-007                 | After logout CRM access is denied          | TC-006                      |
+| FR-009 | BD-004            | US-001         | AC-009                 | Failed login is generic                    | TC-007                      |
+| FR-010 | BD-007            | US-002         | AC-010                 | Unauthenticated only login surface         | TC-008                      |
+| FR-011 | BD-003            | US-003         | AC-011                 | Exactly one role                           | TC-009                      |
+| FR-012 | BD-001            | US-001         | AC-008                 | Email and password login                   | TC-001, TC-007              |
+| FR-013 | BD-008            | US-002         | AC-012                 | Session without role denied CRM            | unit `require-auth.test.ts` |
 
 Technical design: [../technical/AUTH-001.md](../technical/AUTH-001.md).
 Implementation: `src/auth/`, `src/lib/auth.ts`, `src/lib/access.ts`,

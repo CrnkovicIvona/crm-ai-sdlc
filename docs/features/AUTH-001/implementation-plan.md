@@ -6,7 +6,7 @@
 - Source: Human DoR on Issue #5 (2026-08-22). Spec PR [#6](https://github.com/CrnkovicIvona/crm-ai-sdlc/pull/6) merged to `test`.
 - Open Questions: none blocking. Copy, timeout, and CRM screens remain non-blocking per DoR.
 - Approval: **Approved** (human on Issue #5, 2026-08-22)
-- Traceability: [REQ-001](../../requirements/REQ-001.md), [FS](../../specifications/functional/AUTH-001.md), [TS](../../specifications/technical/AUTH-001.md), TC-001–TC-010
+- Traceability: [REQ-001](../../requirements/REQ-001.md), [FS](../../specifications/functional/AUTH-001.md), [TS](../../specifications/technical/AUTH-001.md), TC-001–TC-009
 - Prerequisite: human **Definition of Ready** recorded
 - Status: **Approved** — state **`PLANNED`**. Implementation may proceed.
 
@@ -53,7 +53,7 @@ Bootstrap Vite + React + TypeScript (ADR-0002) **in this repo**
 | `supabase/migrations/YYYYMMDDHHMMSS_profiles.sql`          | `profiles` + RLS intent (apply to **non-prod** only)      |
 | `tests/unit/errors.test.ts`                                | Generic failure mapping                                   |
 | `tests/unit/require-auth.test.ts`                          | Guard / fail-closed logic                                 |
-| `tests/e2e/auth.spec.ts`                                   | Playwright TC-001–TC-002, TC-005–TC-008, TC-010           |
+| `tests/e2e/auth.spec.ts`                                   | Playwright TC-001–TC-002, TC-005–TC-008                   |
 | `tests/e2e/roles.spec.ts`                                  | TC-003, TC-004, TC-009 (role display; no Client CRUD)     |
 | `playwright.config.ts`                                     | e2e config                                                |
 | `vitest.config.ts`                                         | unit/integration                                          |
@@ -91,8 +91,6 @@ E2E_ADMIN_EMAIL=
 E2E_ADMIN_PASSWORD=
 E2E_VIEWER_EMAIL=
 E2E_VIEWER_PASSWORD=
-E2E_NOPROFILE_EMAIL=
-E2E_NOPROFILE_PASSWORD=
 ```
 
 No service role in the client or in Vite env.
@@ -109,27 +107,26 @@ configure the cloud project or touch production.
 4. Policy: authenticated user `SELECT` own row (`id = auth.uid()`).
 5. No INSERT/UPDATE/DELETE via end-user UI (BD-002). Provisioning
    out of band (dashboard / service role **outside** the SPA).
-6. Seed two users (ADMIN, VIEWER) + matching `profiles` rows; optional
-   third Auth user **without** profile for TC-010.
+6. Seed two users (ADMIN, VIEWER) + matching `profiles` rows.
 
 Exact SQL is in `supabase/migrations/` on the implementation branch
 after `PLANNED`. Apply to **non-prod** only.
 
 ## Mapping
 
-| AC / TC                         | Automated test path (to be created after PLANNED)             | CI without secrets                                   |
-| ------------------------------- | ------------------------------------------------------------- | ---------------------------------------------------- |
-| AC-008, AC-001 / TC-001         | `tests/e2e/auth.spec.ts`                                      | Skip if no `E2E_ADMIN_*`                             |
-| AC-002, AC-003 / TC-002         | `tests/e2e/auth.spec.ts` visit `/app` logged out              | Run (no secrets)                                     |
-| AC-004 / TC-003                 | `tests/e2e/roles.spec.ts` ADMIN role visible; no Client write | Skip if no admin e2e user                            |
-| AC-005 / TC-004                 | VIEWER role visible; no write control                         | Skip if no viewer e2e user                           |
-| AC-006, AC-007 / TC-005, TC-006 | logout then `/app` denied                                     | Skip if no e2e user                                  |
-| AC-009 / TC-007                 | bad password → generic failure                                | Skip if no login page against live Auth; unit always |
-| AC-010 / TC-008                 | unauthenticated only `/login`                                 | Run                                                  |
-| AC-011 / TC-009                 | role is exactly one of ADMIN\|VIEWER                          | Skip without seed; unit on parser                    |
-| AC-012 / TC-010                 | session without profile → no `/app`                           | Skip if no `E2E_NOPROFILE_*`                         |
-| FR-009 mapping                  | `tests/unit/errors.test.ts`                                   | Always                                               |
-| Fail-closed guard               | `tests/unit/require-auth.test.ts`                             | Always                                               |
+| AC / TC                         | Automated test path (to be created after PLANNED)              | CI without secrets                                   |
+| ------------------------------- | -------------------------------------------------------------- | ---------------------------------------------------- |
+| AC-008, AC-001 / TC-001         | `tests/e2e/auth.spec.ts`                                       | Skip if no `E2E_ADMIN_*`                             |
+| AC-002, AC-003 / TC-002         | `tests/e2e/auth.spec.ts` visit `/app` logged out               | Run (no secrets)                                     |
+| AC-004 / TC-003                 | `tests/e2e/roles.spec.ts` ADMIN role visible; no Client write  | Skip if no admin e2e user                            |
+| AC-005 / TC-004                 | VIEWER role visible; no write control                          | Skip if no viewer e2e user                           |
+| AC-006, AC-007 / TC-005, TC-006 | logout then `/app` denied                                      | Skip if no e2e user                                  |
+| AC-009 / TC-007                 | bad password → generic failure                                 | Skip if no login page against live Auth; unit always |
+| AC-010 / TC-008                 | unauthenticated only `/login`                                  | Run                                                  |
+| AC-011 / TC-009                 | role is exactly one of ADMIN\|VIEWER                           | Skip without seed; unit on parser                    |
+| AC-012                          | `tests/unit/require-auth.test.ts` (`decideAccess(true, null)`) | Always                                               |
+| FR-009 mapping                  | `tests/unit/errors.test.ts`                                    | Always                                               |
+| Fail-closed guard               | `tests/unit/require-auth.test.ts`                              | Always                                               |
 
 Skipped e2e tests are **SKIPPED** / **NOT EXECUTED**, never PASSED.
 

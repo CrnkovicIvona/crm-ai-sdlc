@@ -17,7 +17,6 @@
 - TC-007 generic failed login — Playwright always + Vitest `tests/unit/errors.test.ts`
 - TC-008 unauthenticated = login surface only — Playwright, always
 - TC-009 exactly one role — Vitest parser always; Playwright skip without seed
-- TC-010 session without usable profile denied — Playwright, skip without `E2E_NOPROFILE_*`
 
 Automated paths: `tests/e2e/auth.spec.ts`, `tests/e2e/roles.spec.ts`,
 `tests/unit/errors.test.ts`, `tests/unit/require-auth.test.ts`.
@@ -27,11 +26,12 @@ Automated paths: `tests/e2e/auth.spec.ts`, `tests/e2e/roles.spec.ts`,
 - Lockout, timeout, MFA, in-app provisioning
 - Automatic session expiration (BD-005 deferred)
 - Client CRUD (CRM-001)
+- Session without usable role (AC-012): unit only, not a Playwright case
 - Claiming SKIPPED e2e as PASSED
 
 ## Regression pack
 
-TC-001–TC-010 as the auth pack; skip of the live-auth subset without
+TC-001–TC-009 as the auth pack; skip of the live-auth subset without
 secrets is allowed and must be reported as SKIPPED.
 
 ## Environments

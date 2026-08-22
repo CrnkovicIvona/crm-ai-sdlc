@@ -54,13 +54,13 @@ artifacts.md, execute-tests, DoD.
 
 ## Security
 
-| ID    | Finding                                   | Where                           | Why                                        | Change                    | Blocks DoR?                      | Human?          |
-| ----- | ----------------------------------------- | ------------------------------- | ------------------------------------------ | ------------------------- | -------------------------------- | --------------- |
-| —     | Fail-closed specified                     | AUTH-001 BD-008, FR-013, TC-010 | Was the documented gap                     | Recorded; not implemented | AUTH-001 still not Ready (human) | **Yes** Ready   |
-| —     | RLS intent without SQL                    | CRM TS / AUTH TS                | Correct for this phase                     | Implement only PLANNED    | No                               | No              |
-| P1-03 | Audit insert privilege vs VIEWER spoofing | CRM TS open Q6                  | Could allow fake audit or block real audit | Human with TD-C006        | Possibly                         | **Yes**         |
-| P2-08 | No field-level security on OIB for VIEWER | Approved BD-C005                | Privacy tradeoff is explicit               | Do not invent FLS         | No                               | Already decided |
-| P2-09 | DELETE confirmation TBD                   | BD-T010                         | Destructive UX                             | Human                     | Possibly                         | **Yes**         |
+| ID    | Finding                                   | Where                           | Why                                        | Change                        | Blocks DoR?                      | Human?          |
+| ----- | ----------------------------------------- | ------------------------------- | ------------------------------------------ | ----------------------------- | -------------------------------- | --------------- |
+| —     | Fail-closed specified                     | AUTH-001 BD-008, FR-013, AC-012 | Was the documented gap                     | Recorded; unit `decideAccess` | AUTH-001 still not Ready (human) | **Yes** Ready   |
+| —     | RLS intent without SQL                    | CRM TS / AUTH TS                | Correct for this phase                     | Implement only PLANNED        | No                               | No              |
+| P1-03 | Audit insert privilege vs VIEWER spoofing | CRM TS open Q6                  | Could allow fake audit or block real audit | Human with TD-C006            | Possibly                         | **Yes**         |
+| P2-08 | No field-level security on OIB for VIEWER | Approved BD-C005                | Privacy tradeoff is explicit               | Do not invent FLS             | No                               | Already decided |
+| P2-09 | DELETE confirmation TBD                   | BD-T010                         | Destructive UX                             | Human                         | Possibly                         | **Yes**         |
 
 Could an agent implement a protected feature while bypassing
 Auth/RLS/fail-closed/audit? **Not if it follows orchestrator +

@@ -6,9 +6,6 @@ const hasAdmin = Boolean(
 const hasViewer = Boolean(
   process.env.E2E_VIEWER_EMAIL && process.env.E2E_VIEWER_PASSWORD,
 );
-const hasNoProfile = Boolean(
-  process.env.E2E_NOPROFILE_EMAIL && process.env.E2E_NOPROFILE_PASSWORD,
-);
 
 export default defineConfig({
   testDir: 'tests/e2e',
@@ -27,5 +24,5 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },
-  metadata: { hasAdmin, hasViewer, hasNoProfile },
+  metadata: { hasAdmin, hasViewer },
 });

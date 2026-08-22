@@ -32,7 +32,7 @@ Working directory: `/workspace`. SHA above.
 | TC-003 / TC-009 ADMIN shell                | SKIPPED | Admin e2e user not set. Unit `parseRole` passed. Not passed as e2e.                                       |
 | TC-004 / TC-009 VIEWER shell               | SKIPPED | Viewer e2e user not set.                                                                                  |
 | TC-005 / TC-006 logout then deny           | SKIPPED | Admin e2e user not set.                                                                                   |
-| TC-010 session without profile             | SKIPPED | `E2E_NOPROFILE_*` not set. Unit `decideAccess(true, null) === 'denied'` passed.                           |
+| AC-012 session without usable role         | passed  | Vitest `decideAccess(true, null) === 'denied'` (no Playwright TC-010)                                     |
 | gitleaks git history                       | passed  | `/tmp/gitleaks detect --source /workspace` — exit 0 — "no leaks found" (19 commits)                       |
 | `vite build`                               | passed  | `npm run build` — exit 0 (supporting; not a planned TC)                                                   |
 | Playwright overall                         | mixed   | 3 passed, 5 skipped, 0 failed (1.5s). Skipped ≠ passed.                                                   |

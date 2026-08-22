@@ -187,29 +187,12 @@ A provisioned bank employee (BD-002).
 
 The role is exactly one of ADMIN or VIEWER, not both.
 
-## TC-010: Session without usable profile is denied CRM
-
-- AC: AC-012
-- BDD: Session without usable role is denied CRM
-- Type: unit (`tests/unit/require-auth.test.ts`) and e2e (`tests/e2e/auth.spec.ts`; skip without `E2E_NOPROFILE_*`)
-- Risk: High
-- Decisions: BD-008
-
-### Preconditions
-
-An Auth session exists. There is no usable ADMIN or VIEWER profile
-for that user.
-
-### Steps
-
-1. Access protected CRM.
-
-### Expected result
-
-Protected CRM access is denied. No provisioning UI is shown.
-
 ## Not in AUTH-001
 
+- Playwright for a third Auth user without a profile (former TC-010).
+  Random/unknown credentials are TC-007. Fail-closed without a usable
+  role remains AC-012 / BD-008, verified by Vitest
+  `decideAccess(true, null)` in `tests/unit/require-auth.test.ts`.
 - Lockout, timeout, MFA, password reset
 - In-app provisioning
 - Automatic session expiration (BD-005 deferred)
