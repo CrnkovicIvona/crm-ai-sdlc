@@ -11,6 +11,23 @@
 | Format          | Prettier   | entire repo                                          |
 | Secrets         | gitleaks   | CI                                                   |
 
+## Quality bar
+
+**Now (no application `src/` on this branch):** Prettier
+(`npm run format:check`), Conventional Commits (commitlint on pull
+requests), gitleaks in CI, EditorConfig.
+
+**When application source exists:** ESLint required in CI; Vitest unit
+and integration required per test plan; Playwright e2e required per
+test plan and risk. Do not weaken or skip these jobs to obtain a green
+build.
+
+Do not add `continue-on-error: true` to required workflows. Do not
+delete assertions to pass CI.
+
+Agent constraints: `.cursor/rules/quality.mdc`. The file
+[quality.md](quality.md) is a pointer only.
+
 ## Current phase
 
 No application `src/` exists. AUTH-001 is `SPECIFIED` (not Ready).

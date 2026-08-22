@@ -13,7 +13,7 @@ Read these before starting work:
 - [docs/sdlc/definition-of-done.md](docs/sdlc/definition-of-done.md)
 - [docs/git/branching.md](docs/git/branching.md)
 - [docs/git/commits.md](docs/git/commits.md)
-- [docs/ai/guardrails.md](docs/ai/guardrails.md)
+- `.cursor/rules/ai-guardrails.mdc` (runtime; [docs/ai/README.md](docs/ai/README.md))
 
 ## Branching
 
