@@ -1,8 +1,15 @@
 # US-###: Title
 
 - Requirement: REQ-###
+- Work item:
+- Functional requirements: FR-###
 - Issue:
-- Status: Draft | Ready
+- Status: Draft | Specified | Ready (human only)
+- Owner (draft / approve):
+- Source:
+- Open Questions:
+- Approval:
+- Traceability:
 
 ## Story
 

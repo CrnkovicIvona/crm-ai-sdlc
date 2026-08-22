@@ -22,3 +22,31 @@ body:
       options: [Low, Medium, High, Critical]
     validations:
       required: true
+  - type: input
+    id: work_item
+    attributes:
+      label: Work item ID
+      description: e.g. CRM-001. Agent starts with feature-orchestrator.
+  - type: dropdown
+    id: lifecycle
+    attributes:
+      label: Lifecycle state (if known)
+      options:
+        [
+          REQUESTED,
+          REQUIREMENTS,
+          SPECIFIED,
+          READY,
+          PLANNED,
+          IN_DEVELOPMENT,
+          TESTING,
+          IN_QA,
+          RELEASED,
+        ]
+  - type: markdown
+    attributes:
+      value: |
+        Specs: functional = WHAT, technical = HOW. Do not mark Ready here
+        unless you are recording human Definition of Ready. Implementation
+        plans require Ready first. Coding requires PLANNED.
+        Process: `docs/sdlc/lifecycle.md`.

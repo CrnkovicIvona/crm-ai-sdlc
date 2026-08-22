@@ -7,7 +7,7 @@
 | `main`                               | Production. Protected. No direct development. Source for Vercel Production when connected. Changes enter only through an approved pull request merged by a human. |
 | `test`                               | Integration and QA. Feature branches merge here. CI runs here. Regression and QA happen here. Vercel Preview/QA may track this branch later.                      |
 | `release/<rel-id>`                   | Cut from test for a release. Merged into main only by a human. After that, the agent syncs it into test and deletes the branch.                                   |
-| `feature/<feature-id>-<description>` | Feature development                                                                                                                                               |
+| `feature/<feature-id>-<description>` | Feature **implementation**. Create only in state `PLANNED` (human-approved implementation plan). Spec work uses `docs/`.                                          |
 | `bugfix/<bug-id>-<description>`      | Bug fixes                                                                                                                                                         |
 | `docs/<description>`                 | Documentation only                                                                                                                                                |
 | `chore/<description>`                | Maintenance                                                                                                                                                       |

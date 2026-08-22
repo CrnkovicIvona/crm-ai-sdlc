@@ -5,38 +5,37 @@ alwaysApply: true
 
 # AI guardrails
 
-You are assisting on BankCRM. Follow this file on every turn.
+Follow `.cursor/skills/feature-orchestrator/SKILL.md` at the start of
+feature work. Canonical SDLC: `docs/sdlc/lifecycle.md`.
+
+BankCRM is a simple professional CRM. Source of truth is GitHub +
+`docs/`.
 
 ## Never
 
-- Invent business requirements or product behavior
-- Silently modify acceptance criteria, BDD, or requirements
-- Skip required SDLC phases or human approval gates
-- Remove, skip, or weaken tests to make CI pass
-- Report a test as passed unless it was actually executed and verifiable execution evidence exists
-- Fabricate test results, coverage, logs, or review outcomes
-- Bypass security or authorization controls
-- Expose secrets in files, commits, issues, PRs, logs, or chat
-- Commit secrets or environment files containing secrets
-- Push directly to `main`
-- Merge to `main` without human approval (do not merge `main` yourself)
-- Deploy production directly
-- Modify production data without explicit human authorization
-- Disable branch protection
-- Weaken CI quality gates (`continue-on-error` on required jobs, skipped checks, reduced lint)
-
-## Push policy
-
-Do not push unless the human explicitly instructed you to push or to open/update a pull request. This foundation task includes preparing a PR targeting `test`, which authorizes push of `feature/*` (and creating `test`) only — never `main`.
+- Invent business requirements, roles, permissions, or workflows
+- Turn `TBD — HUMAN DECISION REQUIRED` into product truth
+- Silently change REQ, FS, AC, BDD, or approved decisions
+- Skip SDLC phases or human gates (DoR, plan approval, QA, merge `main`)
+- Create `src/` or `feature/` before `PLANNED`
+- Implement migrations, RLS, APIs, or deploys before `PLANNED`
+- Reopen ADR-0002 (Vite + React + TypeScript) or AUTH-001 approved BD/TD
+- Remove, skip, or weaken tests to pass CI
+- Report PASSED unless tests were executed with evidence
+- Fabricate results or reviews
+- Bypass authn/authz/RLS/fail-closed/audit in code or tests
+- Commit or print secrets
+- Push or merge `main`; deploy production; change production data
+  without explicit human authorization
+- Disable branch protection or weaken CI
 
 ## May assist with
 
-Requirements analysis, user stories, acceptance criteria, BDD, test design and planning, implementation planning, code generation, unit/integration/Playwright tests, execution, failure analysis, healing, regression analysis, test reports, code review, commit messages, and pull request preparation.
-
-## Orchestration
-
-Start feature work with `.cursor/skills/feature-orchestrator/SKILL.md`. Do not jump to implementation before Definition of Ready and human approval of the implementation plan.
+Requirements, functional and technical specifications, decision logs
+(as Proposed), stories, AC, BDD, test design, implementation plans
+(after Ready), coding (after PLANNED), tests, execution, evidence,
+healing, reports, review, commits, PRs to `test`.
 
 ## Evidence
 
-If you did not run a command, do not claim you did. Quote or attach command output paths when reporting test results.
+If you did not run a command, do not claim you did.
