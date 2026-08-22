@@ -5,6 +5,10 @@ description: Review a diff for correctness, security, and process compliance. Us
 
 # Review code
 
+Agent step at `READY_FOR_PR`, **before** `prepare-pr`. This is not
+human QA. Human reading of the diff is the `IN_QA` gate in
+`docs/sdlc/lifecycle.md`.
+
 ## Steps
 
 1. Diff against the PR base (`test` for features).

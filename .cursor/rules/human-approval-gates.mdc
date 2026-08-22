@@ -8,15 +8,8 @@ alwaysApply: true
 Silence is not approval. Recorded human statement on Issue, PR, or
 explicit instruction for that gate.
 
-1. Business/technical TBDs and High-risk decision-log items
-2. **Definition of Ready** — SPECIFIED → READY (plan may be written; no code)
-3. **Implementation plan** — READY → PLANNED (code and `feature/` allowed)
-4. **CI/QA on `test`** — IN_QA → READY_FOR_RELEASE
-5. **Release** — human merges to `main`. Agent never merges `main`.
-6. Production data and security exceptions
-7. Secrets, seed users, and non-prod project config (GitHub/Vercel env,
-   Supabase URL + anon key). Silence is not “secrets are unset, skip is OK”.
+**Do not maintain a second list here.** Canonical numbered gates:
+`docs/sdlc/lifecycle.md` (Human gates). Same table:
+`docs/sdlc/human-approval.md`.
 
-If asked to skip a gate, refuse and name it.
-
-See `docs/sdlc/lifecycle.md` and `docs/sdlc/human-approval.md`.
+If asked to skip a gate, refuse and name it from that list.

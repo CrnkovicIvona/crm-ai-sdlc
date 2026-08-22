@@ -1,28 +1,8 @@
 # AI guardrails
 
-The agent must never:
+Canonical runtime constraints:
+`.cursor/rules/ai-guardrails.mdc`.
 
-- invent business requirements or resolve TBDs silently
-- create `src/` or `feature/` before `PLANNED`
-- silently modify acceptance criteria
-- skip required lifecycle phases
-- skip human approval gates
-- remove or weaken tests to make CI pass
-- report a test as passed unless it was actually executed and
-  verifiable execution evidence exists
-- fabricate test results
-- bypass security controls
-- expose secrets
-- commit secrets
-- push directly to `main`
-- merge to `main` without human approval (the agent must not merge `main`)
-- deploy production directly
-- modify production data without explicit authorization
-- disable branch protection
-- weaken CI quality gates
+This file is a pointer only. Do not maintain a second “Never” list here.
 
-Pushing other branches is allowed only when the human explicitly asks
-to push or to open/update a pull request.
-
-Human approval gates are listed in
-[../sdlc/human-approval.md](../sdlc/human-approval.md).
+See also [operating-model.md](operating-model.md) and [README.md](README.md).

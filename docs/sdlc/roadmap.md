@@ -5,14 +5,19 @@ agentic SDLC. GitHub + `docs/` are the source of truth.
 
 ## Increments (do not reorder)
 
-1. **AUTH-001** — login, roles, logout, fail-closed access. State:
-   **`IN_QA`** (implementation on PR targeting `test`; live Auth e2e
-   SKIPPED without secrets).
-   Plan: [../features/AUTH-001/implementation-plan.md](../features/AUTH-001/implementation-plan.md).
-   `docs/requirements/` and related AUTH-001 files. Do not migrate
-   those into `docs/features/` without an explicit docs task.
-2. **CRM-001** — Client entity only. Paths:
-   `docs/features/CRM-001/`. Authorization reuses AUTH-001
+| ID       | Meaning                                   | Spec location                                     | State                                    |
+| -------- | ----------------------------------------- | ------------------------------------------------- | ---------------------------------------- |
+| AUTH-001 | Login, roles, logout, fail-closed access  | `docs/requirements/REQ-001.md` and AUTH-001 specs | **`IN_QA`** (PR targeting `test`)        |
+| CRM-001  | Client entity, authorization, audit trail | [../features/CRM-001/](../features/CRM-001/)      | `SPECIFIED` (not Ready; not implemented) |
+| DASH-001 | Dashboard after Clients exist             | Not specified                                     | Not started                              |
+
+1. **AUTH-001** — paths stay under `docs/requirements/` and related
+   AUTH-001 files. Plan:
+   [../features/AUTH-001/implementation-plan.md](../features/AUTH-001/implementation-plan.md).
+   Live Auth e2e is **SKIPPED** without secrets (skipped ≠ passed).
+   Do not migrate AUTH-001 into `docs/features/` without an explicit
+   docs task.
+2. **CRM-001** — Client entity only. Authorization reuses AUTH-001
    (ADMIN write, VIEWER read/search). Audit trail is **in** CRM-001.
 3. **DASH-001** — simple statistics **after** Clients exist. Do not
    specify or implement until CRM-001 is accepted for planning.

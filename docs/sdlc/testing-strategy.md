@@ -11,6 +11,21 @@
 | Format          | Prettier   | entire repo                                          |
 | Secrets         | gitleaks   | CI                                                   |
 
+## Quality bar
+
+**Now (`src/` present for AUTH-001):** Prettier
+(`npm run format:check`), Conventional Commits (commitlint on pull
+requests), gitleaks in CI, EditorConfig, required ESLint, Vitest, and
+Playwright per test plan and risk. Do not weaken or skip these jobs
+to obtain a green build. Credentialed e2e SKIPPED without secrets is
+not PASSED.
+
+Do not add `continue-on-error: true` to required workflows. Do not
+delete assertions to pass CI.
+
+Agent constraints: `.cursor/rules/quality.mdc`. The file
+[quality.md](quality.md) is a pointer only.
+
 ## Current phase
 
 AUTH-001 is **`IN_QA`**: Vite + React `src/` exists. Vitest and
