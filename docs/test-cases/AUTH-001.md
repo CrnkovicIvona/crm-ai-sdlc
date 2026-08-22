@@ -1,13 +1,15 @@
 # AUTH-001 test cases
 
 Issue: [#5](https://github.com/CrnkovicIvona/crm-ai-sdlc/issues/5). Risk: High (authentication / authorization).
-Automation: `not automated` (no application yet).
+Automation: `tests/e2e/auth.spec.ts`, `tests/e2e/roles.spec.ts`,
+`tests/unit/errors.test.ts`, `tests/unit/require-auth.test.ts`.
+Live-auth Playwright cases skip without `E2E_*` (SKIPPED ≠ PASSED).
 
 ## TC-001: Logged-in employee may access CRM
 
 - AC: AC-001, AC-008
 - BDD: Authenticated employee can access the CRM; email and password
-- Type: e2e (when an app exists); until then manual / not executed
+- Type: e2e (`tests/e2e/auth.spec.ts`; skip without `E2E_ADMIN_*`)
 - Risk: High
 
 ### Preconditions
@@ -27,7 +29,7 @@ Access is allowed.
 
 - AC: AC-002, AC-003
 - BDD: Accessing the CRM requires login; unauthenticated cannot access
-- Type: e2e (when an app exists)
+- Type: e2e (`tests/e2e/`)
 - Risk: High
 
 ### Preconditions
@@ -46,7 +48,7 @@ Access is denied.
 
 - AC: AC-004
 - BDD: ADMIN has permitted read and write
-- Type: e2e (when an app exists)
+- Type: e2e (`tests/e2e/`)
 - Risk: High
 
 ### Preconditions
@@ -68,7 +70,7 @@ authorization model is still AC-004.
 
 - AC: AC-005
 - BDD: VIEWER has read-only access
-- Type: e2e (when an app exists)
+- Type: e2e (`tests/e2e/`)
 - Risk: High
 
 ### Preconditions
@@ -89,7 +91,7 @@ resources exist.
 
 - AC: AC-006
 - BDD: Authenticated user can log out
-- Type: e2e (when an app exists)
+- Type: e2e (`tests/e2e/`)
 - Risk: High
 
 ### Preconditions
@@ -108,7 +110,7 @@ The employee is no longer authenticated.
 
 - AC: AC-007
 - BDD: After logout CRM access is denied
-- Type: e2e (when an app exists)
+- Type: e2e (`tests/e2e/`)
 - Risk: High
 
 ### Preconditions
@@ -127,7 +129,7 @@ Access is denied until the employee authenticates again (BD-007).
 
 - AC: AC-009
 - BDD: Failed authentication is generic
-- Type: e2e (when an app exists)
+- Type: e2e (`tests/e2e/`)
 - Risk: High
 - Decisions: BD-004
 
@@ -149,7 +151,7 @@ authenticated. Lockout is not required.
 
 - AC: AC-010
 - BDD: Unauthenticated person may use only the login surface
-- Type: e2e (when an app exists)
+- Type: e2e (`tests/e2e/`)
 - Risk: High
 - Decisions: BD-007
 
@@ -169,7 +171,7 @@ Only the login surface is available. CRM functionality is not.
 
 - AC: AC-011
 - BDD: Employee has exactly one role
-- Type: integration or e2e (when an app exists)
+- Type: unit (`tests/unit/require-auth.test.ts`) and e2e (`tests/e2e/roles.spec.ts`; skip without seed)
 - Risk: High
 - Decisions: BD-003
 
@@ -189,7 +191,7 @@ The role is exactly one of ADMIN or VIEWER, not both.
 
 - AC: AC-012
 - BDD: Session without usable role is denied CRM
-- Type: e2e or integration (when an app exists)
+- Type: unit (`tests/unit/require-auth.test.ts`) and e2e (`tests/e2e/auth.spec.ts`; skip without `E2E_NOPROFILE_*`)
 - Risk: High
 - Decisions: BD-008
 

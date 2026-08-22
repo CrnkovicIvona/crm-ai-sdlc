@@ -7,7 +7,8 @@
 - Spec PR: [#6](https://github.com/CrnkovicIvona/crm-ai-sdlc/pull/6)
 - Decisions: [AUTH-001-decisions.md](../../decisions/AUTH-001-decisions.md)
   (TD-001–TD-008 **APPROVED**)
-- Status: Specified (not Definition of Ready; not implemented)
+- Status: **IN_QA** (PR to `test`; live Auth e2e SKIPPED without secrets).
+- Implementation plan (draft): [../../features/AUTH-001/implementation-plan.md](../../features/AUTH-001/implementation-plan.md)
 - Author: Agent; technical decisions recorded from human approval
   2026-08-21
 
@@ -59,7 +60,8 @@ key. Service role key must never ship in the client
 | Access gate    | React Router: public login, protected CRM         | TD-002, TD-005 |
 | Role-aware UI  | UX for BD-006; not the security boundary          | TD-005         |
 
-Physical file paths belong in the implementation plan after Ready.
+Physical paths: see
+[implementation-plan.md](../../features/AUTH-001/implementation-plan.md).
 
 ### Request / data flow
 
@@ -371,4 +373,8 @@ Resolved: former items 1–3, 5–7 (TD-001–TD-008, BD-001, BD-008).
 | TDE-007 | FR-004, FR-005, FR-011                 | RLS design for `profiles` and future CRM data (TD-005) |
 | TDE-008 | FR-001–FR-013                          | Playwright TC-001–TC-010 (test architecture)           |
 
-Implementation: none. No `src/`.
+Implementation: Vite + React under `src/` (ADR-0002). Auth client:
+`src/lib/supabase.ts`, `src/lib/auth.ts`, `src/lib/profile.ts`. Guards:
+`src/lib/access.ts`, `src/auth/RequireAuth.tsx`. Tests:
+`tests/unit/`, `tests/e2e/auth.spec.ts`, `tests/e2e/roles.spec.ts`.
+SQL: `supabase/migrations/20260822150000_profiles.sql` (non-prod).

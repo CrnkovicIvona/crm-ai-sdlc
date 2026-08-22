@@ -5,7 +5,7 @@
 - Decisions: BD-001–BD-008 approved
 - Work item: AUTH-001
 - Issue: [#5](https://github.com/CrnkovicIvona/crm-ai-sdlc/issues/5)
-- Status: Specified (not Ready)
+- Status: **IN_QA** (PR to `test`; live Auth e2e SKIPPED without secrets).
 
 Do not add behavior that is not in REQ-001 or approved BD-\* items.
 
