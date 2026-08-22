@@ -1,5 +1,12 @@
 # Feature: <title>
 
+- Work item:
+- Status: DESIGNED (not executed)
+- Owner:
+- Source: AC-###
+- Open Questions:
+- Approval:
+- Traceability:
 - US: US-###
 - AC: AC-###
 

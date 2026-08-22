@@ -2,7 +2,8 @@
 
 The agent must never:
 
-- invent business requirements
+- invent business requirements or resolve TBDs silently
+- create `src/` or `feature/` before `PLANNED`
 - silently modify acceptance criteria
 - skip required lifecycle phases
 - skip human approval gates

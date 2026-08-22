@@ -33,7 +33,7 @@ not invent implementation paths.
 ## Rules
 
 - Do not add matrix rows for requirements that are not in
-  `docs/requirements/` (or product truth).
+  `docs/requirements/` or `docs/features/<ID>/requirement.md`.
 - Commits, branches, and PRs should include the work item ID.
 - Automated test paths are filled only when those files exist.
 

@@ -185,6 +185,27 @@ A provisioned bank employee (BD-002).
 
 The role is exactly one of ADMIN or VIEWER, not both.
 
+## TC-010: Session without usable profile is denied CRM
+
+- AC: AC-012
+- BDD: Session without usable role is denied CRM
+- Type: e2e or integration (when an app exists)
+- Risk: High
+- Decisions: BD-008
+
+### Preconditions
+
+An Auth session exists. There is no usable ADMIN or VIEWER profile
+for that user.
+
+### Steps
+
+1. Access protected CRM.
+
+### Expected result
+
+Protected CRM access is denied. No provisioning UI is shown.
+
 ## Not in AUTH-001
 
 - Lockout, timeout, MFA, password reset

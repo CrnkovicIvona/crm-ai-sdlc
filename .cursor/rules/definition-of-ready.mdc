@@ -5,31 +5,20 @@ alwaysApply: true
 
 # Definition of Ready
 
-Definition of Ready is **necessary but not sufficient** for application
-code. See `docs/sdlc/definition-of-ready.md`.
+See `docs/sdlc/definition-of-ready.md` and `docs/sdlc/lifecycle.md`.
 
-Do not start implementation (`src/`) and do not create a `feature/`
-branch unless DoR is met **and** the implementation plan is
-human-approved (`PLANNED`). Ready alone does not authorize coding.
+`READY` = human accepted the spec so an **implementation plan** may
+be written. `READY` is **not** permission to create `src/` or
+`feature/`.
 
-Minimum for the DoR **gate** (SPECIFIED → READY), confirmed by a human:
+`PLANNED` = human approved the implementation plan. Only then:
+`feature/<id>-…` and application code, only as planned.
 
-- GitHub Issue exists
-- Requirements in `docs/requirements/` without invented scope
-- Functional specification in `docs/specifications/functional/`
-- User stories and acceptance criteria in `docs/user-stories/`
-- BDD in `docs/bdd/` derived from AC
-- Test cases and a risk-based test plan exist
-- Traceability rows exist (REQ → FR → US → AC → BDD → TC → TDE)
-- Technical specification in `docs/specifications/technical/`
-- Open questions marked `TBD — HUMAN DECISION REQUIRED`, not guessed
-- Human has recorded Ready on the Issue
+Blocking TBDs ⇒ not Ready. For CRM-001, validation/search/DELETE
+confirmation (BD-T001–T006, BD-T010) and audit HOW (TD-C006) remain
+open unless a human explicitly accepts them as non-blocking.
 
-Unresolved business or technical questions that would force invented
-decisions mean the item is **not Ready**.
+High risk (auth, PII, DELETE, audit): decision log + security notes.
+Do not confirm Ready yourself.
 
-Application implementation additionally requires a human-approved
-**implementation plan** (READY → PLANNED). That plan is not part of
-DoR. No `feature/` branch and no `src/` before `PLANNED`.
-
-Docs-only or chore work may use a reduced DoR documented in the issue. Still do not invent product behavior.
+DoR does not require final file trees, SQL, or implemented tests.

@@ -6,7 +6,7 @@
 - Issue: [#5](https://github.com/CrnkovicIvona/crm-ai-sdlc/issues/5)
 - Spec PR: [#6](https://github.com/CrnkovicIvona/crm-ai-sdlc/pull/6)
 - Decisions: [AUTH-001-decisions.md](../../decisions/AUTH-001-decisions.md)
-  (TD-001–TD-007 **APPROVED**)
+  (TD-001–TD-008 **APPROVED**)
 - Status: Specified (not Definition of Ready; not implemented)
 - Author: Agent; technical decisions recorded from human approval
   2026-08-21
@@ -281,17 +281,17 @@ ban on future APIs.
 
 ### Interface: read role
 
-| Field                   | Value                                                                                                                                                                                                                   |
-| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Method / type           | Supabase client SELECT on `profiles`                                                                                                                                                                                    |
-| Logical name            | `profiles.readOwnRole`                                                                                                                                                                                                  |
-| Purpose                 | ADMIN vs VIEWER (FR-003–FR-005, FR-011)                                                                                                                                                                                 |
-| Authentication required | Yes                                                                                                                                                                                                                     |
-| Authorization required  | Own profile only (logical RLS)                                                                                                                                                                                          |
-| Request parameters      | Implicit current user id                                                                                                                                                                                                |
-| Response                | `ADMIN` or `VIEWER`                                                                                                                                                                                                     |
-| Validation              | Role is exactly one of the two values                                                                                                                                                                                   |
-| Errors                  | Missing profile is an operational provisioning defect (BD-002). AUTH-001 precondition: provisioned users have a profile. Fail closed: do not grant CRM writes; do not invent a provisioning UI. Exact UX copy deferred. |
+| Field                   | Value                                                                                                     |
+| ----------------------- | --------------------------------------------------------------------------------------------------------- |
+| Method / type           | Supabase client SELECT on `profiles`                                                                      |
+| Logical name            | `profiles.readOwnRole`                                                                                    |
+| Purpose                 | ADMIN vs VIEWER (FR-003–FR-005, FR-011)                                                                   |
+| Authentication required | Yes                                                                                                       |
+| Authorization required  | Own profile only (logical RLS)                                                                            |
+| Request parameters      | Implicit current user id                                                                                  |
+| Response                | `ADMIN` or `VIEWER`                                                                                       |
+| Validation              | Role is exactly one of the two values                                                                     |
+| Errors                  | Missing or unusable profile/role: deny protected CRM (BD-008, FR-013). No provisioning UI. Copy deferred. |
 
 No `POST /login`.
 
@@ -322,7 +322,7 @@ No tests executed in this phase.
 | Integration      | Vitest             | Auth client; `profiles` read against non-prod or doubles (strategy in implementation plan) |
 | Data access      | Vitest             | Supabase client; not REST                                                                  |
 | Authorization    | Vitest + e2e       | ADMIN vs VIEWER; RLS when policies exist                                                   |
-| E2E              | Playwright         | TC-001–TC-009                                                                              |
+| E2E              | Playwright         | TC-001–TC-010                                                                              |
 | Static analysis  | ESLint             | When `src/` exists                                                                         |
 | Format / secrets | Prettier, gitleaks | Foundation CI                                                                              |
 
@@ -343,7 +343,7 @@ APPLICABLE**.
 
 ## Open Technical Questions
 
-Resolved: former items 1–3, 5–7 (TD-001–TD-007, BD-001).
+Resolved: former items 1–3, 5–7 (TD-001–TD-008, BD-001, BD-008).
 
 **Deferred, not blocking specification of AUTH-001:**
 
@@ -356,20 +356,19 @@ Resolved: former items 1–3, 5–7 (TD-001–TD-007, BD-001).
 5. Automatic session expiration — BD-005 deferred.
 6. Concrete RLS SQL and CRM table policies — when tables are
    implemented in `PLANNED` / future features.
-7. UX if `profiles` row is missing — fail closed; copy deferred;
-   provisioning is external (BD-002).
+7. UX copy when CRM is denied for missing profile — deferred (behavior is deny).
 
 ## Traceability
 
-| TDE     | Maps to FR                     | TD / notes                                             |
-| ------- | ------------------------------ | ------------------------------------------------------ |
-| TDE-001 | FR-001, FR-002, FR-006, FR-010 | React Router guards (TD-002, TD-005)                   |
-| TDE-002 | FR-006, FR-012, FR-009         | `signInWithPassword` (TD-003, BD-001, BD-004)          |
-| TDE-003 | FR-007, FR-008                 | `signOut` (TD-007)                                     |
-| TDE-004 | FR-002, FR-008, FR-010         | Session read (TD-007)                                  |
-| TDE-005 | FR-003, FR-004, FR-005, FR-011 | `profiles` read (TD-004)                               |
-| TDE-006 | FR-004, FR-005                 | Role-aware UI UX (TD-005); no CRM modules yet          |
-| TDE-007 | FR-004, FR-005, FR-011         | RLS design for `profiles` and future CRM data (TD-005) |
-| TDE-008 | FR-001–FR-012                  | Playwright TC-001–TC-009 (test architecture)           |
+| TDE     | Maps to FR                             | TD / notes                                             |
+| ------- | -------------------------------------- | ------------------------------------------------------ |
+| TDE-001 | FR-001, FR-002, FR-006, FR-010, FR-013 | React Router guards (TD-002, TD-005, TD-008)           |
+| TDE-002 | FR-006, FR-012, FR-009                 | `signInWithPassword` (TD-003, BD-001, BD-004)          |
+| TDE-003 | FR-007, FR-008                         | `signOut` (TD-007)                                     |
+| TDE-004 | FR-002, FR-008, FR-010                 | Session read (TD-007)                                  |
+| TDE-005 | FR-003, FR-004, FR-005, FR-011         | `profiles` read (TD-004)                               |
+| TDE-006 | FR-004, FR-005                         | Role-aware UI UX (TD-005); no CRM modules yet          |
+| TDE-007 | FR-004, FR-005, FR-011                 | RLS design for `profiles` and future CRM data (TD-005) |
+| TDE-008 | FR-001–FR-013                          | Playwright TC-001–TC-010 (test architecture)           |
 
 Implementation: none. No `src/`.

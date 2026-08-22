@@ -1,28 +1,18 @@
 ---
 name: plan-implementation
-description: Produce a technical implementation plan after Definition of Ready. Stop for human approval before coding the application.
+description: Write the implementation plan after human DoR. Stop for human approval. No coding.
 ---
 
 # Plan implementation
 
-## Rules
+Prerequisite: human DoR unless the human asked only for a **draft**
+plan (still no `src/`).
 
-- Prerequisite: artifacts for SPECIFIED **including functional and
-  technical specifications**, and human DoR unless the human
-  explicitly asked only for a draft plan.
-- The technical specification is not this plan. The plan names files
-  and rollout after Ready; it must not contradict the TS or invent
-  requirements.
-- Do not start application source until the human approves this plan (READY → PLANNED).
-- Do not invent requirements to fill design gaps; list them as blockers.
+Path: `docs/features/<ID>/implementation-plan.md` from
+`docs/plans/TEMPLATE.md`.
 
-## Steps
+The TS is not this plan. Name files, seed/out-of-band provisioning,
+migration **order**, test file paths. Do not contradict FS/TS. Do not
+invent requirements.
 
-1. Confirm DoR using `docs/sdlc/definition-of-ready.md`.
-2. Propose files, interfaces, test automation mapping, security notes, and rollout risk.
-3. Record the plan in the issue, PR description draft, or `docs/` only if the human asked for a durable doc.
-4. Stop and wait for human approval.
-
-## Done
-
-Plan is reviewable. State remains `READY` until the human approves.
+Stop until the human approves. Then state is `PLANNED`.

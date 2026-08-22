@@ -5,7 +5,7 @@
 - Issue: [#5](https://github.com/CrnkovicIvona/crm-ai-sdlc/issues/5)
 - Spec PR: [#6](https://github.com/CrnkovicIvona/crm-ai-sdlc/pull/6)
 - Decisions: [AUTH-001-decisions.md](../../decisions/AUTH-001-decisions.md)
-  (BD-001–BD-007 **APPROVED**)
+  (BD-001–BD-008 **APPROVED**)
 - Status: Specified (not Definition of Ready)
 - Author: Agent; business decisions recorded from human approval
   2026-08-21
@@ -28,7 +28,7 @@ allow an authenticated employee to end access.
 
 ## Business Context
 
-Source: Issue #5 / REQ-001, clarified by BD-001–BD-007. There is no
+Source: Issue #5 / REQ-001, clarified by BD-001–BD-008. There is no
 approved CRM business module. Role permissions apply to future CRM
 resources (BD-006); AUTH-001 does not add those resources.
 
@@ -47,6 +47,7 @@ In scope:
 - After logout, authenticate again before CRM (FR-008, BD-007)
 - Generic failure on failed authentication; no account enumeration
   (FR-009, BD-004)
+- Session without usable profile/role is denied CRM (FR-013, BD-008)
 
 Out of scope: see [Out of Scope](#out-of-scope).
 
@@ -85,6 +86,7 @@ Out of scope: see [Out of Scope](#out-of-scope).
 | FR-010 | Unauthenticated users may access only the login surface.                                                     | BD-007              |
 | FR-011 | Each employee has exactly one application role, ADMIN or VIEWER, never both at once.                         | BD-003              |
 | FR-012 | Bank employees authenticate with email and password.                                                         | BD-001              |
+| FR-013 | If a session exists but there is no usable ADMIN or VIEWER profile, protected CRM access is denied.          | BD-008              |
 
 FR-001 and FR-006 are two views of REQ-001 item 1.
 
@@ -106,6 +108,7 @@ license to add modules in this increment.
 | BR-008 | Employee/account provisioning is outside AUTH-001.                                               | BD-002          |
 | BR-009 | Failed login must not enumerate accounts.                                                        | BD-004          |
 | BR-010 | Unauthenticated access is limited to the login surface.                                          | BD-007          |
+| BR-011 | A session without a usable ADMIN or VIEWER profile is denied protected CRM access.               | BD-008          |
 
 ## Authentication Behavior
 
@@ -170,6 +173,8 @@ complexity, or failure-message wording.
 ## Access Restrictions
 
 - Unauthenticated: login surface only; no CRM (FR-002, FR-010).
+- Session without usable profile/role: deny protected CRM (FR-013,
+  BD-008).
 - Authenticated ADMIN: permitted CRM read and write (FR-004).
 - Authenticated VIEWER: permitted CRM read only (FR-005).
 
@@ -199,7 +204,7 @@ None that block specifying AUTH-001. Deferred items:
 
 ## Dependencies
 
-- REQ-001 and approved BD-001–BD-007.
+- REQ-001 and approved BD-001–BD-008.
 - Technical realization: technical specification and ADR-0001/0002.
 - No other approved CRM features.
 
@@ -219,6 +224,7 @@ None that block specifying AUTH-001. Deferred items:
 | FR-010 | BD-007            | US-002         | AC-010                 | Unauthenticated only login surface         | TC-008                 |
 | FR-011 | BD-003            | US-003         | AC-011                 | Exactly one role                           | TC-009                 |
 | FR-012 | BD-001            | US-001         | AC-008                 | Email and password login                   | TC-001, TC-007         |
+| FR-013 | BD-008            | US-002         | AC-012                 | Session without role denied CRM            | TC-010                 |
 
 Technical design: [../technical/AUTH-001.md](../technical/AUTH-001.md).
 Implementation: none.

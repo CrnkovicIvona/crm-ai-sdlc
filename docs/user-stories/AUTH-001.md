@@ -2,7 +2,7 @@
 
 - Requirement: REQ-001
 - Functional specification: `docs/specifications/functional/AUTH-001.md`
-- Decisions: BD-001–BD-007 approved
+- Decisions: BD-001–BD-008 approved
 - Work item: AUTH-001
 - Issue: [#5](https://github.com/CrnkovicIvona/crm-ai-sdlc/issues/5)
 - Status: Specified (not Ready)
@@ -29,13 +29,15 @@ password, so that I can access the application.
 
 As BankCRM, only authenticated users may access the CRM.
 
-- Functional requirements: FR-002, FR-010
+- Functional requirements: FR-002, FR-010, FR-013
 
 ### Acceptance criteria
 
 - AC-003: A person who is not authenticated cannot access the CRM.
 - AC-010: An unauthenticated person may access only the login surface
   (BD-007).
+- AC-012: A session without a usable ADMIN or VIEWER profile cannot
+  access protected CRM (BD-008).
 
 ## US-003: ADMIN and VIEWER roles
 

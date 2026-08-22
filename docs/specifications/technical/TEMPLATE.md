@@ -4,8 +4,12 @@
 - Functional specification:
 - Requirement:
 - Issue:
-- Status: Draft | Ready
-- Author:
+- Status: Draft | Specified | Ready (human only)
+- Owner (draft / approve):
+- Source:
+- Open Questions:
+- Approval:
+- Traceability:
 
 ## Architecture
 

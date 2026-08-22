@@ -3,8 +3,8 @@
 - Issue: [#5](https://github.com/CrnkovicIvona/crm-ai-sdlc/issues/5)
 - Risk level: High
 - Impact summary: Authentication and authorization. No application
-  source exists yet, so automated suites cannot run. BD-001–BD-007
-  and TD-001–TD-007 are approved.
+  source exists yet, so automated suites cannot run. BD-001–BD-008
+  and TD-001–TD-008 are approved.
 
 ## In scope
 
@@ -17,6 +17,8 @@
 - TC-007 generic failed login / no enumeration
 - TC-008 unauthenticated = login surface only
 - TC-009 exactly one role
+
+- TC-010 session without usable profile denied
 
 When an application exists, these are candidates for Playwright/e2e
 and supporting unit/integration tests (including RLS when policies
@@ -33,7 +35,7 @@ exist). They are **not executed** now.
 ## Regression pack
 
 - None for other product features (none exist)
-- After implementation: TC-001–TC-009 as the auth pack; skipping this
+- After implementation: TC-001–TC-010 as the auth pack; skipping this
   pack would require human approval (High risk)
 
 ## Environments

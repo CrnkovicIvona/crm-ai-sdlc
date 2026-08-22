@@ -1,47 +1,38 @@
 ---
 name: author-specifications
-description: Author functional and technical specifications without inventing decisions. Use after requirements (functional spec) and after traceability (technical spec), before the Definition of Ready gate.
+description: Author functional (WHAT) and technical (HOW) specifications. Functional after REQ; technical after test design. Never implement.
 ---
 
 # Author specifications
 
-Do not implement the application. Do not create `src/`, migrations,
-RLS, or endpoints.
+No `src/`, migrations, RLS SQL, or endpoints.
 
-## Functional specification (what)
+New work: `docs/features/<ID>/functional-spec.md` and
+`technical-spec.md`. AUTH-001 keeps `docs/specifications/`.
 
-Prerequisite: `docs/requirements/` for the work item.
+## Functional (what)
 
-1. Create `docs/specifications/functional/<WORK-ITEM-ID>.md` from the
-   template.
-2. Include only stated business requirements. Mark gaps
+1. Copy structure from `docs/specifications/functional/TEMPLATE.md`.
+2. Only stated/approved business rules. TBD marked
    `TBD — HUMAN DECISION REQUIRED`.
-3. Do not describe tables, RLS, frameworks, or APIs.
-4. Update traceability (REQ → FR → US when stories exist).
+3. No frameworks, tables, or APIs. May require that UI hiding is not
+   the only authorization control (database boundary) without SQL.
+4. High risk: point at the decision log; do not treat Proposed as
+   approved.
 
-For **new** work, write this **before** user stories. If stories
-already exist (AUTH-001 continuation), add the functional
-specification without restarting the lifecycle.
+## Technical (how)
 
-## Technical specification (how)
+Prerequisites: FS; ADRs; test design/traceability.
 
-Prerequisite: functional specification; existing ADRs and
-`docs/architecture/`; user stories, AC, BDD, test cases/plan, and
-traceability (orchestrator: technical spec **after** traceability).
-
-1. Create `docs/specifications/technical/<WORK-ITEM-ID>.md`.
-2. Reuse accepted ADRs. Do not replace them. Do not introduce
-   frameworks not already decided.
-3. Separate business rules (functional spec) from enforcement
-   (technical spec).
-4. If the architecture uses Supabase client access, do not invent a
-   REST API.
-5. Propose schema/RLS only as logical design. Do not apply it.
-6. Unresolved technical choices: `TBD — HUMAN DECISION REQUIRED`.
-7. Durable platform choices still go through `author-adr`.
+1. Reuse ADR-0001, ADR-0002, React Router, Supabase Auth, PostgreSQL
+   RLS, Vitest, Playwright. Do not reopen Vite vs Next.js.
+2. Reuse AUTH-001 session/roles for CRM-001; specify only new entities.
+3. Logical schema and RLS **intent** only. No migrations.
+4. No REST unless a human requires it (AUTH-001/CRM-001: Supabase
+   client).
+5. Technical TBDs marked. Durable platform → `author-adr`.
 
 ## Done
 
-Both artifacts exist, traceability includes FR and TDE/TR, state
-remains `SPECIFIED` until a **human** records Definition of Ready.
-Do not claim Ready if open questions block implementation.
+FS/TS exist for the risk class. State remains `SPECIFIED` until human
+DoR. Do not claim Ready.

@@ -7,7 +7,7 @@
 - Deciders: Human (AUTH-001 human decision update)
 - Related ADRs: [ADR-0001](../adr/0001-engineering-foundation.md),
   [ADR-0002](../adr/0002-vite-react-typescript.md)
-- Status of this log: **APPROVED** (BD-001–BD-007, TD-001–TD-007)
+- Status of this log: **APPROVED** (BD-001–BD-008, TD-001–TD-008)
 
 This file records **why** AUTH-001 decisions were made. It is not an
 ADR except where a durable platform choice was extracted to ADR-0002
@@ -98,6 +98,16 @@ of Ready.
 | Scope impact   | Public: login only. Protected: CRM.                                                                                                                                                                 |
 | Status         | **APPROVED**                                                                                                                                                                                        |
 
+### BD-008 Missing profile or role
+
+| Field          | Value                                                                                           |
+| -------------- | ----------------------------------------------------------------------------------------------- |
+| Decision ID    | BD-008                                                                                          |
+| Decision       | Access when an Auth session exists but `profiles` or a usable role does not                     |
+| Approved value | Fail closed: **deny protected CRM access**. No provisioning UI. Exact UX copy is not specified. |
+| Rationale      | High-risk authorization must not admit a session without a role. Recorded 2026-08-22.           |
+| Status         | **APPROVED**                                                                                    |
+
 ---
 
 ## Technical Decisions
@@ -178,3 +188,12 @@ of Ready.
 | Rationale      | Matches TD-003 and Vite SPA (TD-001).                                                                                    |
 | Scope impact   | No custom session store. Timeout policy remains deferred (BD-005).                                                       |
 | Status         | **APPROVED**                                                                                                             |
+
+### TD-008 Fail-closed gate
+
+| Field          | Value                                                                                                                                                                                                              |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Decision ID    | TD-008                                                                                                                                                                                                             |
+| Decision       | How BD-008 is enforced in the access gate                                                                                                                                                                          |
+| Approved value | Protected CRM routes require a usable `profiles.role` (ADMIN or VIEWER). Missing profile or unusable role → **deny protected CRM access**. Login surface may remain. Not implemented in this documentation change. |
+| Status         | **APPROVED**                                                                                                                                                                                                       |

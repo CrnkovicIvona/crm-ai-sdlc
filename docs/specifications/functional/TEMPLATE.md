@@ -3,8 +3,12 @@
 - Work item:
 - Requirement:
 - Issue:
-- Status: Draft | Ready
-- Author:
+- Status: Draft | Specified | Ready (human only)
+- Owner (draft / approve):
+- Source:
+- Open Questions: (or none; use `TBD — HUMAN DECISION REQUIRED`)
+- Approval:
+- Traceability:
 
 ## Feature
 

@@ -1,6 +1,6 @@
 # AUTH-001 BDD
 
-Derived from AUTH-001 acceptance criteria and approved BD-001–BD-007.
+Derived from AUTH-001 acceptance criteria and approved BD-001–BD-008.
 Do not invent exact error copy, SSO, or CRM modules.
 
 ## US-001 / AC-001, AC-002, AC-008
@@ -47,6 +47,12 @@ Feature: Unauthenticated access denied
     Given the person is not authenticated
     When the person uses BankCRM
     Then only the login surface is available
+
+  Scenario: Session without usable role is denied CRM
+    Given an Auth session exists
+    And there is no usable ADMIN or VIEWER profile
+    When the person accesses protected CRM
+    Then access to the CRM is denied
 ```
 
 ## US-003 / AC-004, AC-005, AC-011

@@ -5,23 +5,21 @@ alwaysApply: true
 
 # Documentation placement
 
-- Cursor rules = persistent constraints
-- Cursor skills = procedures for a specific activity
-- `docs/sdlc/` = lifecycle orchestration
-- `docs/product/` = business/product truth (do not invent)
-- `docs/requirements/` = business requirements
-- `docs/specifications/functional/` = what the feature must do
-- `docs/specifications/technical/` = how it will be implemented in the existing architecture
-- `docs/user-stories/`, `bdd/` = stories, AC, Gherkin
-- `docs/test-*` and `docs/bugs/` = QA artifacts
-- `docs/architecture/` and `docs/adr/` = durable platform decisions
-- `docs/decisions/` = work-item decision logs (proposed until a human accepts them; not a substitute for ADRs)
-- `docs/ai/` = AI operating model
-- `src/` = application implementation (does not exist in ENG-001)
-- `.github/workflows/` = CI automation
+Canonical process: `docs/sdlc/lifecycle.md` (do not invent a second
+lifecycle).
 
-Do not mix business rules into the technical specification or
-implementation choices into the functional specification.
+- `.cursor/rules/` = constraints
+- `.cursor/skills/` = procedures; start with `feature-orchestrator`
+- `docs/sdlc/` = lifecycle, DoR, DoD, risk, artifacts, change-control, roadmap
+- `docs/product/` = product truth pointers
+- `docs/features/<ID>/` = **new** feature packs (CRM-001+)
+- AUTH-001 stays on existing `docs/requirements|specifications|user-stories|bdd|test-*|decisions` paths
+- `docs/adr/` = platform ADRs only
+- `docs/architecture/` = shared environment/architecture
+- `docs/plans/TEMPLATE.md` = implementation plan template
+- `src/` = application (not before PLANNED)
 
-Do not put process rules only in chat. Update the canonical file.
-Do not treat example IDs in templates as real BankCRM features.
+FS = WHAT. TS = HOW. ADR = WHY (platform). Plan = EXACTLY what files
+change. Decision log = feature BD/TD until human accepts.
+
+Unknowns: `TBD — HUMAN DECISION REQUIRED`.

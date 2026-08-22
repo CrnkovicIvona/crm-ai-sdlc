@@ -1,22 +1,12 @@
 ---
 name: author-bdd
-description: Write Gherkin scenarios from acceptance criteria. Use after AC exist and before test planning.
+description: Write Gherkin from acceptance criteria. After AC, before test cases. Medium+ risk; required for High.
 ---
 
 # Author BDD
 
-## Rules
+New work: `docs/features/<ID>/bdd.md`.
 
-- Derive scenarios only from AC.
-- Do not add Given/When/Then steps that imply unstated product rules.
-- Tag scenarios with US/AC IDs.
+Derive only from AC. Do not invent rules in Given/When/Then.
 
-## Steps
-
-1. Read user stories and AC.
-2. Add `docs/bdd/<id>.feature.md` (or `.feature` when the app exists) from the template.
-3. Map each scenario to AC in the traceability matrix.
-
-## Done
-
-Each AC has at least one scenario, or an explicit documented exception approved by the human.
+Each AC has a scenario or a human-approved exception.
