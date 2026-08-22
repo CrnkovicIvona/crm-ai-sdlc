@@ -173,7 +173,7 @@ role in the client.
 
 ## Human next step
 
-Plan is **Approved** (`PLANNED`). Application source is
-**`IN_DEVELOPMENT`** on this branch.
+Plan is **Approved** (`PLANNED`). Implementation is on this branch;
+test report: [docs/test-reports/AUTH-001.md](../../test-reports/AUTH-001.md).
 
 This change includes application source after plan approval.

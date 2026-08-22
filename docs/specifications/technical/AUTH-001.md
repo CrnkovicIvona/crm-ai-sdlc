@@ -7,7 +7,7 @@
 - Spec PR: [#6](https://github.com/CrnkovicIvona/crm-ai-sdlc/pull/6)
 - Decisions: [AUTH-001-decisions.md](../../decisions/AUTH-001-decisions.md)
   (TD-001–TD-008 **APPROVED**)
-- Status: **IN_DEVELOPMENT**.
+- Status: **IN_QA** (PR to `test`; live Auth e2e SKIPPED without secrets).
 - Implementation plan (draft): [../../features/AUTH-001/implementation-plan.md](../../features/AUTH-001/implementation-plan.md)
 - Author: Agent; technical decisions recorded from human approval
   2026-08-21

@@ -6,8 +6,8 @@ agentic SDLC. GitHub + `docs/` are the source of truth.
 ## Increments (do not reorder)
 
 1. **AUTH-001** — login, roles, logout, fail-closed access. State:
-   **`IN_DEVELOPMENT`** (plan approved on Issue #5; `src/` on the
-   implementation branch).
+   **`IN_QA`** (implementation on PR targeting `test`; live Auth e2e
+   SKIPPED without secrets).
    Plan: [../features/AUTH-001/implementation-plan.md](../features/AUTH-001/implementation-plan.md).
    `docs/requirements/` and related AUTH-001 files. Do not migrate
    those into `docs/features/` without an explicit docs task.

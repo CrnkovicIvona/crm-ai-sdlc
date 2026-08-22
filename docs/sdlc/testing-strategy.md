@@ -13,10 +13,12 @@
 
 ## Current phase
 
-AUTH-001 is **`IN_DEVELOPMENT`**: Vite + React `src/` exists. Vitest
-always runs. Playwright unauthenticated cases run without secrets;
-live Auth cases are **SKIPPED** until `E2E_*` / `VITE_SUPABASE_*`
-are set (skipped ≠ passed). CRM-001 remains specified only.
+AUTH-001 is **`IN_QA`**: Vite + React `src/` exists. Vitest and
+unauthenticated Playwright ran on SHA `b7f181e` (see
+[docs/test-reports/AUTH-001.md](../test-reports/AUTH-001.md)). Live
+Auth Playwright cases remain **SKIPPED** until `E2E_*` /
+`VITE_SUPABASE_*` are set (skipped ≠ passed). CRM-001 remains
+specified only.
 
 CI must report each suite as one of:
 
