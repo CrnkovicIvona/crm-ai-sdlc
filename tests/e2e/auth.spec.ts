@@ -1,5 +1,9 @@
 import { test, expect } from '@playwright/test';
-import { expectCrmAfterLogin, submitLogin } from './login';
+import {
+  expectCrmAfterLogin,
+  expectDeniedAfterLogin,
+  submitLogin,
+} from './login';
 
 const hasAdmin = Boolean(
   process.env.E2E_ADMIN_EMAIL && process.env.E2E_ADMIN_PASSWORD,
@@ -68,9 +72,6 @@ test('TC-010 session without profile is denied CRM', async ({ page }) => {
     process.env.E2E_NOPROFILE_EMAIL!,
     process.env.E2E_NOPROFILE_PASSWORD!,
   );
-  await expect(page.getByTestId('access-denied')).toBeVisible({
-    timeout: 15_000,
-  });
-  await expect(page.getByTestId('crm-shell')).toHaveCount(0);
+  await expectDeniedAfterLogin(page);
   await expect(page.getByRole('button', { name: /provision/i })).toHaveCount(0);
 });
