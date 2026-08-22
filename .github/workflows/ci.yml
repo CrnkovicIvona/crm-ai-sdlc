@@ -37,6 +37,8 @@ jobs:
           cache: npm
       - run: npm ci
       - uses: wagoid/commitlint-github-action@v6
+        with:
+          configFile: ./commitlint.config.js
 
   gitleaks:
     name: Secret scan
