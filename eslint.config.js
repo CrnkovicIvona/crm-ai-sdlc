@@ -11,7 +11,7 @@ export default tseslint.config(
       'playwright-report',
       'test-results',
       'node_modules',
-      'commitlint.config.js',
+      'commitlint.config.mjs',
     ],
   },
   eslint.configs.recommended,
