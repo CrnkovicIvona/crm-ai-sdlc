@@ -45,7 +45,7 @@ Start feature work with `.cursor/skills/feature-orchestrator/SKILL.md`.
 | `docs/product/`                           | Product truth pointers                        |
 | `docs/requirements/` through `docs/bugs/` | AUTH-001 and shared QA artifacts              |
 | `docs/architecture/` and `docs/adr/`      | Technical context and decisions               |
-| `docs/ai/`                                | AI operating model and guardrails             |
+| `docs/ai/`                                | AI operating model; guardrails live in rules  |
 | `tests/`                                  | Reserved for unit, integration, and e2e tests |
 | `.github/`                                | Issue/PR templates and CI                     |
 

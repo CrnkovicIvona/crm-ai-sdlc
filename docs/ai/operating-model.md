@@ -38,4 +38,6 @@ code review, commit messages, PR preparation.
 
 ## Forbidden
 
-See [guardrails.md](guardrails.md) and `.cursor/rules/ai-guardrails.mdc`.
+See [README.md](README.md). Runtime guardrails:
+`.cursor/rules/ai-guardrails.mdc`. Do not duplicate that list in
+[guardrails.md](guardrails.md).
