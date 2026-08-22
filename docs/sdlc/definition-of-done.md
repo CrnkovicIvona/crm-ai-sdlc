@@ -15,7 +15,7 @@ Distinguish: **Implemented** | **Tests executed** | **PASSED** |
 - [ ] Out-of-scope tests are **not executed**, never passed
 - [ ] Risk-based regression executed with evidence (High: pack cannot be skipped without human)
 - [ ] Security review at required level (`docs/sdlc/security-review.md`)
-- [ ] Code review completed
+- [ ] Code review completed (agent `review-code` before the PR; human reads the diff as part of QA on `test` — not a separate lifecycle state)
 - [ ] CI green without weakened gates (SKIPPED ≠ PASSED)
 - [ ] PR merged to `test` (agent does not merge `main`)
 - [ ] Human QA/acceptance for release
