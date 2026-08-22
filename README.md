@@ -74,7 +74,9 @@ npm run test:e2e
 
 Credentialed Playwright cases (TC-001, TC-003–TC-006, TC-009–TC-010)
 need `E2E_*` and `VITE_SUPABASE_*` env vars. Without them those tests
-are **skipped**, not passed.
+are **skipped**, not passed. Live Auth that reaches `/access-denied`
+usually means the Auth user has no `public.profiles` row with
+`ADMIN` or `VIEWER`.
 
 Unauthenticated e2e (TC-002, TC-007, TC-008) run without secrets.
 

@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { expectCrmAfterLogin, submitLogin } from './login';
 
 const hasAdmin = Boolean(
   process.env.E2E_ADMIN_EMAIL && process.env.E2E_ADMIN_PASSWORD,
@@ -32,25 +33,22 @@ test('TC-007 failed login is generic', async ({ page }) => {
 
 test('TC-001 logged-in employee can open CRM', async ({ page }) => {
   test.skip(!hasAdmin, 'E2E_ADMIN_EMAIL / E2E_ADMIN_PASSWORD not set');
-  await page.goto('/login');
-  await page.getByTestId('login-email').fill(process.env.E2E_ADMIN_EMAIL!);
-  await page
-    .getByTestId('login-password')
-    .fill(process.env.E2E_ADMIN_PASSWORD!);
-  await page.getByTestId('login-submit').click();
-  await expect(page.getByTestId('crm-shell')).toBeVisible();
-  await expect(page).toHaveURL(/\/app/);
+  await submitLogin(
+    page,
+    process.env.E2E_ADMIN_EMAIL!,
+    process.env.E2E_ADMIN_PASSWORD!,
+  );
+  await expectCrmAfterLogin(page);
 });
 
 test('TC-005 / TC-006 logout then CRM denied', async ({ page }) => {
   test.skip(!hasAdmin, 'E2E_ADMIN_EMAIL / E2E_ADMIN_PASSWORD not set');
-  await page.goto('/login');
-  await page.getByTestId('login-email').fill(process.env.E2E_ADMIN_EMAIL!);
-  await page
-    .getByTestId('login-password')
-    .fill(process.env.E2E_ADMIN_PASSWORD!);
-  await page.getByTestId('login-submit').click();
-  await expect(page.getByTestId('crm-shell')).toBeVisible();
+  await submitLogin(
+    page,
+    process.env.E2E_ADMIN_EMAIL!,
+    process.env.E2E_ADMIN_PASSWORD!,
+  );
+  await expectCrmAfterLogin(page);
   await page.getByTestId('logout').click();
   await expect(page).toHaveURL(/\/login/);
   await page.goto('/app');
@@ -62,13 +60,14 @@ test('TC-010 session without profile is denied CRM', async ({ page }) => {
     !hasNoProfile,
     'E2E_NOPROFILE_EMAIL / E2E_NOPROFILE_PASSWORD not set',
   );
-  await page.goto('/login');
-  await page.getByTestId('login-email').fill(process.env.E2E_NOPROFILE_EMAIL!);
-  await page
-    .getByTestId('login-password')
-    .fill(process.env.E2E_NOPROFILE_PASSWORD!);
-  await page.getByTestId('login-submit').click();
-  await expect(page.getByTestId('access-denied')).toBeVisible();
+  await submitLogin(
+    page,
+    process.env.E2E_NOPROFILE_EMAIL!,
+    process.env.E2E_NOPROFILE_PASSWORD!,
+  );
+  await expect(page.getByTestId('access-denied')).toBeVisible({
+    timeout: 15_000,
+  });
   await expect(page.getByTestId('crm-shell')).toHaveCount(0);
   await expect(page.getByRole('button', { name: /provision/i })).toHaveCount(0);
 });

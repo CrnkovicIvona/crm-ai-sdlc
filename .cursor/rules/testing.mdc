@@ -10,5 +10,7 @@ alwaysApply: true
 - Playwright: e2e (when the application exists).
 - Never delete, skip, or weaken tests to pass CI.
 - Never report a test as passed unless it was actually executed and verifiable execution evidence exists (CI log, local command output, or a test report that cites that evidence).
+- Skipped tests are SKIPPED, never PASSED.
+- If a test or runtime needs human input (GitHub/Vercel secrets, seed users, Supabase URL/anon key, non-prod migration), **ask the human immediately** with exact variable names. Do not stay silent and treat skip as done.
 - `execute-tests` records evidence. `heal` diagnoses and remediates failures. Do not mix those responsibilities.
 - Do not add fake passing tests for a product that does not exist yet.

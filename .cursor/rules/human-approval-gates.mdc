@@ -14,6 +14,8 @@ explicit instruction for that gate.
 4. **CI/QA on `test`** — IN_QA → READY_FOR_RELEASE
 5. **Release** — human merges to `main`. Agent never merges `main`.
 6. Production data and security exceptions
+7. Secrets, seed users, and non-prod project config (GitHub/Vercel env,
+   Supabase URL + anon key). Silence is not “secrets are unset, skip is OK”.
 
 If asked to skip a gate, refuse and name it.
 
