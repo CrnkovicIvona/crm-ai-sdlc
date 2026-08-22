@@ -11,8 +11,10 @@ Perform a security review at the level required by risk before
 
 ## High / Critical (auth, PII, money, admin)
 
-- Authentication and session handling
-- Authorization on every sensitive operation
+- Authentication and session handling (fail-closed if profile/role missing)
+- Authorization on every sensitive operation (UI is not enough)
+- PostgreSQL RLS as data boundary; never ship service role to the client
+- Destructive operations (DELETE) and append-only audit if in scope
 - Injection (SQL, XSS, command)
 - CSRF / CORS as applicable
 - Least-privilege Supabase keys (anon vs service role never in the client)

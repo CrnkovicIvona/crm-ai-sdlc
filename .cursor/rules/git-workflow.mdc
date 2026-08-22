@@ -10,7 +10,7 @@ alwaysApply: true
 - `test` — integration / QA. Feature work merges here first.
 - `release/<rel-id>` — cut from `test` for a release. Merged into `main` only
   by human approval.
-- `feature/<feature-id>-<description>` — implementation
+- `feature/<feature-id>-<description>` — implementation **only after `PLANNED`**
 - `bugfix/<bug-id>-<description>` — fixes
 - `docs/<description>` — documentation only
 - `chore/<description>` — maintenance

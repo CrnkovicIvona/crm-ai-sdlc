@@ -1,7 +1,9 @@
 # Traceability
 
-Canonical matrix: [matrix.md](matrix.md).
+Rules and ID table: [../sdlc/traceability.md](../sdlc/traceability.md).
 
-Rules: [../sdlc/traceability.md](../sdlc/traceability.md).
+Canonical matrix data: [matrix.md](matrix.md). Include FR and TDE
+columns. Implementation stays empty until code exists.
 
-ENG-001 is process foundation and has no product REQ/US/AC rows.
+New features: [FEATURE-TEMPLATE.md](FEATURE-TEMPLATE.md) and
+`docs/features/<ID>/traceability.md`.

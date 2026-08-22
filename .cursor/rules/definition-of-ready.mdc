@@ -5,17 +5,20 @@ alwaysApply: true
 
 # Definition of Ready
 
-Do not start implementation (application code) unless DoR is met. See `docs/sdlc/definition-of-ready.md`.
+See `docs/sdlc/definition-of-ready.md` and `docs/sdlc/lifecycle.md`.
 
-Minimum:
+`READY` = human accepted the spec so an **implementation plan** may
+be written. `READY` is **not** permission to create `src/` or
+`feature/`.
 
-- GitHub Issue exists
-- Requirements in `docs/requirements/` without invented scope
-- User stories and acceptance criteria in `docs/user-stories/`
-- BDD in `docs/bdd/` derived from AC
-- Test cases and a risk-based test plan exist
-- Traceability rows exist
-- Implementation plan exists
-- Human has approved the implementation plan
+`PLANNED` = human approved the implementation plan. Only then:
+`feature/<id>-…` and application code, only as planned.
 
-Docs-only or chore work may use a reduced DoR documented in the issue. Still do not invent product behavior.
+Blocking TBDs ⇒ not Ready. For CRM-001, validation/search/DELETE
+confirmation (BD-T001–T006, BD-T010) and audit HOW (TD-C006) remain
+open unless a human explicitly accepts them as non-blocking.
+
+High risk (auth, PII, DELETE, audit): decision log + security notes.
+Do not confirm Ready yourself.
+
+DoR does not require final file trees, SQL, or implemented tests.

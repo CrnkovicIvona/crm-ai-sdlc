@@ -1,7 +1,14 @@
 # Test plan: <feature-id>
 
+- Work item:
 - Issue:
 - Risk level: Low | Medium | High | Critical
+- Status: DESIGNED | (execution later)
+- Owner:
+- Source:
+- Open Questions:
+- Approval:
+- Traceability:
 - Impact summary:
 
 ## In scope

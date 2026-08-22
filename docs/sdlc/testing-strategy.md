@@ -7,15 +7,33 @@
 | Unit            | Vitest     | `tests/unit/` (and colocated tests if later adopted) |
 | Integration     | Vitest     | `tests/integration/`                                 |
 | End-to-end      | Playwright | `tests/e2e/`                                         |
-| Static analysis | ESLint     | application source (not yet present)                 |
+| Static analysis | ESLint     | `eslint.config.js` (`src/` and repo config)          |
 | Format          | Prettier   | entire repo                                          |
 | Secrets         | gitleaks   | CI                                                   |
 
-## Current phase (ENG-001)
+## Quality bar
 
-There is **no application**. Do not add fake passing Vitest or
-Playwright tests. Foundation CI runs Prettier, commitlint, and secret
-scanning only.
+**Now (`src/` present for AUTH-001):** Prettier
+(`npm run format:check`), Conventional Commits (commitlint on pull
+requests), gitleaks in CI, EditorConfig, required ESLint, Vitest, and
+Playwright per test plan and risk. Do not weaken or skip these jobs
+to obtain a green build. Credentialed e2e SKIPPED without secrets is
+not PASSED.
+
+Do not add `continue-on-error: true` to required workflows. Do not
+delete assertions to pass CI.
+
+Agent constraints: `.cursor/rules/quality.mdc`. The file
+[quality.md](quality.md) is a pointer only.
+
+## Current phase
+
+AUTH-001 is **`IN_QA`**: Vite + React `src/` exists. Vitest and
+unauthenticated Playwright ran on SHA `b7f181e` (see
+[docs/test-reports/AUTH-001.md](../test-reports/AUTH-001.md)). Live
+Auth Playwright cases remain **SKIPPED** until `E2E_*` /
+`VITE_SUPABASE_*` are set (skipped ≠ passed). CRM-001 remains
+specified only.
 
 CI must report each suite as one of:
 
@@ -27,17 +45,11 @@ CI must report each suite as one of:
 
 NOT APPLICABLE and SKIPPED are not PASSED.
 
-## ESLint strategy (deferred configuration)
+## ESLint
 
-When `src/` is introduced:
-
-- Use ESLint flat config (`eslint.config.js`) with TypeScript and React
-  plugins appropriate to the chosen framework (see ADR 0001)
-- Wire `npm run lint` into CI as a **required** job
-- Do not enable `continue-on-error` on lint
-- Keep Prettier for formatting; avoid conflicting stylistic ESLint rules
-
-Until then, ESLint is documented only — not a fake gate.
+Flat config in `eslint.config.js` (TypeScript + React, ADR-0002).
+`npm run lint` is a required CI job when `src/` is present. Do not
+enable `continue-on-error` on lint. Prettier owns formatting.
 
 ## Execution vs healing
 

@@ -19,6 +19,8 @@
 
 - [ ] Did not invent or silently change requirements/AC
 - [ ] Human gates that apply are recorded (DoR / plan / QA)
+- [ ] Did not create `src/` or `feature/` before `PLANNED`
+- [ ] High risk: decision log + security notes (not SQL policies in spec PRs)
 - [ ] Tests reported as passed were actually executed with evidence
 - [ ] Tests not run are marked SKIPPED or NOT APPLICABLE, never passed
 - [ ] Did not weaken CI, skip required tests, or commit secrets

@@ -1,23 +1,25 @@
 ---
 name: author-user-stories
-description: Write user stories and acceptance criteria from approved requirements. Use after requirements exist and before BDD.
+description: Write user stories and acceptance criteria from the functional specification. Use after FS, before BDD.
 ---
 
 # Author user stories
 
+New work: `docs/features/<ID>/user-stories.md`.
+
 ## Rules
 
-- Every story must map to a requirement ID.
-- Acceptance criteria must be testable.
-- Do not change requirements to make stories easier. If AC would add behavior, stop and ask.
+- Map each story to FR-### and REQ.
+- AC must be testable. If an AC cannot be observed yet (e.g. no UI
+  resource), say so — do not invent modules.
+- Do not add behavior absent from FS/approved BD.
 
 ## Steps
 
-1. Read `docs/requirements/<id>.md`.
-2. Create `docs/user-stories/<id>.md` from the template.
-3. Number AC (`AC-###`) and link REQ/US IDs.
-4. Update the traceability matrix.
+1. Read FS (and REQ).
+2. Write US + AC.
+3. Update feature traceability and the matrix.
 
 ## Done
 
-Stories and AC cover the stated requirements only.
+Stories cover stated FRs only.
