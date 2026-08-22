@@ -14,10 +14,11 @@ description: Prepare a release from test to main and describe post-deploy smoke.
   PR is merged (or the agent can see `mergedAt` on the release PR). Ask
   mode cannot git-push. Silence after merge is not a skipped gate — the
   human may say “sync test”.
-- Then merge the **same release branch** into `test` (no force). Resolve
-  doc conflicts that are only lifecycle labels (`IN_QA` vs released notes)
-  to the released state. Other conflicts: stop, do not delete the branch,
-  write them in `docs/releases/<rel-id>.md`.
+- Then merge the **same release branch** into `test` **without a second
+  human PR** unless GitHub rejects the push (protected `test`). No force.
+  Resolve doc conflicts that are only lifecycle labels to the released
+  state. Other conflicts: stop, do not delete the branch, write them in
+  `docs/releases/<rel-id>.md`.
 - **Same SHA is not required** if the release was squashed for commitlint.
   Goal: `test` has the released tree plus notes; `main` stays the human
   merge. Do not reset `test` onto `main`.
