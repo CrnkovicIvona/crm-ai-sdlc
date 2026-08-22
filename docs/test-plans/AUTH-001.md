@@ -2,9 +2,9 @@
 
 - Issue: [#5](https://github.com/CrnkovicIvona/crm-ai-sdlc/issues/5)
 - Risk level: High
-- Impact summary: Authentication and authorization. No application
-  source exists yet, so automated suites cannot run. BD-001–BD-008
-  and TD-001–TD-008 are approved.
+- Impact summary: Authentication and authorization. Human DoR recorded
+  on Issue #5. Implementation plan is **draft**. No `src/` until
+  `PLANNED`. BD-001–BD-008 and TD-001–TD-008 are approved.
 
 ## In scope
 
@@ -46,10 +46,10 @@ exist). They are **not executed** now.
 
 ## Entry / exit criteria
 
-- Entry to implementation: Definition of Ready and human-approved
-  implementation plan (`PLANNED`)
-- Exit of this documentation update: approved BD/TD reflected in
-  specs and tests; human DoR **not** recorded by the agent
+- Entry to implementation: human-approved implementation plan
+  (`PLANNED`)
+- Exit of this documentation update: AUTH-001 recorded **READY**;
+  plan is Draft pending human approval on Issue #5
 
 ## Security review
 

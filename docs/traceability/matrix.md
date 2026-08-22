@@ -29,8 +29,9 @@ not listed as product TDEs.
 - TC-003/TC-004 cannot observe resource-level writes until CRM-001 is
   **implemented** (still specified under `docs/features/CRM-001/`).
 - Automated path: `not automated`.
-- Human Definition of Ready is **not** recorded for AUTH-001 or
-  CRM-001.
+- AUTH-001 human Definition of Ready **is** recorded on Issue #5.
+  Implementation plan is **Draft** (not `PLANNED`). CRM-001 DoR is
+  **not** recorded.
 - CRM-001 has no GitHub Issue yet (`docs/features/CRM-001/issue-draft.md`).
 
 Release: [REL-001](../releases/REL-001.md), [REL-002](../releases/REL-002.md).

@@ -8,11 +8,11 @@ BankCRM is a **simple professional CRM** used to demonstrate an
 agentic SDLC. A human is PO/BA. Agents draft specs, tests, and (after
 gates) code. GitHub + `docs/` are the source of truth.
 
-**There is no application source, database schema, or production
-deployment configuration yet.** AUTH-001 is `SPECIFIED` (not Ready).
-CRM-001 specifications live under `docs/features/CRM-001/` (not Ready,
-not implemented). Product behavior must come from approved requirements;
-it must not be invented.
+**There is no application source yet.** AUTH-001 is **`READY`** (DoR on
+Issue #5). Implementation plan is Draft until you approve it
+([docs/features/AUTH-001/implementation-plan.md](docs/features/AUTH-001/implementation-plan.md)).
+CRM-001 is `SPECIFIED` (not Ready, not implemented). DASH-001 waits
+until CRM-001 is accepted for planning.
 
 Canonical process: [docs/sdlc/lifecycle.md](docs/sdlc/lifecycle.md).
 Start feature work with `.cursor/skills/feature-orchestrator/SKILL.md`.

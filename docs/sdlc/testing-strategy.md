@@ -13,9 +13,9 @@
 
 ## Current phase
 
-No application `src/` exists. AUTH-001 is `SPECIFIED` (not Ready).
-CRM-001 is specified under `docs/features/CRM-001/` (not Ready, not
-implemented).
+No application `src/` exists. AUTH-001 is **`READY`** (plan draft;
+not `PLANNED`). CRM-001 is specified under `docs/features/CRM-001/`
+(not Ready, not implemented).
 
 There is **no application**. Do not add fake passing Vitest or
 Playwright tests. Foundation CI runs Prettier, commitlint, and secret

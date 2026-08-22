@@ -6,9 +6,8 @@ Keep current files under `docs/requirements/`,
 `docs/specifications/`, `docs/user-stories/`, `docs/bdd/`,
 `docs/test-*`, `docs/decisions/AUTH-001-decisions.md`.
 
-When AUTH-001 reaches `READY`, put the implementation plan at
-`docs/features/AUTH-001/implementation-plan.md` (folder may contain
-only that file).
+Implementation plan (draft until human approval):
+[AUTH-001/implementation-plan.md](AUTH-001/implementation-plan.md).
 
 ## Future application features (canonical)
 

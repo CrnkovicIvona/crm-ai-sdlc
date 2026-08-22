@@ -6,7 +6,7 @@
 - Spec PR: [#6](https://github.com/CrnkovicIvona/crm-ai-sdlc/pull/6)
 - Decisions: [AUTH-001-decisions.md](../../decisions/AUTH-001-decisions.md)
   (BD-001–BD-008 **APPROVED**)
-- Status: Specified (not Definition of Ready)
+- Status: **READY** (human DoR on Issue #5). Not `PLANNED`. Not implemented.
 - Author: Agent; business decisions recorded from human approval
   2026-08-21
 

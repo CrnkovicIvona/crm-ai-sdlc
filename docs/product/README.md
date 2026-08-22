@@ -8,11 +8,11 @@ Roadmap order: AUTH-001 → CRM-001 → DASH-001
 
 ## Current approved product increments
 
-| ID       | Meaning                                   | Spec location                                     | State                                    |
-| -------- | ----------------------------------------- | ------------------------------------------------- | ---------------------------------------- |
-| AUTH-001 | Login, roles, logout, fail-closed access  | `docs/requirements/REQ-001.md` and AUTH-001 specs | `SPECIFIED` (not Ready)                  |
-| CRM-001  | Client entity, authorization, audit trail | [../features/CRM-001/](../features/CRM-001/)      | `SPECIFIED` (not Ready; not implemented) |
-| DASH-001 | Dashboard after Clients exist             | Not specified                                     | Not started                              |
+| ID       | Meaning                                   | Spec location                                     | State                                            |
+| -------- | ----------------------------------------- | ------------------------------------------------- | ------------------------------------------------ |
+| AUTH-001 | Login, roles, logout, fail-closed access  | `docs/requirements/REQ-001.md` and AUTH-001 specs | **`READY`** (DoR on #5; plan draft; not PLANNED) |
+| CRM-001  | Client entity, authorization, audit trail | [../features/CRM-001/](../features/CRM-001/)      | `SPECIFIED` (not Ready; not implemented)         |
+| DASH-001 | Dashboard after Clients exist             | Not specified                                     | Not started                                      |
 
 Do not invent modules, personas, or fields beyond approved decision
 logs. Unknowns: `TBD — HUMAN DECISION REQUIRED`.

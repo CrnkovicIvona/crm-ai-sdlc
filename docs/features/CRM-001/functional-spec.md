@@ -154,7 +154,7 @@ accepts them as non-blocking.
 
 ## Dependencies
 
-- AUTH-001 SPECIFIED (login, roles, fail-closed)
+- AUTH-001 **READY** (login, roles, fail-closed); not implemented until `PLANNED`
 - ADR-0002 / AUTH-001 technical platform (HOW, not WHAT)
 
 ## Traceability

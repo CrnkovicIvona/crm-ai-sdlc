@@ -5,7 +5,7 @@
 - Decisions: BD-001–BD-008 approved
 - Work item: AUTH-001
 - Issue: [#5](https://github.com/CrnkovicIvona/crm-ai-sdlc/issues/5)
-- Status: Specified (not Ready)
+- Status: **READY** (human DoR on Issue #5). Not `PLANNED`. Not implemented.
 
 Do not add behavior that is not in REQ-001 or approved BD-\* items.
 
