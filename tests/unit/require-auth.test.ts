@@ -7,7 +7,7 @@ describe('decideAccess (fail-closed)', () => {
     expect(decideAccess(false, 'ADMIN')).toBe('login');
   });
 
-  it('denies a session without a usable role (TC-010)', () => {
+  it('denies a session without a usable role (AC-012)', () => {
     expect(decideAccess(true, null)).toBe('denied');
   });
 

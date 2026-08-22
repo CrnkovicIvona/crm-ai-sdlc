@@ -28,7 +28,7 @@ and audit writes.
 
 ## Regression pack
 
-After implementation: TC-C001–TC-C019 plus AUTH-001 TC-001–TC-010.
+After implementation: TC-C001–TC-C019 plus AUTH-001 TC-001–TC-009.
 Skipping the High pack requires a human.
 
 ## Environments

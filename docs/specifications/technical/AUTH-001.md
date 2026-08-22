@@ -324,7 +324,7 @@ No tests executed in this phase.
 | Integration      | Vitest             | Auth client; `profiles` read against non-prod or doubles (strategy in implementation plan) |
 | Data access      | Vitest             | Supabase client; not REST                                                                  |
 | Authorization    | Vitest + e2e       | ADMIN vs VIEWER; RLS when policies exist                                                   |
-| E2E              | Playwright         | TC-001–TC-010                                                                              |
+| E2E              | Playwright         | TC-001–TC-009                                                                              |
 | Static analysis  | ESLint             | When `src/` exists                                                                         |
 | Format / secrets | Prettier, gitleaks | Foundation CI                                                                              |
 
@@ -362,16 +362,16 @@ Resolved: former items 1–3, 5–7 (TD-001–TD-008, BD-001, BD-008).
 
 ## Traceability
 
-| TDE     | Maps to FR                             | TD / notes                                             |
-| ------- | -------------------------------------- | ------------------------------------------------------ |
-| TDE-001 | FR-001, FR-002, FR-006, FR-010, FR-013 | React Router guards (TD-002, TD-005, TD-008)           |
-| TDE-002 | FR-006, FR-012, FR-009                 | `signInWithPassword` (TD-003, BD-001, BD-004)          |
-| TDE-003 | FR-007, FR-008                         | `signOut` (TD-007)                                     |
-| TDE-004 | FR-002, FR-008, FR-010                 | Session read (TD-007)                                  |
-| TDE-005 | FR-003, FR-004, FR-005, FR-011         | `profiles` read (TD-004)                               |
-| TDE-006 | FR-004, FR-005                         | Role-aware UI UX (TD-005); no CRM modules yet          |
-| TDE-007 | FR-004, FR-005, FR-011                 | RLS design for `profiles` and future CRM data (TD-005) |
-| TDE-008 | FR-001–FR-013                          | Playwright TC-001–TC-010 (test architecture)           |
+| TDE     | Maps to FR                             | TD / notes                                                |
+| ------- | -------------------------------------- | --------------------------------------------------------- |
+| TDE-001 | FR-001, FR-002, FR-006, FR-010, FR-013 | React Router guards (TD-002, TD-005, TD-008)              |
+| TDE-002 | FR-006, FR-012, FR-009                 | `signInWithPassword` (TD-003, BD-001, BD-004)             |
+| TDE-003 | FR-007, FR-008                         | `signOut` (TD-007)                                        |
+| TDE-004 | FR-002, FR-008, FR-010                 | Session read (TD-007)                                     |
+| TDE-005 | FR-003, FR-004, FR-005, FR-011         | `profiles` read (TD-004)                                  |
+| TDE-006 | FR-004, FR-005                         | Role-aware UI UX (TD-005); no CRM modules yet             |
+| TDE-007 | FR-004, FR-005, FR-011                 | RLS design for `profiles` and future CRM data (TD-005)    |
+| TDE-008 | FR-001–FR-013                          | Playwright TC-001–TC-009; AC-012 unit (test architecture) |
 
 Implementation: Vite + React under `src/` (ADR-0002). Auth client:
 `src/lib/supabase.ts`, `src/lib/auth.ts`, `src/lib/profile.ts`. Guards:
