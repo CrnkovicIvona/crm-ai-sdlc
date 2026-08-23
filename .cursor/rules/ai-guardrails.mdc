@@ -28,6 +28,10 @@ BankCRM is a simple professional CRM. Source of truth is GitHub +
 - Push or merge `main`; deploy production; change production data
   without explicit human authorization
 - Disable branch protection or weaken CI
+- Claim `RELEASED` or Done because code was merged to `main`
+  (that is `ON_MAIN` until production smoke PASSED and docs/traceability
+  on `main` match)
+- Close a GitHub Issue unless `main` is `RELEASED` and DoD is met
 
 ## May assist with
 

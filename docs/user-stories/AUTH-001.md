@@ -5,7 +5,9 @@
 - Decisions: BD-001–BD-008 approved
 - Work item: AUTH-001
 - Issue: [#5](https://github.com/CrnkovicIvona/crm-ai-sdlc/issues/5)
-- Status: **IN_QA** (PR to `test`; live Auth e2e SKIPPED without secrets).
+- Status: **RELEASED** (REL-003). Production smoke 5/5 PASSED
+  2026-08-23 against `https://crm-ai-sdlc.vercel.app`. Live Auth e2e
+  without secrets is SKIPPED (skipped ≠ passed).
 
 Do not add behavior that is not in REQ-001 or approved BD-\* items.
 

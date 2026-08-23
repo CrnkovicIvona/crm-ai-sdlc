@@ -2,14 +2,15 @@
 
 ## Layers (when the application exists)
 
-| Layer           | Tool       | Location                                             |
-| --------------- | ---------- | ---------------------------------------------------- |
-| Unit            | Vitest     | `tests/unit/` (and colocated tests if later adopted) |
-| Integration     | Vitest     | `tests/integration/`                                 |
-| End-to-end      | Playwright | `tests/e2e/`                                         |
-| Static analysis | ESLint     | `eslint.config.js` (`src/` and repo config)          |
-| Format          | Prettier   | entire repo                                          |
-| Secrets         | gitleaks   | CI                                                   |
+| Layer            | Tool       | Location                                             |
+| ---------------- | ---------- | ---------------------------------------------------- |
+| Unit             | Vitest     | `tests/unit/` (and colocated tests if later adopted) |
+| Integration      | Vitest     | `tests/integration/`                                 |
+| End-to-end       | Playwright | `tests/e2e/` (local Vite; `playwright.config.ts`)    |
+| Production smoke | Playwright | `tests/smoke/` (`playwright.smoke.config.ts`)        |
+| Static analysis  | ESLint     | `eslint.config.js` (`src/` and repo config)          |
+| Format           | Prettier   | entire repo                                          |
+| Secrets          | gitleaks   | CI                                                   |
 
 ## Quality bar
 
@@ -28,12 +29,22 @@ Agent constraints: `.cursor/rules/quality.mdc`. The file
 
 ## Current phase
 
-AUTH-001 is **`IN_QA`**: Vite + React `src/` exists. Vitest and
-unauthenticated Playwright ran on SHA `b7f181e` (see
+AUTH-001 is **`RELEASED`** on **`main`** after this close-out is
+human-merged (product already on `main` via PR **#12**). Production
+smoke **PASSED** 2026-08-23: **5/5** against
+`https://crm-ai-sdlc.vercel.app` (`npm run test:smoke`, `workers: 1`;
+PO dropped former 1b). Vitest and unauthenticated Playwright ran (see
 [docs/test-reports/AUTH-001.md](../test-reports/AUTH-001.md)). Live
 Auth Playwright cases remain **SKIPPED** until `E2E_*` /
 `VITE_SUPABASE_*` are set (skipped ≠ passed). CRM-001 remains
 specified only.
+
+When a feature requirement is defined, acceptance criteria must name
+the **critical production smoke scenarios** where they apply (the
+paths that must still work after a production deploy). When Playwright
+e2e tests are created, identify and add the matching smoke tests in
+`tests/smoke/` — do not duplicate the full e2e suite. Release notes
+must reference those files and record execution results.
 
 CI must report each suite as one of:
 
@@ -66,5 +77,10 @@ do not require full e2e regression.
 
 ## Environment
 
-E2E against Vercel Preview/`test` when connected. Production smoke is
-separate and requires a production URL plus human release.
+E2E against local Vite (`npm run test:e2e`) and Vercel Preview/`test`
+when connected. Production smoke is a **separate** category: it does
+not start a webServer, requires `SMOKE_BASE_URL`, and uses documented
+test accounts via `E2E_*` secrets. Run `npm run test:smoke`. CI:
+`.github/workflows/production-smoke.yml` after Production deploy
+(`deployment_status`) or `workflow_dispatch`. Missing `SMOKE_BASE_URL`
+or `E2E_*` is **FAIL**, not SKIPPED.

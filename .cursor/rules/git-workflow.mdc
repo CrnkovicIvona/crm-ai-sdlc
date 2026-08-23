@@ -5,33 +5,48 @@ alwaysApply: true
 
 # Git workflow
 
-## Branches
-- `main` — production. Protected. No direct development. No agent commits or pushes.
+## Branches (canonical)
+
+- `main` — production. Protected. No agent commits or pushes. No `feature/*` → `main`.
 - `test` — integration / QA. Feature work merges here first.
-- `release/<rel-id>` — cut from `test` for a release. Merged into `main` only
-  by human approval.
+- `release/<rel-id>` — cut from `test`. Merged into `main` only by a human.
 - `feature/<feature-id>-<description>` — implementation **only after `PLANNED`**
 - `bugfix/<bug-id>-<description>` — fixes
 - `docs/<description>` — documentation only
 - `chore/<description>` — maintenance
+- `cursor/<description>-<id>` — compatibility alias for Cursor cloud branches.
+  Treat as `feature/` or `release/` by purpose. Prefer canonical names in new docs.
 
-Work only on a feature/bugfix/docs/chore/release branch. Never commit on `main`.
+Work only on those branch types. Never commit on `main`. Never push to `main`.
 
 ## Pull requests
+
 - Implementation PRs target `test`
-- Release PRs are `release/<rel-id>` → `main` and require human merge
+- Release PRs are `release/<rel-id>` → `main` and require **human** merge
 - Do not merge PRs to `main`
 - Do not approve your own human-required gates
 
-## Release merges
-After a human merges `release/<rel-id>` → `main`, the agent:
-1. Merges `release/<rel-id>` → `test`, so `main` and `test` match.
-2. Deletes `release/<rel-id>` — only if that merge succeeded.
+## Release → test (mechanical)
+
+After a human merges `release/<rel-id>` → `main`:
+
+1. GitHub Actions (`.github/workflows/release-sync.yml`) merges the
+   **release branch** into `test` (not `main` into `test`).
+2. Agent fallback if Actions cannot (Ask mode cannot push).
+3. Delete `release/<rel-id>` **only if** that sync succeeded.
+4. Do not treat this as product QA. A PR to `test` is only for
+   protection rejection.
 
 If the merge into `test` fails, stop. Don't force it, don't delete the
-branch. Flag it for the human.
+branch. Record the failure.
+
+Keep GitHub “delete branch on merge” **disabled** for release PRs.
+
+Merged to `main` is lifecycle `ON_MAIN`, not `RELEASED`. See
+`docs/sdlc/lifecycle.md`.
 
 ## Commits
+
 Conventional Commits with work item ID when present:
 feat(AUTH-001): implement user login
 test(AUTH-001): add login e2e tests
@@ -39,6 +54,7 @@ fix(AUTH-001): handle invalid credentials
 docs(AUTH-001): add login test plan
 
 ## Push
-Push only when the human asks to push or prepare/update a PR. Never push to
-`main`. Exception: the test-sync merge and branch deletion in "Release
-merges" — those happen automatically, no separate push request needed.
+
+Push only when the human asks to push or prepare/update a PR. Never push
+to `main`. Exception: release→test sync and release-branch deletion —
+Actions or Agent fallback, no extra product approval.
