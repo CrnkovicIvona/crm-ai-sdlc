@@ -1,6 +1,7 @@
 ## Pull request
 
-- **Target branch:** feature/bugfix/docs/chore → `test`. Release → `main` from `test` only.
+- **Target branch:** feature/bugfix/docs/chore → `test`. Release → `main`
+  from `release/<rel-id>` (never `feature/*` → `main`).
 - **Do not merge `main` as an agent.** Human merge only for production.
 
 ### Work item
@@ -27,16 +28,18 @@
 - [ ] Conventional Commits
 - [ ] Security review level appropriate to risk
 - [ ] PR targets the correct branch
+- [ ] Did not claim RELEASED unless production smoke PASSED (merge to main is ON_MAIN)
+- [ ] SKIPPED tests are not recorded as PASSED
 
 ### Test evidence
 
-| Suite      | Result                                     | Evidence |
-| ---------- | ------------------------------------------ | -------- |
-| Prettier   | PASSED / FAILED                            |          |
-| commitlint | PASSED / FAILED                            |          |
-| gitleaks   | PASSED / FAILED                            |          |
-| ESLint     | PASSED / FAILED / SKIPPED / NOT APPLICABLE |          |
-| Vitest     | PASSED / FAILED / SKIPPED / NOT APPLICABLE |          |
-| Playwright | PASSED / FAILED / SKIPPED / NOT APPLICABLE |          |
+| Suite      | Result                                 | Evidence |
+| ---------- | -------------------------------------- | -------- |
+| Prettier   | PASS / FAIL / MISSING / NOT APPLICABLE |          |
+| commitlint | PASS / FAIL / MISSING / NOT APPLICABLE |          |
+| gitleaks   | PASS / FAIL / MISSING / NOT APPLICABLE |          |
+| ESLint     | PASS / FAIL / MISSING / NOT APPLICABLE |          |
+| Vitest     | PASS / FAIL / MISSING / NOT APPLICABLE |          |
+| Playwright | PASS / FAIL / MISSING / NOT APPLICABLE |          |
 
 ### Notes

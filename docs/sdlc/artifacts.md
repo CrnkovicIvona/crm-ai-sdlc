@@ -19,23 +19,24 @@ existing paths.
 
 ## Artifacts
 
-| Artifact            | Answers                                   | Owner (draft / approve)        | Stage                  | Mandatory                                         |
-| ------------------- | ----------------------------------------- | ------------------------------ | ---------------------- | ------------------------------------------------- |
-| REQ                 | What the business asked                   | Agent BA / human               | REQUESTED–REQUIREMENTS | Always                                            |
-| Functional spec     | **WHAT** the system must do               | Agent BA / human DoR           | REQUIREMENTS           | Always for product features                       |
-| User stories        | Delivery slices                           | Agent BA / human               | SPECIFIED (after FS)   | Always except Low docs/chore                      |
-| AC                  | Testable conditions                       | Agent BA+QA / human            | with stories           | Always except Low docs/chore                      |
-| BDD                 | Gherkin of AC                             | Agent QA / human via DoR       | after AC               | Medium+; High always                              |
-| Test cases          | How to verify AC                          | Agent QA                       | after BDD              | Always for app features                           |
-| Test plan           | Risk, in/out, regression, environments    | Agent QA                       | with TCs               | Always for app features                           |
-| Traceability        | REQ→…→verification                        | Agent                          | before TS complete     | Always                                            |
-| Technical spec      | **HOW** approved WHAT fits architecture   | Agent architect / human DoR    | after test design      | App features (lightweight if Low)                 |
-| Decision log        | Feature BD/TD status                      | Agent draft / **human** accept | before DoR             | **High** (auth, PII, delete, money); optional Low |
-| ADR                 | **WHY** a durable **platform** choice     | Agent via author-adr / human   | when needed            | Only platform-wide; not every column              |
-| Implementation plan | **EXACTLY** which files/steps after Ready | Agent dev / **human** approve  | READY                  | Always before code                                |
-| DoR                 | Enough to plan without inventing          | Human                          | SPECIFIED→READY        | Always                                            |
-| DoD                 | Enough to call the work finished          | Human + evidence               | after release/QA       | Always                                            |
-| Test report         | Execution evidence                        | Agent QA                       | TESTING–READY_FOR_PR   | When tests were in scope                          |
+| Artifact            | Answers                                   | Owner (draft / approve)        | Stage                | Mandatory                                         |
+| ------------------- | ----------------------------------------- | ------------------------------ | -------------------- | ------------------------------------------------- |
+| REQ                 | What the business asked                   | Agent BA / human               | REQUESTED–SPECIFIED  | Always                                            |
+| Functional spec     | **WHAT** the system must do               | Agent BA / human DoR           | SPECIFIED            | Always for product features                       |
+| User stories        | Delivery slices                           | Agent BA / human               | SPECIFIED (after FS) | Always except Low docs/chore                      |
+| AC                  | Testable conditions                       | Agent BA+QA / human            | with stories         | Always except Low docs/chore                      |
+| BDD                 | Gherkin of AC                             | Agent QA / human via DoR       | after AC             | Medium+; High always                              |
+| Test cases          | How to verify AC                          | Agent QA                       | after BDD            | Always for app features                           |
+| Test plan           | Risk, in/out, regression, environments    | Agent QA                       | with TCs             | Always for app features                           |
+| Traceability        | REQ→…→verification                        | Agent                          | before TS complete   | Always                                            |
+| Technical spec      | **HOW** approved WHAT fits architecture   | Agent architect / human DoR    | after test design    | App features (lightweight if Low)                 |
+| Decision log        | Feature BD/TD status                      | Agent draft / **human** accept | before DoR           | **High** (auth, PII, delete, money); optional Low |
+| ADR                 | **WHY** a durable **platform** choice     | Agent via author-adr / human   | when needed          | Only platform-wide; not every column              |
+| Implementation plan | **EXACTLY** which files/steps after Ready | Agent dev / **human** approve  | READY                | Always before code                                |
+| DoR                 | Enough to plan without inventing          | Human                          | SPECIFIED→READY      | Always                                            |
+| DoD                 | Enough to call the work finished          | Human + evidence               | after `RELEASED`     | Always                                            |
+| Test report         | Execution evidence                        | Agent QA                       | TESTING–READY_FOR_PR | When tests were in scope                          |
+| Release record      | REL notes, smoke, sync                    | Agent / human merge            | READY_FOR_RELEASE+   | Application releases                              |
 
 ## Forbidden mixing
 

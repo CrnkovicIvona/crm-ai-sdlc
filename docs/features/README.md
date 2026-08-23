@@ -6,7 +6,8 @@ Keep current files under `docs/requirements/`,
 `docs/specifications/`, `docs/user-stories/`, `docs/bdd/`,
 `docs/test-*`, `docs/decisions/AUTH-001-decisions.md`.
 
-Implementation plan (**Approved**; implementation PR `IN_QA`):
+Implementation plan (**Approved**; code on `main`, lifecycle
+**`ON_MAIN`** because production smoke was not PASSED):
 [AUTH-001/implementation-plan.md](AUTH-001/implementation-plan.md).
 
 ## Future application features (canonical)
