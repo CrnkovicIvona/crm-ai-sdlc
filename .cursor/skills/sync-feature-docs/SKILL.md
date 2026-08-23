@@ -45,7 +45,8 @@ Update status and links for:
   (`git ls-tree` or equivalent). Do not list files that are absent.
 - Do **not** invent test evidence. Copy CI run URLs and counts from
   real runs.
-- SKIPPED, NOT APPLICABLE, NOT EXECUTED ≠ PASSED.
+- Evidence grades: PASS / FAIL / MISSING / NOT APPLICABLE.
+  SKIPPED, NOT APPLICABLE, NOT EXECUTED, MISSING ≠ PASSED.
 - Healing is never PASSED.
 - If smoke has not PASSED, every public status must stay `ON_MAIN`
   (or earlier). The required phrase is: **ON_MAIN — not RELEASED.**

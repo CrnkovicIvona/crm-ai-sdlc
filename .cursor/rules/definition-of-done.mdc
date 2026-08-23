@@ -13,7 +13,8 @@ Merged to `main` without production smoke PASSED is `ON_MAIN`, never
 
 Tests listed as passed must have been executed with verifiable evidence.
 Use only DESIGNED / NOT EXECUTED / EXECUTED / PASSED / FAILED / SKIPPED /
-NOT APPLICABLE / VERIFIED. SKIPPED, NOT APPLICABLE, and HEALING are
+NOT APPLICABLE / VERIFIED. Close-out checks use PASS / FAIL / MISSING /
+NOT APPLICABLE. SKIPPED, NOT APPLICABLE, MISSING, and HEALING are
 never PASSED.
 
 Docs-only changes use a reduced DoD (format, review, PR to `test`) with

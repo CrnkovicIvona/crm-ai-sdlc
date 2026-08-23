@@ -60,9 +60,46 @@ jobs:
           fi
 
       - name: Delete release branch
+        id: delete
         if: steps.sync.outputs.synced == 'true'
         env:
           RELEASE_REF: ${{ github.event.pull_request.head.ref }}
         run: |
           git push origin --delete "$RELEASE_REF"
           echo "Deleted origin/$RELEASE_REF after successful test sync." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Record sync-blocked
+        if: failure() && steps.sync.outcome != 'success'
+        continue-on-error: true
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const ref = context.payload.pull_request.head.ref
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: [
+                '**sync-blocked:** merging `' + ref + '` into `test` did not succeed.',
+                'The release branch was **not** deleted.',
+                'Do not claim synchronization succeeded.',
+                'Retry: re-run this workflow, or use the Cursor Agent fallback in `.cursor/skills/release-and-verify/SKILL.md`.',
+              ].join('\n'),
+            })
+
+      - name: Record delete-blocked
+        if: failure() && steps.sync.outputs.synced == 'true' && steps.delete.outcome != 'success'
+        continue-on-error: true
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const ref = context.payload.pull_request.head.ref
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: [
+                '**sync-blocked (delete):** `' + ref + '` was merged into `test`, but deleting the release branch failed.',
+                'Retry the delete only. Do not re-merge unless `test` is missing the release tree.',
+              ].join('\n'),
+            })

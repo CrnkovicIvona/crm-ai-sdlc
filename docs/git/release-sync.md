@@ -51,5 +51,11 @@ Never claim sync succeeded without a merge/push result on `test`.
 ## Failure
 
 - Do **not** delete the release branch
-- Record the blocker in the release document and Issue comment
+- Record **sync-blocked** (workflow comments on the release PR when
+  it can; always record in `docs/releases/<rel-id>.md` if docs are
+  being updated)
 - Report the blocking condition to the human
+- Preserve the release branch and the failed Actions log so the merge
+  can be retried
+
+Never claim sync succeeded without a merge/push result on `test`.

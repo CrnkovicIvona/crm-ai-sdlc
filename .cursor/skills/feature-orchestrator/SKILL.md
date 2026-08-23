@@ -66,8 +66,7 @@ High requires a **decision log** and security notes in TS/test plan.
 
 | State               | Next                                                                                                                    | Agent must not                                                         |
 | ------------------- | ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `REQUESTED`         | `analyze-requirements`                                                                                                  | Invent scope                                                           |
-| `REQUIREMENTS`      | Finish REQ + FS (`author-specifications`)                                                                               | Skip FS; implement                                                     |
+| `REQUESTED`         | `analyze-requirements` then `author-specifications` until the risk-class pack exists                                    | Invent scope                                                           |
 | `SPECIFIED`         | In order: stories/AC → `author-bdd` → `plan-tests` + matrix → TS; High: `author-decisions`. Then **STOP** for human DoR | Invent extra tests as product rules; implement; enter `READY` yourself |
 | `READY`             | `plan-implementation` into `docs/features/<ID>/implementation-plan.md`; **STOP**                                        | `feature/` or `src/`                                                   |
 | `PLANNED`           | Implement **only** the approved plan on `feature/<id>-…`                                                                | Expand scope                                                           |
@@ -88,7 +87,9 @@ If the user says “just implement”, refuse and name the blocking gate
 from `docs/sdlc/lifecycle.md`.
 
 Never auto-transition `ON_MAIN` → `RELEASED` because a release PR
-merged.
+merged. Invoke `sync-feature-docs` before that merge (`ON_MAIN` docs)
+and again only after smoke **PASSED** (`RELEASED` docs). Stop whenever
+a human decision is required. Do not self-approve human gates.
 
 ## Instruction “Start `<ID>`”
 

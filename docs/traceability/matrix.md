@@ -36,4 +36,5 @@ not listed as product TDEs.
   **not** recorded.
 - CRM-001 has no GitHub Issue yet (`docs/features/CRM-001/issue-draft.md`).
 
-Release: [REL-001](../releases/REL-001.md), [REL-002](../releases/REL-002.md).
+Release: [REL-001](../releases/REL-001.md), [REL-002](../releases/REL-002.md),
+[REL-003](../releases/REL-003.md) (`ON_MAIN`, smoke not PASSED).

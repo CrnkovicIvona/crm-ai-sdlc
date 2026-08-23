@@ -15,6 +15,7 @@ This table is the same set, not a competing sequence.
 | `IN_QA`                          | `READY_FOR_RELEASE`    | Human | Decision                     | CI plus QA on `test`, including reading the PR diff           |
 | `READY_FOR_RELEASE`              | `ON_MAIN`              | Human | Decision + execution         | Merge **release PR** → `main` (not `feature/*` → `main`)      |
 | `ON_MAIN`                        | `RELEASED`             | Human | Merge of docs PR if required | Only after smoke **PASSED** and `sync-feature-docs` on `main` |
+| `ON_MAIN`                        | (stay `ON_MAIN`)       | Human | Smoke exception              | Recorded skip/exception is **not** PASSED; never `RELEASED`   |
 | Issue close                      | —                      | Human | Decision + execution         | Only if `main` says `RELEASED` and DoD is met                 |
 | any                              | production data change | Human | Decision                     | Explicit authorization                                        |
 | any                              | security exception     | Human | Decision                     | Explicit authorization                                        |

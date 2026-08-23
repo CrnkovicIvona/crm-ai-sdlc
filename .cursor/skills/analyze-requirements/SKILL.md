@@ -1,6 +1,6 @@
 ---
 name: analyze-requirements
-description: Analyze a business request into requirements without inventing scope. Use when REQUESTED or REQUIREMENTS. New work goes in docs/features/<ID>/requirement.md.
+description: Analyze a business request into requirements without inventing scope. Use when REQUESTED or SPECIFIED. New work goes in docs/features/<ID>/requirement.md.
 ---
 
 # Analyze requirements

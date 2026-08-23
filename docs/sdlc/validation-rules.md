@@ -40,6 +40,22 @@ Run these before claiming a phase is complete. Canonical process:
 15. Stop and name the human gate when TBDs block DoR or when Ready/plan
     is required.
 
+## Evidence grades (never collapse)
+
+Use only these four grades for release and close-out checks. Do not
+invent a fifth success grade. Do not map other words onto PASS.
+
+| Grade              | Meaning                                                | Treat as PASS? |
+| ------------------ | ------------------------------------------------------ | -------------- |
+| **PASS**           | Condition verified with evidence                       | Yes            |
+| **FAIL**           | Condition was checked and failed                       | No             |
+| **MISSING**        | No evidence, not executed, unknown, or unrecorded      | No             |
+| **NOT APPLICABLE** | Out of scope for this change class (must be justified) | No             |
+
+SKIPPED is recorded as **MISSING** or **NOT APPLICABLE** as appropriate;
+it is never PASS. HEALING is never PASS. A closed GitHub Issue is not
+PASS for `RELEASED`.
+
 ## RELEASED / Done extra (mandatory)
 
 16. Merged to `main` without smoke PASSED is `ON_MAIN`, never `RELEASED`.
@@ -64,3 +80,6 @@ Run these before claiming a phase is complete. Canonical process:
 19. Do not close a GitHub Issue unless `main` artifact status is
     `RELEASED` and [definition-of-done.md](definition-of-done.md) is met.
     The Issue is a gate record; git is the implementation source of truth.
+    A closed Issue does **not** make the feature `RELEASED`.
+20. Labels are not a lifecycle. Ignore feature/chore labels when
+    classifying state.

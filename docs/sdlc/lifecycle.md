@@ -11,9 +11,8 @@ Start every feature with
 
 ## Conceptual flow
 
-REQUESTED → REQUIREMENTS → Functional Specification → User Stories /
-Acceptance Criteria → BDD → Test design → Traceability → Technical
-Specification → Security/technical review (when risk requires) →
+REQUESTED → SPECIFIED (REQ, FS, stories, AC, BDD, tests, traceability,
+TS, security notes as required by risk) →
 **Definition of Ready (human)** → `READY` → Implementation Plan →
 **Human plan approval** → `PLANNED` → Feature Branch → Implementation
 → Test execution → agent `review-code` → PR to `test` → QA/acceptance
@@ -29,8 +28,7 @@ There is no `DONE` state. There is no `VERIFICATION_PENDING` or
 
 | State               | Meaning                                                                                                                                      | Exit                                                                    |
 | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| `REQUESTED`         | Issue or human business request exists                                                                                                       | REQ drafting starts                                                     |
-| `REQUIREMENTS`      | REQ and functional spec in progress                                                                                                          | REQ + FS exist; unknowns listed                                         |
+| `REQUESTED`         | Issue or human business request exists                                                                                                       | Spec pack drafting starts                                               |
 | `SPECIFIED`         | Required artifacts for the **risk class** exist; TS exists for app features. DoR not yet approved.                                           | **Human DoR** → `READY`                                                 |
 | `READY`             | Human recorded Definition of Ready. Plan may be written. **Not permission to code.**                                                         | Implementation plan drafted; **human plan approval** → `PLANNED`        |
 | `PLANNED`           | Implementation plan approved. `feature/` and `src/` may start                                                                                | Implementation begins                                                   |
@@ -71,13 +69,12 @@ Do not invent test or smoke evidence.
 
 ### How conceptual activities map to states
 
-| State            | Activities (not extra states)                                                                                                                                                        |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `REQUESTED`      | Issue or recorded business request                                                                                                                                                   |
-| `REQUIREMENTS`   | REQ + functional spec (WHAT). Unknowns listed. Stories do not start here.                                                                                                            |
-| `SPECIFIED`      | In order: user stories + AC → BDD (risk class) → test cases + test plan → traceability → technical spec. High: decision log (BD/TD) and security notes. Then **stop** for human DoR. |
-| `READY`          | Implementation plan only (no `src/`)                                                                                                                                                 |
-| `PLANNED` onward | Code, tests, evidence, PR, QA, release, verification as in the state table                                                                                                           |
+| State            | Activities (not extra states)                                                                                                                                                                   |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `REQUESTED`      | Issue or recorded business request. REQ/FS drafting may start here (not a separate state).                                                                                                      |
+| `SPECIFIED`      | In order: REQ + FS → user stories + AC → BDD (risk class) → test cases + test plan → traceability → technical spec. High: decision log (BD/TD) and security notes. Then **stop** for human DoR. |
+| `READY`          | Implementation plan only (no `src/`)                                                                                                                                                            |
+| `PLANNED` onward | Code, tests, evidence, PR, QA, release, verification as in the state table                                                                                                                      |
 
 ## Post-implementation workflow
 
@@ -116,7 +113,7 @@ link here, not copy a shorter or longer list.
 3. `READY` → `PLANNED`: implementation plan approval
 4. `IN_QA` → `READY_FOR_RELEASE`: CI plus human QA on `test` (human reads the PR diff)
 5. `READY_FOR_RELEASE` → `ON_MAIN`: human merge of the **release PR** to `main`
-6. Production data and security exceptions: explicit human authorization
+6. Production data, security exceptions, and smoke exceptions: explicit human authorization. A recorded smoke skip is not PASSED; state stays `ON_MAIN`
 7. Secrets, seed users, and non-prod project config (GitHub/Vercel env, Supabase URL and anon key). Silence is not “secrets are unset, skip is OK”
 8. Issue close: human only, and only when `main` lifecycle is `RELEASED` and DoD is met
 

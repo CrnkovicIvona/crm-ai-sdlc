@@ -1,6 +1,10 @@
 # Repository audit (process standardization)
 
 Date: 2026-08-22  
+**Historical snapshot.** Do not treat product rows as current
+lifecycle. Current AUTH-001 state is `ON_MAIN` (see
+[roadmap.md](roadmap.md)). CRM-001 remains `SPECIFIED`.
+
 Scope: after encoding canonical SDLC, CRM-001 specs, AUTH-001
 fail-closed. No implementation.
 
@@ -24,7 +28,7 @@ code), human gates, skills, templates, and
 
 | ID    | Finding                                       | Where                    | Why                                   | Change                                       | Blocks DoR?             | Human?           |
 | ----- | --------------------------------------------- | ------------------------ | ------------------------------------- | -------------------------------------------- | ----------------------- | ---------------- |
-| —     | AUTH-001 stays SPECIFIED                      | Issue #5, REQ-001        | DoR not recorded                      | Agent must not Ready                         | AUTH-001 Ready          | **Yes** to Ready |
+| —     | AUTH-001 was SPECIFIED **at audit date**      | Issue #5, REQ-001        | DoR not yet recorded on 2026-08-22    | Superseded: AUTH-001 later reached `ON_MAIN` | Was Ready (then)        | Historical       |
 | —     | CRM-001 SPECIFIED not implemented             | `docs/features/CRM-001/` | Intentional                           | —                                            | CRM-001 Ready           | **Yes** to Ready |
 | P1-02 | Many CRM-001 TBDs                             | `decisions.md` BD-T\*    | Planning may invent validation/search | Human answers or accepts non-blocking        | **Yes** unless accepted | **Yes**          |
 | P2-03 | DASH-001 unspecified                          | roadmap                  | Intentional                           | Do not specify now                           | N/A                     | No               |

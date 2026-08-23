@@ -34,7 +34,6 @@ body:
       options:
         [
           REQUESTED,
-          REQUIREMENTS,
           SPECIFIED,
           READY,
           PLANNED,
@@ -56,5 +55,6 @@ body:
         plans require Ready first. Coding requires PLANNED.
         Merged to main without production smoke PASSED is ON_MAIN, not
         RELEASED. The Issue lifecycle field mirrors git; git is source of
-        truth. Do not close the Issue unless main is RELEASED and DoD is met.
+        truth. Labels are not a second state machine. Do not close the
+        Issue unless main is RELEASED and DoD is met.
         Process: `docs/sdlc/lifecycle.md`.
