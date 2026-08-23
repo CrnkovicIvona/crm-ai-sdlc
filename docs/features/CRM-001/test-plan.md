@@ -5,10 +5,9 @@
 - Risk level: **High**
 - Impact summary: Client PII (including OIB), ADMIN DELETE, VIEWER
   restrictions, RLS boundary, append-only audit.
-- Status of tests: **IMPLEMENTED**. Unit tests always run. Credentialed
-  e2e and RLS integration are **SKIPPED** without secrets (skipped ≠
-  passed). Not Gate 3 complete until a human reviews Preview and
-  executed High cases.
+- Status of tests: **IMPLEMENTED**. SHA `1c98f14`: unit **PASSED**;
+  e2e **PASSED** in CI (11/11). RLS integration **BLOCKED** (6 skipped).
+  Gate 3 **not** complete. Report: [../../test-reports/CRM-001.md](../../test-reports/CRM-001.md).
 - Owner (draft): Agent as QA
 - Approval: Human DoR not recorded
 

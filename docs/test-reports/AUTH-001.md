@@ -77,3 +77,13 @@ Playwright command above, not that skipped job.
 [BUG-001](../bugs/BUG-001.md): direct `GET /login` 404 on Vercel.
 PO removed that path from REL-003 smoke. Residual bookmark risk until
 `vercel.json` is on Production (this close-out PR).
+
+## Addendum — feature branch SHA `1c98f14` (2026-08-23)
+
+Does **not** replace REL-003 production smoke evidence above.
+
+- CI: [run 32672184863](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/32672184863)
+- Playwright: TC-001, TC-002/008, TC-005/006, TC-007, TC-003/009,
+  TC-004/009 **PASSED** (credentialed). SKIPPED ≠ this addendum.
+- Production smoke workflow on this SHA: **SKIPPED** (not Production).
+  Historical 5/5 remains the RELEASED evidence, not this SHA.

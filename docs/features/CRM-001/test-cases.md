@@ -6,26 +6,26 @@
   integration). Paths: `tests/e2e/clients.spec.ts`,
   `tests/unit/clientValidation.test.ts`, `tests/unit/products.test.ts`,
   `tests/integration/clients-rls.test.ts`.
-- Execution status: **NOT EXECUTED** on this remediation pass.
-  Credentialed e2e/RLS: runner **SKIP** without secrets → record
-  **BLOCKED** for Gate 3 (SKIPPED ≠ PASSED).
-  Do not record PASSED without evidence.
+- Execution status: **PARTIAL** on SHA `1c98f14` (2026-08-23).
+  See [../../test-reports/CRM-001.md](../../test-reports/CRM-001.md).
+  E2E **PASSED** in CI (11/11). Unit **PASSED** (13). RLS integration
+  **BLOCKED** (6 skipped). SKIPPED ≠ PASSED.
 - Risk: High
 - Owner (draft): Agent as QA
 - Source: [bdd.md](bdd.md), [user-stories.md](user-stories.md)
 
 ## Automation map (not an execution report)
 
-| TC           | Automated in                                                                     | Execution                                                                             |
-| ------------ | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| TC-C001      | `tests/e2e/clients.spec.ts`                                                      | NOT EXECUTED (skip without `E2E_ADMIN_*`)                                             |
-| TC-C002      | e2e empty-submit (all five field errors) + `tests/unit/clientValidation.test.ts` | unit always runnable; e2e NOT EXECUTED                                                |
-| TC-C003–C006 | `tests/e2e/clients.spec.ts` ADMIN CRUD                                           | Must **run** when `E2E_ADMIN_*` is set; missing product catalog is **FAIL**, not skip |
-| TC-C007–C011 | `tests/e2e/clients.spec.ts` VIEWER                                               | Runner skip without `E2E_VIEWER_*` → **BLOCKED** for Gate 3; C011 grouped             |
-| TC-C012–C019 | `tests/integration/clients-rls.test.ts`                                          | Runner skip unless live Supabase → **BLOCKED** for Gate 3                             |
-| TC-C020      | `tests/unit/products.test.ts` + e2e product checkbox                             | unit runnable; e2e NOT EXECUTED                                                       |
-| TC-C021      | e2e assign on create + integration                                               | NOT EXECUTED                                                                          |
-| TC-C022      | e2e search after delete                                                          | NOT EXECUTED                                                                          |
+| TC           | Automated in                                             | Execution                                                                           |
+| ------------ | -------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| TC-C001      | `tests/e2e/clients.spec.ts`                              | **PASSED** CI SHA `1c98f14` (run 32672184863)                                       |
+| TC-C002      | e2e empty-submit + `tests/unit/clientValidation.test.ts` | **PASSED** unit local+CI; empty-submit e2e CI                                       |
+| TC-C003–C006 | `tests/e2e/clients.spec.ts` ADMIN CRUD                   | **PASSED** CI (catalog present; not skipped)                                        |
+| TC-C007–C011 | `tests/e2e/clients.spec.ts` VIEWER                       | **PASSED** CI grouped; C011 not field-by-field; C008 match oracle still **BLOCKED** |
+| TC-C012–C019 | `tests/integration/clients-rls.test.ts`                  | **BLOCKED** — 6 skipped (no live service role). Skip ≠ pass                         |
+| TC-C020      | `tests/unit/products.test.ts` + e2e product checkbox     | **PASSED** unit; checkbox in C003–C006 e2e CI                                       |
+| TC-C021      | e2e assign on create + integration                       | **PASSED** e2e assign CI; integration write **BLOCKED** with C012 pack              |
+| TC-C022      | e2e search after delete                                  | **PASSED** CI (asserted inside C003–C006)                                           |
 
 ## ISTQB P/N/E matrix (existing TCs — no new product rules)
 
