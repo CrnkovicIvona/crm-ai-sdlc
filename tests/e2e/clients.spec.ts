@@ -61,12 +61,9 @@ test('TC-C003–C006 ADMIN can create, read, update, delete a Client', async ({
   await page.getByTestId('nav-clients').click();
   await expectClientsSchemaReady(page);
   await page.getByTestId('client-create').click();
-  if ((await page.getByTestId('product-bank_account').count()) === 0) {
-    test.skip(
-      true,
-      'products catalog is not available (apply 20260823210000_products_and_soft_delete.sql to non-prod). SKIPPED ≠ PASSED',
-    );
-  }
+  await expect(page.getByTestId('product-bank_account')).toBeVisible({
+    timeout: 15_000,
+  });
   await page.getByTestId('client-first-name').fill(payload.first_name);
   await page.getByTestId('client-last-name').fill(payload.last_name);
   await page.getByTestId('client-email').fill(payload.email);

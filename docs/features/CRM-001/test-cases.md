@@ -19,7 +19,7 @@
 | ------------ | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
 | TC-C001      | `tests/e2e/clients.spec.ts`                                                      | NOT EXECUTED (skip without `E2E_ADMIN_*`)                                                      |
 | TC-C002      | e2e empty-submit (all five field errors) + `tests/unit/clientValidation.test.ts` | unit always runnable; e2e NOT EXECUTED                                                         |
-| TC-C003–C006 | `tests/e2e/clients.spec.ts` ADMIN CRUD                                           | NOT EXECUTED                                                                                   |
+| TC-C003–C006 | `tests/e2e/clients.spec.ts` ADMIN CRUD                                           | Must **run** when `E2E_ADMIN_*` is set; missing product catalog is **FAIL**, not skip          |
 | TC-C007–C011 | `tests/e2e/clients.spec.ts` VIEWER                                               | NOT EXECUTED (skip without `E2E_VIEWER_*`); C011 grouped, not a separate field-by-field assert |
 | TC-C012–C019 | `tests/integration/clients-rls.test.ts`                                          | NOT EXECUTED (skip unless live Supabase)                                                       |
 | TC-C020      | `tests/unit/products.test.ts` + e2e product checkbox                             | unit runnable; e2e NOT EXECUTED                                                                |

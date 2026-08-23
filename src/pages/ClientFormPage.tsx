@@ -46,15 +46,19 @@ export function ClientFormPage() {
   const [pending, setPending] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [catalog, setCatalog] = useState<ProductRecord[]>([]);
+  const [catalogReady, setCatalogReady] = useState(false);
   const [selectedProductIds, setSelectedProductIds] = useState<string[]>([]);
 
   useEffect(() => {
     let cancelled = false;
     void listProducts().then((result) => {
-      if (cancelled || !result.ok) {
+      if (cancelled) {
         return;
       }
-      setCatalog(result.products);
+      if (result.ok) {
+        setCatalog(result.products);
+      }
+      setCatalogReady(true);
     });
     return () => {
       cancelled = true;
@@ -284,7 +288,7 @@ export function ClientFormPage() {
             <span data-testid="client-created-at"> {createdAt}</span>
           </p>
         ) : null}
-        <fieldset data-testid="client-products">
+        <fieldset data-testid="client-products" aria-busy={!catalogReady}>
           <legend>Products</legend>
           <p>{OPTIONAL_PRODUCTS_COPY}</p>
           <div className="crm-product-grid">
