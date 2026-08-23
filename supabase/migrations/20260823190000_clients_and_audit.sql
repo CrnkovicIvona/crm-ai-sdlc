@@ -44,21 +44,22 @@ create table if not exists public.client_audit_events (
   )
 );
 
-create or replace function public.clients_row_payload(row public.clients)
+create or replace function public.clients_row_payload(p_row public.clients)
 returns jsonb
 language sql
 immutable
 as $$
   select jsonb_build_object(
-    'id', row.id,
-    'first_name', row.first_name,
-    'last_name', row.last_name,
-    'email', row.email,
-    'phone', row.phone,
-    'oib', row.oib,
-    'created_at', row.created_at
+    'id', p_row.id,
+    'first_name', p_row.first_name,
+    'last_name', p_row.last_name,
+    'email', p_row.email,
+    'phone', p_row.phone,
+    'oib', p_row.oib,
+    'created_at', p_row.created_at
   );
 $$;
+
 
 create or replace function public.clients_write_audit()
 returns trigger
