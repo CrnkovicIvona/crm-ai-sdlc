@@ -1,7 +1,9 @@
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
 
 export function AppShell() {
   const { role, logout } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <main data-testid="crm-shell">
@@ -15,7 +17,15 @@ export function AppShell() {
       {role === 'VIEWER' ? (
         <p data-testid="viewer-read-hint">Read-only access.</p>
       ) : null}
-      <button data-testid="logout" type="button" onClick={() => void logout()}>
+      <button
+        data-testid="logout"
+        type="button"
+        onClick={() => {
+          void logout().then(() => {
+            navigate('/login', { replace: true });
+          });
+        }}
+      >
         Log out
       </button>
     </main>

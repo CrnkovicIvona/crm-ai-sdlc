@@ -51,6 +51,8 @@ test('TC-005 / TC-006 logout then CRM denied', async ({ page }) => {
   await expectCrmAfterLogin(page);
   await page.getByTestId('logout').click();
   await expect(page).toHaveURL(/\/login/);
+  await expect(page.getByTestId('login-form')).toBeVisible();
   await page.goto('/app');
   await expect(page).toHaveURL(/\/login/);
+  await expect(page.getByTestId('login-form')).toBeVisible();
 });
