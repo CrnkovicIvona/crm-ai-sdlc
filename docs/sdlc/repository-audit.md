@@ -2,8 +2,8 @@
 
 Date: 2026-08-22  
 **Historical snapshot.** Do not treat product rows as current
-lifecycle. Current AUTH-001 state is `ON_MAIN` (see
-[roadmap.md](roadmap.md)). CRM-001 remains `SPECIFIED`.
+lifecycle. AUTH-001 is **`RELEASED`** after the REL-003 close-out is
+on `main` (see [roadmap.md](roadmap.md)). CRM-001 remains `SPECIFIED`.
 
 Scope: after encoding canonical SDLC, CRM-001 specs, AUTH-001
 fail-closed. No implementation.

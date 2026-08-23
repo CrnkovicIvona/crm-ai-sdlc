@@ -29,10 +29,11 @@ Agent constraints: `.cursor/rules/quality.mdc`. The file
 
 ## Current phase
 
-AUTH-001 is **`ON_MAIN`**: Vite + React `src/` is on `main` (REL-003).
-Production smoke is executable in `tests/smoke/` and is **not PASSED**
-until that suite succeeds against Production (not `RELEASED`). Vitest
-and unauthenticated Playwright ran (see
+AUTH-001 is **`RELEASED`** on **`main`** after this close-out is
+human-merged (product already on `main` via PR **#12**). Production
+smoke **PASSED** 2026-08-23: **5/5** against
+`https://crm-ai-sdlc.vercel.app` (`npm run test:smoke`, `workers: 1`;
+PO dropped former 1b). Vitest and unauthenticated Playwright ran (see
 [docs/test-reports/AUTH-001.md](../test-reports/AUTH-001.md)). Live
 Auth Playwright cases remain **SKIPPED** until `E2E_*` /
 `VITE_SUPABASE_*` are set (skipped ≠ passed). CRM-001 remains

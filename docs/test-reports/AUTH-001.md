@@ -50,6 +50,30 @@ Security notes for this SHA:
 - RLS in migration is SELECT own row only; agent did not apply SQL to production
 - UI is not the data boundary; no CRM tables yet
 
+## Production smoke (REL-003)
+
+- Date: 2026-08-23
+- URL: `https://crm-ai-sdlc.vercel.app`
+- Command: `SMOKE_BASE_URL=https://crm-ai-sdlc.vercel.app npm run test:smoke` (`workers=1`)
+- Suite: `tests/smoke/rel-003.spec.ts` (5 tests; PO removed former 1b)
+
+| Step                        | Result |
+| --------------------------- | ------ |
+| 1 unauthenticated `/`       | PASS   |
+| 2 failed login              | PASS   |
+| 3 ADMIN login/logout        | PASS   |
+| 4 VIEWER login              | PASS   |
+| 5 no service_role in bundle | PASS   |
+
+Overall: **PASS**. CI on `test` after PR #22:
+[run 32658280782](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/32658280782)
+(Prettier, ESLint, Vitest, Playwright). GitHub Actions job
+“Production smoke” on that push was **SKIPPED** (not a Production
+deploy) — SKIPPED ≠ PASSED. Evidence for smoke is the executed
+Playwright command above, not that skipped job.
+
 ## Bugs filed
 
-None.
+[BUG-001](../bugs/BUG-001.md): direct `GET /login` 404 on Vercel.
+PO removed that path from REL-003 smoke. Residual bookmark risk until
+`vercel.json` is on Production (this close-out PR).

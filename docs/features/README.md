@@ -7,7 +7,7 @@ Keep current files under `docs/requirements/`,
 `docs/test-*`, `docs/decisions/AUTH-001-decisions.md`.
 
 Implementation plan (**Approved**; code on `main`, lifecycle
-**`ON_MAIN`** because production smoke was not PASSED):
+**`RELEASED`** after REL-003 production smoke 5/5 PASSED):
 [AUTH-001/implementation-plan.md](AUTH-001/implementation-plan.md).
 
 ## Future application features (canonical)

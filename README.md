@@ -8,10 +8,11 @@ BankCRM is a **simple professional CRM** used to demonstrate an
 agentic SDLC. A human is PO/BA. Agents draft specs, tests, and (after
 gates) code. GitHub + `docs/` are the source of truth.
 
-**AUTH-001 is `ON_MAIN` — not `RELEASED`.** Human merged
+**AUTH-001 is `RELEASED` (REL-003).** Human merged
 [#12](https://github.com/CrnkovicIvona/crm-ai-sdlc/pull/12) to `main`
-(REL-003, 2026-08-22). Production smoke 1b (`GET /login`) was **removed
-by PO**; suite is `/` plus login/role/bundle checks. Login UI lives under `src/`.
+(2026-08-22). Production smoke **5/5 PASSED** 2026-08-23 against
+`https://crm-ai-sdlc.vercel.app` (PO removed `GET /login` from the
+suite). Login UI lives under `src/`.
 Copy `.env.example` to `.env` and add a non-prod Supabase URL and anon
 key. Apply
 `supabase/migrations/20260822150000_profiles.sql` to **non-prod** only
