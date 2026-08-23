@@ -25,7 +25,7 @@ TS; do not copy AUTH-001 wholesale.
 ## Forbidden at every state until `PLANNED`
 
 - `src/` application code
-- `feature/` branches
+- `feature/` branches (and `cursor/` implementation aliases)
 - migrations, tables, RLS policies, API endpoints, Supabase config, deploy
 
 `READY` ≠ coding. `PLANNED` = coding allowed against the approved plan.
@@ -39,17 +39,21 @@ Prettier, gitleaks, Vercel (ADR-0001, ADR-0002, AUTH-001 TD log).
 
 Inspect in order:
 
-1. GitHub Issue (approvals, DoR, plan approval)
-2. Artifacts: AUTH-001 legacy paths **or** `docs/features/<ID>/`
+1. GitHub Issue (approvals, DoR, plan approval) — **gate record only**
+2. Artifacts on git: AUTH-001 legacy paths **or** `docs/features/<ID>/`
 3. Decision log status (High risk)
 4. Implementation plan exists **and** human-approved → else not `PLANNED`
 5. Branch type and whether `src/` diffs exist (if they exist before
    `PLANNED`, stop and do not add more code)
 6. `docs/test-reports/` evidence
-7. Bugs, PR target (`test` vs `main`), CI
+7. Whether `main` contains the feature; smoke evidence; artifact Status
+8. Bugs, PR target (`test` vs `main`), CI
 
-Earliest incomplete state wins. Names are only those in
-`docs/sdlc/lifecycle.md`.
+Earliest incomplete state wins. Names are **only** those in
+`docs/sdlc/lifecycle.md`. Merged to `main` without smoke PASSED is
+`ON_MAIN`, never `RELEASED`.
+
+If Issue and `main` files disagree, **`main` files win**.
 
 ## Risk
 
@@ -69,18 +73,22 @@ High requires a **decision log** and security notes in TS/test plan.
 | `PLANNED`           | Implement **only** the approved plan on `feature/<id>-…`                                                                | Expand scope                                                           |
 | `IN_DEVELOPMENT`    | Continue plan; add automated tests as specified                                                                         | Claim TESTING without execution                                        |
 | `TESTING`           | `execute-tests`                                                                                                         | Silent heal; fake PASSED                                               |
-| `HEALING`           | `heal` then return to `TESTING`                                                                                         | Weaken tests                                                           |
+| `HEALING`           | `heal` then return to `TESTING`                                                                                         | Weaken tests; record heal as PASSED                                    |
 | `REGRESSION`        | Planned pack only                                                                                                       | Skip High regression without human                                     |
 | `READY_FOR_PR`      | `report-tests`, agent `review-code`, `prepare-pr` to `test`                                                             | Merge `main`; treat this as human QA                                   |
 | `IN_QA`             | Wait; fix CI on feature branch if needed                                                                                | Self-approve QA gate                                                   |
-| `READY_FOR_RELEASE` | `release-and-verify` prepare only                                                                                       | Merge `main`                                                           |
-| `RELEASED`          | Smoke evidence; DoD checklist in `docs/sdlc/definition-of-done.md`                                                      | Claim Done without DoD; production data without human                  |
+| `READY_FOR_RELEASE` | `sync-feature-docs` at `ON_MAIN`; `release-and-verify` prepare only                                                     | Merge `main`; claim `RELEASED`                                         |
+| `ON_MAIN`           | Confirm deploy state; run or record production smoke. If smoke PASSED: `sync-feature-docs` at `RELEASED` (PR to `main`) | Claim `RELEASED` or Done; delete release branch before `test` sync     |
+| `RELEASED`          | Confirm DoD; sync release branch → `test` if still needed; then delete release branch. **STOP** for human Issue close   | Close Issue; production data without human                             |
 
 `author-adr` only for durable **platform** choices, not Client columns.
 `manage-bugs` after defects.
 
 If the user says “just implement”, refuse and name the blocking gate
 from `docs/sdlc/lifecycle.md`.
+
+Never auto-transition `ON_MAIN` → `RELEASED` because a release PR
+merged.
 
 ## Instruction “Start `<ID>`”
 
@@ -97,6 +105,9 @@ from `docs/sdlc/lifecycle.md`.
 7. Run `docs/sdlc/validation-rules.md`.
 8. Output: ID, state, evidence, next skill or wait-for-human,
    blockers, what you will **not** do.
+
+For **CRM-001** while state is `SPECIFIED`: do not create `src/` Client
+modules, feature branches, or migrations. Stop for human DoR.
 
 ## Human gates
 

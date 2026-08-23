@@ -5,7 +5,9 @@
 - Decisions: BD-001–BD-008 approved
 - Work item: AUTH-001
 - Issue: [#5](https://github.com/CrnkovicIvona/crm-ai-sdlc/issues/5)
-- Status: **IN_QA** (PR to `test`; live Auth e2e SKIPPED without secrets).
+- Status: **ON_MAIN — not RELEASED.** REL-003 is on `main`. Production
+  smoke was not executed. Live Auth e2e without secrets is SKIPPED
+  (skipped ≠ passed).
 
 Do not add behavior that is not in REQ-001 or approved BD-\* items.
 

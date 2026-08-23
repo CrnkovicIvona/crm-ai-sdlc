@@ -5,8 +5,9 @@ Run these before claiming a phase is complete. Canonical process:
 
 ## Always
 
-1. Current state is the earliest incomplete state in the orchestrator
-   table. Do not skip.
+1. Current state is the earliest incomplete state in
+   [lifecycle.md](lifecycle.md). Do not skip. Do not invent state names
+   (`VERIFICATION_PENDING`, `DONE`, etc.).
 2. Every unknown is `TBD — HUMAN DECISION REQUIRED` or an approved
    BD/TD ID. No silent answers.
 3. FS = WHAT. TS = HOW. ADR = platform WHY. Plan = exact files after
@@ -14,8 +15,8 @@ Run these before claiming a phase is complete. Canonical process:
 4. No `src/`, `feature/`, migrations, RLS SQL, APIs, or deploy unless
    state is `PLANNED` and the change is in the approved plan.
 5. `READY` is only set by a recorded human DoR. Agent never self-Ready.
-6. Tests: DESIGNED ≠ EXECUTED ≠ PASSED. SKIPPED / NOT APPLICABLE ≠
-   PASSED.
+6. Tests: DESIGNED ≠ EXECUTED ≠ PASSED. SKIPPED / NOT APPLICABLE /
+   HEALING ≠ PASSED.
 7. Impact analysis when changing an approved statement
    ([change-control.md](change-control.md)).
 8. Reuse ADR-0002, React Router, Supabase, AUTH-001 roles. Do not add
@@ -38,3 +39,28 @@ Run these before claiming a phase is complete. Canonical process:
 14. Do only the next permitted skill.
 15. Stop and name the human gate when TBDs block DoR or when Ready/plan
     is required.
+
+## RELEASED / Done extra (mandatory)
+
+16. Merged to `main` without smoke PASSED is `ON_MAIN`, never `RELEASED`.
+17. Refuse to claim `RELEASED` or Done if **any** of the following is true:
+    - specifications or feature README still `IN_QA` (or earlier) while
+      code is on `main`
+    - roadmap or root README stale vs `main`
+    - traceability matrix missing implementation paths, test execution,
+      or verification
+    - release document missing
+    - implementation paths in the matrix do not exist on the release SHA
+    - test report missing or only SKIPPED presented as PASSED
+    - no CI evidence for the release SHA
+    - deployment state unknown (no URL and no recorded “not configured”)
+    - production smoke missing, skipped, or not PASSED
+18. If 16–17 fail, the required sentence is:
+
+    **ON_MAIN — not RELEASED.**
+
+    Never reinterpret missing evidence as success.
+
+19. Do not close a GitHub Issue unless `main` artifact status is
+    `RELEASED` and [definition-of-done.md](definition-of-done.md) is met.
+    The Issue is a gate record; git is the implementation source of truth.

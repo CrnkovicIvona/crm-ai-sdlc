@@ -34,8 +34,9 @@ existing paths.
 | ADR                 | **WHY** a durable **platform** choice     | Agent via author-adr / human   | when needed            | Only platform-wide; not every column              |
 | Implementation plan | **EXACTLY** which files/steps after Ready | Agent dev / **human** approve  | READY                  | Always before code                                |
 | DoR                 | Enough to plan without inventing          | Human                          | SPECIFIED→READY        | Always                                            |
-| DoD                 | Enough to call the work finished          | Human + evidence               | after release/QA       | Always                                            |
+| DoD                 | Enough to call the work finished          | Human + evidence               | after `RELEASED`       | Always                                            |
 | Test report         | Execution evidence                        | Agent QA                       | TESTING–READY_FOR_PR   | When tests were in scope                          |
+| Release record      | REL notes, smoke, sync                    | Agent / human merge            | READY_FOR_RELEASE+     | Application releases                              |
 
 ## Forbidden mixing
 

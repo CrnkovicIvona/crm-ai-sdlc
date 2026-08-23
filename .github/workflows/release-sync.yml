@@ -1,0 +1,68 @@
+name: Release sync to test
+
+# Merges the release branch into test after a human merges the release
+# PR to main, then deletes the release branch. Mechanical — not a
+# product-approval gate.
+#
+# Limitation: default Actions token / org permissions were not readable
+# (API 403) when this workflow was added. If the push to test is
+# rejected, the job MUST fail and MUST NOT delete the release branch.
+# Cursor Agent fallback: .cursor/skills/release-and-verify/SKILL.md
+#
+# Do not merge main into test. Merge the release head branch into test
+# so squash-to-main does not drop release-branch commits.
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync-test:
+    name: Sync release branch into test
+    if: >
+      github.event.pull_request.merged == true &&
+      (
+        startsWith(github.event.pull_request.head.ref, 'release/') ||
+        startsWith(github.event.pull_request.head.ref, 'cursor/rel-')
+      )
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Merge release branch into test
+        id: sync
+        env:
+          RELEASE_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin test "$RELEASE_REF"
+          git checkout -B test origin/test
+          if git merge --no-ff --no-edit "origin/$RELEASE_REF"; then
+            git push origin test
+            echo "synced=true" >> "$GITHUB_OUTPUT"
+            echo "Merged origin/$RELEASE_REF into test and pushed." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "synced=false" >> "$GITHUB_OUTPUT"
+            echo "Merge into test failed. Release branch kept. Agent fallback may open a protection PR." >> "$GITHUB_STEP_SUMMARY"
+            git merge --abort || true
+            exit 1
+          fi
+
+      - name: Delete release branch
+        if: steps.sync.outputs.synced == 'true'
+        env:
+          RELEASE_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          git push origin --delete "$RELEASE_REF"
+          echo "Deleted origin/$RELEASE_REF after successful test sync." >> "$GITHUB_STEP_SUMMARY"

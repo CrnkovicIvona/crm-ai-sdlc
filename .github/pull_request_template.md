@@ -1,6 +1,7 @@
 ## Pull request
 
-- **Target branch:** feature/bugfix/docs/chore → `test`. Release → `main` from `test` only.
+- **Target branch:** feature/bugfix/docs/chore → `test`. Release → `main`
+  from `release/<rel-id>` (never `feature/*` → `main`).
 - **Do not merge `main` as an agent.** Human merge only for production.
 
 ### Work item
@@ -27,6 +28,8 @@
 - [ ] Conventional Commits
 - [ ] Security review level appropriate to risk
 - [ ] PR targets the correct branch
+- [ ] Did not claim RELEASED unless production smoke PASSED (merge to main is ON_MAIN)
+- [ ] SKIPPED tests are not recorded as PASSED
 
 ### Test evidence
 

@@ -15,8 +15,8 @@ production.
 | Specs        | `docs/features/` + `docs/specifications/`          | Feature packs (new) / AUTH-001 specs |
 | Decisions    | `docs/decisions/` + `docs/features/*/decisions.md` | Feature BD/TD                        |
 | QA artifacts | `docs/test-*`, `docs/bugs/`, feature test files    | Design and evidence                  |
-| Code         | `src/` (later)                                     | Implementation                       |
-| CI           | `.github/workflows/`                               | Automation                           |
+| Code         | `src/`                                             | Implementation after `PLANNED`       |
+| CI           | `.github/workflows/`                               | Quality gates; release→`test` sync   |
 
 ## Orchestration
 
