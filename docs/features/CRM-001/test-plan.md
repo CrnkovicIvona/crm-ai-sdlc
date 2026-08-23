@@ -5,7 +5,10 @@
 - Risk level: **High**
 - Impact summary: Client PII (including OIB), ADMIN DELETE, VIEWER
   restrictions, RLS boundary, append-only audit.
-- Status of tests: **DESIGNED**, **NOT EXECUTED**
+- Status of tests: **IMPLEMENTED**. Unit tests always run. Credentialed
+  e2e and RLS integration are **SKIPPED** without secrets (skipped ≠
+  passed). Not Gate 3 complete until a human reviews Preview and
+  executed High cases.
 - Owner (draft): Agent as QA
 - Approval: Human DoR not recorded
 
@@ -19,7 +22,7 @@ and audit writes.
 
 ## Out of scope
 
-- Executing tests now (no `src/`) — **NOT APPLICABLE**
+- Claiming PASSED for suites that were SKIPPED
 - AUTH-001 login/logout (reuse AUTH-001 pack at implementation)
 - Invented validation/search/pagination cases
 - Auditing failed attempts

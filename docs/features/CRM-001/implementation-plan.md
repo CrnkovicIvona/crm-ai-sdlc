@@ -8,19 +8,21 @@
   accepted as product decisions; specs in this folder
 - Open questions: none blocking. Physical names in §3 are **part of
   this plan** (TD-C005). Approving this plan approves those names.
-- Approval: **Draft** — stop until the human approves. Then `PLANNED`.
+- Approval: **Approved** (PO chat 2026-08-23: `CRM-001 implementation plan approved. State: PLANNED. Coding may start.`)
 - Traceability: [requirement.md](requirement.md),
   [functional-spec.md](functional-spec.md),
   [technical-spec.md](technical-spec.md), AC-C001–AC-C019,
   TC-C001–TC-C019
 - Prerequisite: human Definition of Ready (**recorded in chat**,
   2026-08-23)
-- Status: **Draft** — **do not implement** until Approved
+- Status: **Approved** (`PLANNED`) — implementation in progress toward
+  Gate 3 (`test`)
 
 This is **not** the functional or technical specification.
 
-Do **not** create Client `src/` modules, `feature/` branches, or apply
-SQL until a human sets this file to **Approved** (`PLANNED`).
+This plan is **Approved**. Implementation belongs on a `cursor/*-73b9`
+branch into `test`. The agent does **not** apply SQL to production or
+merge `main`.
 
 ---
 

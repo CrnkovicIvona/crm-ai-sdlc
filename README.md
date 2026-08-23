@@ -16,8 +16,10 @@ suite). Login UI lives under `src/`.
 Copy `.env.example` to `.env` and add a non-prod Supabase URL and anon
 key. Apply
 `supabase/migrations/20260822150000_profiles.sql` to **non-prod** only
-unless a human applies production. CRM-001 is `SPECIFIED` (not Ready).
-DASH-001 waits until CRM-001 is accepted for planning.
+unless a human applies production. CRM-001 is `PLANNED` (Gate 2
+approved 2026-08-23). Apply
+`supabase/migrations/20260823190000_clients_and_audit.sql` to
+**non-prod** only. DASH-001 waits until CRM-001 is accepted.
 
 Canonical process: [docs/sdlc/lifecycle.md](docs/sdlc/lifecycle.md).
 Start feature work with `.cursor/skills/feature-orchestrator/SKILL.md`.
@@ -51,7 +53,7 @@ Start feature work with `.cursor/skills/feature-orchestrator/SKILL.md`.
 | `docs/requirements/` through `docs/bugs/` | AUTH-001 and shared QA artifacts             |
 | `docs/architecture/` and `docs/adr/`      | Technical context and decisions              |
 | `docs/ai/`                                | AI operating model; guardrails live in rules |
-| `src/`                                    | Vite + React application (AUTH-001)          |
+| `src/`                                    | Vite + React application (AUTH-001, CRM-001) |
 | `supabase/migrations/`                    | Non-prod SQL (human applies; not production) |
 | `tests/`                                  | Vitest unit tests and Playwright e2e         |
 | `.github/`                                | Issue/PR templates and CI                    |
@@ -76,9 +78,10 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-Credentialed Playwright cases (TC-001, TC-003–TC-006, TC-009)
-need `E2E_*` and `VITE_SUPABASE_*` env vars. Without them those tests
-are **skipped**, not passed. Live Auth that reaches `/access-denied`
+Credentialed Playwright (AUTH-001 TC-001, TC-003–TC-006, TC-009 and
+CRM-001 TC-C001–TC-C011) needs `E2E_*` and `VITE_SUPABASE_*`.
+CRM-001 RLS/audit Vitest needs `SUPABASE_SERVICE_ROLE_KEY` as well.
+Without secrets those tests are **skipped**, not passed. Live Auth that reaches `/access-denied`
 usually means the Auth user has no `public.profiles` row with
 `ADMIN` or `VIEWER`. AC-012 (session without usable role) is covered
 by Vitest `decideAccess(true, null)`, not a third e2e user.

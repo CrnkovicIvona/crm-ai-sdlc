@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
 
 export function AppShell() {
@@ -9,6 +9,11 @@ export function AppShell() {
     <main data-testid="crm-shell">
       <h1>BankCRM</h1>
       <p data-testid="user-role">{role}</p>
+      <nav>
+        <Link data-testid="nav-clients" to="/app/clients">
+          Clients
+        </Link>
+      </nav>
       {role === 'ADMIN' ? (
         <p data-testid="admin-write-hint">
           Write actions will be available when CRM records exist.
@@ -28,6 +33,7 @@ export function AppShell() {
       >
         Log out
       </button>
+      <Outlet />
     </main>
   );
 }

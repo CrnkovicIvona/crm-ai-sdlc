@@ -18,6 +18,28 @@ button {
   margin-top: 0.5rem;
 }
 
+nav a {
+  margin-right: 1rem;
+}
+
+table {
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+th,
+td {
+  border-bottom: 1px solid #ddd;
+  padding: 0.35rem 0.6rem;
+  text-align: left;
+}
+
+[data-testid='delete-dialog'] {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #ccc;
+}
+
 .test-users {
   margin-top: 2rem;
   max-width: 28rem;
