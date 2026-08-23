@@ -7,7 +7,9 @@
 - Spec PR: [#6](https://github.com/CrnkovicIvona/crm-ai-sdlc/pull/6)
 - Decisions: [AUTH-001-decisions.md](../../decisions/AUTH-001-decisions.md)
   (TD-001–TD-008 **APPROVED**)
-- Status: **IN_QA** (PR to `test`; live Auth e2e SKIPPED without secrets).
+- Status: **RELEASED** (REL-003). Production smoke 5/5 PASSED
+  2026-08-23 against `https://crm-ai-sdlc.vercel.app`. Live Auth e2e
+  without secrets is SKIPPED (skipped ≠ passed).
 - Implementation plan (draft): [../../features/AUTH-001/implementation-plan.md](../../features/AUTH-001/implementation-plan.md)
 - Author: Agent; technical decisions recorded from human approval
   2026-08-21

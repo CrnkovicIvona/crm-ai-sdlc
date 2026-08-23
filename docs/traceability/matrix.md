@@ -25,9 +25,11 @@ not listed as product TDEs.
 
 ## Gaps
 
-- AUTH-001 implementation is on `src/` (`IN_DEVELOPMENT`). Live Auth
-  Playwright cases are skipped without GitHub/local `E2E_*` secrets
-  (SKIPPED, not PASSED).
+- AUTH-001 implementation is on `src/` and `main` (**`RELEASED`**,
+  REL-003). Production smoke 5/5 PASSED 2026-08-23 against
+  `https://crm-ai-sdlc.vercel.app` (`tests/smoke/rel-003.spec.ts`).
+  Former 1b dropped by PO. Live Auth Playwright cases are skipped
+  without `E2E_*` secrets (SKIPPED, not PASSED).
 - TC-003/TC-004 cannot observe resource-level writes until CRM-001 is
   **implemented** (still specified under `docs/features/CRM-001/`).
 - AUTH-001 human Definition of Ready **is** recorded on Issue #5.
@@ -35,4 +37,5 @@ not listed as product TDEs.
   **not** recorded.
 - CRM-001 has no GitHub Issue yet (`docs/features/CRM-001/issue-draft.md`).
 
-Release: [REL-001](../releases/REL-001.md), [REL-002](../releases/REL-002.md).
+Release: [REL-001](../releases/REL-001.md), [REL-002](../releases/REL-002.md),
+[REL-003](../releases/REL-003.md) (`RELEASED`; smoke 5/5 PASS).

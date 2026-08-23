@@ -8,7 +8,8 @@ description: Prepare a pull request with Conventional Commits targeting the corr
 ## Rules
 
 - Feature/bugfix/docs/chore PRs target **`test`**
-- Release PRs target **`main`** from `test` only after `READY_FOR_RELEASE`
+- Release PRs target **`main`** from `release/<rel-id>` after `READY_FOR_RELEASE`
+- Merged to `main` is `ON_MAIN`, not `RELEASED`
 - Do not merge
 - Do not push to `main`
 - Push the feature branch only if the human asked to prepare/open/update the PR

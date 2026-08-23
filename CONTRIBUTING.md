@@ -21,13 +21,16 @@ Read these before starting work:
 | ------------------------------------ | --------------------------------------------------- |
 | `main`                               | Production. Protected. No direct development.       |
 | `test`                               | Integration and QA. Feature work merges here first. |
-| `feature/<feature-id>-<description>` | Implementation                                      |
+| `release/<rel-id>`                   | Cut from `test`; human merge to `main` only         |
+| `feature/<feature-id>-<description>` | Implementation after `PLANNED`                      |
 | `bugfix/<bug-id>-<description>`      | Fixes                                               |
 | `docs/<description>`                 | Documentation only                                  |
 | `chore/<description>`                | Maintenance                                         |
+| `cursor/…`                           | Cursor cloud alias for feature/release              |
 
-All implementation PRs target `test`. Release PRs go from `test` to `main`
-and require human approval and human merge.
+All implementation PRs target `test`. Never `feature/*` → `main`.
+Release PRs are `release/<rel-id>` → `main` and require human merge.
+Merged to `main` is `ON_MAIN` until production smoke PASSED.
 
 ## Commits
 
