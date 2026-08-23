@@ -30,191 +30,233 @@ work records that gap as **BLOCKED** for DoD until executed.
 ## TC-001: Logged-in employee may access CRM
 
 - AC: AC-001, AC-008
-- BDD: Authenticated employee can access the CRM; email and password
+- Kind: P · Technique: use-case · Level: e2e · Priority: High
 - Type: e2e (`tests/e2e/auth.spec.ts`; skip without `E2E_ADMIN_*`)
 - Risk: High
 
 ### Preconditions
 
-A bank employee is provisioned out of band (BD-002) and is logged in
-with email and password (BD-001).
+Provisioned employee (BD-002) with email+password (BD-001). `E2E_ADMIN_*`
+set for automation.
+
+### Test data
+
+Valid ADMIN email/password from secrets (not committed).
 
 ### Steps
 
-1. Access the CRM as that employee.
+1. Open `/login`, submit email and password (`login-email`,
+   `login-password`, `login-submit`).
+2. Observe CRM shell.
 
 ### Expected result
 
-Access is allowed.
+Access allowed: `crm-shell` visible, URL `/app`.
 
 ## TC-002: CRM access requires login
 
 - AC: AC-002, AC-003
-- BDD: Accessing the CRM requires login; unauthenticated cannot access
-- Type: e2e (`tests/e2e/`)
+- Kind: N · Technique: use-case · Level: e2e · Priority: High
+- Type: e2e (`tests/e2e/auth.spec.ts`)
 - Risk: High
 
 ### Preconditions
 
-The actor is not logged in / not authenticated.
+No session.
+
+### Test data
+
+None.
 
 ### Steps
 
-1. Access the CRM.
+1. GET `/app` while logged out.
 
 ### Expected result
 
-Access is denied.
+Redirect to `/login`. `login-form` visible. `crm-shell` count 0.
 
 ## TC-003: ADMIN permitted CRM read and write
 
 - AC: AC-004
-- BDD: ADMIN has permitted read and write
-- Type: e2e (`tests/e2e/`)
+- Kind: P · Technique: decision table (role × write) · Level: e2e · Priority: High
+- Type: e2e (`tests/e2e/roles.spec.ts`)
 - Risk: High
 
 ### Preconditions
 
-An authenticated user with role ADMIN only (BD-003).
+Authenticated ADMIN (BD-003). CRM-001 Client UI is the write surface
+on this branch.
+
+### Test data
+
+`E2E_ADMIN_*`.
 
 ### Steps
 
-1. Use the CRM as that user.
+1. Log in as ADMIN.
+2. Observe shell and Client create entry.
 
 ### Expected result
 
-The user may perform permitted CRM read and write operations
-(BD-006). AUTH-001 has no CRM resource modules; when none exist,
-record that resource-level writes are not observable yet and that the
-authorization model is still AC-004.
+`user-role` is ADMIN. `admin-write-hint` and `client-create` visible.
+(BD-006 write is observable via CRM-001.)
 
 ## TC-004: VIEWER read-only CRM access
 
 - AC: AC-005
-- BDD: VIEWER has read-only access
-- Type: e2e (`tests/e2e/`)
+- Kind: P/N · Technique: decision table · Level: e2e · Priority: High
+- Type: e2e (`tests/e2e/roles.spec.ts`)
 - Risk: High
 
 ### Preconditions
 
-An authenticated user with role VIEWER only (BD-003).
+Authenticated VIEWER.
+
+### Test data
+
+`E2E_VIEWER_*`.
 
 ### Steps
 
-1. Use the CRM as that user.
+1. Log in as VIEWER.
+2. Observe shell; confirm no create control.
 
 ### Expected result
 
-The user may perform permitted CRM reads and must not perform CRM
-writes (BD-006). Same observability note as TC-003 if no CRM
-resources exist.
+`user-role` is VIEWER. `viewer-read-hint` visible. `admin-write-hint`
+and `client-create` count 0.
 
 ## TC-005: User can log out
 
 - AC: AC-006
-- BDD: Authenticated user can log out
-- Type: e2e (`tests/e2e/`)
+- Kind: P · Technique: use-case · Level: e2e · Priority: High
+- Type: e2e (`tests/e2e/auth.spec.ts`)
 - Risk: High
 
 ### Preconditions
 
-An authenticated bank employee.
+Authenticated ADMIN.
+
+### Test data
+
+`E2E_ADMIN_*`.
 
 ### Steps
 
-1. Log out.
+1. Log in.
+2. Click `logout`.
 
 ### Expected result
 
-The employee is no longer authenticated.
+`login-form` visible. URL `/login`. `crm-shell` count 0.
 
 ## TC-006: After logout, CRM access is denied
 
 - AC: AC-007
-- BDD: After logout CRM access is denied
-- Type: e2e (`tests/e2e/`)
+- Kind: N · Technique: state (session ended) · Level: e2e · Priority: High
+- Type: e2e (`tests/e2e/auth.spec.ts`, same test as TC-005)
 - Risk: High
 
 ### Preconditions
 
-An authenticated bank employee has logged out.
+Employee has completed logout (TC-005).
+
+### Test data
+
+None after logout.
 
 ### Steps
 
-1. Access the CRM.
+1. GET `/app`.
 
 ### Expected result
 
-Access is denied until the employee authenticates again (BD-007).
+Redirect `/login`. `login-form` only (BD-007).
 
 ## TC-007: Failed login is generic and does not enumerate accounts
 
 - AC: AC-009
-- BDD: Failed authentication is generic
-- Type: e2e (`tests/e2e/`)
+- Kind: N · Technique: EP (any auth failure) · Level: e2e + unit · Priority: High
+- Type: e2e + `tests/unit/errors.test.ts`
 - Risk: High
 - Decisions: BD-004
 
 ### Preconditions
 
-The person is not authenticated.
+Not authenticated.
+
+### Test data
+
+Unknown email + wrong password (`nobody@example.com`).
 
 ### Steps
 
-1. Submit login credentials that are not accepted.
+1. Submit login.
+2. Unit: `mapAuthError` with any cause.
 
 ### Expected result
 
-A generic authentication failure is shown. The outcome does not
-reveal whether a particular account exists. The person is not
-authenticated. Lockout is not required.
+`login-error` text is `GENERIC_AUTH_ERROR` only. Not authenticated.
+No account enumeration. No lockout required.
 
 ## TC-008: Unauthenticated access is only the login surface
 
 - AC: AC-010
-- BDD: Unauthenticated person may use only the login surface
-- Type: e2e (`tests/e2e/`)
+- Kind: P (login surface) / N (no CRM) · Technique: use-case · Level: e2e · Priority: High
+- Type: e2e (`tests/e2e/auth.spec.ts`)
 - Risk: High
 - Decisions: BD-007
 
 ### Preconditions
 
-The person is not authenticated.
+Not authenticated.
+
+### Test data
+
+None.
 
 ### Steps
 
-1. Use BankCRM without logging in.
+1. GET `/` and GET `/app`.
 
 ### Expected result
 
-Only the login surface is available. CRM functionality is not.
+Only login surface (`login-form`). No `crm-shell`.
 
 ## TC-009: Employee has exactly one role
 
 - AC: AC-011
-- BDD: Employee has exactly one role
-- Type: unit (`tests/unit/require-auth.test.ts`) and e2e (`tests/e2e/roles.spec.ts`; skip without seed)
+- Kind: P/N · Technique: EP (ADMIN | VIEWER | invalid) · Level: unit + e2e · Priority: High
+- Type: unit `parseRole` + e2e `user-role`
 - Risk: High
 - Decisions: BD-003
 
 ### Preconditions
 
-A provisioned bank employee (BD-002).
+Provisioned employee, or unit strings.
+
+### Test data
+
+Unit: `ADMIN`, `VIEWER`, `ADMIN,VIEWER`, empty, `admin`.
+E2e: seeded ADMIN and VIEWER users.
 
 ### Steps
 
-1. Read the employee’s application role after authentication.
+1. Unit: `parseRole`.
+2. E2e: after login, read `user-role`.
 
 ### Expected result
 
-The role is exactly one of ADMIN or VIEWER, not both.
+Exactly one of ADMIN or VIEWER. Invalid strings → null (fail-closed).
 
 ## Not in AUTH-001
 
 - Playwright for a third Auth user without a profile (former TC-010).
   Random/unknown credentials are TC-007. Fail-closed without a usable
   role remains AC-012 / BD-008, verified by Vitest
-  `decideAccess(true, null)` in `tests/unit/require-auth.test.ts`.
+  `decideAccess(true, null)` in `tests/unit/require-auth.test.ts`
+  (Kind N, technique decision table, level unit, priority High).
 - Lockout, timeout, MFA, password reset
 - In-app provisioning
 - Automatic session expiration (BD-005 deferred)

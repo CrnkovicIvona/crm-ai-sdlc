@@ -19,10 +19,21 @@ new wording).
   `/app/clients/new`, `/app/clients/:id`
 - Roles ADMIN / VIEWER and fail-closed access
 - Soft-delete behavior and optional products
-- `data-testid` values used by Playwright (including
-  `crm-shell`, `logout`, `user-role`, `nav-clients`,
-  `product-bank_account`, `field-error-first_name` and other
-  `field-error-*`, `delete-dialog`)
+- Frozen `data-testid` values (src + Playwright; do not rename):
+  `login-form`, `login-email`, `login-password`, `login-submit`,
+  `login-error`, `test-users`, `crm-shell`, `logout`, `user-role`,
+  `nav-clients`, `admin-write-hint`, `viewer-read-hint`,
+  `access-denied`, `denied-logout`, `client-list`, `client-create`,
+  `client-search`, `client-loading`, `client-empty`, `client-error`,
+  `client-success`, `client-form`, `client-first-name`,
+  `client-last-name`, `client-email`, `client-phone`, `client-oib`,
+  `client-created-at`, `client-save`, `client-delete`,
+  `field-error-first_name`, `field-error-last_name`,
+  `field-error-email`, `field-error-phone`, `field-error-oib`,
+  `product-bank_account` and `product-{code}` for catalog codes,
+  `client-products`, `delete-dialog`, `delete-cancel`,
+  `delete-confirm`. (Do not use `product-bank_account` or
+  `field-error-first_name` — those names are not in the freeze.)
 - ADR-0002 (Vite + React; no new CSS framework unless PO asks)
 
 ## Applied layout
