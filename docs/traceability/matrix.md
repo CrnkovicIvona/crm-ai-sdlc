@@ -25,24 +25,18 @@ not listed as product TDEs.
 
 ## Gaps
 
-- AUTH-001 implementation is on `src/` and `main` (**`RELEASED`**,
-  REL-003). Production smoke 5/5 PASSED 2026-08-23 against
-  `https://crm-ai-sdlc.vercel.app` (`tests/smoke/rel-003.spec.ts`).
-  Former 1b dropped by PO. Live Auth Playwright cases are skipped
-  without `E2E_*` secrets (SKIPPED ≠ PASSED).
-- TC-003/TC-004 ADMIN write vs VIEWER read is observable on this
-  branch via CRM-001 UI (`tests/e2e/roles.spec.ts`,
-  `tests/e2e/clients.spec.ts`). Execution still requires `E2E_*`
-  (SKIPPED ≠ PASSED). RLS/audit: `tests/integration/clients-rls.test.ts`
-  (skip unless live Supabase secrets).
-- AUTH-001 human Definition of Ready **is** recorded on Issue #5.
-  Implementation plan is **Approved**; product status **`RELEASED`**.
-  CRM-001 Gate 1 Ready and revised Gate 2 **`PLANNED`** are recorded
-  in chat 2026-08-23; GitHub Issue still missing. CRM-001 is **not**
-  `RELEASED`.
-- CRM-001 implementation plan: [features/CRM-001/implementation-plan.md](../features/CRM-001/implementation-plan.md).
-  Automated tests exist; they are **not** PASSED until executed with
-  evidence. This remediation pass did not execute credentialed suites.
+- AUTH-001 on `main` is **`RELEASED`** (REL-003 smoke 5/5, 2026-08-23,
+  `https://crm-ai-sdlc.vercel.app`). Live Auth Playwright on branch
+  SHA `1c98f14` **PASSED** in CI (11 e2e including AUTH). Production
+  smoke **this SHA** SKIPPED ≠ PASSED. Historical 5/5 remains the
+  release record.
+- TC-003/TC-004 ADMIN vs VIEWER UI **PASSED** e2e CI `1c98f14`.
+  RLS/audit: `tests/integration/clients-rls.test.ts` — 6 skipped →
+  **BLOCKED** (SKIPPED ≠ PASSED).
+- AUTH-001 DoR on Issue #5. CRM-001 Gate 1/2 in chat 2026-08-23; no
+  GitHub Issue. CRM-001 is **not** `RELEASED`. Gate 3 **not** met.
+- Phase 5/6: [test-reports/CRM-001.md](../test-reports/CRM-001.md),
+  [test-reports/QA-CLOSEOUT-001.md](../test-reports/QA-CLOSEOUT-001.md).
 
 Release: [REL-001](../releases/REL-001.md), [REL-002](../releases/REL-002.md),
 [REL-003](../releases/REL-003.md) (`RELEASED`; smoke 5/5 PASS).
