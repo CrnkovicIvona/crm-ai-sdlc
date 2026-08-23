@@ -44,6 +44,12 @@ export function ClientFormPage() {
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   useEffect(() => {
+    if (noticeFromState) {
+      setSuccess(noticeFromState);
+    }
+  }, [noticeFromState]);
+
+  useEffect(() => {
     if (!id) {
       setValues(EMPTY);
       setCreatedAt(null);
@@ -56,7 +62,6 @@ export function ClientFormPage() {
       }
       if (!result.ok) {
         setError(GENERIC_CLIENT_ERROR);
-        setSuccess(null);
         return;
       }
       setValues({
@@ -97,6 +102,7 @@ export function ClientFormPage() {
       return;
     }
     if (isCreate) {
+      setSuccess('Client created.');
       navigate(`/app/clients/${result.record.id}`, {
         replace: true,
         state: { notice: 'Client created.' },

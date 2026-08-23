@@ -77,7 +77,7 @@ export async function listClients(
     .range(from, to);
 
   if (needle) {
-    const pattern = `%${needle}%`;
+    const pattern = `"%${needle}%"`;
     request = request.or(
       [
         `first_name.ilike.${pattern}`,

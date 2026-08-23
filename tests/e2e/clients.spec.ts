@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import { expectCrmAfterLogin, submitLogin } from './login';
 
 const hasAdmin = Boolean(
@@ -7,6 +7,17 @@ const hasAdmin = Boolean(
 const hasViewer = Boolean(
   process.env.E2E_VIEWER_EMAIL && process.env.E2E_VIEWER_PASSWORD,
 );
+
+async function expectClientsSchemaReady(page: Page): Promise<void> {
+  await expect(page.getByTestId('client-list')).toBeVisible();
+  await expect(page.getByTestId('client-loading')).toHaveCount(0);
+  if (await page.getByTestId('client-error').isVisible()) {
+    test.skip(
+      true,
+      'clients table is not available (apply 20260823190000_clients_and_audit.sql to non-prod). SKIPPED ≠ PASSED',
+    );
+  }
+}
 
 function uniquePayload() {
   const stamp = `${Date.now()}${Math.floor(Math.random() * 1_000_000)}`.slice(
@@ -48,7 +59,7 @@ test('TC-C003–C006 ADMIN can create, read, update, delete a Client', async ({
   );
   await expectCrmAfterLogin(page);
   await page.getByTestId('nav-clients').click();
-  await expect(page.getByTestId('client-list')).toBeVisible();
+  await expectClientsSchemaReady(page);
   await page.getByTestId('client-create').click();
   await page.getByTestId('client-first-name').fill(payload.first_name);
   await page.getByTestId('client-last-name').fill(payload.last_name);
@@ -78,6 +89,8 @@ test('TC-C003–C006 ADMIN can create, read, update, delete a Client', async ({
     'Client deleted.',
   );
   await page.getByTestId('client-search').fill(payload.email);
+  await expect(page).toHaveURL(/q=/);
+  await expect(page.getByTestId('client-loading')).toHaveCount(0);
   await expect(page.getByTestId('client-empty')).toHaveText(
     'No matching clients.',
   );
@@ -109,9 +122,11 @@ test('TC-C007–C011 VIEWER can read and search, not write', async ({ page }) =>
   );
   await expectCrmAfterLogin(page);
   await page.getByTestId('nav-clients').click();
-  await expect(page.getByTestId('client-list')).toBeVisible();
+  await expectClientsSchemaReady(page);
   await expect(page.getByTestId('client-create')).toHaveCount(0);
   await page.getByTestId('client-search').fill('zzzz-no-such-client');
+  await expect(page).toHaveURL(/q=/);
+  await expect(page.getByTestId('client-loading')).toHaveCount(0);
   await expect(page.getByTestId('client-empty')).toHaveText(
     'No matching clients.',
   );
