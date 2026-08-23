@@ -10,7 +10,8 @@ if (!baseURL) {
 
 export default defineConfig({
   testDir: 'tests/smoke',
-  fullyParallel: true,
+  fullyParallel: false,
+  workers: 1,
   forbidOnly: Boolean(process.env.CI),
   retries: 0,
   timeout: 30_000,

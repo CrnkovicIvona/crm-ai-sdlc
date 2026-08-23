@@ -38,10 +38,9 @@ Vercel. Not an AUTH logic bug and not a flaky test.
 
 ## Corrective actions
 
-- Add SPA rewrite.
-- Re-run REL-003 step 1b on production after `main` deploy, against
-  `https://crm-ai-sdlc.vercel.app/login` only.
-- Local Playwright TC-002 remains a separate e2e case, not smoke 1b.
+- Add SPA rewrite for bookmarked `/login` (not a REL-003 smoke gate
+  after PO removed that step).
+- Local Playwright TC-002 remains a separate e2e case.
 
 ## Preventive actions
 

@@ -17,7 +17,7 @@ async function expectLoginSurface(
   await expect(page.getByTestId('crm-shell')).toHaveCount(0);
 }
 
-/** REL-003 steps 2–4 use the SPA via `/` (HTTP 200). Step 1b is GET `/login`. */
+/** REL-003 steps 2–4 use the SPA via `/` (HTTP 200). */
 async function openLoginViaRoot(
   page: import('@playwright/test').Page,
 ): Promise<void> {
@@ -55,22 +55,8 @@ async function fetchEntryScript(
 }
 
 test.describe('REL-003 production smoke', () => {
-  test('1a unauthenticated / shows login only', async ({ page }) => {
+  test('1 unauthenticated / shows login only', async ({ page }) => {
     await page.goto('/');
-    await expect(page).toHaveURL(/\/login/);
-    await expectLoginSurface(page);
-  });
-
-  test('1b unauthenticated GET /login shows login only', async ({
-    page,
-    request,
-  }) => {
-    const response = await request.get('/login');
-    expect(
-      response.status(),
-      'GET /login must be HTTP 200 so the SPA can render login. HTTP 404 is a hosting defect (BUG-001), not a pass.',
-    ).toBe(200);
-    await page.goto('/login');
     await expect(page).toHaveURL(/\/login/);
     await expectLoginSurface(page);
   });
