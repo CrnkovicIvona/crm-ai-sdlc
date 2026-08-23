@@ -12,6 +12,37 @@
 | Format           | Prettier   | entire repo                                          |
 | Secrets          | gitleaks   | CI                                                   |
 
+## ISTQB CTFL test design (mandatory for app features)
+
+Aligns with Foundation **test analysis and design** (black-box), not
+CTAL-TA exhaustiveness.
+
+| Kind           | Meaning                                                                                                                                             | When required                             |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| **P** Positive | Valid data, allowed role, happy path                                                                                                                | Every AC                                  |
+| **N** Negative | Invalid input or forbidden action **already in FS/BD**                                                                                              | Every AC that specifies a denial or error |
+| **E** Edge     | Boundary or state change **named in FS/BD** (e.g. 8–15 digits, exactly 11, unique email among active, optional empty products, soft-deleted hidden) | Only when a limit or state exists         |
+
+**Techniques** (name on the TC): equivalence partitioning (EP),
+boundary value analysis (BVA), use-case, decision table (role ×
+action), state transition (active ↔ soft-deleted).
+
+**Oracle rule:** do not invent expected copy, search matching, checksums,
+or extra fields. If N/E cannot be specified from approved artifacts,
+the TC (or sub-case) is **BLOCKED** until a human decides. BLOCKED ≠
+PASSED. SKIPPED ≠ PASSED.
+
+**Levels:** put P/N/E on the cheapest honest level (unit for field
+BVA; integration for RLS; e2e for use-case CRUD). Do not duplicate
+the full e2e pack as smoke.
+
+**Independence:** the implementing agent may draft TCs; High-risk
+features need a **human review of the P/N/E matrix** at DoR (Gate 1),
+not only of the code plan.
+
+**Experience-based:** optional exploratory charter on Preview (time-boxed)
+does not replace scripted TCs and is not PASSED without a human log.
+
 ## Quality bar
 
 **Now (`src/` present for AUTH-001):** Prettier
@@ -64,7 +95,9 @@ CI must report each suite as one of:
 - **NOT APPLICABLE** — cannot run yet (no `src/`); GitHub shows the
   ESLint, Vitest, and Playwright jobs as **SKIPPED**
 
-NOT APPLICABLE and SKIPPED are not PASSED.
+NOT APPLICABLE and SKIPPED are not PASSED. **BLOCKED** (no oracle,
+or High integration not executed for lack of secrets) is not PASSED
+and is not Gate 3 / DoD complete.
 
 ## ESLint
 

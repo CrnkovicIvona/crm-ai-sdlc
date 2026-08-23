@@ -6,13 +6,13 @@ import {
   validatePhone,
 } from '../../src/lib/clientValidation';
 
-describe('client validation (BD-T001–T003)', () => {
-  it('accepts local@domain with a dot in the domain', () => {
+describe('client validation (BD-T001–T003, TC-C002)', () => {
+  it('TC-C002-P-email accepts local@domain with a dot in the domain', () => {
     expect(validateEmail('ada@bank.example')).toBe(true);
     expect(validateEmail(' ada@bank.example ')).toBe(true);
   });
 
-  it('rejects email that is not local@domain with a dotted domain', () => {
+  it('TC-C002-N-email rejects email that is not local@domain with a dotted domain', () => {
     expect(validateEmail('')).toBe(false);
     expect(validateEmail('nodomain')).toBe(false);
     expect(validateEmail('a@localhost')).toBe(false);
@@ -20,27 +20,27 @@ describe('client validation (BD-T001–T003)', () => {
     expect(validateEmail('a b@bank.example')).toBe(false);
   });
 
-  it('accepts phone with optional + and spaces and 8–15 digits', () => {
+  it('TC-C002-E-phone accepts phone with optional + and spaces and 8–15 digits', () => {
     expect(validatePhone('12345678')).toBe(true);
     expect(validatePhone('+385 91 123 4567')).toBe(true);
     expect(validatePhone('  +123456789012345 ')).toBe(true);
   });
 
-  it('rejects phone outside the digit rules', () => {
+  it('TC-C002-E-phone rejects phone outside the digit rules', () => {
     expect(validatePhone('1234567')).toBe(false);
     expect(validatePhone('1234567890123456')).toBe(false);
     expect(validatePhone('+12-34')).toBe(false);
     expect(validatePhone('++385911234567')).toBe(false);
   });
 
-  it('requires OIB to be exactly 11 digits with no checksum', () => {
+  it('TC-C002-E-oib requires OIB to be exactly 11 digits with no checksum', () => {
     expect(validateOib('12345678901')).toBe(true);
     expect(validateOib('1234567890')).toBe(false);
     expect(validateOib('123456789012')).toBe(false);
     expect(validateOib('1234567890a')).toBe(false);
   });
 
-  it('names field errors and trims names', () => {
+  it('TC-C002-N-fields names field errors and trims names', () => {
     const result = validateClientInput({
       first_name: '  Ada  ',
       last_name: '  Lovelace  ',

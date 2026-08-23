@@ -7,7 +7,8 @@
   `tests/unit/clientValidation.test.ts`, `tests/unit/products.test.ts`,
   `tests/integration/clients-rls.test.ts`.
 - Execution status: **NOT EXECUTED** on this remediation pass.
-  Credentialed e2e/RLS **SKIP** without secrets (SKIPPED ≠ PASSED).
+  Credentialed e2e/RLS: runner **SKIP** without secrets → record
+  **BLOCKED** for Gate 3 (SKIPPED ≠ PASSED).
   Do not record PASSED without evidence.
 - Risk: High
 - Owner (draft): Agent as QA
@@ -15,16 +16,47 @@
 
 ## Automation map (not an execution report)
 
-| TC           | Automated in                                                                     | Execution                                                                                      |
-| ------------ | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| TC-C001      | `tests/e2e/clients.spec.ts`                                                      | NOT EXECUTED (skip without `E2E_ADMIN_*`)                                                      |
-| TC-C002      | e2e empty-submit (all five field errors) + `tests/unit/clientValidation.test.ts` | unit always runnable; e2e NOT EXECUTED                                                         |
-| TC-C003–C006 | `tests/e2e/clients.spec.ts` ADMIN CRUD                                           | Must **run** when `E2E_ADMIN_*` is set; missing product catalog is **FAIL**, not skip          |
-| TC-C007–C011 | `tests/e2e/clients.spec.ts` VIEWER                                               | NOT EXECUTED (skip without `E2E_VIEWER_*`); C011 grouped, not a separate field-by-field assert |
-| TC-C012–C019 | `tests/integration/clients-rls.test.ts`                                          | NOT EXECUTED (skip unless live Supabase)                                                       |
-| TC-C020      | `tests/unit/products.test.ts` + e2e product checkbox                             | unit runnable; e2e NOT EXECUTED                                                                |
-| TC-C021      | e2e assign on create + integration                                               | NOT EXECUTED                                                                                   |
-| TC-C022      | e2e search after delete                                                          | NOT EXECUTED                                                                                   |
+| TC           | Automated in                                                                     | Execution                                                                             |
+| ------------ | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| TC-C001      | `tests/e2e/clients.spec.ts`                                                      | NOT EXECUTED (skip without `E2E_ADMIN_*`)                                             |
+| TC-C002      | e2e empty-submit (all five field errors) + `tests/unit/clientValidation.test.ts` | unit always runnable; e2e NOT EXECUTED                                                |
+| TC-C003–C006 | `tests/e2e/clients.spec.ts` ADMIN CRUD                                           | Must **run** when `E2E_ADMIN_*` is set; missing product catalog is **FAIL**, not skip |
+| TC-C007–C011 | `tests/e2e/clients.spec.ts` VIEWER                                               | Runner skip without `E2E_VIEWER_*` → **BLOCKED** for Gate 3; C011 grouped             |
+| TC-C012–C019 | `tests/integration/clients-rls.test.ts`                                          | Runner skip unless live Supabase → **BLOCKED** for Gate 3                             |
+| TC-C020      | `tests/unit/products.test.ts` + e2e product checkbox                             | unit runnable; e2e NOT EXECUTED                                                       |
+| TC-C021      | e2e assign on create + integration                                               | NOT EXECUTED                                                                          |
+| TC-C022      | e2e search after delete                                                          | NOT EXECUTED                                                                          |
+
+## ISTQB P/N/E matrix (existing TCs — no new product rules)
+
+Kind: **P** positive, **N** negative, **E** edge/state. Technique per
+[testing-strategy.md](../../sdlc/testing-strategy.md). Oracle missing →
+**BLOCKED** (do not invent).
+
+| TC   | Kind  | Technique        | Level       | Oracle / note                                                                                                                 |
+| ---- | ----- | ---------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| C001 | P     | Use-case         | e2e         | Only Client entity                                                                                                            |
+| C002 | P+N+E | EP + BVA         | unit + e2e  | Approved fields; empty submit N; email/phone/OIB BVA in unit (`TC-C002-*`). Search match / extra formats **BLOCKED** (BD TBD) |
+| C003 | P     | Use-case         | e2e         | ADMIN read                                                                                                                    |
+| C004 | P     | Use-case         | e2e         | ADMIN create with approved fields; optional product                                                                           |
+| C005 | P     | Use-case         | e2e         | ADMIN update                                                                                                                  |
+| C006 | P+E   | Use-case + state | e2e         | Delete confirm/cancel; soft-delete then search empty (with C022)                                                              |
+| C007 | P     | Use-case         | e2e         | VIEWER read                                                                                                                   |
+| C008 | P     | Use-case         | e2e         | VIEWER search UI; **matching rule BLOCKED**                                                                                   |
+| C009 | N     | Decision         | e2e         | VIEWER cannot create (UI)                                                                                                     |
+| C010 | N     | Decision         | e2e         | VIEWER cannot update/delete (UI)                                                                                              |
+| C011 | P     | Use-case         | e2e         | VIEWER sees all fields (grouped)                                                                                              |
+| C012 | N     | Decision         | integration | VIEWER write denied at DB                                                                                                     |
+| C013 | P     | Use-case         | integration | Audit CREATE                                                                                                                  |
+| C014 | P     | Use-case         | integration | Audit UPDATE values                                                                                                           |
+| C015 | P     | Use-case         | integration | Audit DELETE                                                                                                                  |
+| C016 | P     | EP               | integration | Audit attributes                                                                                                              |
+| C017 | N     | Decision         | integration | No audit mutate via app                                                                                                       |
+| C018 | N     | Decision         | integration | READ not audited                                                                                                              |
+| C019 | N     | Decision         | integration | Unauthorized not audited                                                                                                      |
+| C020 | P     | EP               | unit + e2e  | Six catalog codes                                                                                                             |
+| C021 | P+E   | Use-case + EP    | e2e         | Optional assign; empty products allowed                                                                                       |
+| C022 | E     | State            | e2e         | Soft-deleted not in search                                                                                                    |
 
 ## TC-C001: Only Client entity
 
@@ -46,7 +78,9 @@ No other CRM entity is offered by CRM-001.
 ### Expected result
 
 Fields present: first name, last name, email, phone, OIB, created_at.
-No extra business fields.
+No extra business fields. Positive/negative/edge field classes:
+`TC-C002-*` in `tests/unit/clientValidation.test.ts`. Empty-submit e2e
+is negative. Search matching remains **BLOCKED**.
 
 ## TC-C003: ADMIN READ
 
@@ -66,8 +100,9 @@ ADMIN can read Clients.
 
 ### Expected result
 
-ADMIN can create a Client. Validation details TBD — do not invent
-invalid/valid examples beyond “approved fields are submitted”.
+ADMIN can create a Client with approved fields (positive). Field
+BVA/invalid classes: see TC-C002 unit ids. Do not invent extra
+invalid examples beyond BD-T001–T003.
 
 ## TC-C005: ADMIN UPDATE
 

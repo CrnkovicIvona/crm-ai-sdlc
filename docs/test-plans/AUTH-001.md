@@ -61,7 +61,14 @@ secrets is allowed and must be reported as SKIPPED.
 ## Entry / exit criteria
 
 - Entry: `PLANNED`
-- Exit to PR: executed tests with evidence in `docs/test-reports/AUTH-001.md`
+- AUTH-001 is **RELEASED**; this table is for regression and new AUTH
+  work, not a reopen of the feature.
+- Unit: TC-007 mapper, TC-009 parser, fail-closed **executed**
+- E2E: unauthenticated TCs executed; live-auth without `E2E_*` is
+  SKIPPED ≠ PASSED (historical). New High work records the same gap as
+  **BLOCKED** for DoD until executed
+- Smoke: REL-003 production paths; smoke PASS is not TC PASSED
+- Exit to PR (historical): evidence in `docs/test-reports/AUTH-001.md`
 
 ## Security review
 

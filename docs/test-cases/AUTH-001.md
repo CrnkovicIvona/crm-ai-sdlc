@@ -9,6 +9,24 @@ REL-003 smoke steps 1–4 overlap these TCs on purpose
 [../test-plans/AUTH-001.md](../test-plans/AUTH-001.md)). Smoke
 execution is not TC PASSED.
 
+## ISTQB P/N/E matrix (AUTH-001 as shipped — feature remains RELEASED)
+
+| TC     | Kind | Technique | Note                                |
+| ------ | ---- | --------- | ----------------------------------- |
+| 001    | P    | Use-case  | Logged-in access                    |
+| 002    | N    | Use-case  | Unauthenticated CRM denied          |
+| 003    | P    | Decision  | ADMIN shell                         |
+| 004    | P    | Decision  | VIEWER shell                        |
+| 005    | P    | Use-case  | Logout                              |
+| 006    | N    | State     | CRM denied after logout             |
+| 007    | N    | EP        | Generic failed login                |
+| 008    | P    | Use-case  | Unauthenticated = login only        |
+| 009    | P    | EP        | Exactly one role                    |
+| AC-012 | N    | Decision  | Fail-closed no role — unit, not e2e |
+
+Live-auth e2e without `E2E_*`: SKIPPED ≠ PASSED (historical). New High
+work records that gap as **BLOCKED** for DoD until executed.
+
 ## TC-001: Logged-in employee may access CRM
 
 - AC: AC-001, AC-008

@@ -16,7 +16,7 @@ Never report a test as passed unless:
 1. It was actually executed in this session or in CI for this commit/SHA, and
 2. Verifiable execution evidence exists (command output, CI job log URL, or a stored report that cites that output).
 
-If a suite was not run (no application, no runner, skipped by risk plan), say **NOT EXECUTED** or **SKIPPED** / **NOT APPLICABLE** and why. Do not equate those with **PASSED**. Designed tests in `docs/` are **DESIGNED** until this skill runs.
+If a suite was not run (no application, no runner, skipped by risk plan), say **NOT EXECUTED** or **SKIPPED** / **NOT APPLICABLE** and why. Do not equate those with **PASSED**. Designed tests in `docs/` are **DESIGNED** until this skill runs. High-risk RLS or credentialed e2e skipped for missing secrets: record **BLOCKED** for DoD/Gate 3 (not complete). TCs with no approved expected result stay **BLOCKED** (oracle), not executed.
 
 ## Steps
 
