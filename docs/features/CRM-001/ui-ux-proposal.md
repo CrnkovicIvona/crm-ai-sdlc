@@ -47,17 +47,17 @@ new wording).
 
 ## Applied validation copy
 
-| Situation        | String                                     |
-| ---------------- | ------------------------------------------ |
-| Empty first name | `Enter a first name.`                      |
-| Empty last name  | `Enter a last name.`                       |
-| Bad email        | `Enter an email like name@bank.example.`   |
-| Bad phone        | `Enter a phone with 8–15 digits.`          |
-| Bad OIB          | `Enter an 11-digit OIB.`                   |
-| Duplicate email  | `This email is already used.` (field)      |
-| Generic failure  | `Operation failed.` (kept)                 |
-| Login failure    | `Authentication failed.` (kept)            |
-| Empty list       | `No clients yet.` (kept)                   |
-| No search hits   | `No matching clients.` (kept)              |
-| No products      | `No products assigned.` (kept)             |
-| Success          | `Client created.` / saved / deleted (kept) |
+| Situation        | String                                                |
+| ---------------- | ----------------------------------------------------- |
+| Empty first name | `Enter a first name.`                                 |
+| Empty last name  | `Enter a last name.`                                  |
+| Bad email        | `Enter an email like name@bank.example.`              |
+| Bad phone        | `Enter a phone with 8–15 digits.`                     |
+| Bad OIB          | `Enter an 11-digit OIB.`                              |
+| Duplicate email  | `This email is already used.` (field)                 |
+| Generic failure  | `Operation failed.` (kept)                            |
+| Login failure    | `Authentication failed.` (kept; `GENERIC_AUTH_ERROR`) |
+| Empty list       | `No clients yet.` (kept)                              |
+| No search hits   | `No matching clients.` (kept)                         |
+| No products      | `No products assigned.` (kept)                        |
+| Success          | `Client created.` / saved / deleted (kept)            |

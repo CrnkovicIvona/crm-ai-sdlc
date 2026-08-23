@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { GENERIC_AUTH_ERROR } from '../../src/lib/errors';
 import { expectCrmAfterLogin, submitLogin } from './login';
 
 const hasAdmin = Boolean(
@@ -26,9 +27,7 @@ test('TC-007 failed login is generic', async ({ page }) => {
   await page.getByTestId('login-email').fill('nobody@example.com');
   await page.getByTestId('login-password').fill('wrong-password');
   await page.getByTestId('login-submit').click();
-  await expect(page.getByTestId('login-error')).toHaveText(
-    'Authentication failed.',
-  );
+  await expect(page.getByTestId('login-error')).toHaveText(GENERIC_AUTH_ERROR);
 });
 
 test('TC-001 logged-in employee can open CRM', async ({ page }) => {

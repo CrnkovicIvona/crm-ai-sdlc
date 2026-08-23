@@ -1,4 +1,5 @@
 import { expect, test, type APIRequestContext } from '@playwright/test';
+import { GENERIC_AUTH_ERROR } from '../../src/lib/errors';
 
 function requireSecret(name: string): string {
   const value = process.env[name];
@@ -61,10 +62,10 @@ test.describe('REL-003 production smoke', () => {
     await expectLoginSurface(page);
   });
 
-  test('2 failed login shows only Authentication failed.', async ({ page }) => {
+  test('2 failed login shows only the generic auth error', async ({ page }) => {
     await submitFromLoginForm(page, 'nobody@example.com', 'wrong-password');
     await expect(page.getByTestId('login-error')).toHaveText(
-      'Authentication failed.',
+      GENERIC_AUTH_ERROR,
     );
   });
 

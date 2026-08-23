@@ -1,4 +1,5 @@
 import { expect, type Page } from '@playwright/test';
+import { GENERIC_AUTH_ERROR } from '../../src/lib/errors';
 
 const OUTCOME_TIMEOUT_MS = 15_000;
 
@@ -23,7 +24,7 @@ export async function expectCrmAfterLogin(page: Page): Promise<void> {
   });
   if (await authError.isVisible()) {
     throw new Error(
-      'Login returned Authentication failed. Check E2E email/password and Email provider.',
+      `Login returned ${GENERIC_AUTH_ERROR} Check E2E email/password and Email provider.`,
     );
   }
   if (await denied.isVisible()) {

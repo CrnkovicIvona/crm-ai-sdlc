@@ -1,12 +1,30 @@
 # CRM-001 test cases
 
 - Work item: CRM-001
-- Status: **DESIGNED** — **NOT EXECUTED**
+- Design status: **DESIGNED**
+- Automation status: **AUTOMATED** (Playwright + Vitest unit + Vitest
+  integration). Paths: `tests/e2e/clients.spec.ts`,
+  `tests/unit/clientValidation.test.ts`, `tests/unit/products.test.ts`,
+  `tests/integration/clients-rls.test.ts`.
+- Execution status: **NOT EXECUTED** on this remediation pass.
+  Credentialed e2e/RLS **SKIP** without secrets (SKIPPED ≠ PASSED).
+  Do not record PASSED without evidence.
 - Risk: High
 - Owner (draft): Agent as QA
 - Source: [bdd.md](bdd.md), [user-stories.md](user-stories.md)
 
-Automation paths: `not automated` (no `src/`).
+## Automation map (not an execution report)
+
+| TC           | Automated in                                                   | Execution                                                                                      |
+| ------------ | -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| TC-C001      | `tests/e2e/clients.spec.ts`                                    | NOT EXECUTED (skip without `E2E_ADMIN_*`)                                                      |
+| TC-C002      | e2e invalid-field case + `tests/unit/clientValidation.test.ts` | unit always runnable; e2e NOT EXECUTED                                                         |
+| TC-C003–C006 | `tests/e2e/clients.spec.ts` ADMIN CRUD                         | NOT EXECUTED                                                                                   |
+| TC-C007–C011 | `tests/e2e/clients.spec.ts` VIEWER                             | NOT EXECUTED (skip without `E2E_VIEWER_*`); C011 grouped, not a separate field-by-field assert |
+| TC-C012–C019 | `tests/integration/clients-rls.test.ts`                        | NOT EXECUTED (skip unless live Supabase)                                                       |
+| TC-C020      | `tests/unit/products.test.ts` + e2e product checkbox           | unit runnable; e2e NOT EXECUTED                                                                |
+| TC-C021      | e2e assign on create + integration                             | NOT EXECUTED                                                                                   |
+| TC-C022      | e2e search after delete                                        | NOT EXECUTED                                                                                   |
 
 ## TC-C001: Only Client entity
 

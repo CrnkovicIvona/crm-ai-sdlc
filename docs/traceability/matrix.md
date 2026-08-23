@@ -29,13 +29,20 @@ not listed as product TDEs.
   REL-003). Production smoke 5/5 PASSED 2026-08-23 against
   `https://crm-ai-sdlc.vercel.app` (`tests/smoke/rel-003.spec.ts`).
   Former 1b dropped by PO. Live Auth Playwright cases are skipped
-  without `E2E_*` secrets (SKIPPED, not PASSED).
-- TC-003/TC-004 cannot observe resource-level writes until CRM-001 is
-  **implemented** (`docs/features/CRM-001/`; **READY**, plan **Draft**).
+  without `E2E_*` secrets (SKIPPED ≠ PASSED).
+- TC-003/TC-004 ADMIN write vs VIEWER read is observable on this
+  branch via CRM-001 UI (`tests/e2e/roles.spec.ts`,
+  `tests/e2e/clients.spec.ts`). Execution still requires `E2E_*`
+  (SKIPPED ≠ PASSED). RLS/audit: `tests/integration/clients-rls.test.ts`
+  (skip unless live Supabase secrets).
 - AUTH-001 human Definition of Ready **is** recorded on Issue #5.
-  Implementation plan is **Approved** (`PLANNED`). CRM-001 Gate 1 Ready
-  is recorded in chat 2026-08-23; GitHub Issue still missing.
+  Implementation plan is **Approved**; product status **`RELEASED`**.
+  CRM-001 Gate 1 Ready and revised Gate 2 **`PLANNED`** are recorded
+  in chat 2026-08-23; GitHub Issue still missing. CRM-001 is **not**
+  `RELEASED`.
 - CRM-001 implementation plan: [features/CRM-001/implementation-plan.md](../features/CRM-001/implementation-plan.md).
+  Automated tests exist; they are **not** PASSED until executed with
+  evidence. This remediation pass did not execute credentialed suites.
 
 Release: [REL-001](../releases/REL-001.md), [REL-002](../releases/REL-002.md),
 [REL-003](../releases/REL-003.md) (`RELEASED`; smoke 5/5 PASS).
