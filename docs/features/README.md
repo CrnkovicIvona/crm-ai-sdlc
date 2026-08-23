@@ -23,7 +23,7 @@ docs/features/<WORK-ITEM-ID>/
   test-cases.md
   test-plan.md
   traceability.md
-  implementation-plan.md   # only after READY; empty until then
+  implementation-plan.md   # after READY; Draft until human Approved
 ```
 
 CRM-001 uses this layout. Index rows still go in

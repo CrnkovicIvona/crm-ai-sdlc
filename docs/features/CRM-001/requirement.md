@@ -2,7 +2,7 @@
 
 - Work item: CRM-001
 - Issue: **none** (see [issue-draft.md](issue-draft.md))
-- Status: Specified (not Definition of Ready)
+- Status: Ready (Gate 1 2026-08-23). Human DoR given in chat. Not implemented.
 - Owner (draft): Agent as BA
 - Owner (approve): Human PO/BA
 - Source: Human-approved CRM-001 business decisions (this task)
