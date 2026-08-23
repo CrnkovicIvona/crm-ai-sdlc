@@ -2,10 +2,11 @@
 
 - Work item: CRM-001
 - Date: 2026-08-23
-- Lifecycle: **`SPECIFIED`** (not `READY`, not `PLANNED`, not implemented)
-- Approver: human PO/BA only
-- Agent role: prepare this pack; **do not** record Ready; **do not**
-  write `implementation-plan.md`; **do not** create `src/` or `feature/`
+- Lifecycle: **`READY`** as of PO chat 2026-08-23 (accepted §5.1 and
+  §5.2). Not `PLANNED`. Not implemented.
+- Approver: human PO/BA recorded Ready in chat (no GitHub Issue).
+- Agent role after Ready: write [implementation-plan.md](implementation-plan.md)
+  and **stop**. Do not implement until the plan is approved.
 
 This file is the Gate 1 review package. It does **not** add product
 rules. Recommended defaults in §5 are **options for you to accept or
@@ -13,6 +14,9 @@ replace**. They are not in force until you say so on the GitHub Issue
 (or an explicit chat instruction for this gate).
 
 ## 1. Verdict (agent)
+
+Gate 1 **closed**. PO accepted §5.1 and §5.2. CRM-001 is **`READY`**.
+Implementation plan is a separate Gate 2 draft.
 
 | Question                                         | Answer                                                                                          |
 | ------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
@@ -79,7 +83,7 @@ Tests TC-C001–TC-C019 are **DESIGNED**, **NOT EXECUTED**.
 These ACs are not enough to plan validation, uniqueness, search
 matching, DELETE confirm, or audit write mechanism. That is §5–§6.
 
-## 5. Recommended defaults (NOT approved)
+## 5. Recommended defaults (ACCEPTED Gate 1, 2026-08-23)
 
 Use this table only if you **explicitly accept** it. If you prefer
 other rules, write them instead. Do not leave blocking rows blank if

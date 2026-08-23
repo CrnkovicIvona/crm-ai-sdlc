@@ -3,12 +3,14 @@
 - Work item: CRM-001
 - Issue: none yet
 - Risk: High
-- Status of log: **PARTIAL** — BD-C001–BD-C015 and reuse TDs are
-  **APPROVED**. Remaining items are `TBD — HUMAN DECISION REQUIRED`.
+- Status of log: **APPROVED for Ready** — BD-C001–BD-C015, reuse TDs,
+  BD-T001–BD-T018, TD-C005 (names in the implementation plan), and
+  TD-C006. Source: PO Gate 1 chat 2026-08-23 (accepted
+  [dor-gate-1.md](dor-gate-1.md) §5.1 and §5.2).
 - This is not an ADR. Platform: ADR-0001, ADR-0002, AUTH-001 TD-001–TD-008.
 
-These approvals do **not** authorize implementation, `feature/`,
-`src/`, migrations, RLS policies, or Definition of Ready.
+Gate 1 Ready does **not** authorize `src/` Client modules until the
+implementation plan is human-approved (`PLANNED`).
 
 ---
 
@@ -136,31 +138,31 @@ These approvals do **not** authorize implementation, `feature/`,
 
 ---
 
-## Business decisions still open
+## Business decisions accepted at Gate 1 (2026-08-23)
 
-Each of the following is **`TBD — HUMAN DECISION REQUIRED`**. Do not
-treat examples in specs as decisions.
+PO accepted [dor-gate-1.md](dor-gate-1.md) §5.1 and §5.2. Status
+**APPROVED**.
 
-| ID      | Topic                                                       |
-| ------- | ----------------------------------------------------------- |
-| BD-T001 | Email validation rules                                      |
-| BD-T002 | Phone validation rules                                      |
-| BD-T003 | OIB validation rules                                        |
-| BD-T004 | Whether email must be unique                                |
-| BD-T005 | Whether phone must be unique                                |
-| BD-T006 | Search behavior, fields, case sensitivity, partial vs exact |
-| BD-T007 | Sorting                                                     |
-| BD-T008 | Pagination                                                  |
-| BD-T009 | Empty-state behavior                                        |
-| BD-T010 | DELETE confirmation behavior                                |
-| BD-T011 | Error messages                                              |
-| BD-T012 | Success messages                                            |
-| BD-T013 | UI layout                                                   |
-| BD-T014 | Exact route names                                           |
-| BD-T015 | Audit retention                                             |
-| BD-T016 | Audit querying UI, if any                                   |
-| BD-T017 | Handling of failed database operations                      |
-| BD-T018 | Transaction behavior where relevant                         |
+| ID      | Approved value                                                                                                                    |
+| ------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| BD-T001 | Email required; `local@domain` with a dot in the domain; no MX                                                                    |
+| BD-T002 | Phone required; digits, optional `+`, optional spaces; 8–15 digits after stripping spaces                                         |
+| BD-T003 | OIB required; exactly 11 digits; no checksum                                                                                      |
+| BD-T004 | Email unique among Clients, case-insensitive                                                                                      |
+| BD-T005 | Phone not unique                                                                                                                  |
+| BD-T006 | ADMIN and VIEWER; case-insensitive partial match on first name, last name, email, phone, OIB; empty query = full list (paginated) |
+| BD-T007 | Last name, then first name, A–Z, case-insensitive                                                                                 |
+| BD-T008 | 20 Clients per page                                                                                                               |
+| BD-T009 | `No clients yet.` / `No matching clients.`                                                                                        |
+| BD-T010 | UI confirm before DELETE; Cancel leaves the row; no type-to-confirm                                                               |
+| BD-T011 | `Operation failed.` Field errors name the field                                                                                   |
+| BD-T012 | `Client created.` / `Client saved.` / `Client deleted.`                                                                           |
+| BD-T013 | AUTH-001 shell; list+search; ADMIN form; VIEWER read-only detail                                                                  |
+| BD-T014 | `/app/clients`, `/app/clients/new`, `/app/clients/:id`                                                                            |
+| BD-T015 | Keep all audit rows; no purge                                                                                                     |
+| BD-T016 | No audit query UI                                                                                                                 |
+| BD-T017 | Generic error; no success UI on failure                                                                                           |
+| BD-T018 | Client write and audit row in one DB transaction (trigger)                                                                        |
 
 ---
 
@@ -200,19 +202,19 @@ treat examples in specs as decisions.
 
 ### TD-C005 Client persistence
 
-| Field          | Value                                                                                                                                                                                                                                                               |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Decision       | Where Client rows live                                                                                                                                                                                                                                              |
-| Proposed value | Logical PostgreSQL table for Clients, RLS as boundary                                                                                                                                                                                                               |
-| Status         | **INTENT APPROVED** (BD-C006). Physical names, columns types, SQL: **TBD — HUMAN DECISION REQUIRED** at implementation-plan time is still too early for DoR if humans want names now; otherwise acceptable as non-blocking for spec. Exact schema names remain TBD. |
+| Field          | Value                                                                                                                                |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Decision       | Where Client rows live                                                                                                               |
+| Approved value | Table `public.clients` as named in [implementation-plan.md](implementation-plan.md) §3. Approving that plan approves physical names. |
+| Status         | **APPROVED in plan (draft until Gate 2)**                                                                                            |
 
 ### TD-C006 Audit storage and write mechanism
 
-| Field      | Value                                                                           |
-| ---------- | ------------------------------------------------------------------------------- |
-| Decision   | How audit records are stored and written                                        |
-| Status     | **TBD — HUMAN DECISION REQUIRED** (schema, trigger vs application insert, etc.) |
-| Constraint | Must satisfy BD-C007–BD-C012 without inventing extra features                   |
+| Field          | Value                                                                                                        |
+| -------------- | ------------------------------------------------------------------------------------------------------------ |
+| Decision       | How audit records are stored and written                                                                     |
+| Approved value | Table `public.client_audit_events` + AFTER trigger on `clients`; app does not insert audit rows; no audit UI |
+| Status         | **APPROVED** (Gate 1 §5.1). SQL text is in the implementation plan.                                          |
 
 ### TD-C007 Tooling
 
