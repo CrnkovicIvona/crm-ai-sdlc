@@ -29,15 +29,19 @@ Agent constraints: `.cursor/rules/quality.mdc`. The file
 
 ## Current phase
 
-AUTH-001 is **`RELEASED`** on **`main`** after this close-out is
-human-merged (product already on `main` via PR **#12**). Production
+AUTH-001 is **`RELEASED`** on **`main`** (REL-003). Production
 smoke **PASSED** 2026-08-23: **5/5** against
 `https://crm-ai-sdlc.vercel.app` (`npm run test:smoke`, `workers: 1`;
 PO dropped former 1b). Vitest and unauthenticated Playwright ran (see
 [docs/test-reports/AUTH-001.md](../test-reports/AUTH-001.md)). Live
 Auth Playwright cases remain **SKIPPED** until `E2E_*` /
-`VITE_SUPABASE_*` are set (skipped ≠ passed). CRM-001 remains
-specified only.
+`VITE_SUPABASE_*` are set (skipped ≠ passed).
+
+CRM-001 is **specified and implemented on the feature branch**
+(`docs/features/CRM-001/`, `src/` Client screens, automated tests).
+It is **not** `RELEASED`. Credentialed CRM e2e and RLS integration
+are SKIPPED without secrets (skipped ≠ passed). DASH-001 is not
+started.
 
 When a feature requirement is defined, acceptance criteria must name
 the **critical production smoke scenarios** where they apply (the

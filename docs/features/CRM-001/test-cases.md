@@ -15,16 +15,16 @@
 
 ## Automation map (not an execution report)
 
-| TC           | Automated in                                                   | Execution                                                                                      |
-| ------------ | -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| TC-C001      | `tests/e2e/clients.spec.ts`                                    | NOT EXECUTED (skip without `E2E_ADMIN_*`)                                                      |
-| TC-C002      | e2e invalid-field case + `tests/unit/clientValidation.test.ts` | unit always runnable; e2e NOT EXECUTED                                                         |
-| TC-C003–C006 | `tests/e2e/clients.spec.ts` ADMIN CRUD                         | NOT EXECUTED                                                                                   |
-| TC-C007–C011 | `tests/e2e/clients.spec.ts` VIEWER                             | NOT EXECUTED (skip without `E2E_VIEWER_*`); C011 grouped, not a separate field-by-field assert |
-| TC-C012–C019 | `tests/integration/clients-rls.test.ts`                        | NOT EXECUTED (skip unless live Supabase)                                                       |
-| TC-C020      | `tests/unit/products.test.ts` + e2e product checkbox           | unit runnable; e2e NOT EXECUTED                                                                |
-| TC-C021      | e2e assign on create + integration                             | NOT EXECUTED                                                                                   |
-| TC-C022      | e2e search after delete                                        | NOT EXECUTED                                                                                   |
+| TC           | Automated in                                                                     | Execution                                                                                      |
+| ------------ | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| TC-C001      | `tests/e2e/clients.spec.ts`                                                      | NOT EXECUTED (skip without `E2E_ADMIN_*`)                                                      |
+| TC-C002      | e2e empty-submit (all five field errors) + `tests/unit/clientValidation.test.ts` | unit always runnable; e2e NOT EXECUTED                                                         |
+| TC-C003–C006 | `tests/e2e/clients.spec.ts` ADMIN CRUD                                           | NOT EXECUTED                                                                                   |
+| TC-C007–C011 | `tests/e2e/clients.spec.ts` VIEWER                                               | NOT EXECUTED (skip without `E2E_VIEWER_*`); C011 grouped, not a separate field-by-field assert |
+| TC-C012–C019 | `tests/integration/clients-rls.test.ts`                                          | NOT EXECUTED (skip unless live Supabase)                                                       |
+| TC-C020      | `tests/unit/products.test.ts` + e2e product checkbox                             | unit runnable; e2e NOT EXECUTED                                                                |
+| TC-C021      | e2e assign on create + integration                                               | NOT EXECUTED                                                                                   |
+| TC-C022      | e2e search after delete                                                          | NOT EXECUTED                                                                                   |
 
 ## TC-C001: Only Client entity
 

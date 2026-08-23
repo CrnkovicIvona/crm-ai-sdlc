@@ -15,10 +15,8 @@
 ## In scope
 
 TC-C001–TC-C022 as designed in [test-cases.md](test-cases.md).
-
-When an application exists (state `PLANNED`+): Playwright for
-user-visible CRUD/search/deny; Vitest integration for RLS-as-boundary
-and audit writes.
+Automation exists on this branch (see test-cases automation map).
+Credentialed e2e/RLS are SKIPPED without secrets (skipped ≠ passed).
 
 ## Out of scope
 
@@ -36,8 +34,9 @@ Skipping the High pack requires a human.
 
 ## Environments
 
-Specification only. Later: local Vite + non-prod Supabase / QA
-Preview per implementation plan. No production data.
+This branch: local Vite + non-prod Supabase / QA Preview per
+implementation plan. No production data. Secrets required for
+credentialed e2e and RLS; missing secrets → SKIPPED ≠ PASSED.
 
 ## Security review
 
@@ -52,9 +51,9 @@ Required before `READY_FOR_PR`:
 ## Entry / exit
 
 - Entry to implementation: human DoR **and** human-approved plan
-  (`PLANNED`)
-- Exit of this document: design complete; **not** Ready; **not**
-  executed
+  (`PLANNED`) — recorded in chat 2026-08-23
+- Exit of this document: design + automation mapped; **not** Gate 3
+  complete; credentialed suites **not** PASSED until executed
 
 ## Healing
 

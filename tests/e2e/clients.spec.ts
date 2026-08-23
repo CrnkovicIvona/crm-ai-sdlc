@@ -117,8 +117,14 @@ test('TC-C002 / TC-C004 invalid fields are named', async ({ page }) => {
   await expect(page.getByTestId('field-error-first_name')).toHaveText(
     'Enter a first name.',
   );
+  await expect(page.getByTestId('field-error-last_name')).toHaveText(
+    'Enter a last name.',
+  );
   await expect(page.getByTestId('field-error-email')).toHaveText(
     'Enter an email like name@bank.example.',
+  );
+  await expect(page.getByTestId('field-error-phone')).toHaveText(
+    'Enter a phone with 8–15 digits.',
   );
   await expect(page.getByTestId('field-error-oib')).toHaveText(
     'Enter an 11-digit OIB.',
