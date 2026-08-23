@@ -1,50 +1,51 @@
 ---
 name: release-and-verify
-description: Prepare a release from test to main and describe post-deploy smoke. Never merge main or deploy production. Use at READY_FOR_RELEASE and RELEASED.
+description: Prepare a release from test to main, describe production smoke, and sync the release branch to test. Never merge main or deploy production. Use at READY_FOR_RELEASE, ON_MAIN, and RELEASED.
 ---
 
 # Release and verify
 
 ## Rules
 
-- Only after human QA approval (READY_FOR_RELEASE).
-- Agent prepares the release branch and the release → main PR, and release notes.
-- Agent does not merge to main. Only a human merges the release PR into main.
-- **When this runs:** on the next **Agent** turn after the human says the
-  PR is merged (or the agent can see `mergedAt` on the release PR). Ask
-  mode cannot git-push. Silence after merge is not a skipped gate — the
-  human may say “sync test”.
-- Then merge the **same release branch** into `test` **without a second
-  human PR** unless GitHub rejects the push (protected `test`). No force.
-  Resolve doc conflicts that are only lifecycle labels to the released
-  state. Other conflicts: stop, do not delete the branch, write them in
-  `docs/releases/<rel-id>.md`.
-- **Same SHA is not required** if the release was squashed for commitlint.
-  Goal: `test` has the released tree plus notes; `main` stays the human
-  merge. Do not reset `test` onto `main`.
-- After both merges exist, delete the remote release branch. Never delete
-  it before `test` has the sync.
-- Post-deploy smoke must be actually executed against production with evidence.
-  If not executed, status is "not executed".
+- Only after human QA (`READY_FOR_RELEASE`).
+- Agent prepares `release/<rel-id>` (canonical) from `test`, the
+  release → `main` PR, and `docs/releases/<rel-id>.md`.
+- Agent does **not** merge to `main`. Only a human merges the release PR.
+- Before that PR is ready: run `sync-feature-docs` with target status
+  **`ON_MAIN`**. Do not label artifacts `RELEASED` yet.
+- After human merge: state is **`ON_MAIN`**, not `RELEASED`.
+- Production smoke must actually run against production. If it has not
+  **PASSED**, say **ON_MAIN — not RELEASED.** Never treat skipped,
+  missing, or deferred smoke as PASSED.
+- After smoke **PASSED**: `sync-feature-docs` at `RELEASED` (follow-up
+  PR to `main`; human merges because `main` requires a PR).
+- **Release → `test`:** primary is `.github/workflows/release-sync.yml`
+  (merge **release branch** into `test`, then delete the branch).
+  Fallback: this skill on an **Agent** turn. Ask mode cannot push.
+  Do **not** merge `main` into `test` as the normal sync.
+  Do **not** invent a second product-approval gate. A PR to `test` is
+  allowed only if GitHub rejects a direct push.
+- Delete the release branch **only after** a successful `test` sync.
+  If sync fails: keep the branch, record the failure, do not claim
+  success.
 
 ## Steps
 
-1. Confirm `docs/sdlc/production-readiness.md`.
-2. Write `docs/releases/<rel-id>.md`.
-3. Open release PR `release/<rel-id>` → `main` if the human asked.
-4. After the human merges release → main:
-   a. Agent merges `release/<rel-id>` → `test` and records the result
-   (success / conflict) in `docs/releases/<rel-id>.md`.
-   b. If both merges succeeded, agent deletes `release/<rel-id>` and records
-   the deletion in the same file.
-   c. If the merge into test failed, agent leaves the branch in place and
-   flags it for human resolution.
-5. Run the smoke checklist only if a production URL and authorization exist;
-   file a test report.
+1. Confirm `docs/sdlc/production-readiness.md` and human QA on the Issue.
+2. Cut `release/<rel-id>` from `test` (or document a `cursor/rel-…` alias).
+3. `sync-feature-docs` → `ON_MAIN`.
+4. Write `docs/releases/<rel-id>.md` (smoke = not executed).
+5. Open `release/<rel-id>` → `main` if the human asked.
+6. After human merge: record `ON_MAIN`, production URL if known.
+7. Run smoke only with a production URL and authorization; file evidence.
+8. If smoke PASSED: `sync-feature-docs` → `RELEASED`; follow-up PR to `main`.
+9. Confirm Actions synced `test`, or perform the agent fallback merge of
+   the **release branch** into `test`.
+10. Delete remote release branch only after step 9 succeeds.
 
 ## Done
 
-Release artifacts are ready, main and test are in sync on the released
-commit (or a conflict is clearly flagged), the release branch is deleted
-only after both merges succeed, and smoke evidence is filed. Production is
-not deployed by the agent.
+Release PR exists or merged; statuses match `ON_MAIN` or `RELEASED`
+per `docs/sdlc/lifecycle.md`; `test` has the release branch tree or
+failure is recorded; smoke is PASSED or explicitly not executed
+(state stays `ON_MAIN`). Production is not deployed by the agent.

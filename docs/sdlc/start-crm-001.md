@@ -56,8 +56,11 @@ Human DoR on Issue
   → execute tests with evidence
   → PR to test
   → human review/QA
-  → release / human merge main
-  → DONE only if DoD evidence exists
+  → release/<rel-id> PR to main (human merge) → ON_MAIN
+  → production smoke PASSED → docs close-out → RELEASED
+  → sync release branch to test → delete release branch
+  → Issue close only if DoD is met
 ```
 
-`READY` is not coding. `PLANNED` is coding.
+`READY` is not coding. `PLANNED` is coding. Merged to `main` is not
+`RELEASED` until production smoke PASSED.

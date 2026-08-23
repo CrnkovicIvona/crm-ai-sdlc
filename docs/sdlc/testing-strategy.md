@@ -28,8 +28,9 @@ Agent constraints: `.cursor/rules/quality.mdc`. The file
 
 ## Current phase
 
-AUTH-001 is **`IN_QA`**: Vite + React `src/` exists. Vitest and
-unauthenticated Playwright ran on SHA `b7f181e` (see
+AUTH-001 is **`ON_MAIN`**: Vite + React `src/` is on `main` (REL-003).
+Production smoke was **not executed** (not `RELEASED`). Vitest and
+unauthenticated Playwright ran (see
 [docs/test-reports/AUTH-001.md](../test-reports/AUTH-001.md)). Live
 Auth Playwright cases remain **SKIPPED** until `E2E_*` /
 `VITE_SUPABASE_*` are set (skipped ≠ passed). CRM-001 remains

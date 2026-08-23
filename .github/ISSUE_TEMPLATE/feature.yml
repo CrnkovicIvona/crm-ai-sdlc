@@ -40,7 +40,12 @@ body:
           PLANNED,
           IN_DEVELOPMENT,
           TESTING,
+          HEALING,
+          REGRESSION,
+          READY_FOR_PR,
           IN_QA,
+          READY_FOR_RELEASE,
+          ON_MAIN,
           RELEASED,
         ]
   - type: markdown
@@ -49,4 +54,7 @@ body:
         Specs: functional = WHAT, technical = HOW. Do not mark Ready here
         unless you are recording human Definition of Ready. Implementation
         plans require Ready first. Coding requires PLANNED.
+        Merged to main without production smoke PASSED is ON_MAIN, not
+        RELEASED. The Issue lifecycle field mirrors git; git is source of
+        truth. Do not close the Issue unless main is RELEASED and DoD is met.
         Process: `docs/sdlc/lifecycle.md`.
