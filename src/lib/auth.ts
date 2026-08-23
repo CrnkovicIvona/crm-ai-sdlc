@@ -21,7 +21,7 @@ export async function signOut(): Promise<void> {
   if (!supabase) {
     return;
   }
-  await supabase.auth.signOut();
+  await supabase.auth.signOut({ scope: 'local' });
 }
 
 export async function getSession() {

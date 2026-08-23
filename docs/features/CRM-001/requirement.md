@@ -9,6 +9,7 @@
 - Risk: High
 - Approval: Business decisions BD-C001–BD-C015 **APPROVED**. Remaining
   items are `TBD — HUMAN DECISION REQUIRED`. Human DoR **not** given.
+  Gate 1 pack: [dor-gate-1.md](dor-gate-1.md).
 
 ## Problem
 
