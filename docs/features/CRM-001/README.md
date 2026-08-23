@@ -3,7 +3,9 @@
 - Risk: **High** (authorization, personal data, DELETE, audit, RLS)
 - State: **`PLANNED`** (Gate 2 **revised** 2026-08-23: Product catalog,
   optional ClientProduct, soft-delete). Implementation is in review
-  for Gate 3 (`test`). **Not on `main`.** **Not `RELEASED`.**
+  for Gate 3 (`test`). Automated High pack (unit + RLS + e2e) **PASSED**
+  CI SHA `456c9a2`. Human QA on `test` **not** claimed. **Not on `main`.**
+  **Not `RELEASED`.**
 - GitHub Issue: none (App/MCP blocked). Ready and PLANNED recorded in
   chat.
 - Gate 1 pack: [dor-gate-1.md](dor-gate-1.md) (§5.1 and §5.2 **accepted**)

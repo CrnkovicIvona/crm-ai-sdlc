@@ -6,10 +6,10 @@
   integration). Paths: `tests/e2e/clients.spec.ts`,
   `tests/unit/clientValidation.test.ts`, `tests/unit/products.test.ts`,
   `tests/integration/clients-rls.test.ts`.
-- Execution status: **PARTIAL** on SHA `1c98f14` (2026-08-23).
+- Execution status: **PARTIAL** on SHA `456c9a2` (2026-08-23).
   See [../../test-reports/CRM-001.md](../../test-reports/CRM-001.md).
-  E2E **PASSED** in CI (11/11). Unit **PASSED** (13). RLS integration
-  **BLOCKED** (6 skipped). SKIPPED ≠ PASSED.
+  E2E **PASSED** in CI (11/11). Vitest **PASSED** (19/19, 0 skipped)
+  including RLS. C008 match oracle still **BLOCKED**. SKIPPED ≠ PASSED.
 - Risk: High
 - Owner (draft): Agent as QA
 - Source: [bdd.md](bdd.md), [user-stories.md](user-stories.md)
@@ -18,13 +18,13 @@
 
 | TC           | Automated in                                             | Execution                                                                           |
 | ------------ | -------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| TC-C001      | `tests/e2e/clients.spec.ts`                              | **PASSED** CI SHA `1c98f14` (run 32672184863)                                       |
-| TC-C002      | e2e empty-submit + `tests/unit/clientValidation.test.ts` | **PASSED** unit local+CI; empty-submit e2e CI                                       |
+| TC-C001      | `tests/e2e/clients.spec.ts`                              | **PASSED** CI SHA `456c9a2` (run 32673921138)                                       |
+| TC-C002      | e2e empty-submit + `tests/unit/clientValidation.test.ts` | **PASSED** unit CI; empty-submit e2e CI                                             |
 | TC-C003–C006 | `tests/e2e/clients.spec.ts` ADMIN CRUD                   | **PASSED** CI (catalog present; not skipped)                                        |
 | TC-C007–C011 | `tests/e2e/clients.spec.ts` VIEWER                       | **PASSED** CI grouped; C011 not field-by-field; C008 match oracle still **BLOCKED** |
-| TC-C012–C019 | `tests/integration/clients-rls.test.ts`                  | **BLOCKED** — 6 skipped (no live service role). Skip ≠ pass                         |
+| TC-C012–C019 | `tests/integration/clients-rls.test.ts`                  | **PASSED** CI SHA `456c9a2` — 6 executed, 0 skipped                                 |
 | TC-C020      | `tests/unit/products.test.ts` + e2e product checkbox     | **PASSED** unit; checkbox in C003–C006 e2e CI                                       |
-| TC-C021      | e2e assign on create + integration                       | **PASSED** e2e assign CI; integration write **BLOCKED** with C012 pack              |
+| TC-C021      | e2e assign on create + integration                       | **PASSED** e2e assign CI; integration write **PASSED** with C012 pack               |
 | TC-C022      | e2e search after delete                                  | **PASSED** CI (asserted inside C003–C006)                                           |
 
 ## ISTQB P/N/E matrix (existing TCs — no new product rules)
@@ -248,7 +248,7 @@ None for UI.
 
 ### Expected result
 
-No create UI. DB write denied (BLOCKED until live RLS runs).
+No create UI. DB write denied (RLS **PASSED** CI `456c9a2`).
 
 ## TC-C010: VIEWER cannot UPDATE or DELETE
 
@@ -265,7 +265,7 @@ VIEWER.
 
 ### Expected result
 
-UI + DB deny. DB **BLOCKED** without secrets.
+UI + DB deny. DB **PASSED** CI `456c9a2`.
 
 ## TC-C011: VIEWER sees all fields
 
@@ -424,7 +424,7 @@ Six English codes. No product admin UI (C001).
 ### Expected result
 
 Optional assign. VIEWER cannot write assignments. Integration
-**BLOCKED** without secrets.
+**PASSED** CI `456c9a2`.
 
 ## TC-C022: Soft-delete hides the Client
 

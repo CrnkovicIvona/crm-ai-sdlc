@@ -5,9 +5,11 @@
 - Risk level: **High**
 - Impact summary: Client PII (including OIB), ADMIN DELETE, VIEWER
   restrictions, RLS boundary, append-only audit.
-- Status of tests: **IMPLEMENTED**. SHA `1c98f14`: unit **PASSED**;
-  e2e **PASSED** in CI (11/11). RLS integration **BLOCKED** (6 skipped).
-  Gate 3 **not** complete. Report: [../../test-reports/CRM-001.md](../../test-reports/CRM-001.md).
+- Status of tests: **IMPLEMENTED**. SHA `456c9a2`: unit **PASSED**;
+  e2e **PASSED** in CI (11/11). RLS integration **PASSED** in CI
+  (6 executed, 0 skipped). Automated DoD High **met**. Human QA on
+  `test` / RELEASED **not** claimed. Report:
+  [../../test-reports/CRM-001.md](../../test-reports/CRM-001.md).
 - Owner (draft): Agent as QA
 - Approval: Human DoR not recorded
 
@@ -16,7 +18,9 @@
 TC-C001–TC-C022 as designed in [test-cases.md](test-cases.md).
 Automation exists on this branch (see test-cases automation map).
 Credentialed e2e/RLS without secrets: runner skip, recorded as
-**BLOCKED** for Gate 3 (not PASSED).
+**BLOCKED** for Gate 3 (not PASSED). CI Vitest on SHA `456c9a2`
+injects `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`,
+`SUPABASE_SERVICE_ROLE_KEY`, and `E2E_*` — RLS **PASSED** there.
 
 ## Out of scope
 

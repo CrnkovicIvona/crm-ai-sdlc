@@ -27,14 +27,15 @@ not listed as product TDEs.
 
 - AUTH-001 on `main` is **`RELEASED`** (REL-003 smoke 5/5, 2026-08-23,
   `https://crm-ai-sdlc.vercel.app`). Live Auth Playwright on branch
-  SHA `1c98f14` **PASSED** in CI (11 e2e including AUTH). Production
+  SHA `456c9a2` **PASSED** in CI (11 e2e including AUTH). Production
   smoke **this SHA** SKIPPED ≠ PASSED. Historical 5/5 remains the
   release record.
-- TC-003/TC-004 ADMIN vs VIEWER UI **PASSED** e2e CI `1c98f14`.
-  RLS/audit: `tests/integration/clients-rls.test.ts` — 6 skipped →
-  **BLOCKED** (SKIPPED ≠ PASSED).
+- TC-003/TC-004 ADMIN vs VIEWER UI **PASSED** e2e CI `456c9a2`.
+  RLS/audit: `tests/integration/clients-rls.test.ts` — 6 **PASSED**
+  CI `456c9a2` (0 skipped). C008 match oracle still **BLOCKED**.
 - AUTH-001 DoR on Issue #5. CRM-001 Gate 1/2 in chat 2026-08-23; no
-  GitHub Issue. CRM-001 is **not** `RELEASED`. Gate 3 **not** met.
+  GitHub Issue. CRM-001 is **not** `RELEASED`. Automated DoD High met
+  on `456c9a2`. Human QA on `test` is not claimed.
 - Phase 5/6: [test-reports/CRM-001.md](../test-reports/CRM-001.md),
   [test-reports/QA-CLOSEOUT-001.md](../test-reports/QA-CLOSEOUT-001.md).
 
