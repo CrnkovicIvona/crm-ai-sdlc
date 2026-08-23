@@ -28,7 +28,9 @@ from the agent.
 | Traceability        | [traceability.md](traceability.md)                                                |
 | Gate 1 DoR pack     | [dor-gate-1.md](dor-gate-1.md)                                                    |
 | Implementation plan | [implementation-plan.md](implementation-plan.md) (**Revised Gate 2** / `PLANNED`) |
+| UI/UX proposal      | [ui-ux-proposal.md](ui-ux-proposal.md) (**Proposed** — waiting for PO)            |
 | Issue draft         | [issue-draft.md](issue-draft.md)                                                  |
 
 Index: [../../traceability/matrix.md](../../traceability/matrix.md).
 Orchestrator: `.cursor/skills/feature-orchestrator/SKILL.md`.
+UX/UI proposals: `.cursor/skills/ui-ux-redesign/SKILL.md`.

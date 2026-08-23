@@ -171,6 +171,6 @@ Do not create an ADR for Client columns.
 | TDE-C007 | AUTH-001 FR-013                    | Reuse fail-closed gate                      |
 | TDE-C008 | FR-C001–FR-C016                    | Playwright/Vitest TC-C001–TC-C022           |
 
-Implementation: `src/lib/clients.ts`, `src/lib/products.ts`, Client
-pages, `supabase/migrations/20260823190000_clients_and_audit.sql`,
-`supabase/migrations/20260823210000_products_and_soft_delete.sql`.
+Presentation restyle: proposals only until PO selection —
+[ui-ux-proposal.md](ui-ux-proposal.md). Keep `data-testid` values.
+Do not add a CSS framework (ADR-0002).

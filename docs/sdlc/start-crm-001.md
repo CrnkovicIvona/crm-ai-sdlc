@@ -45,6 +45,8 @@ Human approves implementation plan
   → cursor/crm-001-… (not before)
 
   → implement only the plan (Vite/React/Supabase/RLS/audit)
+  → optional UX/UI **proposals** via `.cursor/skills/ui-ux-redesign/SKILL.md`
+    (do not restyle until PO selects; see `docs/features/CRM-001/ui-ux-proposal.md`)
   → execute tests with evidence
   → PR to test
   → human review/QA

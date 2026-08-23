@@ -24,6 +24,8 @@ unless a human applies production. CRM-001 is `PLANNED` (Gate 2
 
 Canonical process: [docs/sdlc/lifecycle.md](docs/sdlc/lifecycle.md).
 Start feature work with `.cursor/skills/feature-orchestrator/SKILL.md`.
+UX/UI **proposals** for existing screens:
+`.cursor/skills/ui-ux-redesign/SKILL.md` (PO picks before CSS).
 
 ## Stack (approved)
 

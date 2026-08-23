@@ -26,6 +26,10 @@ agentic SDLC. GitHub + `docs/` are the source of truth.
    [../features/CRM-001/implementation-plan.md](../features/CRM-001/implementation-plan.md)
    (**Approved**). Implementation PR targets `test` (Gate 3). Human
    applies the non-prod migration. Do not merge `main` as agent.
+   UX/UI **proposals** for existing AUTH+CRM screens (no new features):
+   `.cursor/skills/ui-ux-redesign/SKILL.md` and
+   [../features/CRM-001/ui-ux-proposal.md](../features/CRM-001/ui-ux-proposal.md)
+   (**Proposed** until PO selects). Not a new roadmap ID; not DASH-001.
 3. **DASH-001** — simple statistics **after** Clients exist. Do not
    specify or implement until CRM-001 is accepted for planning.
 

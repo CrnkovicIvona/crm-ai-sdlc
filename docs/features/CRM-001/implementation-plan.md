@@ -19,7 +19,9 @@
 - Prerequisite: human Definition of Ready (**recorded in chat**,
   2026-08-23)
 - Status: **Revised Approved** (`PLANNED`) — Product + ClientProduct +
-  soft-delete in progress toward Gate 3 (`test`)
+  soft-delete in progress toward Gate 3 (`test`). UX/UI **proposals**
+  for existing screens: [ui-ux-proposal.md](ui-ux-proposal.md)
+  (**Proposed**). Do not implement restyle until the PO selects items.
 
 This is **not** the functional or technical specification.
 
@@ -323,7 +325,9 @@ only with an explicit data plan. Do not drop prod.
 - Product admin UI, restore of soft-deleted Clients, contract/rate/balance fields
 - Audit UI, export, purge job
 - Custom REST/GraphQL
-- AUTH-001 redesign
+- AUTH-001 **behavior** redesign (login/roles). Visual/UX **proposals**
+  for existing AUTH+CRM screens are allowed via
+  `.cursor/skills/ui-ux-redesign/SKILL.md`; applying CSS waits for PO.
 - Agent apply SQL to production
 - Expanding REL-003 production smoke in this increment unless a
   release plan says so

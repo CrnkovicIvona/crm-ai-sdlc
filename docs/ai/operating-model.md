@@ -18,6 +18,12 @@ production.
 | Code         | `src/`                                             | Implementation after `PLANNED`       |
 | CI           | `.github/workflows/`                               | Quality gates; release→`test` sync   |
 
+`ui-ux-redesign` (`.cursor/skills/ui-ux-redesign/SKILL.md`) writes
+**layout/copy proposals** for screens that already exist. It does not
+open DASH-001 or new CRM entities. Applying a restyle waits for PO
+selection. CRM-001 output:
+[../features/CRM-001/ui-ux-proposal.md](../features/CRM-001/ui-ux-proposal.md).
+
 ## Orchestration
 
 Start with `.cursor/skills/feature-orchestrator/SKILL.md` for every
@@ -34,7 +40,8 @@ decision logs (Proposed), stories, AC, BDD, test design, test planning,
 implementation planning (after Ready), coding (after PLANNED),
 unit/integration/Playwright tests,
 execution, failure analysis, healing, regression analysis, reports,
-code review, commit messages, PR preparation.
+code review, commit messages, PR preparation, UX/UI **proposals** for
+existing screens (`ui-ux-redesign`; PO must select before CSS).
 
 ## Forbidden
 
