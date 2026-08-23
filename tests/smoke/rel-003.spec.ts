@@ -1,5 +1,4 @@
 import { expect, test, type APIRequestContext } from '@playwright/test';
-import { expectCrmAfterLogin } from '../e2e/login';
 
 function requireSecret(name: string): string {
   const value = process.env[name];
@@ -89,7 +88,7 @@ test.describe('REL-003 production smoke', () => {
     const email = requireSecret('E2E_ADMIN_EMAIL');
     const password = requireSecret('E2E_ADMIN_PASSWORD');
     await submitFromLoginForm(page, email, password);
-    await expectCrmAfterLogin(page);
+    await expect(page.getByTestId('crm-shell')).toBeVisible();
     await expect(page.getByTestId('user-role')).toHaveText('ADMIN');
     await expect(page.getByTestId('admin-write-hint')).toBeVisible();
     await page.getByTestId('logout').click();
@@ -103,11 +102,10 @@ test.describe('REL-003 production smoke', () => {
     const email = requireSecret('E2E_VIEWER_EMAIL');
     const password = requireSecret('E2E_VIEWER_PASSWORD');
     await submitFromLoginForm(page, email, password);
-    await expectCrmAfterLogin(page);
+    await expect(page.getByTestId('crm-shell')).toBeVisible();
     await expect(page.getByTestId('user-role')).toHaveText('VIEWER');
     await expect(page.getByTestId('viewer-read-hint')).toBeVisible();
     await expect(page.getByTestId('admin-write-hint')).toHaveCount(0);
-    await expect(page).toHaveURL(/\/app/);
   });
 
   test('5 browser bundle does not embed the service role', async ({

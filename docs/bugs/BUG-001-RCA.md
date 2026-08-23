@@ -17,7 +17,7 @@ SPA. Loading `/` still works; the client can then navigate to `/login`.
    `index.html`, so local e2e passed.
 4. 2026-08-23: REL-003 production smoke failed step 1b:
    unauthenticated `GET https://crm-ai-sdlc.vercel.app/login` → 404.
-   Reconfirmed after PO correction that **1b is `/login`, not `/app`**.
+   Reconfirmed after PO correction that **1b is `/login`**.
 
 ## Immediate fix
 
@@ -33,16 +33,15 @@ Vercel. Not an AUTH logic bug and not a flaky test.
 - No `vercel.json` in ENG-001 / AUTH-001.
 - E2E never hit Vercel path rules.
 - Production smoke is manual and ran after deploy.
-- An earlier write-up used `/app` as step 1b; PO corrected the
-  canonical unauthenticated GET to `/login`.
+- An earlier write-up used the wrong unauthenticated URL; PO set
+  canonical smoke 1b to `https://crm-ai-sdlc.vercel.app/login`.
 
 ## Corrective actions
 
 - Add SPA rewrite.
 - Re-run REL-003 step 1b on production after `main` deploy, against
   `https://crm-ai-sdlc.vercel.app/login` only.
-- Keep Playwright coverage of unauthenticated access (including TC-002
-  `/app`); that is not the production smoke 1b URL.
+- Local Playwright TC-002 remains a separate e2e case, not smoke 1b.
 
 ## Preventive actions
 
