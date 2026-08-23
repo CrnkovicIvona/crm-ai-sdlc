@@ -4,6 +4,10 @@ Issue: [#5](https://github.com/CrnkovicIvona/crm-ai-sdlc/issues/5). Risk: High (
 Automation: `tests/e2e/auth.spec.ts`, `tests/e2e/roles.spec.ts`,
 `tests/unit/errors.test.ts`, `tests/unit/require-auth.test.ts`.
 Live-auth Playwright cases skip without `E2E_*` (SKIPPED ≠ PASSED).
+REL-003 smoke steps 1–4 overlap these TCs on purpose
+(`tests/smoke/rel-003.spec.ts`; mapping in
+[../test-plans/AUTH-001.md](../test-plans/AUTH-001.md)). Smoke
+execution is not TC PASSED.
 
 ## TC-001: Logged-in employee may access CRM
 

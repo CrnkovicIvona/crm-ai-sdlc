@@ -3,6 +3,11 @@ import { GENERIC_AUTH_ERROR } from '../../src/lib/errors';
 
 const OUTCOME_TIMEOUT_MS = 15_000;
 
+export async function expectLoginSurface(page: Page): Promise<void> {
+  await expect(page.getByTestId('login-form')).toBeVisible();
+  await expect(page.getByTestId('crm-shell')).toHaveCount(0);
+}
+
 export async function submitLogin(
   page: Page,
   email: string,
@@ -12,6 +17,24 @@ export async function submitLogin(
   await page.getByTestId('login-email').fill(email);
   await page.getByTestId('login-password').fill(password);
   await page.getByTestId('login-submit').click();
+}
+
+/** REL-003 smoke enters via `/` (SPA rewrite), then the same login form. */
+export async function submitLoginFromRoot(
+  page: Page,
+  email: string,
+  password: string,
+): Promise<void> {
+  await page.goto('/');
+  await expect(page).toHaveURL(/\/login/);
+  await expectLoginSurface(page);
+  await page.getByTestId('login-email').fill(email);
+  await page.getByTestId('login-password').fill(password);
+  await page.getByTestId('login-submit').click();
+}
+
+export async function expectGenericAuthError(page: Page): Promise<void> {
+  await expect(page.getByTestId('login-error')).toHaveText(GENERIC_AUTH_ERROR);
 }
 
 /** Wait until login succeeds into the CRM shell, or fail with a specific cause. */
@@ -45,4 +68,5 @@ export async function expectLoginAfterLogout(page: Page): Promise<void> {
     timeout: OUTCOME_TIMEOUT_MS,
   });
   await expect(page).toHaveURL(/\/login/);
+  await expect(page.getByTestId('crm-shell')).toHaveCount(0);
 }

@@ -23,6 +23,19 @@ Automated paths: `tests/e2e/auth.spec.ts`, `tests/e2e/roles.spec.ts`,
 Production smoke (REL-003, not the local e2e pack):
 `tests/smoke/rel-003.spec.ts`.
 
+Both suites stay. Shared UI helpers live in `tests/e2e/login.ts`.
+Do not add a third copy of these journeys. E2e is skip-gated without
+Vite/`E2E_*`. Smoke is fail-closed on `SMOKE_BASE_URL` and `E2E_*`
+(missing secrets = FAIL, not SKIPPED). Smoke PASS is not TC PASSED.
+
+| REL-003 smoke step                     | Overlaps AUTH TCs              | Notes                              |
+| -------------------------------------- | ------------------------------ | ---------------------------------- |
+| 1 unauthenticated `/` shows login only | TC-002, TC-008                 | Login surface; no CRM shell        |
+| 2 failed login generic error           | TC-007                         | Same generic copy as e2e           |
+| 3 ADMIN login, shell, logout           | TC-001, TC-003, TC-005, TC-006 | Smoke does not replace the TC pack |
+| 4 VIEWER login, read-only shell        | TC-004                         | No write hint                      |
+| 5 bundle has no service role           | (none)                         | Smoke-only                         |
+
 ## Out of scope
 
 - Lockout, timeout, MFA, in-app provisioning

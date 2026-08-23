@@ -50,6 +50,12 @@ e2e tests are created, identify and add the matching smoke tests in
 `tests/smoke/` — do not duplicate the full e2e suite. Release notes
 must reference those files and record execution results.
 
+AUTH-001 overlap is **intentional**: REL-003 smoke steps 1–4 map to
+AUTH TCs (see [test-plans/AUTH-001.md](../test-plans/AUTH-001.md));
+both suites remain. Shared helpers: `tests/e2e/login.ts`. Do not copy
+those journeys into a third file. Skip ≠ pass; smoke PASS is not TC
+PASSED.
+
 CI must report each suite as one of:
 
 - **PASSED** — executed and succeeded, with evidence

@@ -1,6 +1,10 @@
 import { expect, test, type APIRequestContext } from '@playwright/test';
-import { GENERIC_AUTH_ERROR } from '../../src/lib/errors';
-import { expectLoginAfterLogout } from '../e2e/login';
+import {
+  expectGenericAuthError,
+  expectLoginAfterLogout,
+  expectLoginSurface,
+  submitLoginFromRoot,
+} from '../e2e/login';
 
 function requireSecret(name: string): string {
   const value = process.env[name];
@@ -10,33 +14,6 @@ function requireSecret(name: string): string {
     );
   }
   return value;
-}
-
-async function expectLoginSurface(
-  page: import('@playwright/test').Page,
-): Promise<void> {
-  await expect(page.getByTestId('login-form')).toBeVisible();
-  await expect(page.getByTestId('crm-shell')).toHaveCount(0);
-}
-
-/** REL-003 steps 2–4 use the SPA via `/` (HTTP 200). */
-async function openLoginViaRoot(
-  page: import('@playwright/test').Page,
-): Promise<void> {
-  await page.goto('/');
-  await expect(page).toHaveURL(/\/login/);
-  await expectLoginSurface(page);
-}
-
-async function submitFromLoginForm(
-  page: import('@playwright/test').Page,
-  email: string,
-  password: string,
-): Promise<void> {
-  await openLoginViaRoot(page);
-  await page.getByTestId('login-email').fill(email);
-  await page.getByTestId('login-password').fill(password);
-  await page.getByTestId('login-submit').click();
 }
 
 async function fetchEntryScript(
@@ -56,6 +33,12 @@ async function fetchEntryScript(
   return { url, body: await jsResponse.text() };
 }
 
+/**
+ * REL-003 production smoke. Steps 1–4 overlap AUTH TCs on purpose: this suite
+ * runs against SMOKE_BASE_URL and fails closed without secrets. Local e2e is
+ * TC-named, skip-gated, and may hit Vite. Shared UI helpers: tests/e2e/login.ts.
+ * Do not copy these journeys into a third file. Step 5 is smoke-only.
+ */
 test.describe('REL-003 production smoke', () => {
   test('1 unauthenticated / shows login only', async ({ page }) => {
     await page.goto('/');
@@ -64,10 +47,8 @@ test.describe('REL-003 production smoke', () => {
   });
 
   test('2 failed login shows only the generic auth error', async ({ page }) => {
-    await submitFromLoginForm(page, 'nobody@example.com', 'wrong-password');
-    await expect(page.getByTestId('login-error')).toHaveText(
-      GENERIC_AUTH_ERROR,
-    );
+    await submitLoginFromRoot(page, 'nobody@example.com', 'wrong-password');
+    await expectGenericAuthError(page);
   });
 
   test('3 ADMIN login shows CRM shell then logout returns to login', async ({
@@ -75,13 +56,12 @@ test.describe('REL-003 production smoke', () => {
   }) => {
     const email = requireSecret('E2E_ADMIN_EMAIL');
     const password = requireSecret('E2E_ADMIN_PASSWORD');
-    await submitFromLoginForm(page, email, password);
+    await submitLoginFromRoot(page, email, password);
     await expect(page.getByTestId('crm-shell')).toBeVisible();
     await expect(page.getByTestId('user-role')).toHaveText('ADMIN');
     await expect(page.getByTestId('admin-write-hint')).toBeVisible();
     await page.getByTestId('logout').click();
     await expectLoginAfterLogout(page);
-    await expectLoginSurface(page);
   });
 
   test('4 VIEWER login shows CRM shell without write controls', async ({
@@ -89,7 +69,7 @@ test.describe('REL-003 production smoke', () => {
   }) => {
     const email = requireSecret('E2E_VIEWER_EMAIL');
     const password = requireSecret('E2E_VIEWER_PASSWORD');
-    await submitFromLoginForm(page, email, password);
+    await submitLoginFromRoot(page, email, password);
     await expect(page.getByTestId('crm-shell')).toBeVisible();
     await expect(page.getByTestId('user-role')).toHaveText('VIEWER');
     await expect(page.getByTestId('viewer-read-hint')).toBeVisible();

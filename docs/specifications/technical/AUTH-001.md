@@ -280,6 +280,12 @@ ban on future APIs.
 | Validation              | N/A                                                                                   |
 | Errors                  | If sign-out fails, CRM access must not remain granted; details in implementation plan |
 
+**As-shipped (REL-003, not a product-scope change):**
+`src/lib/auth.ts` calls Supabase `signOut({ scope: 'local' })`.
+That ends this browser’s session (FR-008). Global revoke of other
+devices is out of AUTH-001; concurrent sessions were unspecified.
+Do not reopen AUTH-001 to change sign-out scope.
+
 ### Interface: current session / user
 
 | Field                   | Value                                            |
@@ -312,17 +318,17 @@ No `POST /login`.
 
 ## Security
 
-| Control          | AUTH-001 treatment                                                      |
-| ---------------- | ----------------------------------------------------------------------- |
-| Authentication   | Supabase Auth email/password (TD-003, BD-001)                           |
-| Authorization    | UI/route UX + RLS data boundary (TD-005, BD-006)                        |
-| Session          | Supabase-managed; logout required; timeout deferred (TD-007, BD-005)    |
-| Input validation | Email + password present                                                |
-| Access control   | `/login` public; CRM routes protected                                   |
-| RLS              | `profiles` SELECT-own shipped in non-prod SQL; CRM table RLS is CRM-001 |
-| Sensitive data   | No secrets in repo; no service role in client                           |
-| Error disclosure | Generic failure; no account enumeration (BD-004)                        |
-| Logout           | `signOut` must end CRM access (FR-008)                                  |
+| Control          | AUTH-001 treatment                                                                                                    |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Authentication   | Supabase Auth email/password (TD-003, BD-001)                                                                         |
+| Authorization    | UI/route UX + RLS data boundary (TD-005, BD-006)                                                                      |
+| Session          | Supabase-managed; logout required; timeout deferred (TD-007, BD-005)                                                  |
+| Input validation | Email + password present                                                                                              |
+| Access control   | `/login` public; CRM routes protected                                                                                 |
+| RLS              | `profiles` SELECT-own shipped in non-prod SQL; CRM table RLS is CRM-001                                               |
+| Sensitive data   | No secrets in repo; no service role in client                                                                         |
+| Error disclosure | Generic failure; no account enumeration (BD-004)                                                                      |
+| Logout           | `signOut` must end CRM access (FR-008). As shipped: local scope only (this browser); not a global multi-device revoke |
 
 Security review remains required at High risk before
 `READY_FOR_PR` of a future implementation.
