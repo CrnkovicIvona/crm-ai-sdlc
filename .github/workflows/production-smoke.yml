@@ -1,0 +1,76 @@
+name: Production smoke
+
+# Runs after a successful Vercel Production deployment, or on demand.
+# Does not run on pull requests. Does not deploy. Missing secrets FAIL
+# the job (SKIPPED is not PASSED).
+
+on:
+  deployment_status:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: Production origin with no trailing slash
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Production smoke
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event.deployment_status.state == 'success' &&
+        (
+          github.event.deployment.environment == 'Production' ||
+          github.event.deployment.environment == 'production'
+        )
+      )
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Resolve production URL
+        id: url
+        env:
+          INPUT_URL: ${{ github.event.inputs.base_url }}
+          DEPLOY_URL: ${{ github.event.deployment_status.environment_url || github.event.deployment_status.target_url }}
+          VAR_URL: ${{ vars.SMOKE_BASE_URL }}
+        run: |
+          set -euo pipefail
+          URL="${INPUT_URL:-}"
+          if [ -z "$URL" ]; then URL="${DEPLOY_URL:-}"; fi
+          if [ -z "$URL" ]; then URL="${VAR_URL:-}"; fi
+          URL="${URL%/}"
+          if [ -z "$URL" ]; then
+            echo "Set workflow input base_url, GitHub variable SMOKE_BASE_URL, or use a Production deployment_status environment_url." >&2
+            exit 1
+          fi
+          echo "SMOKE_BASE_URL=$URL" >> "$GITHUB_ENV"
+          echo "Using SMOKE_BASE_URL=$URL" >> "$GITHUB_STEP_SUMMARY"
+      - name: Production smoke tests
+        env:
+          E2E_ADMIN_EMAIL: ${{ secrets.E2E_ADMIN_EMAIL }}
+          E2E_ADMIN_PASSWORD: ${{ secrets.E2E_ADMIN_PASSWORD }}
+          E2E_VIEWER_EMAIL: ${{ secrets.E2E_VIEWER_EMAIL }}
+          E2E_VIEWER_PASSWORD: ${{ secrets.E2E_VIEWER_PASSWORD }}
+        run: npm run test:smoke
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-smoke-report
+          path: playwright-report/
+          if-no-files-found: ignore
+      - name: Record outcome
+        if: always()
+        run: |
+          echo "Production smoke is PASSED only if this job succeeded." >> "$GITHUB_STEP_SUMMARY"
+          echo "SKIPPED or missing secrets is not PASSED. AUTH-001 stays ON_MAIN until the suite PASSES against production." >> "$GITHUB_STEP_SUMMARY"

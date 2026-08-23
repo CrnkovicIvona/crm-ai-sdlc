@@ -12,6 +12,10 @@ New work: `docs/features/<ID>/user-stories.md`.
 - Map each story to FR-### and REQ.
 - AC must be testable. If an AC cannot be observed yet (e.g. no UI
   resource), say so — do not invent modules.
+- Where the feature will ship to Production, AC should name the
+  **critical production smoke** paths (the smallest post-deploy
+  checks). Those become `tests/smoke/` cases, not a duplicate of
+  full e2e.
 - Do not add behavior absent from FS/approved BD.
 
 ## Steps

@@ -5,14 +5,14 @@ agentic SDLC. GitHub + `docs/` are the source of truth.
 
 ## Increments (do not reorder)
 
-| ID       | Meaning                                   | Spec location                                     | State                                               |
-| -------- | ----------------------------------------- | ------------------------------------------------- | --------------------------------------------------- |
-| AUTH-001 | Login, roles, logout, fail-closed access  | `docs/requirements/REQ-001.md` and AUTH-001 specs | **`ON_MAIN`** (REL-003 on `main`; smoke not PASSED) |
-| CRM-001  | Client entity, authorization, audit trail | [../features/CRM-001/](../features/CRM-001/)      | `SPECIFIED` (not Ready; not implemented)            |
-| DASH-001 | Dashboard after Clients exist             | Not specified                                     | Not started                                         |
+| ID       | Meaning                                   | Spec location                                     | State                                         |
+| -------- | ----------------------------------------- | ------------------------------------------------- | --------------------------------------------- |
+| AUTH-001 | Login, roles, logout, fail-closed access  | `docs/requirements/REQ-001.md` and AUTH-001 specs | **`ON_MAIN`** (REL-003 on `main`; 1b dropped) |
+| CRM-001  | Client entity, authorization, audit trail | [../features/CRM-001/](../features/CRM-001/)      | `SPECIFIED` (not Ready; not implemented)      |
+| DASH-001 | Dashboard after Clients exist             | Not specified                                     | Not started                                   |
 
 1. **AUTH-001** — **`ON_MAIN`**, not `RELEASED`. Code is on `main`
-   (REL-003). Production smoke was **not executed**. Paths stay under
+   (REL-003). PO removed production smoke `GET /login`. Paths stay under
    `docs/requirements/` and related AUTH-001 files. Plan:
    [../features/AUTH-001/implementation-plan.md](../features/AUTH-001/implementation-plan.md).
    Live Auth e2e without secrets is **SKIPPED** (skipped ≠ passed).

@@ -10,9 +10,10 @@ gates) code. GitHub + `docs/` are the source of truth.
 
 **AUTH-001 is `ON_MAIN` — not `RELEASED`.** Human merged
 [#12](https://github.com/CrnkovicIvona/crm-ai-sdlc/pull/12) to `main`
-(REL-003, 2026-08-22). Production smoke was **not executed** (not
-PASSED). Login UI lives under `src/`. Copy `.env.example` to `.env`
-and add a non-prod Supabase URL and anon key. Apply
+(REL-003, 2026-08-22). Production smoke 1b (`GET /login`) was **removed
+by PO**; suite is `/` plus login/role/bundle checks. Login UI lives under `src/`.
+Copy `.env.example` to `.env` and add a non-prod Supabase URL and anon
+key. Apply
 `supabase/migrations/20260822150000_profiles.sql` to **non-prod** only
 unless a human applies production. CRM-001 is `SPECIFIED` (not Ready).
 DASH-001 waits until CRM-001 is accepted for planning.

@@ -22,6 +22,8 @@ If a suite was not run (no application, no runner, skipped by risk plan), say **
 
 1. Read the test plan and risk scope (targeted vs regression).
 2. Run only the in-scope automated commands. Quote the exact commands.
+   Production smoke is `npm run test:smoke` with `SMOKE_BASE_URL`; it
+   is not `npm run test:e2e`.
 3. Collect pass/fail/skip counts from the runner. Store paths to logs.
 4. For manual cases, mark them pending unless the human recorded execution.
 5. If any required test failed, stop execution of "all green" claims and hand off to `heal`.
