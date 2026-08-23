@@ -10,13 +10,23 @@
 - Status: **RELEASED** (REL-003). Production smoke 5/5 PASSED
   2026-08-23 against `https://crm-ai-sdlc.vercel.app`. Live Auth e2e
   without secrets is SKIPPED (skipped ≠ passed).
-- Implementation plan (draft): [../../features/AUTH-001/implementation-plan.md](../../features/AUTH-001/implementation-plan.md)
+- Implementation plan (approved, **executed**; archive):
+  [../../features/AUTH-001/implementation-plan.md](../../features/AUTH-001/implementation-plan.md)
 - Author: Agent; technical decisions recorded from human approval
   2026-08-21
 
+**As shipped (do not read the pre-code tense below as current
+state):** AUTH-001 is **`RELEASED`**. Application source is under
+`src/` (`LoginPage.tsx`, `RequireAuth.tsx`, `access.ts`, `auth.ts`,
+`errors.ts`). Non-prod SQL:
+`supabase/migrations/20260822150000_profiles.sql` (human applies;
+agent does not apply to production). This TS remains the approved
+design. Sentences such as “no `src/` yet” describe **specification
+time**, not `main` after REL-003.
+
 This document is the **technical specification**: how approved
-AUTH-001 functionality will be implemented. It does not create `src/`,
-tables, RLS policies, or endpoints.
+AUTH-001 functionality is implemented. It was written before `src/`
+existed; it does not itself create files.
 
 Business rules stay in the functional specification. Enforcement
 (RLS, route guards, Supabase client) is described here.
@@ -25,18 +35,19 @@ Business rules stay in the functional specification. Enforcement
 
 ### Approved platform
 
-| Decision                             | Status                              | Source           |
-| ------------------------------------ | ----------------------------------- | ---------------- |
-| TypeScript                           | Accepted                            | ADR-0001         |
-| React                                | Accepted                            | ADR-0001         |
-| Vite as hosting/bundler              | Accepted                            | ADR-0002, TD-001 |
-| React Router                         | Accepted for AUTH-001               | TD-002           |
-| Supabase PostgreSQL and Auth         | Accepted intent; **not configured** | ADR-0001, TD-003 |
-| Vitest, Playwright, ESLint, Prettier | Accepted                            | ADR-0001         |
-| GitHub Actions, Vercel later         | Accepted intent                     | ADR-0001         |
-| Custom REST API for AUTH-001         | **Not required**                    | TD-006           |
+| Decision                             | Status                                                                        | Source           |
+| ------------------------------------ | ----------------------------------------------------------------------------- | ---------------- |
+| TypeScript                           | Accepted                                                                      | ADR-0001         |
+| React                                | Accepted                                                                      | ADR-0001         |
+| Vite as hosting/bundler              | Accepted                                                                      | ADR-0002, TD-001 |
+| React Router                         | Accepted for AUTH-001                                                         | TD-002           |
+| Supabase PostgreSQL and Auth         | Accepted; **shipped** (non-prod project; agent does not configure production) | ADR-0001, TD-003 |
+| Vitest, Playwright, ESLint, Prettier | Accepted                                                                      | ADR-0001         |
+| GitHub Actions, Vercel later         | Accepted intent                                                               | ADR-0001         |
+| Custom REST API for AUTH-001         | **Not required**                                                              | TD-006           |
 
-No application source exists. No Supabase project is configured.
+At specification time no application source existed. After REL-003,
+`src/` and the `profiles` migration exist (see **As shipped** above).
 
 ### Application layers (logical; not built)
 
@@ -269,6 +280,12 @@ ban on future APIs.
 | Validation              | N/A                                                                                   |
 | Errors                  | If sign-out fails, CRM access must not remain granted; details in implementation plan |
 
+**As-shipped (REL-003, not a product-scope change):**
+`src/lib/auth.ts` calls Supabase `signOut({ scope: 'local' })`.
+That ends this browser’s session (FR-008). Global revoke of other
+devices is out of AUTH-001; concurrent sessions were unspecified.
+Do not reopen AUTH-001 to change sign-out scope.
+
 ### Interface: current session / user
 
 | Field                   | Value                                            |
@@ -301,24 +318,28 @@ No `POST /login`.
 
 ## Security
 
-| Control          | AUTH-001 treatment                                                   |
-| ---------------- | -------------------------------------------------------------------- |
-| Authentication   | Supabase Auth email/password (TD-003, BD-001)                        |
-| Authorization    | UI/route UX + RLS data boundary (TD-005, BD-006)                     |
-| Session          | Supabase-managed; logout required; timeout deferred (TD-007, BD-005) |
-| Input validation | Email + password present                                             |
-| Access control   | `/login` public; CRM routes protected                                |
-| RLS              | Designed for `profiles` and future CRM tables; not implemented       |
-| Sensitive data   | No secrets in repo; no service role in client                        |
-| Error disclosure | Generic failure; no account enumeration (BD-004)                     |
-| Logout           | `signOut` must end CRM access (FR-008)                               |
+| Control          | AUTH-001 treatment                                                                                                    |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Authentication   | Supabase Auth email/password (TD-003, BD-001)                                                                         |
+| Authorization    | UI/route UX + RLS data boundary (TD-005, BD-006)                                                                      |
+| Session          | Supabase-managed; logout required; timeout deferred (TD-007, BD-005)                                                  |
+| Input validation | Email + password present                                                                                              |
+| Access control   | `/login` public; CRM routes protected                                                                                 |
+| RLS              | `profiles` SELECT-own shipped in non-prod SQL; CRM table RLS is CRM-001                                               |
+| Sensitive data   | No secrets in repo; no service role in client                                                                         |
+| Error disclosure | Generic failure; no account enumeration (BD-004)                                                                      |
+| Logout           | `signOut` must end CRM access (FR-008). As shipped: local scope only (this browser); not a global multi-device revoke |
 
 Security review remains required at High risk before
 `READY_FOR_PR` of a future implementation.
 
 ## Testing Architecture
 
-No tests executed in this phase.
+At specification time: no tests executed in that phase. After
+REL-003: unit `tests/unit/errors.test.ts`,
+`tests/unit/require-auth.test.ts`; e2e `tests/e2e/auth.spec.ts`,
+`tests/e2e/roles.spec.ts`; smoke `tests/smoke/rel-003.spec.ts`.
+Live Auth e2e without secrets is SKIPPED (skipped ≠ passed).
 
 | Layer            | Tool               | AUTH-001                                                                                   |
 | ---------------- | ------------------ | ------------------------------------------------------------------------------------------ |

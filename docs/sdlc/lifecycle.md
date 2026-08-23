@@ -8,6 +8,8 @@ or rules — link here (and the table in
 
 Start every feature with
 `.cursor/skills/feature-orchestrator/SKILL.md`.
+UX/UI **proposals** for already-built screens (no new product scope):
+`.cursor/skills/ui-ux-redesign/SKILL.md`.
 
 ## Conceptual flow
 

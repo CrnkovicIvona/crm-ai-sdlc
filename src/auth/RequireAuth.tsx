@@ -20,6 +20,14 @@ export function RequireAuth({ children }: { children: React.ReactNode }) {
   return children;
 }
 
+export function RequireAdmin({ children }: { children: React.ReactNode }) {
+  const { role } = useAuth();
+  if (role !== 'ADMIN') {
+    return <Navigate to="/app/clients" replace />;
+  }
+  return children;
+}
+
 export function RequireGuest({ children }: { children: React.ReactNode }) {
   const { ready, session, role } = useAuth();
   if (!ready) {

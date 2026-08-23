@@ -45,6 +45,7 @@ Documented in `.env.example` (names only):
 | `SMOKE_BASE_URL`                           | GitHub variable / local env | Production origin for `npm run test:smoke` |
 | `E2E_ADMIN_EMAIL` / `E2E_ADMIN_PASSWORD`   | GitHub secrets              | Documented ADMIN test user                 |
 | `E2E_VIEWER_EMAIL` / `E2E_VIEWER_PASSWORD` | GitHub secrets              | Documented VIEWER test user                |
+| `SUPABASE_SERVICE_ROLE_KEY`                | GitHub secrets (CI Vitest)  | Non-prod service role for RLS cleanup only |
 
 Production smoke does not hardcode the Production URL in test files.
 Set `SMOKE_BASE_URL` (and GitHub Actions variable `SMOKE_BASE_URL` for

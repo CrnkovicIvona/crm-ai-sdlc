@@ -9,6 +9,7 @@ Read these before starting work:
 - [docs/sdlc/risk-model.md](docs/sdlc/risk-model.md)
 - [docs/sdlc/definition-of-ready.md](docs/sdlc/definition-of-ready.md)
 - `.cursor/skills/feature-orchestrator/SKILL.md` (“Start CRM-001”)
+- `.cursor/skills/ui-ux-redesign/SKILL.md` (layout/copy proposals only)
 - [docs/specifications/README.md](docs/specifications/README.md)
 - [docs/sdlc/definition-of-done.md](docs/sdlc/definition-of-done.md)
 - [docs/git/branching.md](docs/git/branching.md)

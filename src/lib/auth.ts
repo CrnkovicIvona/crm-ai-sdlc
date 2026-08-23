@@ -21,6 +21,8 @@ export async function signOut(): Promise<void> {
   if (!supabase) {
     return;
   }
+  // Local scope: end this browser's session (FR-008). Global revoke of other
+  // devices is out of AUTH-001 (concurrent sessions unspecified). See TS.
   await supabase.auth.signOut({ scope: 'local' });
 }
 

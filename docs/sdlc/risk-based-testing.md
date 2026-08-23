@@ -25,3 +25,5 @@ or Critical risk requires human approval.
 ## Evidence
 
 Unrun tests are `not executed`. They are never reported as passed.
+**BLOCKED** (no oracle, or High suite not run for secrets) is also
+never passed.
