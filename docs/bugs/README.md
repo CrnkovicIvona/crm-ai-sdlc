@@ -5,4 +5,4 @@ See [../sdlc/bug-lifecycle.md](../sdlc/bug-lifecycle.md).
 
 | ID                    | Title                                      | Status                        |
 | --------------------- | ------------------------------------------ | ----------------------------- |
-| [BUG-001](BUG-001.md) | Direct `/app` (and `/login`) 404 on Vercel | Fixed (prod re-smoke pending) |
+| [BUG-001](BUG-001.md) | Direct `/login` 404 on Vercel | Fixed (prod re-smoke pending) |

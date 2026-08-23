@@ -4,9 +4,9 @@
 
 ## Impact
 
-Users (and REL-003 smoke) who open `/app`, `/login`, or `/access-denied`
-directly on Vercel Production get a Vercel 404 page instead of the SPA.
-Login from `/` still works.
+Users (and REL-003 smoke) who open `https://crm-ai-sdlc.vercel.app/login`
+directly on Vercel Production get a Vercel 404 page instead of the login
+SPA. Loading `/` still works; the client can then navigate to `/login`.
 
 ## Timeline
 
@@ -14,9 +14,10 @@ Login from `/` still works.
 2. Vercel Production deployed. GitHub Actions did not run production
    smoke (CI does not run on `push` to `main`; no post-deploy job).
 3. Playwright on PR/`test` used Vite, which fallbacks unknown paths to
-   `index.html`, so TC-002 passed.
-4. 2026-08-23: REL-003 production smoke failed step 1b. Repeats: 18/18
-   404s.
+   `index.html`, so local e2e passed.
+4. 2026-08-23: REL-003 production smoke failed step 1b:
+   unauthenticated `GET https://crm-ai-sdlc.vercel.app/login` → 404.
+   Reconfirmed after PO correction that **1b is `/login`, not `/app`**.
 
 ## Immediate fix
 
@@ -32,12 +33,16 @@ Vercel. Not an AUTH logic bug and not a flaky test.
 - No `vercel.json` in ENG-001 / AUTH-001.
 - E2E never hit Vercel path rules.
 - Production smoke is manual and ran after deploy.
+- An earlier write-up used `/app` as step 1b; PO corrected the
+  canonical unauthenticated GET to `/login`.
 
 ## Corrective actions
 
 - Add SPA rewrite.
-- Re-run REL-003 step 1b on production after `main` deploy.
-- Keep Playwright TC-002 (still valid once rewrite exists).
+- Re-run REL-003 step 1b on production after `main` deploy, against
+  `https://crm-ai-sdlc.vercel.app/login` only.
+- Keep Playwright coverage of unauthenticated access (including TC-002
+  `/app`); that is not the production smoke 1b URL.
 
 ## Preventive actions
 
@@ -47,5 +52,5 @@ Vercel. Not an AUTH logic bug and not a flaky test.
 
 ## Residual risk
 
-Until rewrite is on Production, bookmarks to `/app` still 404. Rewrite
+Until rewrite is on Production, bookmarks to `/login` still 404. Rewrite
 does not change AUTH-001 roles or RLS.
