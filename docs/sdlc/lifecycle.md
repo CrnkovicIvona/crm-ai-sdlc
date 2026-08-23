@@ -86,8 +86,10 @@ lint / format / gitleaks → evidence in `docs/test-reports/` → agent
 `review-code` → PR to `test` → **human** QA (`IN_QA`) →
 `READY_FOR_RELEASE` → `sync-feature-docs` (status `ON_MAIN`) in the
 **release PR** → **human merge to `main`** → `ON_MAIN` → Vercel
-Production (existing integration; agent does not deploy) → production
-smoke → if PASSED: `sync-feature-docs` (status `RELEASED`) follow-up
+Production (existing integration; agent does not deploy) →
+executable production smoke (`tests/smoke/`, `npm run test:smoke`
+or `.github/workflows/production-smoke.yml`) → if PASSED:
+`sync-feature-docs` (status `RELEASED`) follow-up
 PR to `main` → human merge → **then** release branch synced to `test`
 → **then** delete release branch → DoD → human may close Issue.
 

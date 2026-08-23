@@ -20,6 +20,8 @@
 
 Automated paths: `tests/e2e/auth.spec.ts`, `tests/e2e/roles.spec.ts`,
 `tests/unit/errors.test.ts`, `tests/unit/require-auth.test.ts`.
+Production smoke (REL-003, not the local e2e pack):
+`tests/smoke/rel-003.spec.ts`.
 
 ## Out of scope
 
@@ -36,10 +38,12 @@ secrets is allowed and must be reported as SKIPPED.
 
 ## Environments
 
-- Local Vite (`npm run dev`)
+- Local Vite (`npm run dev`) — `npm run test:e2e`
 - CI: Vitest always; Playwright unauthenticated always; live Auth when
   GitHub secrets are set
 - Non-prod Supabase for live e2e (human-configured)
+- Production smoke: `SMOKE_BASE_URL` + `npm run test:smoke` after
+  Production deploy (workflow `production-smoke.yml`)
 
 ## Entry / exit criteria
 

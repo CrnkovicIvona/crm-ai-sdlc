@@ -7,7 +7,8 @@ alwaysApply: true
 
 - Determine scope from change impact and risk. Full regression is not automatic for trivial changes.
 - Vitest: unit and integration (when the application exists).
-- Playwright: e2e (when the application exists).
+- Playwright: e2e in `tests/e2e/` (local Vite). Production smoke in
+  `tests/smoke/` against `SMOKE_BASE_URL` — not the same suite.
 - Never delete, skip, or weaken tests to pass CI.
 - Never report a test as passed unless it was actually executed and verifiable execution evidence exists (CI log, local command output, or a test report that cites that evidence).
 - Skipped tests are SKIPPED, never PASSED.

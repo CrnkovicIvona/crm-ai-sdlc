@@ -70,7 +70,8 @@ PASS for `RELEASED`.
     - test report missing or only SKIPPED presented as PASSED
     - no CI evidence for the release SHA
     - deployment state unknown (no URL and no recorded “not configured”)
-    - production smoke missing, skipped, or not PASSED
+    - production smoke missing, skipped, markdown-only, or not PASSED
+      (`tests/smoke/` must have been executed against Production)
 18. If 16–17 fail, the required sentence is:
 
     **ON_MAIN — not RELEASED.**

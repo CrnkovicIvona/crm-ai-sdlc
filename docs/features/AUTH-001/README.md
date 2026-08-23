@@ -1,8 +1,9 @@
 # AUTH-001
 
 State: **`ON_MAIN` — not `RELEASED`.** REL-003 is on `main`. Production
-smoke was **not executed**. Live Auth e2e without secrets is SKIPPED
-(skipped ≠ passed). DoR and plan approval remain on Issue
+smoke (`tests/smoke/rel-003.spec.ts`) **executed and FAILED** (1b
+`GET /login` HTTP 404, BUG-001). Live Auth e2e without secrets is
+SKIPPED (skipped ≠ passed). DoR and plan approval remain on Issue
 [#5](https://github.com/CrnkovicIvona/crm-ai-sdlc/issues/5). That Issue
 was closed while git status is still `ON_MAIN`. **Git wins**; a closed
 Issue is not `RELEASED`.
