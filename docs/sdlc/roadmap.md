@@ -5,11 +5,11 @@ agentic SDLC. GitHub + `docs/` are the source of truth.
 
 ## Increments (do not reorder)
 
-| ID       | Meaning                                   | Spec location                                     | State                                    |
-| -------- | ----------------------------------------- | ------------------------------------------------- | ---------------------------------------- |
-| AUTH-001 | Login, roles, logout, fail-closed access  | `docs/requirements/REQ-001.md` and AUTH-001 specs | **`RELEASED`** (REL-003; smoke 5/5 PASS) |
-| CRM-001  | Client entity, authorization, audit trail | [../features/CRM-001/](../features/CRM-001/)      | `SPECIFIED` (not Ready; not implemented) |
-| DASH-001 | Dashboard after Clients exist             | Not specified                                     | Not started                              |
+| ID       | Meaning                                   | Spec location                                     | State                                                 |
+| -------- | ----------------------------------------- | ------------------------------------------------- | ----------------------------------------------------- |
+| AUTH-001 | Login, roles, logout, fail-closed access  | `docs/requirements/REQ-001.md` and AUTH-001 specs | **`RELEASED`** (REL-003; smoke 5/5 PASS)              |
+| CRM-001  | Client entity, authorization, audit trail | [../features/CRM-001/](../features/CRM-001/)      | `SPECIFIED` (Gate 1 pack; not Ready; not implemented) |
+| DASH-001 | Dashboard after Clients exist             | Not specified                                     | Not started                                           |
 
 1. **AUTH-001** — **`RELEASED`**. Code is on `main` (REL-003). Production
    smoke 5/5 PASSED 2026-08-23 (`https://crm-ai-sdlc.vercel.app`; no

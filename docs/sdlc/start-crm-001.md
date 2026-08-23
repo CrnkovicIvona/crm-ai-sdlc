@@ -40,8 +40,10 @@ explicitly accept them as non-blocking on the Issue. Also: record DoR.
 Recommended blocking for planning without invention: BD-T001–T006,
 BD-T010.
 
-**Where the agent must stop now:** state `SPECIFIED`. Do not write
-`implementation-plan.md`. Do not create `feature/`. Do not implement.
+**Where the agent must stop now:** state `SPECIFIED`. Gate 1 pack:
+[../features/CRM-001/dor-gate-1.md](../features/CRM-001/dor-gate-1.md).
+Do not write `implementation-plan.md`. Do not create `feature/`. Do
+not implement. Human DoR is the next step.
 
 ## After Ready (future; not this task)
 
