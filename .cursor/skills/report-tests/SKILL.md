@@ -10,6 +10,11 @@ description: Write a test report from execution evidence. Use after TESTING/REGR
 - Every passed line must cite execution evidence (command + SHA or CI URL).
 - Tests not executed are `not executed`, never `passed`.
 - Include risk level and regression scope actually run.
+- After CI Playwright, `scripts/update-ci-test-report.mjs` refreshes
+  `docs/test-reports/<ID>.md` when the SHA or counts change. It keeps the
+  previous snapshot under **Historical snapshot**. SKIPPED ≠ PASSED.
+  Do not hand-edit **Latest CI**; wait for the next Actions run or run
+  the script locally with a JSON file.
 
 ## Steps
 

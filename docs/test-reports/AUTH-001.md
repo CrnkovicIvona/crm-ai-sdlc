@@ -1,5 +1,52 @@
 # Test report: AUTH-001
 
+- SHA: `ae1bf1142492dbe4071587cbf9406dcc7ebac468`
+- Date: 2026-08-22
+- Plan: [docs/test-plans/AUTH-001.md](../test-plans/AUTH-001.md)
+- Risk level: High
+- CI: [32594502011](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/32594502011)
+
+## Summary
+
+| Result                            | Count |
+| --------------------------------- | ----- |
+| Passed (Playwright, this CI run)  | 7     |
+| Failed (Playwright, this CI run)  | 0     |
+| Skipped (Playwright, this CI run) | 0     |
+| Blocked                           | 0     |
+
+SKIPPED is never PASSED.
+
+<!-- ci-report-meta
+sha: ae1bf1142492dbe4071587cbf9406dcc7ebac468
+playwrightPassed: 7
+playwrightFailed: 0
+playwrightSkipped: 0
+runId: 32594502011
+-->
+
+## Latest CI
+
+- CI run: [32594502011](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/32594502011)
+- SHA: `ae1bf1142492dbe4071587cbf9406dcc7ebac468`
+- Report updated automatically from latest CI run for SHA `ae1bf1142492dbe4071587cbf9406dcc7ebac468`. Previous snapshot was outdated.
+
+| Suite      | Result                          | Evidence                                                                             |
+| ---------- | ------------------------------- | ------------------------------------------------------------------------------------ |
+| Playwright | 7 passed / 0 failed / 0 skipped | [32594502011](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/32594502011) |
+| Vitest     | PASSED                          | [32594502011](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/32594502011) |
+| ESLint     | PASSED                          | [32594502011](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/32594502011) |
+
+No Playwright tests were skipped in this run.
+
+Work item: AUTH-001. AC coverage follows the test plan; skipped ≠ passed.
+
+## Historical snapshot (first recorded execute-tests)
+
+The block below is the first recorded execute-tests snapshot. It is not
+the latest CI. Do not treat SKIPPED rows there as the current release
+evidence.
+
 - SHA: `b7f181e8d8d85e3dc10922de399455d575627b81` (`cursor/auth-001-implementation-plan-73b9`)
 - Date: 2026-08-22
 - Plan: [docs/test-plans/AUTH-001.md](../test-plans/AUTH-001.md)
