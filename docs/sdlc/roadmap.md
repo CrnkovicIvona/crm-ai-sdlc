@@ -5,11 +5,11 @@ agentic SDLC. GitHub + `docs/` are the source of truth.
 
 ## Increments (do not reorder)
 
-| ID       | Meaning                                   | Spec location                                     | State                                                                    |
-| -------- | ----------------------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------ |
-| AUTH-001 | Login, roles, logout, fail-closed access  | `docs/requirements/REQ-001.md` and AUTH-001 specs | **`RELEASED`** (REL-003; smoke 5/5 PASS)                                 |
-| CRM-001  | Client entity, authorization, audit trail | [../features/CRM-001/](../features/CRM-001/)      | **`PLANNED`** (Gate 2 approved 2026-08-23; implementing; not `RELEASED`) |
-| DASH-001 | Dashboard after Clients exist             | Not specified                                     | Not started                                                              |
+| ID       | Meaning                                                  | Spec location                                     | State                                                                       |
+| -------- | -------------------------------------------------------- | ------------------------------------------------- | --------------------------------------------------------------------------- |
+| AUTH-001 | Login, roles, logout, fail-closed access                 | `docs/requirements/REQ-001.md` and AUTH-001 specs | **`RELEASED`** (REL-003; smoke 5/5 PASS)                                    |
+| CRM-001  | Client + Product catalog + optional assign + soft-delete | [../features/CRM-001/](../features/CRM-001/)      | **`PLANNED`** (Gate 2 **revised** 2026-08-23; implementing; not `RELEASED`) |
+| DASH-001 | Dashboard after Clients exist                            | Not specified                                     | Not started                                                                 |
 
 1. **AUTH-001** — **`RELEASED`**. Code is on `main` (REL-003). Production
    smoke 5/5 PASSED 2026-08-23 (`https://crm-ai-sdlc.vercel.app`; no
@@ -19,8 +19,9 @@ agentic SDLC. GitHub + `docs/` are the source of truth.
    Live Auth e2e without secrets is **SKIPPED** (skipped ≠ passed).
    Do not migrate AUTH-001 into `docs/features/` without an explicit
    docs task.
-2. **CRM-001** — **`PLANNED`**. Client entity only. Authorization
-   reuses AUTH-001. Audit trail is **in** CRM-001 via a DB trigger.
+2. **CRM-001** — **`PLANNED`**. Client + fixed Product catalog +
+   optional ClientProduct + soft-delete. Authorization reuses AUTH-001.
+   Audit trail is **in** CRM-001 via a DB trigger.
    Plan:
    [../features/CRM-001/implementation-plan.md](../features/CRM-001/implementation-plan.md)
    (**Approved**). Implementation PR targets `test` (Gate 3). Human

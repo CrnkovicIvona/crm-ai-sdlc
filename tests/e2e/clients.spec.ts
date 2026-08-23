@@ -14,7 +14,7 @@ async function expectClientsSchemaReady(page: Page): Promise<void> {
   if (await page.getByTestId('client-error').isVisible()) {
     test.skip(
       true,
-      'clients table is not available (apply 20260823190000_clients_and_audit.sql to non-prod). SKIPPED ≠ PASSED',
+      'clients table is not available (apply 20260823190000_clients_and_audit.sql then 20260823210000_products_and_soft_delete.sql to non-prod). SKIPPED ≠ PASSED',
     );
   }
 }
@@ -61,11 +61,18 @@ test('TC-C003–C006 ADMIN can create, read, update, delete a Client', async ({
   await page.getByTestId('nav-clients').click();
   await expectClientsSchemaReady(page);
   await page.getByTestId('client-create').click();
+  if ((await page.getByTestId('product-bank_account').count()) === 0) {
+    test.skip(
+      true,
+      'products catalog is not available (apply 20260823210000_products_and_soft_delete.sql to non-prod). SKIPPED ≠ PASSED',
+    );
+  }
   await page.getByTestId('client-first-name').fill(payload.first_name);
   await page.getByTestId('client-last-name').fill(payload.last_name);
   await page.getByTestId('client-email').fill(payload.email);
   await page.getByTestId('client-phone').fill(payload.phone);
   await page.getByTestId('client-oib').fill(payload.oib);
+  await page.getByTestId('product-bank_account').check();
   await page.getByTestId('client-save').click();
   await expect(page.getByTestId('client-success')).toHaveText(
     'Client created.',
@@ -74,6 +81,7 @@ test('TC-C003–C006 ADMIN can create, read, update, delete a Client', async ({
     payload.first_name,
   );
   await expect(page.getByTestId('client-created-at')).toBeVisible();
+  await expect(page.getByTestId('product-bank_account')).toBeChecked();
 
   await page.getByTestId('client-first-name').fill('Updated');
   await page.getByTestId('client-save').click();

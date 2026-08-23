@@ -8,21 +8,24 @@
   accepted as product decisions; specs in this folder
 - Open questions: none blocking. Physical names in §3 are **part of
   this plan** (TD-C005). Approving this plan approves those names.
-- Approval: **Approved** (PO chat 2026-08-23: `CRM-001 implementation plan approved. State: PLANNED. Coding may start.`)
+- Approval: **Revised Gate 2** (PO chat 2026-08-23). Original
+  Client-only plan is superseded. PO instructed: Product catalog +
+  optional ClientProduct assign + soft-delete on this implementation
+  branch. State stays `PLANNED`. Coding continues.
 - Traceability: [requirement.md](requirement.md),
   [functional-spec.md](functional-spec.md),
-  [technical-spec.md](technical-spec.md), AC-C001–AC-C019,
-  TC-C001–TC-C019
+  [technical-spec.md](technical-spec.md), AC-C001–AC-C022,
+  TC-C001–TC-C022
 - Prerequisite: human Definition of Ready (**recorded in chat**,
   2026-08-23)
-- Status: **Approved** (`PLANNED`) — implementation in progress toward
-  Gate 3 (`test`)
+- Status: **Revised Approved** (`PLANNED`) — Product + ClientProduct +
+  soft-delete in progress toward Gate 3 (`test`)
 
 This is **not** the functional or technical specification.
 
-This plan is **Approved**. Implementation belongs on a `cursor/*-73b9`
-branch into `test`. The agent does **not** apply SQL to production or
-merge `main`.
+This plan is the **revised Gate 2** plan. Implementation belongs on
+`cursor/crm-001-implementation-73b9` into `test`. The agent does
+**not** apply SQL to production or merge `main`.
 
 ---
 
@@ -46,27 +49,30 @@ Issue close.
 From approved BD-C\* plus accepted §5 defaults. Do not reopen in code
 review.
 
-| ID                | Rule                                                                                                                                     |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| BD-C001–C015      | Client only; six fields; ADMIN CRUD; VIEWER read/search; RLS; audit successful CUD; append-only; no READ/failure audit; no audit UI      |
-| BD-T001           | Email required; `local@domain` with a dot in the domain; no MX                                                                           |
-| BD-T002           | Phone required; digits, optional leading `+`, optional spaces; after stripping spaces: 8–15 digits                                       |
-| BD-T003           | OIB required; exactly 11 digits; no checksum                                                                                             |
-| BD-T004           | Email unique among Clients, case-insensitive                                                                                             |
-| BD-T005           | Phone not unique                                                                                                                         |
-| BD-T006           | ADMIN and VIEWER search; case-insensitive partial match on first name, last name, email, phone, OIB; empty query = full list (paginated) |
-| BD-T007           | Sort: last name, then first name, A–Z, case-insensitive                                                                                  |
-| BD-T008           | 20 Clients per page                                                                                                                      |
-| BD-T009           | Empty: `No clients yet.` / no hits: `No matching clients.`                                                                               |
-| BD-T010           | DELETE: UI confirm; Cancel leaves the row; no type-to-confirm                                                                            |
-| BD-T011           | Load/save/delete failure: `Operation failed.` Field errors name the field                                                                |
-| BD-T012           | `Client created.` / `Client saved.` / `Client deleted.`                                                                                  |
-| BD-T013           | Reuse AUTH-001 shell; list+search; ADMIN form; VIEWER read-only detail                                                                   |
-| BD-T014           | `/app/clients`, `/app/clients/new`, `/app/clients/:id`                                                                                   |
-| BD-T015           | Keep all audit rows; no purge                                                                                                            |
-| BD-T016           | No audit query UI                                                                                                                        |
-| BD-T017           | Failed DB: generic error; no success UI; partial UI update ≠ success                                                                     |
-| BD-T018 / TD-C006 | Client write and audit row succeed or fail together via **DB trigger**                                                                   |
+| ID                | Rule                                                                                                                                                                                        |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| BD-C001–C018      | Client + fixed Product catalog + ClientProduct; six Client fields; ADMIN CRUD (soft-delete); VIEWER read/search; RLS; audit successful CUD; append-only; no READ/failure audit; no audit UI |
+| BD-C016           | Six English catalog products; no Product admin UI                                                                                                                                           |
+| BD-C017           | Client 0..N products; create must not require a product; ADMIN assigns on create/edit                                                                                                       |
+| BD-C018           | UI delete = soft-delete; hide from active list; keep row and audit as DELETE; no restore                                                                                                    |
+| BD-T001           | Email required; `local@domain` with a dot in the domain; no MX                                                                                                                              |
+| BD-T002           | Phone required; digits, optional leading `+`, optional spaces; after stripping spaces: 8–15 digits                                                                                          |
+| BD-T003           | OIB required; exactly 11 digits; no checksum                                                                                                                                                |
+| BD-T004           | Email unique among **active** Clients, case-insensitive                                                                                                                                     |
+| BD-T005           | Phone not unique                                                                                                                                                                            |
+| BD-T006           | ADMIN and VIEWER search; case-insensitive partial match on first name, last name, email, phone, OIB; empty query = full list (paginated)                                                    |
+| BD-T007           | Sort: last name, then first name, A–Z, case-insensitive                                                                                                                                     |
+| BD-T008           | 20 Clients per page                                                                                                                                                                         |
+| BD-T009           | Empty: `No clients yet.` / no hits: `No matching clients.`                                                                                                                                  |
+| BD-T010           | DELETE: UI confirm; Cancel leaves the row; no type-to-confirm                                                                                                                               |
+| BD-T011           | Load/save/delete failure: `Operation failed.` Field errors name the field                                                                                                                   |
+| BD-T012           | `Client created.` / `Client saved.` / `Client deleted.`                                                                                                                                     |
+| BD-T013           | Reuse AUTH-001 shell; list+search; ADMIN form; VIEWER read-only detail                                                                                                                      |
+| BD-T014           | `/app/clients`, `/app/clients/new`, `/app/clients/:id`                                                                                                                                      |
+| BD-T015           | Keep all audit rows; no purge                                                                                                                                                               |
+| BD-T016           | No audit query UI                                                                                                                                                                           |
+| BD-T017           | Failed DB: generic error; no success UI; partial UI update ≠ success                                                                                                                        |
+| BD-T018 / TD-C006 | Client write and audit row succeed or fail together via **DB trigger**                                                                                                                      |
 
 ---
 
@@ -76,19 +82,42 @@ Non-prod migration only. Agent does **not** apply to production.
 
 ### 3.1 Table `public.clients`
 
-| Column       | Type          | Constraints                                       |
-| ------------ | ------------- | ------------------------------------------------- |
-| `id`         | `uuid`        | PK, `gen_random_uuid()`                           |
-| `first_name` | `text`        | `not null`, `char_length(btrim(first_name)) >= 1` |
-| `last_name`  | `text`        | `not null`, `char_length(btrim(last_name)) >= 1`  |
-| `email`      | `text`        | `not null`                                        |
-| `phone`      | `text`        | `not null`                                        |
-| `oib`        | `text`        | `not null`, `oib ~ '^[0-9]{11}$'`                 |
-| `created_at` | `timestamptz` | `not null`, `default now()`                       |
+| Column       | Type          | Constraints                                                |
+| ------------ | ------------- | ---------------------------------------------------------- |
+| `id`         | `uuid`        | PK, `gen_random_uuid()`                                    |
+| `first_name` | `text`        | `not null`, `char_length(btrim(first_name)) >= 1`          |
+| `last_name`  | `text`        | `not null`, `char_length(btrim(last_name)) >= 1`           |
+| `email`      | `text`        | `not null`                                                 |
+| `phone`      | `text`        | `not null`                                                 |
+| `oib`        | `text`        | `not null`, `oib ~ '^[0-9]{11}$'`                          |
+| `created_at` | `timestamptz` | `not null`, `default now()`                                |
+| `deleted_at` | `timestamptz` | null when active (added in products/soft-delete migration) |
+| `deleted_by` | `uuid`        | actor who soft-deleted; null when active                   |
 
-Unique: `unique index clients_email_lower_key on public.clients (lower(email))`.
+Unique: `unique index clients_email_lower_key on public.clients (lower(email)) where deleted_at is null`.
 
 No extra business columns. No `updated_at` (not in BD-C002).
+
+### 3.1a Table `public.products`
+
+| Column       | Type          | Constraints                 |
+| ------------ | ------------- | --------------------------- |
+| `id`         | `uuid`        | PK, `gen_random_uuid()`     |
+| `code`       | `text`        | `not null`, unique          |
+| `name`       | `text`        | `not null`, unique          |
+| `created_at` | `timestamptz` | `not null`, `default now()` |
+
+Seed (English): `bank_account` Bank account; `credit_card` Credit card;
+`loan` Loan; `savings` Savings; `mobile_banking` Mobile banking;
+`online_banking` Online banking.
+
+### 3.1b Table `public.client_products`
+
+| Column       | Type          | Constraints                                 |
+| ------------ | ------------- | ------------------------------------------- |
+| `client_id`  | `uuid`        | PK part, FK `clients(id)` on delete cascade |
+| `product_id` | `uuid`        | PK part, FK `products(id)`                  |
+| `created_at` | `timestamptz` | `not null`, `default now()`                 |
 
 ### 3.2 Table `public.client_audit_events`
 
@@ -109,10 +138,10 @@ snapshots (BD-C009).
 
 ### 3.3 Relationships
 
-- `clients` is standalone (no FK to other CRM entities).
+- `clients` optionally has 0..N rows in `client_products`.
 - Audit `entity_id` is the Client `id` at event time. **No FK** to
-  `clients`, so DELETE can remove the Client and keep the audit row
-  (BD-T015, append-only).
+  `clients`, so a later hard delete can keep the audit row
+  (BD-T015, append-only). UI delete is **soft-delete** (BD-C018).
 - `profiles` unchanged (AUTH-001). Role is read from `profiles.role`.
 
 ### 3.4 Trigger (TD-C006 / BD-T018)
@@ -132,9 +161,20 @@ row).
 **`clients`**
 
 - RLS on.
-- `SELECT`: `authenticated` and role in (`ADMIN`,`VIEWER`).
+- `SELECT` active rows: `authenticated` and role in (`ADMIN`,`VIEWER`)
+  and `deleted_at is null`.
+- `SELECT` deleted rows: `ADMIN` only (needed for UPDATE RETURNING
+  after soft-delete). SPA list/get still filter `deleted_at is null`.
 - `INSERT`/`UPDATE`/`DELETE`: `authenticated` and role `ADMIN` only.
 - No policies for `anon`.
+
+**`products`**
+
+- RLS on. `SELECT` for ADMIN and VIEWER. No writes for `authenticated`.
+
+**`client_products`**
+
+- RLS on. `SELECT` for ADMIN and VIEWER. `INSERT`/`DELETE` ADMIN only.
 
 **`client_audit_events`**
 
@@ -169,18 +209,21 @@ Keep `/login`, `/access-denied`, `/`. Nest under `/app`:
 
 ### 4.2 Files to add (after PLANNED)
 
-| Path                                                       | Purpose                                                                            |
-| ---------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| `supabase/migrations/20260823190000_clients_and_audit.sql` | tables, indexes, trigger, RLS, grants                                              |
-| `src/lib/clientValidation.ts`                              | BD-T001–T003 (+ unique email is DB + mapped error)                                 |
-| `src/lib/clients.ts`                                       | Supabase select/insert/update/delete; search `or`/`ilike`; order; range pagination |
-| `src/pages/ClientListPage.tsx`                             | list, search, empty copy, pager, ADMIN create link, row → `:id`                    |
-| `src/pages/ClientFormPage.tsx`                             | create/edit; field errors; success copy; DELETE + confirm for edit                 |
-| `src/pages/ClientDetailPage.tsx`                           | VIEWER read-only six fields                                                        |
-| `src/components/DeleteClientDialog.tsx`                    | confirm / cancel (BD-T010)                                                         |
-| `tests/unit/clientValidation.test.ts`                      | email/phone/OIB rules                                                              |
-| `tests/e2e/clients.spec.ts`                                | TC-C001–C011, C017 as UI (secrets)                                                 |
-| `tests/integration/clients-rls.test.ts`                    | VIEWER write denied; ADMIN CUD + audit row via service role (secrets)              |
+| Path                                                              | Purpose                                                                            |
+| ----------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `supabase/migrations/20260823190000_clients_and_audit.sql`        | tables, indexes, trigger, RLS, grants                                              |
+| `src/lib/clientValidation.ts`                                     | BD-T001–T003 (+ unique email is DB + mapped error)                                 |
+| `src/lib/clients.ts`                                              | Supabase select/insert/update/delete; search `or`/`ilike`; order; range pagination |
+| `src/pages/ClientListPage.tsx`                                    | list, search, empty copy, pager, ADMIN create link, row → `:id`                    |
+| `src/pages/ClientFormPage.tsx`                                    | create/edit; field errors; success copy; DELETE + confirm for edit                 |
+| `src/pages/ClientDetailPage.tsx`                                  | VIEWER read-only six fields + products                                             |
+| `src/components/DeleteClientDialog.tsx`                           | confirm / cancel (BD-T010)                                                         |
+| `src/lib/products.ts`                                             | catalog codes and empty/optional copy                                              |
+| `supabase/migrations/20260823210000_products_and_soft_delete.sql` | products, client_products, seed, soft-delete, RLS                                  |
+| `tests/unit/clientValidation.test.ts`                             | email/phone/OIB rules                                                              |
+| `tests/unit/products.test.ts`                                     | six catalog codes                                                                  |
+| `tests/e2e/clients.spec.ts`                                       | TC-C001–C011, C017, C020–C022 as UI (secrets)                                      |
+| `tests/integration/clients-rls.test.ts`                           | VIEWER write denied; ADMIN CUD + audit; product assign (secrets)                   |
 
 ### 4.3 Files to change
 
@@ -199,7 +242,7 @@ Keep `/login`, `/access-denied`, `/`. Nest under `/app`:
 ### 4.4 Data access
 
 - Browser: existing `getSupabase()` + user session (anon key).
-- Queries only `public.clients`.
+- Queries `public.clients`, `public.products`, `public.client_products`.
 - Never import or call `client_audit_events` from `src/`.
 - Never ship service role in Vite env.
 
@@ -234,7 +277,9 @@ Do not invent extra fields or checksum.
 | AC-C013–C016 / TC-C013–C016 | integration: ADMIN CUD then SELECT audit as service role                         | Skip if no test service role                     |
 | AC-C017 / TC-C017           | integration: authenticated UPDATE/DELETE on audit table denied                   | Skip if no secrets                               |
 | AC-C018–C019 / TC-C018–C019 | integration: SELECT/READ does not insert audit; failed VIEWER write inserts none | Skip if no secrets                               |
+| AC-C020–C022 / TC-C020–C022 | e2e product checkboxes + list/detail; integration ADMIN assign / VIEWER deny     | Skip if no secrets / products migration          |
 | BD-T001–T003                | `tests/unit/clientValidation.test.ts`                                            | Always run                                       |
+| BD-C016                     | `tests/unit/products.test.ts`                                                    | Always run                                       |
 
 SKIPPED ≠ PASSED. Do not mark integration PASSED if skipped.
 
@@ -246,7 +291,7 @@ Playwright already uses `workers: 1` on CI (`test` branch). Keep it.
 
 - PII: email, phone, OIB — list/detail only for authenticated usable
   roles.
-- DELETE irreversible; confirm in UI; RLS ADMIN-only.
+- Soft-DELETE hides the row; confirm in UI; RLS ADMIN-only. No restore.
 - VIEWER: no create/edit/delete controls; RLS still denies CUD.
 - Fail-closed AUTH-001 still wraps `/app/*`.
 - Audit not readable/writable from the SPA.
@@ -258,13 +303,13 @@ Security review of the implementation PR before human QA (Gate 3).
 
 ## 6. Deployment implications
 
-| Step                                                                                         | Who                                                                              |
-| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| Merge implementation PR → `test`                                                             | Human                                                                            |
-| Apply `20260823190000_clients_and_audit.sql` to **non-prod** Supabase used by Preview/`test` | Human (agent does not apply)                                                     |
-| Vercel Preview picks up SPA                                                                  | Automatic on `test`/PR                                                           |
-| Production migration                                                                         | **Not** this PR. Only after Gate 3 + human merge to `main` + human apply to prod |
-| REL production smoke                                                                         | Later release plan; do not claim RELEASED from Preview                           |
+| Step                                                                                                                     | Who                                                                              |
+| ------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
+| Merge implementation PR → `test`                                                                                         | Human                                                                            |
+| Apply `20260823190000_clients_and_audit.sql` then `20260823210000_products_and_soft_delete.sql` to **non-prod** Supabase | Human (agent does not apply)                                                     |
+| Vercel Preview picks up SPA                                                                                              | Automatic on `test`/PR                                                           |
+| Production migration                                                                                                     | **Not** this PR. Only after Gate 3 + human merge to `main` + human apply to prod |
+| REL production smoke                                                                                                     | Later release plan; do not claim RELEASED from Preview                           |
 
 Rollback: revert `test` merge; human drops/restores non-prod tables
 only with an explicit data plan. Do not drop prod.
@@ -275,6 +320,7 @@ only with an explicit data plan. Do not drop prod.
 
 - DASH-001 / other entities
 - Extra Client fields, OIB checksum, MX lookup, country picker
+- Product admin UI, restore of soft-deleted Clients, contract/rate/balance fields
 - Audit UI, export, purge job
 - Custom REST/GraphQL
 - AUTH-001 redesign
@@ -288,7 +334,7 @@ only with an explicit data plan. Do not drop prod.
 
 ## 8. Implementation order (after PLANNED only)
 
-1. Add migration file (not applied by agent to any cloud).
+1. Add Client+audit migration, then products+soft-delete migration (not applied by agent to any cloud).
 2. Validation helpers + unit tests.
 3. `clients.ts` data access.
 4. Routes + pages + delete dialog.
@@ -300,11 +346,14 @@ only with an explicit data plan. Do not drop prod.
 
 ---
 
-## 9. Gate 2 — what you must do
+## 9. Gate 2 — revised approval
 
-Reply with an explicit approval, for example:
+Original approval (Client-only) is **superseded**.
 
-`CRM-001 implementation plan approved. State: PLANNED. Coding may start.`
+PO re-approval for this revision is the 2026-08-23 instruction to
+implement Product + optional assign + soft-delete on the existing
+implementation branch. State remains **`PLANNED`**. Coding continues.
 
-Until that sentence exists, state stays **`READY`**, not `PLANNED`,
-and there is **no Client `src/`**.
+If a later PO wants products without soft-delete, that must be an
+explicit new decision (BD-C018 would be reversed). This revision
+keeps both.

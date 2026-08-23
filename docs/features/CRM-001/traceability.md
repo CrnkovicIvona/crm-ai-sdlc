@@ -27,6 +27,9 @@ credentialed suites run; skipped ≠ passed.
 | REQ-CRM-001 | FR-C011 | US-C006 | AC-C017 | Users cannot change audit records    | TC-C017 | TDE-C005           | see matrix.md  | NOT EXECUTED (skipped ≠ passed) |
 | REQ-CRM-001 | FR-C012 | US-C005 | AC-C018 | Read is not audited                  | TC-C018 | TDE-C004           | see matrix.md  | NOT EXECUTED (skipped ≠ passed) |
 | REQ-CRM-001 | FR-C013 | US-C005 | AC-C019 | Unauthorized attempt is not audited  | TC-C019 | TDE-C004           | see matrix.md  | NOT EXECUTED (skipped ≠ passed) |
+| REQ-CRM-001 | FR-C014 | US-C007 | AC-C020 | Fixed Product catalog                | TC-C020 | TDE-C001           | see matrix.md  | NOT EXECUTED (skipped ≠ passed) |
+| REQ-CRM-001 | FR-C015 | US-C007 | AC-C021 | Optional product assignment          | TC-C021 | TDE-C002, TDE-C003 | see matrix.md  | NOT EXECUTED (skipped ≠ passed) |
+| REQ-CRM-001 | FR-C016 | US-C002 | AC-C022 | Soft-delete hides Client             | TC-C022 | TDE-C002, TDE-C003 | see matrix.md  | NOT EXECUTED (skipped ≠ passed) |
 
 Also index in [../../traceability/matrix.md](../../traceability/matrix.md).
 AUTH-001 fail-closed reused as TDE-C007 (not duplicated as a CRM FR).

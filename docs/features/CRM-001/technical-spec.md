@@ -79,7 +79,13 @@ Logical audit records with at least: actor/user ID, action, entity,
 entity ID, timestamp; UPDATE also previous and new values. Schema:
 TBD (TD-C006).
 
-Do not create tables now.
+Do not invent extra SQL in application code. Physical names are in
+the implementation plan (TD-C005).
+
+Logical Product catalog (six rows) and ClientProduct assignments.
+`clients.deleted_at` / `deleted_by` support soft-delete. SELECT of
+active Clients requires `deleted_at is null`. Soft-delete UPDATE is
+audited as DELETE.
 
 ## Row Level Security
 
@@ -113,7 +119,7 @@ or GraphQL layer for CRM-001.
 | Authorization        | UI + RLS; UI insufficient                            |
 | Fail-closed          | AUTH-001 BD-008 still applies to Client routes       |
 | PII                  | email, phone, OIB; no extra fields                   |
-| DELETE               | ADMIN only; confirmation TBD                         |
+| DELETE               | ADMIN only; UI confirm; **soft-delete** (no restore) |
 | Audit                | Successful CUD; append-only in app; no failure audit |
 | Privilege escalation | VIEWER must not become ADMIN via client tampering    |
 | Secrets              | No service role in client                            |
@@ -123,12 +129,12 @@ implementation.
 
 ## Testing Architecture
 
-| Layer            | Tool               | CRM-001                                     |
-| ---------------- | ------------------ | ------------------------------------------- |
-| Unit             | Vitest             | Role-aware UI helpers                       |
-| Integration      | Vitest             | RLS deny VIEWER writes; audit insert on CUD |
-| E2E              | Playwright         | TC-C001–TC-C011, TC-C017 as UI              |
-| Format / secrets | Prettier, gitleaks | Foundation CI                               |
+| Layer            | Tool               | CRM-001                                         |
+| ---------------- | ------------------ | ----------------------------------------------- |
+| Unit             | Vitest             | Role-aware UI helpers                           |
+| Integration      | Vitest             | RLS deny VIEWER writes; audit insert on CUD     |
+| E2E              | Playwright         | TC-C001–TC-C011, TC-C017, TC-C020–TC-C022 as UI |
+| Format / secrets | Prettier, gitleaks | Foundation CI                                   |
 
 No tests executed in this phase.
 
@@ -154,15 +160,17 @@ Do not create an ADR for Client columns.
 
 ## Traceability
 
-| TDE      | Maps to FR                | Notes                                                 |
-| -------- | ------------------------- | ----------------------------------------------------- |
-| TDE-C001 | FR-C001, FR-C002          | Logical Client model                                  |
-| TDE-C002 | FR-C003, FR-C004, FR-C005 | Role-aware Client UI (UX)                             |
-| TDE-C003 | FR-C003, FR-C004, FR-C006 | RLS intent on Client data                             |
-| TDE-C004 | FR-C007–FR-C013           | Logical audit model (HOW TBD)                         |
-| TDE-C005 | FR-C011                   | Append-only audit (no app mutate)                     |
-| TDE-C006 | FR-C004, FR-C006          | VIEWER data-path deny                                 |
-| TDE-C007 | AUTH-001 FR-013           | Reuse fail-closed gate                                |
-| TDE-C008 | FR-C001–FR-C013           | Playwright/Vitest TC-C001–TC-C019 (test architecture) |
+| TDE      | Maps to FR                         | Notes                                       |
+| -------- | ---------------------------------- | ------------------------------------------- |
+| TDE-C001 | FR-C001, FR-C002, FR-C014, FR-C015 | Client + Product + ClientProduct model      |
+| TDE-C002 | FR-C003, FR-C004, FR-C005, FR-C016 | Role-aware Client UI (UX), soft-delete      |
+| TDE-C003 | FR-C003, FR-C004, FR-C006, FR-C015 | RLS intent on Client and ClientProduct data |
+| TDE-C004 | FR-C007–FR-C013                    | Logical audit model                         |
+| TDE-C005 | FR-C011                            | Append-only audit (no app mutate)           |
+| TDE-C006 | FR-C004, FR-C006                   | VIEWER data-path deny                       |
+| TDE-C007 | AUTH-001 FR-013                    | Reuse fail-closed gate                      |
+| TDE-C008 | FR-C001–FR-C016                    | Playwright/Vitest TC-C001–TC-C022           |
 
-Implementation: none. No `src/`.
+Implementation: `src/lib/clients.ts`, `src/lib/products.ts`, Client
+pages, `supabase/migrations/20260823190000_clients_and_audit.sql`,
+`supabase/migrations/20260823210000_products_and_soft_delete.sql`.

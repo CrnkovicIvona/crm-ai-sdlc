@@ -7,6 +7,7 @@ import {
   listClients,
   type ClientRecord,
 } from '../lib/clients';
+import { EMPTY_PRODUCTS_COPY } from '../lib/products';
 
 export function ClientListPage() {
   const { role } = useAuth();
@@ -121,6 +122,7 @@ export function ClientListPage() {
               <th>Email</th>
               <th>Phone</th>
               <th>OIB</th>
+              <th>Products</th>
               <th>Created</th>
             </tr>
           </thead>
@@ -139,6 +141,11 @@ export function ClientListPage() {
                 <td>{row.email}</td>
                 <td>{row.phone}</td>
                 <td>{row.oib}</td>
+                <td data-testid={`client-products-${row.id}`}>
+                  {row.products.length > 0
+                    ? row.products.map((product) => product.name).join(', ')
+                    : EMPTY_PRODUCTS_COPY}
+                </td>
                 <td>{row.created_at}</td>
               </tr>
             ))}

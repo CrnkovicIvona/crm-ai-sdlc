@@ -14,7 +14,7 @@
 
 ## In scope
 
-TC-C001–TC-C019 as designed in [test-cases.md](test-cases.md).
+TC-C001–TC-C022 as designed in [test-cases.md](test-cases.md).
 
 When an application exists (state `PLANNED`+): Playwright for
 user-visible CRUD/search/deny; Vitest integration for RLS-as-boundary

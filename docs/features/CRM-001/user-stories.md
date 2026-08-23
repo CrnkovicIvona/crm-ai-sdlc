@@ -19,8 +19,9 @@ fields, so that CRM-001 stays limited to one entity.
 
 ### Acceptance criteria
 
-- AC-C001: CRM-001 exposes Client as the CRM entity and does not
-  introduce other CRM entities.
+- AC-C001: CRM-001 exposes Client as the primary CRM entity, a fixed
+  Product catalog, and optional ClientProduct assignments. It does not
+  add a Product admin module or other CRM entities.
 - AC-C002: A Client includes first name, last name, email, phone, OIB,
   and created_at, and does not include additional business fields.
 
@@ -35,7 +36,9 @@ As an ADMIN, I need to read, create, update, and delete Clients.
 - AC-C003: An authenticated ADMIN can READ Client records.
 - AC-C004: An authenticated ADMIN can CREATE a Client.
 - AC-C005: An authenticated ADMIN can UPDATE a Client.
-- AC-C006: An authenticated ADMIN can DELETE a Client.
+- AC-C006: An authenticated ADMIN can soft-DELETE a Client (hidden
+  from the active list; row and audit retained). Restore is out of
+  scope.
 
 Exact validation, uniqueness, confirmation, and copy:
 `TBD — HUMAN DECISION REQUIRED`.
@@ -100,3 +103,20 @@ application.
 
 - AC-C017: ADMIN and VIEWER cannot modify or delete audit records
   through the CRM application.
+
+## US-C007: Optional products
+
+As an ADMIN, I assign zero or more catalog products to a Client on
+create and edit. As a VIEWER, I see assigned products.
+
+- FR: FR-C014, FR-C015, FR-C016
+
+### Acceptance criteria
+
+- AC-C020: The Product catalog is the six seeded English products.
+  There is no Product admin module.
+- AC-C021: Create Client succeeds with no product selected. ADMIN can
+  assign and change products on create/edit. List and detail show
+  assigned names or `No products assigned.`
+- AC-C022: After ADMIN confirms delete, the Client is absent from the
+  active list and search. Restore is out of scope.

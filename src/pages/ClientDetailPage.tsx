@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { GENERIC_CLIENT_ERROR } from '../lib/clientValidation';
 import { getClient, type ClientRecord } from '../lib/clients';
+import { EMPTY_PRODUCTS_COPY } from '../lib/products';
 
 export function ClientDetailPage() {
   const { id } = useParams();
@@ -55,6 +56,12 @@ export function ClientDetailPage() {
           <dd data-testid="client-oib">{record.oib}</dd>
           <dt>Created</dt>
           <dd data-testid="client-created-at">{record.created_at}</dd>
+          <dt>Products</dt>
+          <dd data-testid="client-products">
+            {record.products.length > 0
+              ? record.products.map((product) => product.name).join(', ')
+              : EMPTY_PRODUCTS_COPY}
+          </dd>
         </dl>
       ) : null}
     </section>

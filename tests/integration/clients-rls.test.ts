@@ -162,9 +162,13 @@ describe.skipIf(!live)('clients RLS and audit (TC-C012–C019)', () => {
       first_name: 'Updated',
     });
 
-    const deleted = await admin.from('clients').delete().eq('id', id);
+    const deleted = await admin
+      .from('clients')
+      .update({ deleted_at: new Date().toISOString() })
+      .eq('id', id)
+      .select('id')
+      .maybeSingle();
     expect(deleted.error).toBeNull();
-    createdIds.pop();
 
     const afterDelete = await service
       .from('client_audit_events')
@@ -267,5 +271,42 @@ describe.skipIf(!live)('clients RLS and audit (TC-C012–C019)', () => {
       .select('id', { count: 'exact', head: true })
       .eq('new_value->>email', payload.email);
     expect(after.count ?? 0).toBe(before.count ?? 0);
+  });
+
+  it('ADMIN may assign catalog products; VIEWER may not write client_products', async () => {
+    const admin = await signIn(adminEmail!, adminPassword!);
+    const viewer = await signIn(viewerEmail!, viewerPassword!);
+    const payload = uniqueClient();
+    const created = await admin
+      .from('clients')
+      .insert(payload)
+      .select('id')
+      .single();
+    expect(created.error).toBeNull();
+    createdIds.push(created.data!.id);
+
+    const catalog = await admin.from('products').select('id, code');
+    expect(catalog.error).toBeNull();
+    expect((catalog.data ?? []).length).toBeGreaterThanOrEqual(6);
+    const productId = catalog.data![0].id;
+
+    const assigned = await admin.from('client_products').insert({
+      client_id: created.data!.id,
+      product_id: productId,
+    });
+    expect(assigned.error).toBeNull();
+
+    const viewerWrite = await viewer.from('client_products').insert({
+      client_id: created.data!.id,
+      product_id: catalog.data![1]?.id ?? productId,
+    });
+    expect(viewerWrite.error).toBeTruthy();
+
+    const viewerRead = await viewer
+      .from('client_products')
+      .select('product_id')
+      .eq('client_id', created.data!.id);
+    expect(viewerRead.error).toBeNull();
+    expect((viewerRead.data ?? []).length).toBeGreaterThan(0);
   });
 });

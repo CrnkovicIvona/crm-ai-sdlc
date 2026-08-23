@@ -208,6 +208,39 @@ Successful READ does not require a CRM-001 audit record.
 
 Denied VIEWER CREATE does not require a CRM-001 audit record.
 
+## TC-C020: Fixed Product catalog
+
+- AC: AC-C020
+- Type: unit / e2e
+- Risk: Medium
+
+### Expected result
+
+Six English catalog products exist. No Product admin UI.
+
+## TC-C021: Optional product assignment
+
+- AC: AC-C021
+- Type: e2e + integration
+- Risk: High
+
+### Expected result
+
+ADMIN can create a Client with no products and can assign catalog
+products via checkboxes. VIEWER cannot write `client_products`. List
+and detail show assigned names or `No products assigned.`
+
+## TC-C022: Soft-delete hides the Client
+
+- AC: AC-C022
+- Type: e2e + integration
+- Risk: High
+
+### Expected result
+
+After confirmed UI delete, search for that Client’s email shows
+`No matching clients.` Audit action is DELETE. Restore is not offered.
+
 ## Not in CRM-001
 
 - AUTH-001 login tests (see AUTH-001 pack)

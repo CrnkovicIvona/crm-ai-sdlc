@@ -11,8 +11,11 @@ import {
   createClient,
   deleteClient,
   getClient,
+  listProducts,
+  setClientProducts,
   updateClient,
 } from '../lib/clients';
+import { OPTIONAL_PRODUCTS_COPY, type ProductRecord } from '../lib/products';
 
 const EMPTY: ClientInput = {
   first_name: '',
@@ -42,6 +45,21 @@ export function ClientFormPage() {
   const [success, setSuccess] = useState<string | null>(noticeFromState);
   const [pending, setPending] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [catalog, setCatalog] = useState<ProductRecord[]>([]);
+  const [selectedProductIds, setSelectedProductIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    void listProducts().then((result) => {
+      if (cancelled || !result.ok) {
+        return;
+      }
+      setCatalog(result.products);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     if (noticeFromState) {
@@ -53,6 +71,7 @@ export function ClientFormPage() {
     if (!id) {
       setValues(EMPTY);
       setCreatedAt(null);
+      setSelectedProductIds([]);
       return;
     }
     let cancelled = false;
@@ -72,6 +91,9 @@ export function ClientFormPage() {
         oib: result.record.oib,
       });
       setCreatedAt(result.record.created_at);
+      setSelectedProductIds(
+        result.record.products.map((product) => product.id),
+      );
     });
     return () => {
       cancelled = true;
@@ -92,13 +114,23 @@ export function ClientFormPage() {
     const result = isCreate
       ? await createClient(parsed.value)
       : await updateClient(id!, parsed.value);
-    setPending(false);
     if (!result.ok) {
+      setPending(false);
       setSuccess(null);
       setError(result.error);
       if (result.fields) {
         setFields(result.fields);
       }
+      return;
+    }
+    const assigned = await setClientProducts(
+      result.record.id,
+      selectedProductIds,
+    );
+    setPending(false);
+    if (!assigned.ok) {
+      setSuccess(null);
+      setError(GENERIC_CLIENT_ERROR);
       return;
     }
     if (isCreate) {
@@ -236,6 +268,28 @@ export function ClientFormPage() {
             <span data-testid="client-created-at"> {createdAt}</span>
           </p>
         ) : null}
+        <fieldset data-testid="client-products">
+          <legend>Products</legend>
+          <p>{OPTIONAL_PRODUCTS_COPY}</p>
+          {catalog.map((product) => (
+            <label key={product.id}>
+              <input
+                data-testid={`product-${product.code}`}
+                type="checkbox"
+                checked={selectedProductIds.includes(product.id)}
+                onChange={(event) => {
+                  const checked = event.target.checked;
+                  setSelectedProductIds((current) =>
+                    checked
+                      ? [...current, product.id]
+                      : current.filter((id) => id !== product.id),
+                  );
+                }}
+              />
+              {product.name}
+            </label>
+          ))}
+        </fieldset>
         <button data-testid="client-save" type="submit" disabled={pending}>
           {isCreate ? 'Create' : 'Save'}
         </button>

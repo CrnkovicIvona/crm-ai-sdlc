@@ -3,10 +3,12 @@
 - Work item: CRM-001
 - Issue: none yet
 - Risk: High
-- Status of log: **APPROVED for Ready** — BD-C001–BD-C015, reuse TDs,
+- Status of log: **APPROVED** — BD-C001–BD-C018, reuse TDs,
   BD-T001–BD-T018, TD-C005 (names in the implementation plan), and
   TD-C006. Source: PO Gate 1 chat 2026-08-23 (accepted
-  [dor-gate-1.md](dor-gate-1.md) §5.1 and §5.2).
+  [dor-gate-1.md](dor-gate-1.md) §5.1 and §5.2) plus PO revision
+  2026-08-23: Product catalog, ClientProduct, optional assign,
+  soft-delete.
 - This is not an ADR. Platform: ADR-0001, ADR-0002, AUTH-001 TD-001–TD-008.
 
 Gate 1 Ready does **not** authorize `src/` Client modules until the
@@ -18,11 +20,11 @@ implementation plan is human-approved (`PLANNED`).
 
 ### BD-C001 Entity
 
-| Field          | Value                               |
-| -------------- | ----------------------------------- |
-| Decision       | Which CRM entities exist in CRM-001 |
-| Approved value | **Client** only                     |
-| Status         | **APPROVED**                        |
+| Field          | Value                                                                                         |
+| -------------- | --------------------------------------------------------------------------------------------- |
+| Decision       | Which CRM entities exist in CRM-001                                                           |
+| Approved value | **Client** plus a fixed **Product** catalog and **ClientProduct** assignments (PO 2026-08-23) |
+| Status         | **APPROVED** (revised: Product/ClientProduct are in scope)                                    |
 
 ### BD-C002 Fields
 
@@ -114,11 +116,11 @@ implementation plan is human-approved (`PLANNED`).
 
 ### BD-C013 No extra entities
 
-| Field          | Value                   |
-| -------------- | ----------------------- |
-| Decision       | Additional CRM entities |
-| Approved value | None in CRM-001         |
-| Status         | **APPROVED**            |
+| Field          | Value                                                                                         |
+| -------------- | --------------------------------------------------------------------------------------------- |
+| Decision       | Additional CRM entities                                                                       |
+| Approved value | None beyond **Client**, fixed **Product** catalog, and **ClientProduct** (revised 2026-08-23) |
+| Status         | **APPROVED** (revised)                                                                        |
 
 ### BD-C014 No field-level security
 
@@ -136,6 +138,30 @@ implementation plan is human-approved (`PLANNED`).
 | Approved value | Do not invent modify/delete/admin of audit records |
 | Status         | **APPROVED**                                       |
 
+### BD-C016 Product catalog
+
+| Field          | Value                                                                                                                                                           |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Decision       | Product catalog in CRM-001                                                                                                                                      |
+| Approved value | Fixed English names: Bank account, Credit card, Loan, Savings, Mobile banking, Online banking. No Product admin UI. Codes in the implementation plan (TD-C005). |
+| Status         | **APPROVED** (PO 2026-08-23 revision)                                                                                                                           |
+
+### BD-C017 ClientProduct
+
+| Field          | Value                                                                                                                           |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Decision       | How Clients relate to Products                                                                                                  |
+| Approved value | Client 1 — 0..N catalog products via ClientProduct. Create Client must **not** require a product. ADMIN assigns on create/edit. |
+| Status         | **APPROVED** (PO 2026-08-23 revision)                                                                                           |
+
+### BD-C018 Soft-delete
+
+| Field          | Value                                                                                                                          |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| Decision       | What UI DELETE does                                                                                                            |
+| Approved value | Soft-delete: hide from the active list; keep the row and audit; log action DELETE. Restore is out of scope. No recycle-bin UI. |
+| Status         | **APPROVED** (PO 2026-08-23 revision)                                                                                          |
+
 ---
 
 ## Business decisions accepted at Gate 1 (2026-08-23)
@@ -148,7 +174,7 @@ PO accepted [dor-gate-1.md](dor-gate-1.md) §5.1 and §5.2. Status
 | BD-T001 | Email required; `local@domain` with a dot in the domain; no MX                                                                    |
 | BD-T002 | Phone required; digits, optional `+`, optional spaces; 8–15 digits after stripping spaces                                         |
 | BD-T003 | OIB required; exactly 11 digits; no checksum                                                                                      |
-| BD-T004 | Email unique among Clients, case-insensitive                                                                                      |
+| BD-T004 | Email unique among **active** (non-deleted) Clients, case-insensitive                                                             |
 | BD-T005 | Phone not unique                                                                                                                  |
 | BD-T006 | ADMIN and VIEWER; case-insensitive partial match on first name, last name, email, phone, OIB; empty query = full list (paginated) |
 | BD-T007 | Last name, then first name, A–Z, case-insensitive                                                                                 |
@@ -206,7 +232,7 @@ PO accepted [dor-gate-1.md](dor-gate-1.md) §5.1 and §5.2. Status
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | Decision       | Where Client rows live                                                                                                               |
 | Approved value | Table `public.clients` as named in [implementation-plan.md](implementation-plan.md) §3. Approving that plan approves physical names. |
-| Status         | **APPROVED in plan (draft until Gate 2)**                                                                                            |
+| Status         | **APPROVED** (revised Gate 2 2026-08-23; names in implementation plan §3)                                                            |
 
 ### TD-C006 Audit storage and write mechanism
 
