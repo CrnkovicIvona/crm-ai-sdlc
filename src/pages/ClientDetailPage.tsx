@@ -43,26 +43,36 @@ export function ClientDetailPage() {
         </p>
       ) : null}
       {record ? (
-        <dl>
-          <dt>First name</dt>
-          <dd data-testid="client-first-name">{record.first_name}</dd>
-          <dt>Last name</dt>
-          <dd data-testid="client-last-name">{record.last_name}</dd>
-          <dt>Email</dt>
-          <dd data-testid="client-email">{record.email}</dd>
-          <dt>Phone</dt>
-          <dd data-testid="client-phone">{record.phone}</dd>
-          <dt>OIB</dt>
-          <dd data-testid="client-oib">{record.oib}</dd>
-          <dt>Created</dt>
-          <dd data-testid="client-created-at">{record.created_at}</dd>
-          <dt>Products</dt>
-          <dd data-testid="client-products">
-            {record.products.length > 0
-              ? record.products.map((product) => product.name).join(', ')
-              : EMPTY_PRODUCTS_COPY}
-          </dd>
-        </dl>
+        <>
+          <section className="crm-identity">
+            <h3>Identity</h3>
+            <dl>
+              <dt>First name</dt>
+              <dd data-testid="client-first-name">{record.first_name}</dd>
+              <dt>Last name</dt>
+              <dd data-testid="client-last-name">{record.last_name}</dd>
+              <dt>Email</dt>
+              <dd data-testid="client-email">{record.email}</dd>
+              <dt>Phone</dt>
+              <dd data-testid="client-phone">{record.phone}</dd>
+              <dt>OIB</dt>
+              <dd data-testid="client-oib">{record.oib}</dd>
+              <dt>Created</dt>
+              <dd data-testid="client-created-at">{record.created_at}</dd>
+            </dl>
+          </section>
+          <section className="crm-products-group">
+            <h3>Products</h3>
+            <dl>
+              <dt>Assigned</dt>
+              <dd data-testid="client-products">
+                {record.products.length > 0
+                  ? record.products.map((product) => product.name).join(', ')
+                  : EMPTY_PRODUCTS_COPY}
+              </dd>
+            </dl>
+          </section>
+        </>
       ) : null}
     </section>
   );

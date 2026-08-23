@@ -24,7 +24,7 @@ export function LoginPage() {
   }
 
   return (
-    <main>
+    <main className="crm-page-login">
       <h1>BankCRM login</h1>
       <form onSubmit={onSubmit} data-testid="login-form">
         <label>
@@ -51,15 +51,17 @@ export function LoginPage() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
-        <button data-testid="login-submit" type="submit" disabled={pending}>
-          Log in
-        </button>
+        <div className="login-actions">
+          <button data-testid="login-submit" type="submit" disabled={pending}>
+            Log in
+          </button>
+          {error ? (
+            <p data-testid="login-error" role="alert">
+              {error}
+            </p>
+          ) : null}
+        </div>
       </form>
-      {error ? (
-        <p data-testid="login-error" role="alert">
-          {error}
-        </p>
-      ) : null}
       <aside className="test-users" data-testid="test-users">
         <p className="test-users-heading">ADMIN user</p>
         <p>Email: admin@test.com</p>

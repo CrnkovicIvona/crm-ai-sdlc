@@ -115,10 +115,14 @@ test('TC-C002 / TC-C004 invalid fields are named', async ({ page }) => {
   await page.getByTestId('client-create').click();
   await page.getByTestId('client-save').click();
   await expect(page.getByTestId('field-error-first_name')).toHaveText(
-    'first name',
+    'Enter a first name.',
   );
-  await expect(page.getByTestId('field-error-email')).toHaveText('email');
-  await expect(page.getByTestId('field-error-oib')).toHaveText('OIB');
+  await expect(page.getByTestId('field-error-email')).toHaveText(
+    'Enter an email like name@bank.example.',
+  );
+  await expect(page.getByTestId('field-error-oib')).toHaveText(
+    'Enter an 11-digit OIB.',
+  );
 });
 
 test('TC-C007–C011 VIEWER can read and search, not write', async ({ page }) => {

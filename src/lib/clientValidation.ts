@@ -1,4 +1,5 @@
 export const GENERIC_CLIENT_ERROR = 'Operation failed.';
+export const UNIQUE_EMAIL_ERROR = 'This email is already used.';
 
 export type ClientInput = {
   first_name: string;
@@ -58,19 +59,19 @@ export function validateClientInput(input: ClientInput): ValidationResult {
   const fields: FieldErrors = {};
 
   if (!first_name) {
-    fields.first_name = 'first name';
+    fields.first_name = 'Enter a first name.';
   }
   if (!last_name) {
-    fields.last_name = 'last name';
+    fields.last_name = 'Enter a last name.';
   }
   if (!validateEmail(email)) {
-    fields.email = 'email';
+    fields.email = 'Enter an email like name@bank.example.';
   }
   if (!validatePhone(phone)) {
-    fields.phone = 'phone';
+    fields.phone = 'Enter a phone with 8–15 digits.';
   }
   if (!validateOib(oib)) {
-    fields.oib = 'OIB';
+    fields.oib = 'Enter an 11-digit OIB.';
   }
 
   if (Object.keys(fields).length > 0) {

@@ -181,7 +181,11 @@ export function ClientFormPage() {
         </p>
       ) : null}
       {success ? <p data-testid="client-success">{success}</p> : null}
-      <form data-testid="client-form" onSubmit={onSubmit}>
+      <form
+        className="crm-form-narrow"
+        data-testid="client-form"
+        onSubmit={onSubmit}
+      >
         <label>
           First name
           <input
@@ -197,7 +201,9 @@ export function ClientFormPage() {
           />
         </label>
         {fields.first_name ? (
-          <p data-testid="field-error-first_name">{fields.first_name}</p>
+          <p className="field-error" data-testid="field-error-first_name">
+            {fields.first_name}
+          </p>
         ) : null}
         <label>
           Last name
@@ -214,7 +220,9 @@ export function ClientFormPage() {
           />
         </label>
         {fields.last_name ? (
-          <p data-testid="field-error-last_name">{fields.last_name}</p>
+          <p className="field-error" data-testid="field-error-last_name">
+            {fields.last_name}
+          </p>
         ) : null}
         <label>
           Email
@@ -231,7 +239,9 @@ export function ClientFormPage() {
           />
         </label>
         {fields.email ? (
-          <p data-testid="field-error-email">{fields.email}</p>
+          <p className="field-error" data-testid="field-error-email">
+            {fields.email}
+          </p>
         ) : null}
         <label>
           Phone
@@ -248,7 +258,9 @@ export function ClientFormPage() {
           />
         </label>
         {fields.phone ? (
-          <p data-testid="field-error-phone">{fields.phone}</p>
+          <p className="field-error" data-testid="field-error-phone">
+            {fields.phone}
+          </p>
         ) : null}
         <label>
           OIB
@@ -261,7 +273,11 @@ export function ClientFormPage() {
             }
           />
         </label>
-        {fields.oib ? <p data-testid="field-error-oib">{fields.oib}</p> : null}
+        {fields.oib ? (
+          <p className="field-error" data-testid="field-error-oib">
+            {fields.oib}
+          </p>
+        ) : null}
         {createdAt ? (
           <p>
             Created
@@ -271,41 +287,44 @@ export function ClientFormPage() {
         <fieldset data-testid="client-products">
           <legend>Products</legend>
           <p>{OPTIONAL_PRODUCTS_COPY}</p>
-          {catalog.map((product) => (
-            <label key={product.id}>
-              <input
-                data-testid={`product-${product.code}`}
-                type="checkbox"
-                checked={selectedProductIds.includes(product.id)}
-                onChange={(event) => {
-                  const checked = event.target.checked;
-                  setSelectedProductIds((current) =>
-                    checked
-                      ? [...current, product.id]
-                      : current.filter((id) => id !== product.id),
-                  );
-                }}
-              />
-              {product.name}
-            </label>
-          ))}
+          <div className="crm-product-grid">
+            {catalog.map((product) => (
+              <label key={product.id}>
+                <input
+                  data-testid={`product-${product.code}`}
+                  type="checkbox"
+                  checked={selectedProductIds.includes(product.id)}
+                  onChange={(event) => {
+                    const checked = event.target.checked;
+                    setSelectedProductIds((current) =>
+                      checked
+                        ? [...current, product.id]
+                        : current.filter((id) => id !== product.id),
+                    );
+                  }}
+                />
+                {product.name}
+              </label>
+            ))}
+          </div>
         </fieldset>
-        <button data-testid="client-save" type="submit" disabled={pending}>
-          {isCreate ? 'Create' : 'Save'}
-        </button>
-      </form>
-      {!isCreate ? (
-        <p>
-          <button
-            data-testid="client-delete"
-            type="button"
-            onClick={() => setConfirmDelete(true)}
-            disabled={pending}
-          >
-            Delete
+        <div className="crm-form-actions">
+          <button data-testid="client-save" type="submit" disabled={pending}>
+            {isCreate ? 'Create' : 'Save'}
           </button>
-        </p>
-      ) : null}
+          {!isCreate ? (
+            <button
+              className="crm-btn-danger"
+              data-testid="client-delete"
+              type="button"
+              onClick={() => setConfirmDelete(true)}
+              disabled={pending}
+            >
+              Delete
+            </button>
+          ) : null}
+        </div>
+      </form>
       <DeleteClientDialog
         open={confirmDelete}
         pending={pending}

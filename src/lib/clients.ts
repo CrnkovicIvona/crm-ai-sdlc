@@ -1,6 +1,7 @@
 import { getSupabase } from './supabase';
 import {
   GENERIC_CLIENT_ERROR,
+  UNIQUE_EMAIL_ERROR,
   isUniqueEmailViolation,
   type ClientInput,
   type FieldErrors,
@@ -48,7 +49,7 @@ function mapWriteError(
     return {
       ok: false,
       error: GENERIC_CLIENT_ERROR,
-      fields: { email: 'email' },
+      fields: { email: UNIQUE_EMAIL_ERROR },
     };
   }
   return { ok: false, error: GENERIC_CLIENT_ERROR };

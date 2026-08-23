@@ -84,18 +84,18 @@ export function ClientListPage() {
 
   return (
     <section data-testid="client-list">
-      <h2>Clients</h2>
-      {noticeFromState ? (
-        <p data-testid="client-success">{noticeFromState}</p>
-      ) : null}
-      {role === 'ADMIN' ? (
-        <p>
+      <div className="crm-page-head">
+        <h2>Clients</h2>
+        {role === 'ADMIN' ? (
           <Link data-testid="client-create" to="/app/clients/new">
             New client
           </Link>
-        </p>
+        ) : null}
+      </div>
+      {noticeFromState ? (
+        <p data-testid="client-success">{noticeFromState}</p>
       ) : null}
-      <label>
+      <label className="crm-search">
         Search
         <input
           data-testid="client-search"
@@ -114,46 +114,48 @@ export function ClientListPage() {
         <p data-testid="client-empty">{emptyCopy}</p>
       ) : null}
       {!loading && rows.length > 0 ? (
-        <table>
-          <thead>
-            <tr>
-              <th>First name</th>
-              <th>Last name</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>OIB</th>
-              <th>Products</th>
-              <th>Created</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row) => (
-              <tr key={row.id} data-testid="client-row">
-                <td>
-                  <Link
-                    data-testid={`client-link-${row.id}`}
-                    to={`/app/clients/${row.id}`}
-                  >
-                    {row.first_name}
-                  </Link>
-                </td>
-                <td>{row.last_name}</td>
-                <td>{row.email}</td>
-                <td>{row.phone}</td>
-                <td>{row.oib}</td>
-                <td data-testid={`client-products-${row.id}`}>
-                  {row.products.length > 0
-                    ? row.products.map((product) => product.name).join(', ')
-                    : EMPTY_PRODUCTS_COPY}
-                </td>
-                <td>{row.created_at}</td>
+        <div className="crm-table-surface">
+          <table>
+            <thead>
+              <tr>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>OIB</th>
+                <th>Products</th>
+                <th>Created</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {rows.map((row) => (
+                <tr key={row.id} data-testid="client-row">
+                  <td>
+                    <Link
+                      data-testid={`client-link-${row.id}`}
+                      to={`/app/clients/${row.id}`}
+                    >
+                      {row.first_name}
+                    </Link>
+                  </td>
+                  <td>{row.last_name}</td>
+                  <td>{row.email}</td>
+                  <td>{row.phone}</td>
+                  <td>{row.oib}</td>
+                  <td data-testid={`client-products-${row.id}`}>
+                    {row.products.length > 0
+                      ? row.products.map((product) => product.name).join(', ')
+                      : EMPTY_PRODUCTS_COPY}
+                  </td>
+                  <td>{row.created_at}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       ) : null}
       {total > CLIENT_PAGE_SIZE ? (
-        <p>
+        <p className="crm-pager">
           <button
             data-testid="client-pager-prev"
             type="button"

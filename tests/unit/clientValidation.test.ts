@@ -63,11 +63,13 @@ describe('client validation (BD-T001–T003)', () => {
     });
     expect(invalid.ok).toBe(false);
     if (!invalid.ok) {
-      expect(invalid.fields.first_name).toBe('first name');
-      expect(invalid.fields.last_name).toBe('last name');
-      expect(invalid.fields.email).toBe('email');
-      expect(invalid.fields.phone).toBe('phone');
-      expect(invalid.fields.oib).toBe('OIB');
+      expect(invalid.fields.first_name).toBe('Enter a first name.');
+      expect(invalid.fields.last_name).toBe('Enter a last name.');
+      expect(invalid.fields.email).toBe(
+        'Enter an email like name@bank.example.',
+      );
+      expect(invalid.fields.phone).toBe('Enter a phone with 8–15 digits.');
+      expect(invalid.fields.oib).toBe('Enter an 11-digit OIB.');
     }
   });
 });
