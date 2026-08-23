@@ -1,5 +1,6 @@
 import { expect, test, type APIRequestContext } from '@playwright/test';
 import { GENERIC_AUTH_ERROR } from '../../src/lib/errors';
+import { expectLoginAfterLogout } from '../e2e/login';
 
 function requireSecret(name: string): string {
   const value = process.env[name];
@@ -79,7 +80,7 @@ test.describe('REL-003 production smoke', () => {
     await expect(page.getByTestId('user-role')).toHaveText('ADMIN');
     await expect(page.getByTestId('admin-write-hint')).toBeVisible();
     await page.getByTestId('logout').click();
-    await expect(page).toHaveURL(/\/login/);
+    await expectLoginAfterLogout(page);
     await expectLoginSurface(page);
   });
 

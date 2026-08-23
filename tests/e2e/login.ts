@@ -35,3 +35,14 @@ export async function expectCrmAfterLogin(page: Page): Promise<void> {
   await expect(shell).toBeVisible();
   await expect(page).toHaveURL(/\/app/);
 }
+
+/**
+ * Logout is async (Supabase signOut, then navigate). Playwright click does not
+ * wait for that promise; default expect timeout is too short for CI.
+ */
+export async function expectLoginAfterLogout(page: Page): Promise<void> {
+  await expect(page.getByTestId('login-form')).toBeVisible({
+    timeout: OUTCOME_TIMEOUT_MS,
+  });
+  await expect(page).toHaveURL(/\/login/);
+}

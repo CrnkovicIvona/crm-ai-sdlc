@@ -1,6 +1,10 @@
 import { test, expect } from '@playwright/test';
 import { GENERIC_AUTH_ERROR } from '../../src/lib/errors';
-import { expectCrmAfterLogin, submitLogin } from './login';
+import {
+  expectCrmAfterLogin,
+  expectLoginAfterLogout,
+  submitLogin,
+} from './login';
 
 const hasAdmin = Boolean(
   process.env.E2E_ADMIN_EMAIL && process.env.E2E_ADMIN_PASSWORD,
@@ -49,8 +53,7 @@ test('TC-005 / TC-006 logout then CRM denied', async ({ page }) => {
   );
   await expectCrmAfterLogin(page);
   await page.getByTestId('logout').click();
-  await expect(page).toHaveURL(/\/login/);
-  await expect(page.getByTestId('login-form')).toBeVisible();
+  await expectLoginAfterLogout(page);
   await page.goto('/app');
   await expect(page).toHaveURL(/\/login/);
   await expect(page.getByTestId('login-form')).toBeVisible();
