@@ -134,3 +134,26 @@ Feature: Append-only audit
     Then the user cannot modify audit records
     And the user cannot delete audit records
 ```
+
+## US-C007 / AC-C020–AC-C022
+
+```gherkin
+Feature: Products and soft-delete
+  Scenario: Catalog is fixed
+    Given CRM-001 is in use
+    Then six English catalog products are available
+    And no Product administration module is provided
+
+  Scenario: Products are optional
+    Given an authenticated user with role ADMIN
+    When the user creates a Client without selecting a product
+    Then the create is allowed
+    And the Client shows No products assigned.
+
+  Scenario: Soft-delete hides the Client
+    Given an authenticated user with role ADMIN
+    And an existing Client
+    When the user confirms delete
+    Then the Client is not in the active list
+    And restore is not offered
+```

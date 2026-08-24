@@ -2,7 +2,7 @@
   "name": "bankcrm",
   "private": true,
   "version": "0.0.0",
-  "description": "BankCRM — AUTH-001 login (Vite + React + TypeScript)",
+  "description": "BankCRM — AUTH-001 login and CRM-001 clients (Vite + React + TypeScript)",
   "type": "module",
   "engines": {
     "node": ">=20"

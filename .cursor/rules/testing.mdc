@@ -15,3 +15,9 @@ alwaysApply: true
 - If a test or runtime needs human input (GitHub/Vercel secrets, seed users, Supabase URL/anon key, non-prod migration), **ask the human immediately** with exact variable names. Do not stay silent and treat skip as done.
 - `execute-tests` records evidence. `heal` diagnoses and remediates failures. Do not mix those responsibilities.
 - Do not add fake passing tests for a product that does not exist yet.
+- Test design follows ISTQB CTFL as in `docs/sdlc/testing-strategy.md`:
+  positive / negative / edge **from approved AC/FS/BD only**. Missing
+  expected result → **BLOCKED** (TBD human), never PASSED and never
+  invented. SKIPPED (no secrets / job skipped) is also never PASSED.
+  High-risk RLS/integration skip without secrets is **BLOCKED** for
+  Gate 3 / DoD, not “done”.

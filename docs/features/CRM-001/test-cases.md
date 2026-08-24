@@ -1,212 +1,442 @@
 # CRM-001 test cases
 
 - Work item: CRM-001
-- Status: **DESIGNED** — **NOT EXECUTED**
+- Design status: **DESIGNED**
+- Automation status: **AUTOMATED** (Playwright + Vitest unit + Vitest
+  integration). Paths: `tests/e2e/clients.spec.ts`,
+  `tests/unit/clientValidation.test.ts`, `tests/unit/products.test.ts`,
+  `tests/integration/clients-rls.test.ts`.
+- Execution status: **PARTIAL** on SHA `456c9a2` (2026-08-23).
+  See [../../test-reports/CRM-001.md](../../test-reports/CRM-001.md).
+  E2E **PASSED** in CI (11/11). Vitest **PASSED** (19/19, 0 skipped)
+  including RLS. C008 match oracle still **BLOCKED**. SKIPPED ≠ PASSED.
 - Risk: High
 - Owner (draft): Agent as QA
 - Source: [bdd.md](bdd.md), [user-stories.md](user-stories.md)
 
-Automation paths: `not automated` (no `src/`).
+## Automation map (not an execution report)
+
+| TC           | Automated in                                             | Execution                                                                           |
+| ------------ | -------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| TC-C001      | `tests/e2e/clients.spec.ts`                              | **PASSED** CI SHA `456c9a2` (run 32673921138)                                       |
+| TC-C002      | e2e empty-submit + `tests/unit/clientValidation.test.ts` | **PASSED** unit CI; empty-submit e2e CI                                             |
+| TC-C003–C006 | `tests/e2e/clients.spec.ts` ADMIN CRUD                   | **PASSED** CI (catalog present; not skipped)                                        |
+| TC-C007–C011 | `tests/e2e/clients.spec.ts` VIEWER                       | **PASSED** CI grouped; C011 not field-by-field; C008 match oracle still **BLOCKED** |
+| TC-C012–C019 | `tests/integration/clients-rls.test.ts`                  | **PASSED** CI SHA `456c9a2` — 6 executed, 0 skipped                                 |
+| TC-C020      | `tests/unit/products.test.ts` + e2e product checkbox     | **PASSED** unit; checkbox in C003–C006 e2e CI                                       |
+| TC-C021      | e2e assign on create + integration                       | **PASSED** e2e assign CI; integration write **PASSED** with C012 pack               |
+| TC-C022      | e2e search after delete                                  | **PASSED** CI (asserted inside C003–C006)                                           |
+
+## ISTQB P/N/E matrix (existing TCs — no new product rules)
+
+Kind: **P** positive, **N** negative, **E** edge/state. Technique per
+[testing-strategy.md](../../sdlc/testing-strategy.md). Oracle missing →
+**BLOCKED** (do not invent).
+
+| TC   | Kind  | Technique        | Level       | Oracle / note                                                                                                                 |
+| ---- | ----- | ---------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| C001 | P     | Use-case         | e2e         | Only Client entity                                                                                                            |
+| C002 | P+N+E | EP + BVA         | unit + e2e  | Approved fields; empty submit N; email/phone/OIB BVA in unit (`TC-C002-*`). Search match / extra formats **BLOCKED** (BD TBD) |
+| C003 | P     | Use-case         | e2e         | ADMIN read                                                                                                                    |
+| C004 | P     | Use-case         | e2e         | ADMIN create with approved fields; optional product                                                                           |
+| C005 | P     | Use-case         | e2e         | ADMIN update                                                                                                                  |
+| C006 | P+E   | Use-case + state | e2e         | Delete confirm/cancel; soft-delete then search empty (with C022)                                                              |
+| C007 | P     | Use-case         | e2e         | VIEWER read                                                                                                                   |
+| C008 | P     | Use-case         | e2e         | VIEWER search UI; **matching rule BLOCKED**                                                                                   |
+| C009 | N     | Decision         | e2e         | VIEWER cannot create (UI)                                                                                                     |
+| C010 | N     | Decision         | e2e         | VIEWER cannot update/delete (UI)                                                                                              |
+| C011 | P     | Use-case         | e2e         | VIEWER sees all fields (grouped)                                                                                              |
+| C012 | N     | Decision         | integration | VIEWER write denied at DB                                                                                                     |
+| C013 | P     | Use-case         | integration | Audit CREATE                                                                                                                  |
+| C014 | P     | Use-case         | integration | Audit UPDATE values                                                                                                           |
+| C015 | P     | Use-case         | integration | Audit DELETE                                                                                                                  |
+| C016 | P     | EP               | integration | Audit attributes                                                                                                              |
+| C017 | N     | Decision         | integration | No audit mutate via app                                                                                                       |
+| C018 | N     | Decision         | integration | READ not audited                                                                                                              |
+| C019 | N     | Decision         | integration | Unauthorized not audited                                                                                                      |
+| C020 | P     | EP               | unit + e2e  | Six catalog codes                                                                                                             |
+| C021 | P+E   | Use-case + EP    | e2e         | Optional assign; empty products allowed                                                                                       |
+| C022 | E     | State            | e2e         | Soft-deleted not in search                                                                                                    |
 
 ## TC-C001: Only Client entity
 
-- AC: AC-C001
-- BDD: Client is the only CRM entity
-- Type: e2e / specification review until UI exists
-- Risk: High
+- AC: AC-C001 · Kind: P · Technique: use-case · Level: e2e · Priority: High
+- Type: e2e (`tests/e2e/clients.spec.ts`)
+
+### Preconditions
+
+ADMIN session. CRM-001 UI.
+
+### Test data
+
+None.
+
+### Steps
+
+1. Open `/app/clients`.
+2. Observe nav: only Clients. No Account/Deal/Contact links.
 
 ### Expected result
 
-No other CRM entity is offered by CRM-001.
+No other CRM entity is offered. `nav-clients` visible.
 
 ## TC-C002: Client fields
 
-- AC: AC-C002
-- BDD: Client has the approved fields
-- Type: e2e / integration
+- AC: AC-C002 · Kind: P+N+E · Technique: EP+BVA · Level: unit+e2e · Priority: High
+
+### Preconditions
+
+ADMIN on create form (e2e); or unit validators.
+
+### Test data
+
+Unit: valid/invalid email, phone 8–15, OIB 11 digits (BD-T001–T003).
+E2e: empty submit.
+
+### Steps
+
+1. Unit: `TC-C002-*` in `clientValidation.test.ts`.
+2. E2e: open create, save empty, assert five `field-error-*`.
 
 ### Expected result
 
-Fields present: first name, last name, email, phone, OIB, created_at.
-No extra business fields.
+Approved fields only. Named field errors on empty submit. Extra
+formats / search match **BLOCKED**.
 
 ## TC-C003: ADMIN READ
 
-- AC: AC-C003
-- Type: e2e
-- Risk: High
+- AC: AC-C003 · Kind: P · Technique: use-case · Level: e2e · Priority: High
+
+### Preconditions
+
+ADMIN. Clients table available.
+
+### Test data
+
+Any existing or newly created client (see C004).
+
+### Steps
+
+1. Open client list / form after create.
+2. Observe identity fields.
 
 ### Expected result
 
-ADMIN can read Clients.
+ADMIN can read Clients (`client-list` / form values).
 
 ## TC-C004: ADMIN CREATE
 
-- AC: AC-C004
-- Type: e2e
-- Risk: High
+- AC: AC-C004 · Kind: P · Technique: use-case · Level: e2e · Priority: High
+
+### Preconditions
+
+ADMIN. Product catalog migrated (else e2e **FAIL**, not skip).
+
+### Test data
+
+Unique first/last/email/phone/OIB; optional `product-bank_account`.
+
+### Steps
+
+1. `client-create` → fill fields → check product → `client-save`.
 
 ### Expected result
 
-ADMIN can create a Client. Validation details TBD — do not invent
-invalid/valid examples beyond “approved fields are submitted”.
+`Client created.` Form shows values and `client-created-at`.
 
 ## TC-C005: ADMIN UPDATE
 
-- AC: AC-C005
-- Type: e2e
-- Risk: High
+- AC: AC-C005 · Kind: P · Technique: use-case · Level: e2e · Priority: High
+
+### Preconditions
+
+Client from C004 still open.
+
+### Test data
+
+First name `Updated`.
+
+### Steps
+
+1. Change first name → `client-save`.
 
 ### Expected result
 
-ADMIN can update a Client.
+`Client saved.`
 
 ## TC-C006: ADMIN DELETE
 
-- AC: AC-C006
-- Type: e2e
-- Risk: High
+- AC: AC-C006 · Kind: P+E · Technique: use-case + state · Level: e2e · Priority: High
+
+### Preconditions
+
+Client from C005. UI uses frozen `delete-dialog` (BD-T010 copy TBD;
+control IDs are frozen).
+
+### Test data
+
+Same client.
+
+### Steps
+
+1. `client-delete` → `delete-cancel` → still `Updated`.
+2. `client-delete` → `delete-confirm`.
 
 ### Expected result
 
-ADMIN can delete a Client. Confirmation UX is TBD (BD-T010).
+`Client deleted.` Then C022 search.
 
 ## TC-C007: VIEWER READ
 
-- AC: AC-C007
-- Type: e2e
-- Risk: High
+- AC: AC-C007 · Kind: P · Technique: use-case · Level: e2e · Priority: High
+
+### Preconditions
+
+VIEWER session.
+
+### Test data
+
+`E2E_VIEWER_*`.
+
+### Steps
+
+1. Open `/app/clients`.
 
 ### Expected result
 
-VIEWER can read Clients.
+`client-list` visible. Read allowed.
 
 ## TC-C008: VIEWER SEARCH
 
-- AC: AC-C008
-- Type: e2e
-- Risk: High
+- AC: AC-C008 · Kind: P · Technique: use-case · Level: e2e · Priority: High
+
+### Preconditions
+
+VIEWER. Matching rule **BLOCKED** (BD TBD).
+
+### Test data
+
+Unlikely query `zzzz-no-such-client` (empty result only; not a match
+oracle).
+
+### Steps
+
+1. Fill `client-search`.
 
 ### Expected result
 
-VIEWER can search Clients. Matching rules TBD — do not hard-code
-partial vs exact in the expected result.
+Search UI works. URL has `q=`. Empty copy `No matching clients.`
+Exact vs partial match not asserted.
 
 ## TC-C009: VIEWER cannot CREATE
 
-- AC: AC-C009
-- Type: e2e + data-layer
-- Risk: High
+- AC: AC-C009 · Kind: N · Technique: decision · Level: e2e (UI) + integration (RLS) · Priority: High
+
+### Preconditions
+
+VIEWER.
+
+### Test data
+
+None for UI.
+
+### Steps
+
+1. Assert `client-create` count 0.
+2. GET `/app/clients/new` → redirected to list.
+3. Integration: VIEWER insert denied (C012).
 
 ### Expected result
 
-CREATE is not allowed for VIEWER.
+No create UI. DB write denied (RLS **PASSED** CI `456c9a2`).
 
 ## TC-C010: VIEWER cannot UPDATE or DELETE
 
-- AC: AC-C010
-- Type: e2e + data-layer
-- Risk: High
+- AC: AC-C010 · Kind: N · Technique: decision · Level: e2e + integration · Priority: High
+
+### Preconditions
+
+VIEWER.
+
+### Steps
+
+1. No `client-form` when opening new; no write controls on list.
+2. RLS update/delete denied (C012).
 
 ### Expected result
 
-UPDATE and DELETE are not allowed for VIEWER.
+UI + DB deny. DB **PASSED** CI `456c9a2`.
 
 ## TC-C011: VIEWER sees all fields
 
-- AC: AC-C011
-- Type: e2e
-- Risk: Medium (privacy: all fields visible is approved)
+- AC: AC-C011 · Kind: P · Technique: use-case · Level: e2e · Priority: Medium
+
+### Preconditions
+
+VIEWER. Grouped with C007–C011 (not field-by-field).
+
+### Steps
+
+1. Open clients as VIEWER.
 
 ### Expected result
 
-All Client fields are visible to VIEWER.
+No field-level hide in UI. Detail field-by-field **PARTIAL**.
 
 ## TC-C012: Database authorization boundary
 
-- AC: AC-C012
-- Type: integration (Supabase client as VIEWER attempting writes)
-- Risk: High
+- AC: AC-C012 · Kind: N · Technique: decision · Level: integration · Priority: High
+
+### Preconditions
+
+Live Supabase + service role + ADMIN/VIEWER secrets. Else **SKIPPED →
+BLOCKED**.
+
+### Test data
+
+Unique client payload.
+
+### Steps
+
+1. VIEWER insert/update/delete via PostgREST.
+2. ADMIN row still present.
 
 ### Expected result
 
-VIEWER write is denied by the database authorization boundary, not
-only by missing buttons.
-
-Do not include RLS SQL in this test case. Implementation of the
-boundary is later (`PLANNED`).
+VIEWER writes fail at RLS. SQL not in the TC. Automation:
+`clients-rls.test.ts`.
 
 ## TC-C013: Audit CREATE
 
-- AC: AC-C013
-- Type: integration
-- Risk: High
+- AC: AC-C013 · Kind: P · Technique: use-case · Level: integration · Priority: High
+
+### Preconditions
+
+Same as C012.
+
+### Steps
+
+1. ADMIN insert.
+2. Read `client_audit_events` action CREATE.
 
 ### Expected result
 
-Successful CREATE yields an audit record.
+Audit row exists. Actor, entity Client, new_value set.
 
 ## TC-C014: Audit UPDATE values
 
-- AC: AC-C014
-- Type: integration
-- Risk: High
+- AC: AC-C014 · Kind: P · Technique: use-case · Level: integration · Priority: High
+
+### Steps
+
+1. ADMIN update first_name.
+2. Read UPDATE audit previous_value / new_value.
 
 ### Expected result
 
-Successful UPDATE yields an audit record with previous and new values.
+Old and new first_name in audit.
 
 ## TC-C015: Audit DELETE
 
-- AC: AC-C015
-- Type: integration
-- Risk: High
+- AC: AC-C015 · Kind: P · Technique: use-case · Level: integration · Priority: High
+
+### Steps
+
+1. ADMIN soft-delete (`deleted_at`).
+2. Read DELETE audit.
 
 ### Expected result
 
-Successful DELETE yields an audit record.
+DELETE row; new_value null.
 
 ## TC-C016: Audit attributes
 
-- AC: AC-C016
-- Type: integration
-- Risk: High
+- AC: AC-C016 · Kind: P · Technique: EP · Level: integration · Priority: High
+
+### Steps
+
+Covered in C013–C015 selects: actor_id, action, entity, entity_id,
+occurred_at.
 
 ### Expected result
 
-Audit record includes actor/user ID, action, entity, entity ID,
-timestamp.
+All required attributes present.
 
 ## TC-C017: Append-only in application
 
-- AC: AC-C017
-- Type: e2e + data-layer
-- Risk: High
+- AC: AC-C017 · Kind: N · Technique: decision · Level: integration · Priority: High
+
+### Steps
+
+1. ADMIN update/delete audit row via client.
 
 ### Expected result
 
-CRM application provides no successful modify or delete of audit
-records for ADMIN or VIEWER.
+Mutate fails; CREATE row unchanged. (No separate e2e audit screen —
+FS has no audit UI.)
 
 ## TC-C018: READ not audited
 
-- AC: AC-C018
-- Type: integration
-- Risk: Medium
+- AC: AC-C018 · Kind: N · Technique: decision · Level: integration · Priority: Medium
+
+### Steps
+
+1. Count audit rows; ADMIN select client; count again.
 
 ### Expected result
 
-Successful READ does not require a CRM-001 audit record.
+Count unchanged.
 
 ## TC-C019: Unauthorized attempt not audited
 
-- AC: AC-C019
-- Type: integration
-- Risk: Medium
+- AC: AC-C019 · Kind: N · Technique: decision · Level: integration · Priority: Medium
+
+### Steps
+
+1. VIEWER insert fails; no audit for that email.
 
 ### Expected result
 
-Denied VIEWER CREATE does not require a CRM-001 audit record.
+No new audit row.
+
+## TC-C020: Fixed Product catalog
+
+- AC: AC-C020 · Kind: P · Technique: EP · Level: unit + e2e · Priority: Medium
+
+### Steps
+
+1. Unit: six `PRODUCT_CODES`.
+2. E2e: `product-bank_account` on form.
+
+### Expected result
+
+Six English codes. No product admin UI (C001).
+
+## TC-C021: Optional product assignment
+
+- AC: AC-C021 · Kind: P+E · Technique: use-case + EP · Level: e2e + integration · Priority: High
+
+### Steps
+
+1. E2e: check catalog on create (C004).
+2. Integration: ADMIN insert `client_products`; VIEWER insert denied.
+
+### Expected result
+
+Optional assign. VIEWER cannot write assignments. Integration
+**PASSED** CI `456c9a2`.
+
+## TC-C022: Soft-delete hides the Client
+
+- AC: AC-C022 · Kind: E · Technique: state · Level: e2e · Priority: High
+
+### Steps
+
+1. After C006 confirm, search email.
+
+### Expected result
+
+`No matching clients.` Restore not offered.
 
 ## Not in CRM-001
 

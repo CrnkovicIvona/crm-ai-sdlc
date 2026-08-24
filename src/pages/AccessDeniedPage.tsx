@@ -18,7 +18,7 @@ export function AccessDeniedPage() {
   }
 
   return (
-    <main data-testid="access-denied">
+    <main className="crm-page-login" data-testid="access-denied">
       <h1>Access denied</h1>
       <p>Access to the CRM is denied.</p>
       <button

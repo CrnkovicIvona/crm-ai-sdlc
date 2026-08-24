@@ -9,6 +9,8 @@ description: Write a test report from execution evidence. Use after TESTING/REGR
 
 - Every passed line must cite execution evidence (command + SHA or CI URL).
 - Tests not executed are `not executed`, never `passed`.
+- **BLOCKED** (no oracle, or High RLS/e2e not run for missing secrets)
+  is never `passed`. Count blocked separately from skipped jobs.
 - Include risk level and regression scope actually run.
 
 ## Steps

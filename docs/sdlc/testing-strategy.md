@@ -12,6 +12,37 @@
 | Format           | Prettier   | entire repo                                          |
 | Secrets          | gitleaks   | CI                                                   |
 
+## ISTQB CTFL test design (mandatory for app features)
+
+Aligns with Foundation **test analysis and design** (black-box), not
+CTAL-TA exhaustiveness.
+
+| Kind           | Meaning                                                                                                                                             | When required                             |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| **P** Positive | Valid data, allowed role, happy path                                                                                                                | Every AC                                  |
+| **N** Negative | Invalid input or forbidden action **already in FS/BD**                                                                                              | Every AC that specifies a denial or error |
+| **E** Edge     | Boundary or state change **named in FS/BD** (e.g. 8–15 digits, exactly 11, unique email among active, optional empty products, soft-deleted hidden) | Only when a limit or state exists         |
+
+**Techniques** (name on the TC): equivalence partitioning (EP),
+boundary value analysis (BVA), use-case, decision table (role ×
+action), state transition (active ↔ soft-deleted).
+
+**Oracle rule:** do not invent expected copy, search matching, checksums,
+or extra fields. If N/E cannot be specified from approved artifacts,
+the TC (or sub-case) is **BLOCKED** until a human decides. BLOCKED ≠
+PASSED. SKIPPED ≠ PASSED.
+
+**Levels:** put P/N/E on the cheapest honest level (unit for field
+BVA; integration for RLS; e2e for use-case CRUD). Do not duplicate
+the full e2e pack as smoke.
+
+**Independence:** the implementing agent may draft TCs; High-risk
+features need a **human review of the P/N/E matrix** at DoR (Gate 1),
+not only of the code plan.
+
+**Experience-based:** optional exploratory charter on Preview (time-boxed)
+does not replace scripted TCs and is not PASSED without a human log.
+
 ## Quality bar
 
 **Now (`src/` present for AUTH-001):** Prettier
@@ -29,15 +60,19 @@ Agent constraints: `.cursor/rules/quality.mdc`. The file
 
 ## Current phase
 
-AUTH-001 is **`RELEASED`** on **`main`** after this close-out is
-human-merged (product already on `main` via PR **#12**). Production
+AUTH-001 is **`RELEASED`** on **`main`** (REL-003). Production
 smoke **PASSED** 2026-08-23: **5/5** against
 `https://crm-ai-sdlc.vercel.app` (`npm run test:smoke`, `workers: 1`;
 PO dropped former 1b). Vitest and unauthenticated Playwright ran (see
 [docs/test-reports/AUTH-001.md](../test-reports/AUTH-001.md)). Live
 Auth Playwright cases remain **SKIPPED** until `E2E_*` /
-`VITE_SUPABASE_*` are set (skipped ≠ passed). CRM-001 remains
-specified only.
+`VITE_SUPABASE_*` are set (skipped ≠ passed).
+
+CRM-001 is **specified and implemented on the feature branch**
+(`docs/features/CRM-001/`, `src/` Client screens, automated tests).
+It is **not** `RELEASED`. Credentialed CRM e2e and RLS integration
+are SKIPPED without secrets (skipped ≠ passed). DASH-001 is not
+started.
 
 When a feature requirement is defined, acceptance criteria must name
 the **critical production smoke scenarios** where they apply (the
@@ -45,6 +80,12 @@ paths that must still work after a production deploy). When Playwright
 e2e tests are created, identify and add the matching smoke tests in
 `tests/smoke/` — do not duplicate the full e2e suite. Release notes
 must reference those files and record execution results.
+
+AUTH-001 overlap is **intentional**: REL-003 smoke steps 1–4 map to
+AUTH TCs (see [test-plans/AUTH-001.md](../test-plans/AUTH-001.md));
+both suites remain. Shared helpers: `tests/e2e/login.ts`. Do not copy
+those journeys into a third file. Skip ≠ pass; smoke PASS is not TC
+PASSED.
 
 CI must report each suite as one of:
 
@@ -54,7 +95,9 @@ CI must report each suite as one of:
 - **NOT APPLICABLE** — cannot run yet (no `src/`); GitHub shows the
   ESLint, Vitest, and Playwright jobs as **SKIPPED**
 
-NOT APPLICABLE and SKIPPED are not PASSED.
+NOT APPLICABLE and SKIPPED are not PASSED. **BLOCKED** (no oracle,
+or High integration not executed for lack of secrets) is not PASSED
+and is not Gate 3 / DoD complete.
 
 ## ESLint
 

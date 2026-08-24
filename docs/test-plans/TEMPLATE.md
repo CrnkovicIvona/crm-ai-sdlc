@@ -25,7 +25,19 @@
 
 ## Environments
 
-## Entry / exit criteria
+## Entry / exit criteria (per level)
+
+Entry: designed TCs with P/N/E (or BLOCKED + reason); environments named.
+
+Exit (Gate 3 / DoD — High):
+
+- **Unit:** specified P/N/E for field rules **executed** (or N/A if no fields).
+- **Integration:** RLS / audit cases **PASSED** with evidence, or **BLOCKED**
+  (missing secrets/oracle). SKIPPED is not exit.
+- **E2E:** in-scope use-case P (and specified N) **PASSED** or **BLOCKED**.
+- **Smoke:** listed production paths only; PASS is not full TC PASS.
+
+Do not exit while required High TCs are SKIPPED without a human BLOCKED record.
 
 ## Healing
 

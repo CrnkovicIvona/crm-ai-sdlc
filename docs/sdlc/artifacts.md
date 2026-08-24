@@ -53,5 +53,7 @@ existing paths.
 ## Test result words
 
 Use only: **DESIGNED**, **NOT EXECUTED**, **EXECUTED**, **PASSED**,
-**FAILED**, **SKIPPED**, **NOT APPLICABLE**, **VERIFIED** (human
-accepted evidence). SKIPPED and NOT APPLICABLE are never PASSED.
+**FAILED**, **SKIPPED**, **NOT APPLICABLE**, **BLOCKED**, **VERIFIED**
+(human accepted evidence). SKIPPED, NOT APPLICABLE, and BLOCKED are
+never PASSED. BLOCKED = no approved expected result, or High
+integration/e2e not executed for missing secrets (DoD incomplete).
