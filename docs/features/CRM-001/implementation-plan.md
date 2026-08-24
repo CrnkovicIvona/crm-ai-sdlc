@@ -139,6 +139,8 @@ snapshots (BD-C009).
 
 ### 3.3 Relationships
 
+Drawn ER (SQL-aligned): [../../architecture/data-model.md](../../architecture/data-model.md).
+
 - `clients` optionally has 0..N rows in `client_products`.
 - Audit `entity_id` is the Client `id` at event time. **No FK** to
   `clients`, so a later hard delete can keep the audit row
