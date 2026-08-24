@@ -1,10 +1,11 @@
 # Architecture
 
-Application architecture will be recorded here when the product is
-bootstrapped. Environment intent is in [environments.md](environments.md).
+Environment intent: [environments.md](environments.md). Relational
+schema (ER): [data-model.md](data-model.md). Truth for tables is
+`supabase/migrations/`, not the diagram.
 
 Frontend hosting: [ADR-0002](../adr/0002-vite-react-typescript.md)
-(Vite + React + TypeScript). No `src/` exists yet.
+(Vite + React + TypeScript). Application code lives in `src/`.
 
 Feature-level **how** belongs in AUTH-001
 [../specifications/technical/](../specifications/technical/) or, for
