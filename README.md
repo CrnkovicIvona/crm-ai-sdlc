@@ -16,11 +16,12 @@ suite). Login UI lives under `src/`.
 Copy `.env.example` to `.env` and add a non-prod Supabase URL and anon
 key. Apply
 `supabase/migrations/20260822150000_profiles.sql` to **non-prod** only
-unless a human applies production. CRM-001 is `PLANNED` (Gate 2
-**revised** 2026-08-23: products + soft-delete). Apply
+unless a human applies production. CRM-001 is **`ON_MAIN` — not
+`RELEASED`** (REL-004). Production smoke has not PASSED. Apply
 `supabase/migrations/20260823190000_clients_and_audit.sql` then
-`supabase/migrations/20260823210000_products_and_soft_delete.sql` to
-**non-prod** only. DASH-001 waits until CRM-001 is accepted.
+`supabase/migrations/20260823210000_products_and_soft_delete.sql`
+(**human**; not the agent). DASH-001 waits until CRM-001 is
+`RELEASED`.
 
 Canonical process: [docs/sdlc/lifecycle.md](docs/sdlc/lifecycle.md).
 Start feature work with `.cursor/skills/feature-orchestrator/SKILL.md`.

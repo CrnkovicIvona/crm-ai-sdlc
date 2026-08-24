@@ -10,8 +10,9 @@
 - Prior e2e-only SHA: `1c98f14` —
   [actions/32672184863](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/32672184863)
 - PR: [#26](https://github.com/CrnkovicIvona/crm-ai-sdlc/pull/26) → `test`
-- Lifecycle: **AUTH-001 remains `RELEASED`**. **CRM-001 remains not
-  `RELEASED`**. This report does **not** change states.
+- Lifecycle: **AUTH-001 remains `RELEASED`**. **CRM-001 is `ON_MAIN` —
+  not `RELEASED`** (REL-004; human QA on `test` 2026-08-24; production
+  smoke not executed).
 
 Remediation on this branch (controlled): P0 selectors/docs freeze →
 P1 historical AUTH/strategy notes → CI logout wait + Prettier → P2

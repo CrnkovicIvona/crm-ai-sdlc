@@ -8,7 +8,7 @@
 - Status of tests: **IMPLEMENTED**. SHA `456c9a2`: unit **PASSED**;
   e2e **PASSED** in CI (11/11). RLS integration **PASSED** in CI
   (6 executed, 0 skipped). Automated DoD High **met**. Human QA on
-  `test` / RELEASED **not** claimed. Report:
+  `test` 2026-08-24. **`ON_MAIN` — not `RELEASED`.** Report:
   [../../test-reports/CRM-001.md](../../test-reports/CRM-001.md).
 - Owner (draft): Agent as QA
 - Approval: Human DoR not recorded

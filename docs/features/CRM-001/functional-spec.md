@@ -3,7 +3,7 @@
 - Work item: CRM-001
 - Requirement: [requirement.md](requirement.md)
 - Issue: none yet
-- Status: Specified; Gate 2 **revised** (Product + ClientProduct + soft-delete)
+- Status: Implemented; **`ON_MAIN` — not `RELEASED`** (REL-004)
 - Owner (draft): Agent as BA
 - Source: [decisions.md](decisions.md)
 - Open questions: none blocking (BD-T001–T018 accepted at Gate 1)

@@ -18,10 +18,9 @@
   TC-C001–TC-C022
 - Prerequisite: human Definition of Ready (**recorded in chat**,
   2026-08-23)
-- Status: **Revised Approved** (`PLANNED`) — Product + ClientProduct +
-  soft-delete in progress toward Gate 3 (`test`). UX/UI **proposals**
-  for existing screens: [ui-ux-proposal.md](ui-ux-proposal.md)
-  (**Proposed**). Do not implement restyle until the PO selects items.
+- Status: **Revised Approved** (`PLANNED` at Gate 2). Code is on
+  `test` (PR #26). Lifecycle for REL-004: **`ON_MAIN` — not
+  `RELEASED`**.
 
 This is **not** the functional or technical specification.
 
@@ -139,6 +138,8 @@ JSON payloads store the six business fields plus `id` (and
 snapshots (BD-C009).
 
 ### 3.3 Relationships
+
+Drawn ER (SQL-aligned): [../../architecture/data-model.md](../../architecture/data-model.md).
 
 - `clients` optionally has 0..N rows in `client_products`.
 - Audit `entity_id` is the Client `id` at event time. **No FK** to

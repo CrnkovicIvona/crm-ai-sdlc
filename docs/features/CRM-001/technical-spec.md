@@ -3,7 +3,7 @@
 - Work item: CRM-001
 - Functional specification: [functional-spec.md](functional-spec.md)
 - Requirement: [requirement.md](requirement.md)
-- Status: Ready for planning (not implemented)
+- Status: Implemented; **`ON_MAIN` — not `RELEASED`** (REL-004)
 - Owner (draft): Agent as architect
 - Source: AUTH-001 TS, ADR-0001, ADR-0002, [decisions.md](decisions.md)
 - Open questions: TD-C005 physical names, TD-C006 audit mechanism,

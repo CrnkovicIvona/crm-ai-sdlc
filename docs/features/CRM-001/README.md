@@ -1,11 +1,9 @@
 # CRM-001: Client records
 
 - Risk: **High** (authorization, personal data, DELETE, audit, RLS)
-- State: **`PLANNED`** (Gate 2 **revised** 2026-08-23: Product catalog,
-  optional ClientProduct, soft-delete). Implementation is in review
-  for Gate 3 (`test`). Automated High pack (unit + RLS + e2e) **PASSED**
-  CI SHA `456c9a2`. Human QA on `test` **not** claimed. **Not on `main`.**
-  **Not `RELEASED`.**
+- State: **`ON_MAIN` — not `RELEASED`** (REL-004). Human QA on `test`
+  recorded 2026-08-24. Automated High pack **PASSED** CI SHA `456c9a2`.
+  Production smoke **not executed**. Agent does not merge `main`.
 - GitHub Issue: none (App/MCP blocked). Ready and PLANNED recorded in
   chat.
 - Gate 1 pack: [dor-gate-1.md](dor-gate-1.md) (§5.1 and §5.2 **accepted**)
@@ -13,9 +11,10 @@
   (**Revised Gate 2** / `PLANNED`)
 - Depends on: AUTH-001 (`RELEASED`)
 
-This folder is the CRM-001 feature pack. Coding started after the PO
-set **PLANNED**. Do not merge to `main` or apply SQL to production
-from the agent.
+This folder is the CRM-001 feature pack. Release notes:
+[../../releases/REL-004.md](../../releases/REL-004.md). Do not apply
+SQL to production from the agent. Do not claim `RELEASED` without
+production smoke PASSED.
 
 | Artifact            | File                                                                              |
 | ------------------- | --------------------------------------------------------------------------------- |

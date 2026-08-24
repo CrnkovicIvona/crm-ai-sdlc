@@ -2,9 +2,9 @@
 
 - Work item: CRM-001
 - Issue: **none** (see [issue-draft.md](issue-draft.md))
-- Status: **`PLANNED`** (Gate 2 **revised** 2026-08-23). Product +
-  ClientProduct + soft-delete are in scope. Implementation on
-  `cursor/crm-001-implementation-73b9`. Not on `main`. Not `RELEASED`.
+- Status: **`ON_MAIN` — not `RELEASED`** (REL-004). Product +
+  ClientProduct + soft-delete are in scope. Human QA on `test`
+  2026-08-24. Production smoke not executed.
 - Owner (draft): Agent as BA
 - Owner (approve): Human PO/BA
 - Source: Human-approved CRM-001 business decisions (this task)
