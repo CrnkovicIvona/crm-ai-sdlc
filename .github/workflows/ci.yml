@@ -116,7 +116,20 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - run: npm test
+      - name: Unit and integration tests
+        env:
+          E2E_ADMIN_EMAIL: ${{ secrets.E2E_ADMIN_EMAIL }}
+          E2E_ADMIN_PASSWORD: ${{ secrets.E2E_ADMIN_PASSWORD }}
+          E2E_VIEWER_EMAIL: ${{ secrets.E2E_VIEWER_EMAIL }}
+          E2E_VIEWER_PASSWORD: ${{ secrets.E2E_VIEWER_PASSWORD }}
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || secrets.VITE_SUPABASE_URL_TEST }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY || secrets.VITE_SUPABASE_ANON_KEY_TEST }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: npm test
+      - name: Note skipped vs passed
+        if: always()
+        run: |
+          echo "Vitest SKIPPED tests are not PASSED. RLS (TC-C012–C019) needs VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY, and E2E_*. Never put the service role in a VITE_* secret." >> "$GITHUB_STEP_SUMMARY"
 
   playwright:
     name: Playwright

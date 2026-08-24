@@ -12,13 +12,14 @@ Distinguish: **Implemented** | **Tests executed** | **PASSED** |
 **CI passed** | **On `main` (`ON_MAIN`)** | **Deployment known** |
 **Production smoke PASSED** | **`RELEASED`**.
 
-SKIPPED, NOT APPLICABLE, NOT EXECUTED, and HEALING are never PASSED.
+SKIPPED, NOT APPLICABLE, NOT EXECUTED, BLOCKED, and HEALING are never PASSED.
 
 ## Application feature
 
 - [ ] Implementation matches **approved** AC (AC unchanged unless human edited)
 - [ ] Required unit, integration, e2e tests exist as in the test plan
 - [ ] Those tests were **executed** with evidence (`docs/test-reports/`)
+- [ ] High RLS/credentialed e2e is PASSED with evidence or explicitly **BLOCKED** (secrets/oracle); SKIPPED is not this box
 - [ ] Out-of-scope tests are **not executed**, never passed
 - [ ] Risk-based regression executed with evidence (High: pack cannot be skipped without human)
 - [ ] Security review at required level (`docs/sdlc/security-review.md`)

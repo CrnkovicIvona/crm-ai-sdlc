@@ -8,7 +8,7 @@ const hasViewer = Boolean(
   process.env.E2E_VIEWER_EMAIL && process.env.E2E_VIEWER_PASSWORD,
 );
 
-test('TC-003 / TC-009 ADMIN role is shown without Client write UI', async ({
+test('TC-003 / TC-009 ADMIN role is shown with Client write entry', async ({
   page,
 }) => {
   test.skip(!hasAdmin, 'E2E_ADMIN_EMAIL / E2E_ADMIN_PASSWORD not set');
@@ -20,6 +20,7 @@ test('TC-003 / TC-009 ADMIN role is shown without Client write UI', async ({
   await expectCrmAfterLogin(page);
   await expect(page.getByTestId('user-role')).toHaveText('ADMIN');
   await expect(page.getByTestId('admin-write-hint')).toBeVisible();
+  await expect(page.getByTestId('client-create')).toBeVisible();
 });
 
 test('TC-004 / TC-009 VIEWER is read-only on the shell', async ({ page }) => {
@@ -33,4 +34,5 @@ test('TC-004 / TC-009 VIEWER is read-only on the shell', async ({ page }) => {
   await expect(page.getByTestId('user-role')).toHaveText('VIEWER');
   await expect(page.getByTestId('viewer-read-hint')).toBeVisible();
   await expect(page.getByTestId('admin-write-hint')).toHaveCount(0);
+  await expect(page.getByTestId('client-create')).toHaveCount(0);
 });

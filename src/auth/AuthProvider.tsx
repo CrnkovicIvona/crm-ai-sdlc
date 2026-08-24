@@ -4,6 +4,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from 'react';
@@ -27,6 +28,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
   const [session, setSession] = useState<Session | null>(null);
   const [role, setRole] = useState<AppRole | null>(null);
+  const acceptSession = useRef(true);
 
   const applySession = useCallback(async (next: Session | null) => {
     if (!next) {
@@ -35,6 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setReady(true);
       return;
     }
+    acceptSession.current = true;
     setReady(false);
     const nextRole = await readOwnRole();
     setSession(next);
@@ -59,7 +62,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     const { data } = supabase.auth.onAuthStateChange((event, nextSession) => {
       if (event === 'TOKEN_REFRESHED') {
+        if (!acceptSession.current || !nextSession) {
+          return;
+        }
         setSession(nextSession);
+        return;
+      }
+      if (!acceptSession.current && nextSession) {
         return;
       }
       void applySession(nextSession);
@@ -70,6 +79,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [applySession]);
 
   const logout = useCallback(async () => {
+    acceptSession.current = false;
     await authSignOut();
     await applySession(null);
   }, [applySession]);

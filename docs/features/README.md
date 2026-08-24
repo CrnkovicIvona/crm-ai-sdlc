@@ -23,7 +23,7 @@ docs/features/<WORK-ITEM-ID>/
   test-cases.md
   test-plan.md
   traceability.md
-  implementation-plan.md   # only after READY; empty until then
+  implementation-plan.md   # after READY; Draft until human Approved
 ```
 
 CRM-001 uses this layout. Index rows still go in
@@ -32,5 +32,5 @@ CRM-001 uses this layout. Index rows still go in
 Templates: copy headings from `docs/requirements/TEMPLATE.md`,
 `docs/specifications/*/TEMPLATE.md`, `docs/decisions/TEMPLATE.md`,
 `docs/plans/TEMPLATE.md`, `docs/user-stories/TEMPLATE.md`,
-`docs/bdd/TEMPLATE.md`, `docs/test-cases/TEMPLATE.md`,
+`docs/bdd/TEMPLATE.md`, `docs/test-cases/TEMPLATE.md` (ISTQB P/N/E),
 `docs/test-plans/TEMPLATE.md`, and `docs/traceability/FEATURE-TEMPLATE.md`.

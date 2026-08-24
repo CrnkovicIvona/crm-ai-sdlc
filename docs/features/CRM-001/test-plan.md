@@ -5,21 +5,26 @@
 - Risk level: **High**
 - Impact summary: Client PII (including OIB), ADMIN DELETE, VIEWER
   restrictions, RLS boundary, append-only audit.
-- Status of tests: **DESIGNED**, **NOT EXECUTED**
+- Status of tests: **IMPLEMENTED**. SHA `456c9a2`: unit **PASSED**;
+  e2e **PASSED** in CI (11/11). RLS integration **PASSED** in CI
+  (6 executed, 0 skipped). Automated DoD High **met**. Human QA on
+  `test` 2026-08-24. **`ON_MAIN` — not `RELEASED`.** Report:
+  [../../test-reports/CRM-001.md](../../test-reports/CRM-001.md).
 - Owner (draft): Agent as QA
 - Approval: Human DoR not recorded
 
 ## In scope
 
-TC-C001–TC-C019 as designed in [test-cases.md](test-cases.md).
-
-When an application exists (state `PLANNED`+): Playwright for
-user-visible CRUD/search/deny; Vitest integration for RLS-as-boundary
-and audit writes.
+TC-C001–TC-C022 as designed in [test-cases.md](test-cases.md).
+Automation exists on this branch (see test-cases automation map).
+Credentialed e2e/RLS without secrets: runner skip, recorded as
+**BLOCKED** for Gate 3 (not PASSED). CI Vitest on SHA `456c9a2`
+injects `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`,
+`SUPABASE_SERVICE_ROLE_KEY`, and `E2E_*` — RLS **PASSED** there.
 
 ## Out of scope
 
-- Executing tests now (no `src/`) — **NOT APPLICABLE**
+- Claiming PASSED for suites that were SKIPPED
 - AUTH-001 login/logout (reuse AUTH-001 pack at implementation)
 - Invented validation/search/pagination cases
 - Auditing failed attempts
@@ -33,8 +38,10 @@ Skipping the High pack requires a human.
 
 ## Environments
 
-Specification only. Later: local Vite + non-prod Supabase / QA
-Preview per implementation plan. No production data.
+This branch: local Vite + non-prod Supabase / QA Preview per
+implementation plan. No production data. Secrets required for
+credentialed e2e and RLS; missing secrets → SKIPPED in the runner,
+**BLOCKED** for Gate 3 / DoD.
 
 ## Security review
 
@@ -46,12 +53,24 @@ Required before `READY_FOR_PR`:
 - No service role in the browser
 - PII in logs minimized (`TBD` exact log policy)
 
-## Entry / exit
+## Entry / exit (ISTQB levels)
 
-- Entry to implementation: human DoR **and** human-approved plan
-  (`PLANNED`)
-- Exit of this document: design complete; **not** Ready; **not**
-  executed
+Entry: human DoR **and** human-approved plan (`PLANNED`) — recorded in
+chat 2026-08-23. P/N/E matrix in [test-cases.md](test-cases.md).
+
+Exit of **this design document:** automation mapped.
+
+Exit of **Gate 3 / DoD (High)** — all must hold:
+
+| Level       | Criterion                                                                                                 |
+| ----------- | --------------------------------------------------------------------------------------------------------- |
+| Unit        | Field P/N/E in `tests/unit/clientValidation.test.ts` (and products) **executed**                          |
+| Integration | TC-C012–C019 **PASSED** with evidence, or **BLOCKED** (secrets/oracle). Runner SKIP is not exit           |
+| E2E         | TC-C001–C011, C020–C022 in-scope **PASSED** or **BLOCKED**. Missing product catalog is **FAIL**, not skip |
+| Smoke       | AUTH/REL smoke only until CRM production smoke is specified; smoke PASS is not CRM TC PASS                |
+
+Do not treat Gate 3 as met while required High TCs are SKIPPED without
+a BLOCKED record.
 
 ## Healing
 

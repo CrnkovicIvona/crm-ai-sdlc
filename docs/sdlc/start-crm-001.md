@@ -4,8 +4,8 @@ This is the repeatable simulation of the canonical process. The
 orchestrator (`.cursor/skills/feature-orchestrator/SKILL.md`) must
 follow it without the human restating SDLC rules.
 
-CRM-001 is already **SPECIFIED** in `docs/features/CRM-001/`. It is
-**not Ready** and **not implemented**.
+CRM-001 spec pack lives in `docs/features/CRM-001/`. It is **`READY`**
+(PO chat 2026-08-23). It is **not `PLANNED`** and **not implemented**.
 
 ## REQUESTED → SPECIFIED (already done in-repo)
 
@@ -30,29 +30,23 @@ VIEWER READ+SEARCH; all fields visible; RLS mandatory; audit successful
 CUD with required attributes; UPDATE previous+new; append-only in app;
 no READ audit; no failure audit.
 
-**Remains TBD:** validation, uniqueness, search matching, sort,
-pagination, empty state, DELETE confirm, messages, layout, routes,
-audit schema/mechanism/retention/query UI, failed DB ops, transactions
-(see `decisions.md` BD-T001–BD-T018, TD-C006).
+**Gate 1 product defaults:** accepted 2026-08-23 (dor-gate-1 §5.1–§5.2).
+See `decisions.md`.
 
-**Human input required before Ready:** either answer blocking TBDs or
-explicitly accept them as non-blocking on the Issue. Also: record DoR.
-Recommended blocking for planning without invention: BD-T001–T006,
-BD-T010.
+CRM-001 is **`READY`**. Gate 2 plan:
+[../features/CRM-001/implementation-plan.md](../features/CRM-001/implementation-plan.md)
+(**Draft**). Do not implement until the plan is human-approved.
 
-**Where the agent must stop now:** state `SPECIFIED`. Do not write
-`implementation-plan.md`. Do not create `feature/`. Do not implement.
-
-## After Ready (future; not this task)
+## After plan approval (not this PR)
 
 ```
-Human DoR on Issue
-  → READY
-  → agent writes docs/features/CRM-001/implementation-plan.md
-  → STOP for human plan approval
+Human approves implementation plan
   → PLANNED
-  → feature/crm-001-… (not before)
+  → cursor/crm-001-… (not before)
+
   → implement only the plan (Vite/React/Supabase/RLS/audit)
+  → optional UX/UI **proposals** via `.cursor/skills/ui-ux-redesign/SKILL.md`
+    (do not restyle until PO selects; see `docs/features/CRM-001/ui-ux-proposal.md`)
   → execute tests with evidence
   → PR to test
   → human review/QA

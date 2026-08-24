@@ -2,13 +2,16 @@
 
 - Work item: CRM-001
 - Issue: **none** (see [issue-draft.md](issue-draft.md))
-- Status: Specified (not Definition of Ready)
+- Status: **`ON_MAIN` — not `RELEASED`** (REL-004). Product +
+  ClientProduct + soft-delete are in scope. Human QA on `test`
+  2026-08-24. Production smoke not executed.
 - Owner (draft): Agent as BA
 - Owner (approve): Human PO/BA
 - Source: Human-approved CRM-001 business decisions (this task)
 - Risk: High
-- Approval: Business decisions BD-C001–BD-C015 **APPROVED**. Remaining
-  items are `TBD — HUMAN DECISION REQUIRED`. Human DoR **not** given.
+- Approval: BD-C001–BD-C018 **APPROVED**. Gate 1 pack:
+  [dor-gate-1.md](dor-gate-1.md). Gate 2 revision:
+  [implementation-plan.md](implementation-plan.md).
 
 ## Problem
 
@@ -19,10 +22,13 @@ successful writes.
 
 ## Stated requirements (approved; not TBD)
 
-1. The only CRM entity in CRM-001 is **Client**.
+1. CRM-001 entities are **Client**, fixed **Product** catalog, and
+   **ClientProduct** assignments. Products are optional on a Client.
 2. Client business fields are exactly: first name, last name, email,
    phone, OIB, created_at.
-3. ADMIN may READ, CREATE, UPDATE, DELETE Clients.
+3. ADMIN may READ, CREATE, UPDATE, and **soft-DELETE** Clients, and
+   assign catalog products on create/edit. UI delete does not destroy
+   the row or its audit history. Restore is out of scope.
 4. VIEWER may READ and SEARCH Clients. VIEWER may not CREATE, UPDATE,
    or DELETE.
 5. VIEWER may see all Client fields. There is no field-level security.
@@ -39,26 +45,23 @@ successful writes.
 
 ## Out of scope
 
-- Additional CRM entities
 - Additional Client fields unless a human marks a TBD and then
   approves a field
+- Product admin UI, contract numbers, rates, balances, limits,
+  currency, schedules, start/end dates, restore of soft-deleted Clients
 - Field-level security
 - Audit management UI (query/export/retention screens) unless later
   approved
 - Auditing READ or failed/unauthorized attempts
 - AUTH-001 login/provisioning (reuse existing AUTH-001)
 - DASH-001
-- Implementation, `src/`, migrations, RLS SQL, deploy
+- Agent apply SQL to production or merge `main`
 
 ## Open questions
 
-All listed in [decisions.md](decisions.md) as TBD. Examples: email /
-phone / OIB validation, uniqueness, search behavior, sorting,
-pagination, empty state, DELETE confirmation, messages, UI layout,
-routes, audit storage schema, audit write mechanism, retention, audit
-query UI, failed database operations, transactions.
-
-The agent must not answer these as product truth.
+None blocking. BD-T001–BD-T018 were accepted at Gate 1. Product catalog,
+optional ClientProduct, and soft-delete were accepted in the Gate 2
+revision (2026-08-23).
 
 ## Traceability
 

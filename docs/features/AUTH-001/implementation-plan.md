@@ -8,7 +8,10 @@
 - Approval: **Approved** (human on Issue #5, 2026-08-22)
 - Traceability: [REQ-001](../../requirements/REQ-001.md), [FS](../../specifications/functional/AUTH-001.md), [TS](../../specifications/technical/AUTH-001.md), TC-001–TC-009
 - Prerequisite: human **Definition of Ready** recorded
-- Status: **Approved** — state **`PLANNED`**. Implementation may proceed.
+- Status: **Approved and executed.** Product state **`RELEASED`**
+  (REL-003). This file is the **historical approved plan**, not a
+  current `PLANNED` gate. Do not treat it as permission to reopen
+  AUTH-001.
 
 This is **not** the functional or technical specification.
 
@@ -114,7 +117,7 @@ after `PLANNED`. Apply to **non-prod** only.
 
 ## Mapping
 
-| AC / TC                         | Automated test path (to be created after PLANNED)              | CI without secrets                                   |
+| AC / TC                         | Automated test path                                            | CI without secrets                                   |
 | ------------------------------- | -------------------------------------------------------------- | ---------------------------------------------------- |
 | AC-008, AC-001 / TC-001         | `tests/e2e/auth.spec.ts`                                       | Skip if no `E2E_ADMIN_*`                             |
 | AC-002, AC-003 / TC-002         | `tests/e2e/auth.spec.ts` visit `/app` logged out               | Run (no secrets)                                     |
@@ -139,7 +142,7 @@ are configured on the GitHub Environment.
 - High risk: authn, authz, fail-closed, RLS on `profiles`.
 - Generic auth error; no account enumeration.
 - No provisioning UI on fail-closed.
-- UI is not the data boundary; CRM tables still do not exist.
+- UI is not the data boundary; CRM tables are CRM-001 (later).
 - Security review before `READY_FOR_PR` of the implementation PR.
 - Do not weaken Playwright to go green.
 
@@ -170,7 +173,7 @@ role in the client.
 
 ## Human next step
 
-Plan is **Approved** (`PLANNED`). Implementation is on this branch;
-test report: [docs/test-reports/AUTH-001.md](../../test-reports/AUTH-001.md).
-
-This change includes application source after plan approval.
+Plan was **Approved** (`PLANNED`) and **executed**. AUTH-001 is
+**`RELEASED`** (REL-003). Do not use this section as a current
+implementation gate. Evidence archive:
+[docs/test-reports/AUTH-001.md](../../test-reports/AUTH-001.md).
