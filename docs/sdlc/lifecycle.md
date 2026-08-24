@@ -59,7 +59,9 @@ and must not claim `RELEASED` or Done.
 
 1. Release was **human-merged** into `main`
 2. Required documentation is synchronized **on `main`** (REQ, FS, US,
-   TS, feature README, roadmap, root README, release record)
+   TS, feature README, roadmap, release record). Root `README.md` stays
+   a landing page (`.cursor/rules/readme.mdc`); it is not an increment
+   status board.
 3. Traceability is synchronized **on `main`**
 4. CI evidence exists for the release SHA (SKIPPED ≠ PASSED)
 5. Deployment state is **known** (production URL, or recorded

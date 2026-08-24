@@ -9,6 +9,7 @@ Canonical process: `docs/sdlc/lifecycle.md` (do not invent a second
 lifecycle).
 
 - `.cursor/rules/` = constraints
+- Root `README.md` = GitHub landing page (`.cursor/rules/readme.mdc`); not increment status
 - `.cursor/skills/` = procedures; start with `feature-orchestrator`
 - `docs/sdlc/` = lifecycle, DoR, DoD, risk, artifacts, change-control, roadmap
 - `docs/product/` = product truth pointers

@@ -1,0 +1,60 @@
+---
+description: Keep GitHub README.md as a generic landing page (structure, not live status)
+alwaysApply: true
+---
+
+# README.md (GitHub landing page)
+
+The repository root `README.md` is the **public landing page**. It must stay **generic and durable**. Agents generate and update it from this rule without waiting for a human "write README" request.
+
+## When to update
+
+- First implementation on a branch that has no README, or README that is empty / status-dump / contradicts this structure
+- New **documented** capability (feature pack with FS/TS, skill, CI workflow, env var in `.env.example`)
+- Paths, scripts, or stack in `package.json` / `docs/` change
+- After merge to `test` or `main`, if README drifted into live status (strip it)
+
+Do **not** rewrite README on every commit. Do **not** put increment lifecycle, CI run numbers, or branch names in README.
+
+## Required sections (this order)
+
+1. **Overview** — product name, one-paragraph purpose, stack (from `package.json` and `docs/architecture/`). Do not name libraries that are not in `package.json`.
+2. **Features** — durable capabilities. Link **real** FS/TS paths only:
+   - AUTH-001: `docs/specifications/functional/AUTH-001.md`, `docs/specifications/technical/AUTH-001.md`
+   - New increments: `docs/features/<ID>/functional-spec.md`, `technical-spec.md`
+   - Roadmap of specified-or-named-but-not-built work: `docs/sdlc/roadmap.md` (do not invent a DASH-001 spec file)
+3. **Architecture** — bullets + links to files that exist: `docs/architecture/README.md`, `environments.md`, `data-model.md`; RLS in AUTH-001/CRM-001 technical specs; git in `docs/git/branching.md`. Never invent `overview.md`, `auth-and-rls.md`, or `docs/sdlc/git-workflow.md`.
+4. **Project structure** — tree of real top-level dirs: `src/`, `supabase/`, `tests/`, `docs/`, `.github/workflows/`, `.cursor/`.
+5. **Engineering & Skills** — `.cursor/rules/` (always-on) and `.cursor/skills/` (on-demand). Name skills that exist on disk. Link `docs/ai/README.md`.
+6. **Development workflow** — pointer to `docs/sdlc/lifecycle.md`: specify → DoR → plan → implement → PR `test` → QA → human `main` → production smoke. Roles ADMIN / VIEWER. No calendar estimates. There is no `docs/sdlc/README.md`.
+7. **Git workflow** — `main` production; `test` integration; `release/<rel-id>`; `feature/<feature-id>-<description>`; also `bugfix/`, `docs/`, `chore/` as in `docs/git/branching.md`. Agent does not merge `main`.
+8. **Installation** — Node from `package.json` `engines` (`>=20`). `npm install`, copy `.env.example`. List **variable names only**. Service role is `SUPABASE_SERVICE_ROLE_KEY` — never `VITE_*`.
+9. **Running locally** — `npm run dev` (Vite). Production hostname may be listed as a stable URL, not as "current release status".
+10. **Testing** — `npm test` (Vitest), `npm run test:e2e` (Playwright), `npm run test:smoke`. Point to `docs/sdlc/testing-strategy.md`, `docs/test-plans/`, `docs/test-cases/`, `docs/test-reports/`, and feature `test-plan.md` / `test-cases.md` where they exist. There is no `docs/qa/`. No pass/fail counts, no SHA, no "N skipped".
+11. **CI/CD** — GitHub Actions: Prettier, commitlint (PRs), gitleaks, ESLint, Vitest, Playwright (`.github/workflows/ci.yml`). Production **Vite build and deploy = Vercel**, not an Actions `build` job. Smoke: `.github/workflows/production-smoke.yml`. Release follow-up: `release-sync.yml`. Do not mention Newman/Postman unless those files exist.
+12. **Documentation** — `docs/` map using directories that exist (`sdlc/`, `features/`, `architecture/`, `releases/`, `test-plans/`, `test-cases/`, `test-reports/`, `ai/`, `git/`, `specifications/`, `requirements/`).
+13. **Security** — RLS, secrets in GitHub/Vercel not in git. Link `SECURITY.md` and `docs/sdlc/security-review.md`. Do not invent `docs/security/`.
+14. **License** — match root `LICENSE` (this repo: MIT).
+
+## Language and tone
+
+- **English**, concise, present tense.
+- Facts a new contributor needs to clone, run, and find specs.
+- Use **real paths** only. Never invent Tailwind, `docs/qa/`, `develop`, REST/Newman, or a GitHub Actions compile job that does not exist.
+
+## Never put in README.md
+
+- Current git branch, PR number, or "this agent/session"
+- Feature increment `ON_MAIN` / `RELEASED` / `READY` / `PLANNED` (those live in `docs/features/<ID>/README.md`, `docs/sdlc/roadmap.md`, and GitHub Issues)
+- CI run IDs, test pass/skip/fail counts, commit SHAs, "evidence as of DATE"
+- Banners like "AUTH-001 is RELEASED on production"
+- Secrets, passwords, JWT, service role values
+- Process commentary ("PO asked…", "waiting on human…")
+
+## Relationship to other docs
+
+Root README **points to** feature packs and SDLC. It does **not** replace them.
+
+- Increment status, AC, DoD, test evidence → `docs/features/<ID>/`, `docs/sdlc/roadmap.md`, GitHub Issue, `docs/test-reports/`
+- Skills that sync feature docs (`sync-feature-docs`) **must not** write increment status into root `README.md`
+- Validation "root README stale" means: missing sections from this rule, broken links, or **live status dumped into README**. It does **not** mean README must announce every `RELEASED` increment
