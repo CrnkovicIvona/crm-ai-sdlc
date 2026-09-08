@@ -33,7 +33,6 @@ Update status and links for:
 - Technical specification
 - Feature README (`docs/features/<ID>/README.md` or equivalent)
 - `docs/sdlc/roadmap.md`
-- Root `README.md`
 - `docs/releases/<REL>.md`
 - `docs/traceability/matrix.md`
 - Test report (`docs/test-reports/<ID>.md`)
@@ -50,6 +49,12 @@ Update status and links for:
 - Healing is never PASSED.
 - If smoke has not PASSED, every public status must stay `ON_MAIN`
   (or earlier). The required phrase is: **ON_MAIN — not RELEASED.**
+- Do **not** write increment `ON_MAIN` / `RELEASED` (or CI counts,
+  SHAs, “as of DATE”) into root `README.md`. That file is a landing
+  page (`.cursor/rules/readme.mdc`). Status belongs in the feature
+  README, roadmap, release record, matrix, and test reports.
+- After a status sync, only touch root `README.md` if it has **broken
+  links**, missing required sections, or live-status dump to strip.
 - Do not close the GitHub Issue from this skill.
 
 ## Steps
