@@ -1,523 +1,386 @@
-BankCRM is a **simple multi-layer banking CRM application built for practice and learning**.
-
-The README must give a visitor a complete high-level picture of:
-
-- what the application does
-- the project's technical complexity
-- its architecture and database
-- the engineering practices demonstrated
-- the skills practiced through the project
-- how development flows from requirement to release
-- how GitHub and GitHub Actions are used
-- how to install and run the application
-- where to find detailed documentation
-
-**README = overview. Repository documentation = details.**
-
----
-
-## 1\. Writing Principles
-
-- Write in English.
-- Keep the README concise and highly scannable.
-- Use short paragraphs, bullets, tables and diagrams.
-- Prefer links over long explanations.
-- Never duplicate detailed documentation that already exists elsewhere.
-- Never invent information.
-- Use the repository as the source of truth.
-- Describe implemented functionality only.
-- Never expose secrets or credentials.
-
-The README should be understandable within a few minutes.
-
----
-
-## 2\. Inspect Before Updating
-
-Before creating or updating the README, inspect:
-
-- `src/`
-- `supabase/`
-- `tests/`
-- `docs/`
-- `.github/workflows/`
-- `.cursor/`
-- `package.json`
-- existing README
-
-Identify the actual:
-
-- features
-- architecture
-- database schema
-- technologies
-- testing approach
-- CI/CD workflows
-- Git workflow
-- project documentation
-
----
-
-## 3\. README Structure
-
-Use this order:
-
-```
 # BankCRM
 
-Short description
-
 ## Overview
+
+BankCRM is a **simple banking CRM practice/portfolio project**, not a
+production banking system. Staff sign in, then work with **clients**
+and catalog **products** (accounts, cards, and similar items). Access
+is enforced in the UI and in **PostgreSQL Row Level Security**.
+
+The repository demonstrates an end-to-end, **AI-assisted SDLC**:
+product/business analysis, implementation, QA and test automation,
+database work, CI/CD, security, and human decision gates. Source of
+truth is GitHub plus `docs/`.
+
+**Stack** (from `package.json`): Vite, React, TypeScript, React Router,
+Supabase JS. Tests: Vitest and Playwright. Hosting: Vercel. CI: GitHub
+Actions.
+
+Vite + React + TypeScript is the accepted frontend
+([ADR-0002](docs/adr/0002-vite-react-typescript.md)). Supabase provides
+Auth and Postgres with RLS
+([AUTH-001 TS](docs/specifications/technical/AUTH-001.md)). Platform
+intent: [ADR-0001](docs/adr/0001-engineering-foundation.md).
+
+Production host:
+[https://crm-ai-sdlc.vercel.app](https://crm-ai-sdlc.vercel.app)
+
+This README is the public landing page. Increment status and test
+evidence live in feature packs, the roadmap, Issues, and test reports
+— not as banners here.
+
 ## Features
+
+| Area                 | What it covers                                                                 | Specs                                                                                                      |
+| -------------------- | ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| Sign-in and session  | Email/password login, `/login` vs `/app`, ADMIN and VIEWER, logout             | [AUTH-001 FS](docs/specifications/functional/AUTH-001.md), [TS](docs/specifications/technical/AUTH-001.md) |
+| Clients and products | Client registry, products by type, soft-delete, RLS (ADMIN write, VIEWER read) | [CRM-001 FS](docs/features/CRM-001/functional-spec.md), [TS](docs/features/CRM-001/technical-spec.md)      |
+
+Later increments are listed on the
+[product roadmap](docs/sdlc/roadmap.md). Do not assume a DASH-001 spec
+file exists until that directory is in the repo.
+
 ## Architecture
+
+```
+Browser (Vite + React SPA)
+        │  @supabase/supabase-js (anon key)
+        ▼
+Supabase Auth + PostgreSQL
+        │  RLS (profiles.role → ADMIN | VIEWER)
+        ▼
+Postgres tables (see Database)
+```
+
+The SPA talks to Supabase with the **anon** key. Authorization is
+**RLS in Postgres**, not only the UI.
+
+- [Architecture index](docs/architecture/README.md)
+- [Environments](docs/architecture/environments.md)
+- [Data model](docs/architecture/data-model.md)
+- RLS: [AUTH-001 TS](docs/specifications/technical/AUTH-001.md),
+  [CRM-001 TS](docs/features/CRM-001/technical-spec.md)
+- [Branching](docs/git/branching.md)
+
 ## Database
-## Project Structure
-## What This Project Demonstrates
-## Development Flow
-## Git & GitHub
-## CI/CD
-## Installation
-## How to Run
-## Testing
-## Documentation
-## Security
-## License
-```
 
-Keep every section concise.
-
----
-
-## 4\. Overview
-
-Immediately state:
-
-- BankCRM is a simple banking CRM.
-- It is a practice/learning project.
-- It is a multi-layer application.
-- It demonstrates an end-to-end, AI-assisted software development workflow.
-
-Do not write a long introduction.
-
----
-
-## 5\. Features
-
-Show implemented features in a compact list or table.
-
-For every feature that has dedicated documentation:
-
-**link directly to the relevant file.**
-
-Example:
+Schema truth is `supabase/migrations/`, summarized in
+[data-model.md](docs/architecture/data-model.md). Do not paste SQL
+here.
 
 ```
-| Feature | Description | Documentation |
-|---|---|---|
-| Authentication | Login, session and roles | [AUTH-001](docs/...) |
-| Client Management | Client and product management | [CRM-001](docs/...) |
-```
-
-The README should summarize the feature.
-
-The linked documentation should contain the detailed specification, requirements, technical design, test plan, etc.
-
-Never copy the complete specification into README.
-
----
-
-## 6\. Architecture
-
-Show a simple diagram of the actual architecture.
-
-Example:
-
-```
-React / Vite SPA
-       ↓
-Application / Services
-       ↓
-Supabase Client
-       ↓
-PostgreSQL + RLS
-       ↓
-Vercel
-```
-
-Adjust this to the actual implementation.
-
-Link to the detailed architecture documentation.
-
----
-
-## 7\. Database
-
-The README MUST contain a concise overview of the actual Supabase/PostgreSQL schema.
-
-Generate it from the current repository schema/migrations and existing data-model documentation.
-
-Include:
-
-- main tables
-- important relationships
-- relevant roles/access model
-- RLS where applicable
-
-Use a small ER-style diagram or table.
-
-Example:
-
-```
+auth.users (Supabase Auth)
+    │  1:1
+    ▼
+profiles (role: ADMIN | VIEWER)
 clients
-   │
-   │ 1:N
-   ↓
-client_products
+    ├── client_products ──► products
+    └── client_audit_events
 ```
 
-Then link to:
+| Table                 | Purpose                                        | Key relationships                                      |
+| --------------------- | ---------------------------------------------- | ------------------------------------------------------ |
+| `profiles`            | App role for each auth user                    | `id` → `auth.users`                                    |
+| `clients`             | Client registry (soft-delete via `deleted_at`) | —                                                      |
+| `products`            | Product catalog (seeded in SQL)                | —                                                      |
+| `client_products`     | Client ↔ product assignment                    | FK to `clients`, `products`                            |
+| `client_audit_events` | Client change history                          | `entity_id` is client id; **no FK** (history can last) |
 
-- detailed data model documentation
-- relevant migration files
-- relevant RLS specifications
+**Security:** Postgres + Supabase. RLS uses `profiles.role`. ADMIN
+writes clients/products assignments; VIEWER reads. Production schema
+is applied by `.github/workflows/production-smoke.yml`, not by pasting
+SQL in the Dashboard.
 
-**Do not copy SQL into README.**
-
-The README must describe the schema at a high level only.
-
----
-
-## 8\. Project Structure
-
-Show a small representative tree based on the actual repository.
-
-Example:
+## Project structure
 
 ```
-src/                  Application
-supabase/migrations/  Database schema and RLS
-tests/                Automated testing
-docs/                 Requirements, specs and SDLC
-.github/workflows/    CI/CD
-.cursor/              Agent rules and skills
+.cursor/              always-on rules and on-demand skills
+.github/workflows/    ci.yml, production-smoke.yml, release-sync.yml
+docs/                 SDLC, features, architecture, tests, AI
+src/                  Vite React SPA
+supabase/migrations/  PostgreSQL + RLS
+tests/                Vitest (unit, rls) and Playwright (e2e, smoke)
+package.json
+SECURITY.md
+LICENSE
+README.md
 ```
 
-Link to important directories when useful.
+| Path                   | What it is                | How you use it                                                                        |
+| ---------------------- | ------------------------- | ------------------------------------------------------------------------------------- |
+| `src/`                 | UI, auth, data access     | Change only after `PLANNED`; add files named in the approved plan                     |
+| `supabase/migrations/` | Schema and RLS in git     | Commit SQL as planned; apply non-prod yourself; production via `production-smoke.yml` |
+| `tests/`               | Automated checks          | `npm test`, `npm run test:e2e`, `npm run test:smoke`                                  |
+| `docs/`                | Product and process truth | Specs and SDLC; not increment banners in this README                                  |
+| `.github/workflows/`   | CI and smoke              | Gates on PRs; Vercel builds production                                                |
+| `.cursor/`             | Rules and skills          | Rules always load; skills run when you invoke them                                    |
 
-Do not list every file.
+Extending `src/` or SQL is part of the documented process
+([lifecycle](docs/sdlc/lifecycle.md)), not ad-hoc scaffolding.
 
----
+## Engineering and skills
 
-## 9\. What This Project Demonstrates
+What this repository actually demonstrates:
 
-Include a compact list of skills and engineering practices that are actually demonstrated by the repository.
+**Product / business analysis** — requirements, functional specs, user
+stories, acceptance criteria, BDD, decision logs (see `docs/`).
 
-Examples:
+**QA and testing** — Vitest (unit + RLS integration), Playwright E2E
+and production smoke, test plans/cases/reports, CI quality gates.
+Skip is not pass. There is no Newman/Postman suite in this repo.
 
-- Requirements analysis
-- Functional and technical specifications
-- Multi-layer application design
-- Authentication and authorization
-- PostgreSQL / SQL
-- Row Level Security
-- Manual and automated testing
-- API / integration testing
-- E2E testing
-- Test planning
-- Git branching and Pull Requests
-- CI/CD
-- Security checks
-- Agile / SDLC
-- AI-assisted / agentic development
-- Technical documentation
+**Data and database** — PostgreSQL, Supabase, relational modelling,
+migrations in git, RLS, seeded product catalog.
 
-Only include skills supported by actual project evidence.
+**Development** — TypeScript, React, Vite, Git, pull requests,
+Conventional Commits, ESLint, Prettier.
 
-This section describes **skills demonstrated by the project**, not a personal CV.
+**CI/CD** — GitHub Actions (`ci.yml`, `production-smoke.yml`,
+`release-sync.yml`), Vercel for the production SPA.
 
----
+## AI-assisted engineering
 
-## 10\. Development Flow
+Index: [docs/ai/README.md](docs/ai/README.md).
 
-Show the project's high-level SDLC:
+- `.cursor/rules/` — always-on constraints (git, SDLC, tests,
+  security, this README rule)
+- `.cursor/skills/` — on-demand procedures
+
+Skills on disk: `feature-orchestrator`, `analyze-requirements`,
+`author-specifications`, `author-user-stories`, `author-bdd`,
+`author-decisions`, `author-adr`, `plan-implementation`, `plan-tests`,
+`execute-tests`, `report-tests`, `review-code`, `prepare-pr`,
+`sync-feature-docs`, `release-and-verify`, `manage-bugs`, `heal`,
+`ui-ux-redesign`.
+
+Skills do **not** start by themselves. They are not a cron or
+background workflow.
+
+### What the agent does when asked
+
+Draft requirements, FS/TS, stories, BDD, tests, and plans; implement
+**after** human `PLANNED`; run tests when `execute-tests` is invoked;
+open a PR to `test`; keep this README aligned with
+`.cursor/rules/readme.mdc`. If CI Prettier fails on an agent-owned PR
+branch, `heal` formats locally, commits, and pushes a new SHA.
+
+The agent does **not** merge `main`.
+
+### What the human must do
+
+- Definition of Ready and plan approval (`PLANNED`)
+- QA on `test`
+- Merge to `main`
+- GitHub secret `PRODUCTION_SUPABASE_DB_URL` once (never `VITE_*`)
+- Approve Vercel production
+- Invoke skills with a prompt
+
+Production schema apply is the smoke workflow, not the Dashboard.
+
+## Development workflow
+
+Canonical: [docs/sdlc/lifecycle.md](docs/sdlc/lifecycle.md). There is
+no `docs/sdlc/README.md`.
 
 ```
 Requirement
     ↓
-PO / BA Analysis
-    ↓
 Specification
     ↓
-Test Design
+DoR (human)
     ↓
-Implementation Plan
+Implementation plan
     ↓
-Human Approval
+Human approval → PLANNED
     ↓
-Feature Branch
+Implementation + tests
     ↓
-Development + Tests
+PR → test
     ↓
-Pull Request
+CI + QA
     ↓
-CI
+Human merge → main
     ↓
-Human QA
+Vercel Production
     ↓
-main
-    ↓
-Production Verification
+production-smoke.yml
 ```
 
-Link to the canonical SDLC documentation.
+Application roles: **ADMIN** (write) and **VIEWER** (read).
 
-Keep the README explanation short.
+## Git workflow
 
----
+GitHub holds source, Issues, pull requests, and Actions. Details:
+[docs/git/branching.md](docs/git/branching.md). The agent does not
+merge `main`.
 
-## 11\. Git & GitHub
+| Branch / pattern                     | Purpose                 |
+| ------------------------------------ | ----------------------- |
+| `main`                               | Production              |
+| `test`                               | Integration and QA      |
+| `release/<rel-id>`                   | Release train to `main` |
+| `feature/<feature-id>-<description>` | Feature implementation  |
+| `bugfix/`                            | Fixes                   |
+| `docs/`                              | Documentation           |
+| `chore/`                             | Maintenance             |
 
-Explain GitHub as the project's collaboration and source-of-truth platform.
+## Installation
 
-Mention, where applicable:
+Requires **Node.js 20+** (`package.json` `engines`) and npm.
 
-- Repository
-- Issues
-- Branches
-- Pull Requests
-- Code Review
-- Documentation
-- GitHub Actions
-
-Show the actual branching strategy.
-
-Example:
-
-```
-main
-├── test
-├── release/*
-├── feature/*
-├── bugfix/*
-├── docs/*
-└── chore/*
-```
-
-Explain each branch in one short sentence.
-
-Do not document the current branch or current branch status.
-
-Link to the detailed Git workflow documentation.
-
----
-
-## 12\. CI/CD
-
-Explain **what each GitHub Actions workflow does and when it runs**.
-
-Use a compact table:
-
-```
-| Workflow | Trigger | Purpose |
-|---|---|---|
-| CI | PR / branch | Quality checks and automated tests |
-| Production Smoke | Release / main | Apply production schema and verify production |
-| Release Sync | Release merge | Synchronize branches |
-```
-
-The exact workflows, triggers and steps MUST be read from `.github/workflows/`.
-
-Also show the execution order when relevant:
-
-```
-Pull Request
-    ↓
-CI
-    ↓
-Human QA
-    ↓
-Merge to main
-    ↓
-Production workflow
-    ├── Apply database schema
-    └── Production smoke tests
-```
-
-Link directly to every workflow file.
-
-Do not document current workflow results.
-
----
-
-## 13\. Installation
-
-Document the actual installation commands from the repository.
-
-Example:
-
-```
-git clone <repository-url>
-cd <repository>
+```bash
+git clone https://github.com/CrnkovicIvona/crm-ai-sdlc.git
+cd crm-ai-sdlc
 npm install
+cp .env.example .env
 ```
 
-Document required environment variable names.
+Names only (never commit values):
 
-Never include secret values.
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_ANON_KEY`
 
----
+Optional (same names as `.env.example`): `SUPABASE_SERVICE_ROLE_KEY`
+(never `VITE_*`), `E2E_ADMIN_EMAIL`, `E2E_ADMIN_PASSWORD`,
+`E2E_VIEWER_EMAIL`, `E2E_VIEWER_PASSWORD`. Local smoke:
+`SMOKE_BASE_URL` plus `E2E_*`. Production schema apply: GitHub secret
+`PRODUCTION_SUPABASE_DB_URL` (not in `.env`).
 
-## 14\. How to Run
+## Running locally
 
-Document the actual commands from `package.json`.
-
-Example:
-
-```
+```bash
 npm run dev
 ```
 
-Only include commands that actually exist.
+Vite (default http://localhost:5173). Point the SPA at a **real**
+Supabase project. Apply `supabase/migrations/` to that **non-prod**
+project yourself. Do not use production credentials as local defaults.
 
----
+Production schema is **not** a local step. It is
+`.github/workflows/production-smoke.yml`.
 
-## 15\. Testing
+Other scripts: `npm run build`, `npm run preview`, `npm run lint`,
+`npm run format`.
 
-Describe the **testing strategy and available test types**.
+## Testing
 
-Examples:
-
-- Unit
-- Integration
-- API
-- E2E
-- Smoke
-- Regression
-
-Link to test strategy, plans, cases and relevant test directories.
-
-### Never include execution results
-
-README MUST NOT contain:
-
-- number of tests
-- passed tests
-- failed tests
-- skipped tests
-- latest test run
-- current coverage
-- current failing tests
-- latest CI result
-
-**Testing section = how testing works.**
-
-**Test reports = what happened during a particular execution.**
-
----
-
-## 16\. Documentation
-
-README should act as a navigation hub.
-
-Link to existing documentation such as:
+Documented strategy, not live counts.
 
 ```
-Requirements
-Features
-Specifications
-Architecture
-Data Model
-Testing
-SDLC
-Git Workflow
-AI / Agent Workflow
-Security
-Release documentation
+Requirement → Acceptance Criteria → Test Design → Implementation → Validation
 ```
 
-Use relative links to actual repository files or directories.
+```bash
+npm test              # Vitest (jsdom + Node RLS integration)
+npm run test:e2e      # Playwright (local app + E2E_* users)
+npm run test:smoke    # Playwright against SMOKE_BASE_URL
+```
 
-**Never invent paths.**
+[Testing strategy](docs/sdlc/testing-strategy.md),
+[test plans](docs/test-plans/),
+[AUTH-001 plan](docs/test-plans/AUTH-001.md),
+[test cases](docs/test-cases/),
+[test reports](docs/test-reports/),
+[CRM-001 test plan](docs/features/CRM-001/test-plan.md),
+[CRM-001 test cases](docs/features/CRM-001/test-cases.md).
 
-If detailed information exists in a repository file, link to it instead of reproducing it.
+A skipped test is not a passed test. There is no `docs/qa/`.
 
----
+## CI/CD
 
-## 17\. Permanent Information Only
+Inspected workflows:
 
-README may contain:
+| Workflow                                                       | Trigger                                                         | Purpose                                                               |
+| -------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------------- |
+| [ci.yml](.github/workflows/ci.yml)                             | PRs to `test`/`main`; pushes to `test`                          | Prettier, commitlint (PRs only), gitleaks, ESLint, Vitest, Playwright |
+| [production-smoke.yml](.github/workflows/production-smoke.yml) | Successful Vercel **Production** deploy, or `workflow_dispatch` | `apply-schema` then Playwright smoke. Does **not** run on PRs         |
+| [release-sync.yml](.github/workflows/release-sync.yml)         | Release PR **merged** to `main`                                 | Merge the release branch into `test`; not a deploy                    |
 
-- project purpose
-- implemented features
-- architecture
-- database model
-- project structure
-- engineering practices
-- Git strategy
-- SDLC
-- CI/CD design
-- installation
-- run instructions
-- testing strategy
-- security practices
-- documentation links
+CI does **not** run `npm run build`. Vercel builds and deploys the
+SPA. `ci.yml` does not trigger `production-smoke.yml`.
 
-README must NOT contain:
+## CI/CD execution flow
 
-- current branch
-- current branch status
-- current commit
-- current PR
-- current CI status
-- latest test results
-- test counts
-- current coverage
-- current bugs
-- temporary development notes
-- agent execution logs
-- predictions
-- future plans
+```
+Code change / Pull Request
+    ↓
+CI (format, commitlint on PR, secrets scan, lint, Vitest, Playwright)
+    ↓
+Human QA on test
+    ↓
+Human merge to main
+    ↓
+Vercel Production deploy
+    ↓
+production-smoke.yml (if Production success or manual dispatch)
+         ├── apply-schema (SQL from main)
+         └── smoke (Playwright)
+```
 
-These belong in Issues, Pull Requests, test reports, release records or dedicated documentation.
+After a **release** PR merges to `main`, `release-sync.yml` syncs
+`test` from the **release branch** (not a product QA gate).
 
----
+If a required CI check fails, the PR is not merge-clean. Prettier
+FAIL on an agent PR: format locally, commit, push a **new** SHA — do
+not rerun the old commit.
 
-## 18\. Final Validation
+## Documentation
 
-Before saving README.md:
+| Path                                                                                                     | Contents                                |
+| -------------------------------------------------------------------------------------------------------- | --------------------------------------- |
+| [docs/sdlc/](docs/sdlc/)                                                                                 | Lifecycle, DoR, DoD, roadmap, testing   |
+| [docs/requirements/](docs/requirements/)                                                                 | AUTH-001 business requirement           |
+| [docs/features/](docs/features/)                                                                         | Feature packs                           |
+| [docs/specifications/](docs/specifications/)                                                             | AUTH-001 functional and technical specs |
+| [docs/architecture/](docs/architecture/)                                                                 | Environments and data model             |
+| [docs/releases/](docs/releases/)                                                                         | Release records                         |
+| [docs/test-plans/](docs/test-plans/), [test-cases](docs/test-cases/), [test-reports](docs/test-reports/) | Tests                                   |
+| [docs/git/](docs/git/)                                                                                   | Branching and commits                   |
+| [docs/ai/](docs/ai/)                                                                                     | Agent rules vs skills                   |
+| [docs/adr/](docs/adr/)                                                                                   | Architecture decisions                  |
 
-- BankCRM is immediately understandable.
+## Security
 
-- It is clear that this is a practice project.
+- Supabase Auth and **PostgreSQL RLS**
+- Secrets in GitHub Actions and Vercel — not in git
+- Secret scan: gitleaks in CI
+- [SECURITY.md](SECURITY.md),
+  [security review](docs/sdlc/security-review.md)
 
-- Technical complexity is visible without excessive text.
+There is no `docs/security/` directory.
 
-- Features link to detailed documentation.
+## License
 
-- Architecture is summarized and linked.
+[MIT License](./LICENSE)
 
-- Database schema is summarized and linked.
+## How to use and extend
 
-- Project structure is shown.
+Skills and coding wait for **you**. They do not start in the
+background. Do not start with “create a page and wire Supabase”.
 
-- Skills and engineering practices are visible.
+**New product feature**
 
-- Git/GitHub workflow is explained.
+```
+REQ + FS → stories / AC → BDD (risk) → test design → TS
+    → human DoR → plan → human PLANNED
+    → feature/<id>-<description> → implement + tests → PR → test → QA
+```
 
-- GitHub Actions workflows and execution order are explained.
+Canonical: [docs/sdlc/lifecycle.md](docs/sdlc/lifecycle.md). Start with
+`feature-orchestrator` when you ask.
 
-- Installation and run instructions work.
+**New page or component in `src/`** — only if `PLANNED` and the plan
+lists the file. Do not invent fields, roles, or routes.
 
-- Testing strategy is documented.
+**New database table** — TS (and data-model if shared) → approved plan
+→ migration under `supabase/migrations/` → tests → human applies
+non-prod → after `main`, production smoke workflow. Do not paste
+production SQL in the Dashboard.
 
-- No temporary test or branch status exists.
+**New RLS behaviour** — update TS, migration in git, integration
+tests; production via the same smoke job. UI-only checks are not
+enough.
 
-- No invented links or file paths exist.
-
-- README remains concise.
-
-## Core Rule
-
-**Give the reader the big picture first.**
-
-Show the complexity, engineering practices and skills demonstrated by BankCRM, then let the reader click into the repository for the details.
+**Skills** — prompt or @skill. Example: `feature-orchestrator` at
+feature start; `execute-tests` for evidence; `release-and-verify`
+after QA on `test`.
