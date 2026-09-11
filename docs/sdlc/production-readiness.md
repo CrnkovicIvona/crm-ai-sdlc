@@ -7,15 +7,18 @@ Complete before a release PR to `main`.
 - [ ] Test report attached; residual risk accepted by a human
 - [ ] Security review done at required level
 - [ ] No secrets in the tree
-- [ ] Migrations (when they exist) reviewed; **not** applied to production by the agent
+- [ ] Migrations (when they exist) reviewed and on `main`. Production
+      apply is `.github/workflows/production-smoke.yml` (`apply-schema`)
+      with `PRODUCTION_SUPABASE_DB_URL`. Missing secret = FAIL.
 - [ ] Environment variables documented in the environments guide; values are in secret stores
 - [ ] Rollback idea stated (revert PR / Vercel rollback — executed only by a human)
 - [ ] Executable production smoke exists under `tests/smoke/` for the
       release’s critical paths (not only a markdown checklist)
 - [ ] Release notes in `docs/releases/` name the smoke files and how
       to run them
-- [ ] After Production deploy: run `npm run test:smoke` (or the
-      Production smoke workflow) and record PASSED/FAILED
+- [ ] After Production deploy: the Production smoke workflow applies
+      schema then `npm run test:smoke`. Record PASSED/FAILED. Apply
+      success is not smoke PASSED.
 - [ ] `sync-feature-docs` at `ON_MAIN` is in the release PR
 - [ ] After merge: treat state as `ON_MAIN` until production smoke PASSED
 - [ ] `RELEASED` only after smoke PASSED and docs/traceability on `main` are updated

@@ -14,11 +14,14 @@ description: Prepare a release from test to main, describe production smoke, and
 - Before that PR is ready: run `sync-feature-docs` with target status
   **`ON_MAIN`**. Do not label artifacts `RELEASED` yet.
 - After human merge: state is **`ON_MAIN`**, not `RELEASED`.
-- Production smoke must actually run against production via
-  `tests/smoke/` (`SMOKE_BASE_URL=… npm run test:smoke` or
-  `.github/workflows/production-smoke.yml`). If it has not
+- Production schema on the production database is applied by
+  `.github/workflows/production-smoke.yml` job `apply-schema`
+  (SQL on `main`, secret `PRODUCTION_SUPABASE_DB_URL`). Missing
+  secret **FAIL**. Agent does not paste SQL in the Dashboard.
+- Production smoke must actually run after apply, against production
+  via `tests/smoke/` (same workflow, job `smoke`). If it has not
   **PASSED**, say **ON_MAIN — not RELEASED.** Never treat skipped,
-  missing, deferred, or markdown-only smoke as PASSED.
+  missing, deferred, apply-only, or markdown-only smoke as PASSED.
 - After smoke **PASSED**: `sync-feature-docs` at `RELEASED` (follow-up
   PR to `main`; human merges because `main` requires a PR).
 - **Release → `test`:** primary is `.github/workflows/release-sync.yml`
@@ -40,8 +43,10 @@ description: Prepare a release from test to main, describe production smoke, and
    = not executed until the suite runs).
 5. Open `release/<rel-id>` → `main` if the human asked.
 6. After human merge: record `ON_MAIN`, production URL if known.
-7. Run `npm run test:smoke` only with `SMOKE_BASE_URL` and
-   authorization; file evidence in the REL note.
+7. Confirm `PRODUCTION_SUPABASE_DB_URL` is set in GitHub (name only).
+   The Production smoke workflow applies schema then runs
+   `npm run test:smoke`. File the Actions URL in the REL note.
+   Apply success is not smoke PASSED.
 8. If smoke PASSED: `sync-feature-docs` → `RELEASED`; follow-up PR to `main`.
 9. Confirm Actions synced `test`, or perform the agent fallback merge of
    the **release branch** into `test`.
@@ -52,4 +57,4 @@ description: Prepare a release from test to main, describe production smoke, and
 Release PR exists or merged; statuses match `ON_MAIN` or `RELEASED`
 per `docs/sdlc/lifecycle.md`; `test` has the release branch tree or
 failure is recorded; smoke is PASSED or explicitly not executed
-(state stays `ON_MAIN`). Production is not deployed by the agent.
+(state stays `ON_MAIN`). Agent does not merge `main` or deploy the SPA.

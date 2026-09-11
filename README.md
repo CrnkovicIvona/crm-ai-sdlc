@@ -35,8 +35,8 @@ The browser loads a Vite SPA. The client uses the Supabase anon key. Postgres
   specs live
 - [Environments](docs/architecture/environments.md) — local, `test`, production
 - [Data model](docs/architecture/data-model.md) — `clients`, `client_products`;
-  SQL files in git describe intended schema; a human applies them to each
-  Supabase project
+  SQL in `supabase/migrations/` is truth; production apply is
+  `production-smoke.yml`
 - RLS: [AUTH-001 TS](docs/specifications/technical/AUTH-001.md),
   [CRM-001 TS](docs/features/CRM-001/technical-spec.md)
 - [Branching](docs/git/branching.md) — `main` / `test` / `release/*`
@@ -45,21 +45,21 @@ The browser loads a Vite SPA. The client uses the Supabase anon key. Postgres
 
 ```
 src/                  # Vite React SPA (pages, auth, data access)
-supabase/migrations/  # PostgreSQL + RLS (human applies to each project)
+supabase/migrations/  # PostgreSQL + RLS (production: smoke workflow)
 tests/                # Vitest (unit, rls) and Playwright (e2e, smoke)
 docs/                 # SDLC, features, architecture, tests, AI
 .github/workflows/    # ci.yml, production-smoke.yml, release-sync.yml
 .cursor/              # always-on rules and on-demand skills
 ```
 
-| Path                   | What it is                   | How you use it                                                                      |
-| ---------------------- | ---------------------------- | ----------------------------------------------------------------------------------- |
-| `src/`                 | Application UI and client    | Change only after the increment is planned; add routes and tests named in that plan |
-| `supabase/migrations/` | Schema and RLS in git        | Commit new SQL as planned; **you** apply it to the target Supabase project          |
-| `tests/`               | Automated checks             | `npm test`, `npm run test:e2e`, `npm run test:smoke`                                |
-| `docs/`                | Product and process truth    | Specs and SDLC; do not treat root README as increment status                        |
-| `.github/workflows/`   | CI and smoke                 | Gates on pull requests; Vercel still builds production                              |
-| `.cursor/`             | Agent constraints and skills | Rules always load; skills run when you invoke them                                  |
+| Path                   | What it is                   | How you use it                                                                           |
+| ---------------------- | ---------------------------- | ---------------------------------------------------------------------------------------- |
+| `src/`                 | Application UI and client    | Change only after the increment is planned; add routes and tests named in that plan      |
+| `supabase/migrations/` | Schema and RLS in git        | Commit SQL as planned; non-prod you apply locally; production via `production-smoke.yml` |
+| `tests/`               | Automated checks             | `npm test`, `npm run test:e2e`, `npm run test:smoke`                                     |
+| `docs/`                | Product and process truth    | Specs and SDLC; do not treat root README as increment status                             |
+| `.github/workflows/`   | CI and smoke                 | Gates on pull requests; Vercel still builds production                                   |
+| `.cursor/`             | Agent constraints and skills | Rules always load; skills run when you invoke them                                       |
 
 ## Engineering and skills
 
@@ -79,16 +79,17 @@ Skills do **not** run on a schedule. When you prompt (or @ a skill), the agent
 may draft requirements, FS/TS, stories, BDD, tests, and plans; implement
 **after** human plan approval (`PLANNED`); execute tests when asked; open a PR
 to `test`; and keep this README aligned with this rule. It does not merge
-`main` or apply production SQL.
+`main`. Production schema is applied by the Production smoke workflow, not
+by pasting SQL.
 
 ### What you must do
 
 - Record DoR and plan approval
 - QA on `test`
 - Merge to `main`
-- Apply migrations to the Supabase project you intend (non-prod or production)
-- Approve production deploy
-- Run or record production smoke
+- Set GitHub secret `PRODUCTION_SUPABASE_DB_URL` once (production Postgres
+  URI; never `VITE_*`)
+- Approve production deploy (Vercel)
 - Start a skill with a prompt — nothing in `.cursor/skills/` starts itself
 
 ## Development workflow
@@ -130,8 +131,10 @@ Set in `.env` (names only; never commit values):
 
 Optional for local integration and E2E (same names as `.env.example`):
 `SUPABASE_SERVICE_ROLE_KEY` (never `VITE_*`), `E2E_ADMIN_EMAIL`,
-`E2E_ADMIN_PASSWORD`, `E2E_VIEWER_EMAIL`, `E2E_VIEWER_PASSWORD`. Production
-smoke uses `SMOKE_BASE_URL` plus the `E2E_*` accounts.
+`E2E_ADMIN_PASSWORD`, `E2E_VIEWER_EMAIL`, `E2E_VIEWER_PASSWORD`. Local
+smoke uses `SMOKE_BASE_URL` plus the `E2E_*` accounts. Production schema
+apply uses GitHub secret `PRODUCTION_SUPABASE_DB_URL` (never in `.env`,
+never `VITE_*`).
 
 ## Running locally
 
@@ -141,8 +144,9 @@ npm run dev
 
 Opens the Vite dev server (default http://localhost:5173). Create or use a
 Supabase project, put its URL and anon key in `.env`, and apply the SQL under
-`supabase/migrations/` to **that** project yourself. The SPA will not create
-tables.
+`supabase/migrations/` to **that non-prod** project yourself. Production
+schema is applied by `.github/workflows/production-smoke.yml` when
+`PRODUCTION_SUPABASE_DB_URL` is set.
 
 ## Testing
 
@@ -165,8 +169,9 @@ ESLint, Vitest, Playwright. CI does **not** run `npm run build`; Vercel builds
 and deploys the production SPA.
 
 Production smoke:
-[`.github/workflows/production-smoke.yml`](.github/workflows/production-smoke.yml).
-After a release merge,
+[`.github/workflows/production-smoke.yml`](.github/workflows/production-smoke.yml)
+— job `apply-schema` (`supabase db push` from `main`) then job `smoke`
+(Playwright). After a release merge,
 [release-sync.yml](.github/workflows/release-sync.yml) fast-forwards `test` to
 `main` when possible.
 
@@ -175,6 +180,7 @@ After a release merge,
 | Path                                                                                                     | Contents                                       |
 | -------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
 | [docs/sdlc/](docs/sdlc/)                                                                                 | Lifecycle, DoR, DoD, roadmap, testing          |
+| [docs/requirements/](docs/requirements/)                                                                 | AUTH-001 business requirement                  |
 | [docs/features/](docs/features/)                                                                         | Feature packs (CRM-001; AUTH-001 index + plan) |
 | [docs/specifications/](docs/specifications/)                                                             | AUTH-001 functional and technical specs        |
 | [docs/architecture/](docs/architecture/)                                                                 | Environments and data model                    |
@@ -219,17 +225,20 @@ and tests from the plan. Do not invent Client fields, roles, or APIs.
 
 Capture it in the technical spec (and
 [data-model.md](docs/architecture/data-model.md) if it is shared schema). Add a
-migration under `supabase/migrations/` as planned. **You** apply that SQL to
-the non-prod or production project you mean. Then add tests. The agent does
-not apply production schema.
+migration under `supabase/migrations/` as planned. Apply that SQL to the
+**non-prod** project you use locally. Production schema is applied by
+`.github/workflows/production-smoke.yml` after the SQL is on `main`. Then add
+tests.
 
 **New RLS behaviour**
 
-Update the technical spec, the migration in git, and integration tests. **You**
-apply the SQL. Checking only the UI is not enough.
+Update the technical spec, the migration in git, and integration tests.
+Production RLS is applied by the same smoke workflow. Checking only the UI is
+not enough.
 
 **Running skills**
 
 Mention the skill in the prompt (or @ it). Example: ask for
-`feature-orchestrator` at the start of a feature; ask for `execute-tests` when
-you want evidence. Nothing under `.cursor/skills/` runs until you do that.
+`feature-orchestrator` at the start of a feature; ask for `execute-tests`
+when you want evidence; ask for `release-and-verify` after QA on `test`.
+Nothing under `.cursor/skills/` runs until you do that.

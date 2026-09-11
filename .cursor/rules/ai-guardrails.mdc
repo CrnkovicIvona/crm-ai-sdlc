@@ -25,8 +25,11 @@ BankCRM is a simple professional CRM. Source of truth is GitHub +
 - Fabricate results or reviews
 - Bypass authn/authz/RLS/fail-closed/audit in code or tests
 - Commit or print secrets
-- Push or merge `main`; deploy production; change production data
-  without explicit human authorization
+- Push or merge `main`; deploy the production SPA; change production
+  **row data** except what production smoke already does
+- Apply production schema except via
+  `.github/workflows/production-smoke.yml` (secret
+  `PRODUCTION_SUPABASE_DB_URL`; SQL from `main` only)
 - Disable branch protection or weaken CI
 - Claim `RELEASED` or Done because code was merged to `main`
   (that is `ON_MAIN` until production smoke PASSED and docs/traceability
@@ -38,7 +41,8 @@ BankCRM is a simple professional CRM. Source of truth is GitHub +
 Requirements, functional and technical specifications, decision logs
 (as Proposed), stories, AC, BDD, test design, implementation plans
 (after Ready), coding (after PLANNED), tests, execution, evidence,
-healing, reports, review, commits, PRs to `test`.
+healing, reports, review, commits, PRs to `test`, recording
+production apply+smoke from Actions (not merging `main`).
 
 ## Evidence
 

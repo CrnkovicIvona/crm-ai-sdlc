@@ -29,9 +29,10 @@ SKIPPED, NOT APPLICABLE, NOT EXECUTED, BLOCKED, and HEALING are never PASSED.
 - [ ] Human QA/acceptance for release
 - [ ] Human merge of the **release PR** to `main` (state `ON_MAIN` until smoke PASSES)
 - [ ] Deployment state **known** (production URL or recorded “not configured”)
-- [ ] Production smoke **PASSED**: `tests/smoke/` executed against the
-      production URL (`npm run test:smoke` or Production smoke
-      workflow) with a log. A markdown checklist alone is not PASSED.
+- [ ] Production smoke **PASSED**: workflow
+      `.github/workflows/production-smoke.yml` applied schema from
+      `main` then ran `tests/smoke/` against the production URL. Apply
+      alone is not PASSED. A markdown checklist alone is not PASSED.
       If smoke was not run or any case FAILED, state remains `ON_MAIN`.
       Do not call this `RELEASED`.
 - [ ] `sync-feature-docs` applied on `main` at `ON_MAIN` then at `RELEASED`
