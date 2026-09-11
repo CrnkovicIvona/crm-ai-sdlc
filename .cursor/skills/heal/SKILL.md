@@ -12,7 +12,8 @@ fix, return to `execute-tests` for the affected tests (or push and wait
 for CI when the failure was CI-only).
 
 When CI fails on a branch this agent owns, **start this skill without
-waiting for the human to ask**.
+waiting for the human to ask**. Prettier FAIL is not a question: format,
+commit, and push in the same turn.
 
 ## Rules
 
