@@ -5,7 +5,10 @@ alwaysApply: true
 
 # Quality
 
-- Format with Prettier. Do not bypass `format:check` in CI.
+- Format with Prettier. Do not bypass `format:check` in CI. CI stays
+  check-only; the agent formats locally (`npm run format`), commits,
+  and pushes. Do not auto-commit from Actions or add
+  `continue-on-error` on the Prettier job.
 - ESLint is required once application source exists. Until then, document the strategy; do not fake an app lint suite.
 - Conventional Commits are required.
 - Do not weaken GitHub Actions quality gates.
