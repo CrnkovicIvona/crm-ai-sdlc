@@ -12,7 +12,9 @@ human QA. Human reading of the diff is the `IN_QA` gate in
 ## Steps
 
 1. Diff against the PR base (`test` for features).
-2. Check AC coverage, test presence, secret leakage, and CI gate integrity.
+2. Check AC coverage against the FS/US on this SHA (not live CI
+   counts). Check test presence, secret leakage, and CI gate integrity.
+   Do not rewrite AC to match the diff.
 3. Run `docs/sdlc/security-review.md` checklist at the level required by risk.
 4. Confirm no invented requirements and no silent AC edits.
 5. Record findings in the PR; do not merge to `main`.
@@ -22,4 +24,5 @@ human QA. Human reading of the diff is the `IN_QA` gate in
 - Secrets present
 - Tests weakened
 - Human gates skipped
-- Production deploy or schema included without authorization
+- Production SPA deploy, or production schema apply outside
+  `.github/workflows/production-smoke.yml`

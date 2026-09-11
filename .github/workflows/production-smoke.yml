@@ -36,7 +36,7 @@ jobs:
           ref: main
       - uses: supabase/setup-cli@v1
         with:
-          version: latest
+          version: 2.117.0
       - name: Push migrations from main
         env:
           PRODUCTION_SUPABASE_DB_URL: ${{ secrets.PRODUCTION_SUPABASE_DB_URL }}

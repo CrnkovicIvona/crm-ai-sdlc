@@ -131,8 +131,10 @@ Set in `.env` (names only; never commit values):
 
 Optional for local integration and E2E (same names as `.env.example`):
 `SUPABASE_SERVICE_ROLE_KEY` (never `VITE_*`), `E2E_ADMIN_EMAIL`,
-`E2E_ADMIN_PASSWORD`, `E2E_VIEWER_EMAIL`, `E2E_VIEWER_PASSWORD`. Production
-smoke uses `SMOKE_BASE_URL` plus the `E2E_*` accounts.
+`E2E_ADMIN_PASSWORD`, `E2E_VIEWER_EMAIL`, `E2E_VIEWER_PASSWORD`. Local
+smoke uses `SMOKE_BASE_URL` plus the `E2E_*` accounts. Production schema
+apply uses GitHub secret `PRODUCTION_SUPABASE_DB_URL` (never in `.env`,
+never `VITE_*`).
 
 ## Running locally
 
@@ -168,7 +170,8 @@ and deploys the production SPA.
 
 Production smoke:
 [`.github/workflows/production-smoke.yml`](.github/workflows/production-smoke.yml)
-(applies SQL from `main`, then Playwright smoke). After a release merge,
+— job `apply-schema` (`supabase db push` from `main`) then job `smoke`
+(Playwright). After a release merge,
 [release-sync.yml](.github/workflows/release-sync.yml) fast-forwards `test` to
 `main` when possible.
 
@@ -177,6 +180,7 @@ Production smoke:
 | Path                                                                                                     | Contents                                       |
 | -------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
 | [docs/sdlc/](docs/sdlc/)                                                                                 | Lifecycle, DoR, DoD, roadmap, testing          |
+| [docs/requirements/](docs/requirements/)                                                                 | AUTH-001 business requirement                  |
 | [docs/features/](docs/features/)                                                                         | Feature packs (CRM-001; AUTH-001 index + plan) |
 | [docs/specifications/](docs/specifications/)                                                             | AUTH-001 functional and technical specs        |
 | [docs/architecture/](docs/architecture/)                                                                 | Environments and data model                    |
@@ -235,5 +239,6 @@ not enough.
 **Running skills**
 
 Mention the skill in the prompt (or @ it). Example: ask for
-`feature-orchestrator` at the start of a feature; ask for `execute-tests` when
-you want evidence. Nothing under `.cursor/skills/` runs until you do that.
+`feature-orchestrator` at the start of a feature; ask for `execute-tests`
+when you want evidence; ask for `release-and-verify` after QA on `test`.
+Nothing under `.cursor/skills/` runs until you do that.
