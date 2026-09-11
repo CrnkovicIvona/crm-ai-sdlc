@@ -1,8 +1,9 @@
 name: Production smoke
 
 # Runs after a successful Vercel Production deployment, or on demand.
-# Does not run on pull requests. Does not deploy. Missing secrets FAIL
-# the job (SKIPPED is not PASSED).
+# Does not run on pull requests. Does not deploy the SPA. Missing
+# secrets FAIL the job (SKIPPED is not PASSED).
+# Apply uses SQL on origin/main only.
 
 on:
   deployment_status:
@@ -17,8 +18,8 @@ permissions:
   contents: read
 
 jobs:
-  smoke:
-    name: Production smoke
+  apply-schema:
+    name: Apply production schema
     if: >
       github.event_name == 'workflow_dispatch' ||
       (
@@ -31,6 +32,40 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          ref: main
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Push migrations from main
+        env:
+          PRODUCTION_SUPABASE_DB_URL: ${{ secrets.PRODUCTION_SUPABASE_DB_URL }}
+        run: |
+          set -euo pipefail
+          if [ -z "${PRODUCTION_SUPABASE_DB_URL:-}" ]; then
+            echo "Missing GitHub secret PRODUCTION_SUPABASE_DB_URL (production Postgres URI). Never VITE_*. Do not print the value." >&2
+            exit 1
+          fi
+          supabase db push --db-url "$PRODUCTION_SUPABASE_DB_URL" --yes
+          echo "Applied supabase/migrations from main. Do not treat this as smoke PASSED." >> "$GITHUB_STEP_SUMMARY"
+
+  smoke:
+    name: Production smoke
+    needs: apply-schema
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event.deployment_status.state == 'success' &&
+        (
+          github.event.deployment.environment == 'Production' ||
+          github.event.deployment.environment == 'production'
+        )
+      )
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
       - uses: actions/setup-node@v5
         with:
           node-version: '22'
@@ -73,4 +108,4 @@ jobs:
         if: always()
         run: |
           echo "Production smoke is PASSED only if this job succeeded." >> "$GITHUB_STEP_SUMMARY"
-          echo "SKIPPED or missing secrets is not PASSED. AUTH-001 stays ON_MAIN until the suite PASSES against production." >> "$GITHUB_STEP_SUMMARY"
+          echo "SKIPPED or missing secrets is not PASSED. Merge to main is ON_MAIN until this job PASSES." >> "$GITHUB_STEP_SUMMARY"

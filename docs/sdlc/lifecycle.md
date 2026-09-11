@@ -91,8 +91,8 @@ lint / format / gitleaks → evidence in `docs/test-reports/` → agent
 `READY_FOR_RELEASE` → `sync-feature-docs` (status `ON_MAIN`) in the
 **release PR** → **human merge to `main`** → `ON_MAIN` → Vercel
 Production (existing integration; agent does not deploy) →
-executable production smoke (`tests/smoke/`, `npm run test:smoke`
-or `.github/workflows/production-smoke.yml`) → if PASSED:
+executable production smoke (`.github/workflows/production-smoke.yml`
+applies SQL from `main` then `tests/smoke/`) → if smoke PASSED:
 `sync-feature-docs` (status `RELEASED`) follow-up
 PR to `main` → human merge → **then** release branch synced to `test`
 → **then** delete release branch → DoD → human may close Issue.
@@ -120,7 +120,9 @@ link here, not copy a shorter or longer list.
 4. `IN_QA` → `READY_FOR_RELEASE`: CI plus human QA on `test` (human reads the PR diff)
 5. `READY_FOR_RELEASE` → `ON_MAIN`: human merge of the **release PR** to `main`
 6. Production data, security exceptions, and smoke exceptions: explicit human authorization. A recorded smoke skip is not PASSED; state stays `ON_MAIN`
-7. Secrets, seed users, and non-prod project config (GitHub/Vercel env, Supabase URL and anon key). Silence is not “secrets are unset, skip is OK”
+7. Secrets, seed users, and project config (GitHub/Vercel env, Supabase
+   URL and anon key, `PRODUCTION_SUPABASE_DB_URL` for production apply).
+   Silence is not “secrets are unset, skip is OK”
 8. Issue close: human only, and only when `main` lifecycle is `RELEASED` and DoD is met
 
 High regression packs cannot be skipped without a human (see
@@ -139,15 +141,15 @@ approvals.
 
 ## Roles
 
-| Actor                     | May                                                                                                | Must not                                                                                                                                        |
-| ------------------------- | -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| Human PO/BA               | Objective, scope, BD answers, REQ acceptance, DoR, plan approval, QA, merge `main`, close Issue    | Leave TBDs for the agent to guess                                                                                                               |
-| Agent as BA               | Draft REQ, FS, US, AC, questions, functional traceability                                          | Invent rules, roles, workflows, errors                                                                                                          |
-| Agent as QA               | Draft BDD, TC, test plan, risk, designed tests                                                     | Claim PASSED without execution                                                                                                                  |
-| Agent as architect        | Draft TS, TDE, technical questions, proposed TD; reuse ADRs                                        | Replace [ADR-0001](../adr/0001-engineering-foundation.md) or [ADR-0002](../adr/0002-vite-react-typescript.md); add frameworks; apply migrations |
-| Agent as developer        | Plan after Ready; code only in `PLANNED`; tests; evidence; PR to `test`; sync docs                 | Expand scope; `feature/` before `PLANNED`; merge `main`; claim `RELEASED` without smoke PASSED                                                  |
-| CI / GitHub Actions       | Format, secrets, commitlint; lint/unit/e2e when `src/` exists; release→`test` sync when configured | Treat SKIPPED as PASSED; deploy production                                                                                                      |
-| Agent or human reading CI | —                                                                                                  | Treat a SKIPPED or NOT APPLICABLE job as PASSED                                                                                                 |
+| Actor                     | May                                                                                                                 | Must not                                                                                                                                                                           |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Human PO/BA               | Objective, scope, BD answers, REQ acceptance, DoR, plan approval, QA, merge `main`, close Issue                     | Leave TBDs for the agent to guess                                                                                                                                                  |
+| Agent as BA               | Draft REQ, FS, US, AC, questions, functional traceability                                                           | Invent rules, roles, workflows, errors                                                                                                                                             |
+| Agent as QA               | Draft BDD, TC, test plan, risk, designed tests                                                                      | Claim PASSED without execution                                                                                                                                                     |
+| Agent as architect        | Draft TS, TDE, technical questions, proposed TD; reuse ADRs                                                         | Replace [ADR-0001](../adr/0001-engineering-foundation.md) or [ADR-0002](../adr/0002-vite-react-typescript.md); add frameworks; apply SQL except via production-smoke.yml on `main` |
+| Agent as developer        | Plan after Ready; code only in `PLANNED`; tests; evidence; PR to `test`; sync docs                                  | Expand scope; `feature/` before `PLANNED`; merge `main`; claim `RELEASED` without smoke PASSED                                                                                     |
+| CI / GitHub Actions       | Format, secrets, commitlint; lint/unit/e2e when `src/` exists; production schema apply + smoke; release→`test` sync | Treat SKIPPED as PASSED; deploy the SPA                                                                                                                                            |
+| Agent or human reading CI | —                                                                                                                   | Treat a SKIPPED or NOT APPLICABLE job as PASSED                                                                                                                                    |
 
 ## Source of truth
 

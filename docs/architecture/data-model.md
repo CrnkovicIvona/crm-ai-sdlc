@@ -1,7 +1,8 @@
 # Data model (relational schema)
 
-Logical/physical schema as shipped in non-prod SQL. **Source of truth:
-migrations**, not this diagram. Agent does not apply SQL to production.
+Logical/physical schema as shipped in SQL. **Source of truth:
+migrations**, not this diagram. Production apply is
+`.github/workflows/production-smoke.yml` (SQL on `main`).
 
 Row data (clients, profiles, assignments, audit) is **not** in git.
 Only the product catalog is seeded in SQL.
