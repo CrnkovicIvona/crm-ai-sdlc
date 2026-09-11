@@ -17,7 +17,10 @@ alwaysApply: true
 - When GitHub CI fails on a branch this agent pushed, open the Actions
   log, classify (timeout vs assertion vs Prettier vs secrets), and run
   `heal` **in the same session**. Do not wait for the human to name the
-  job.
+  job. Prettier / `format:check` FAIL → in the same turn, without
+  asking: `npm run format`, commit, push the PR branch, wait for a
+  **new** CI SHA. Do not rerun the failed job on the old SHA and do
+  not weaken the CI job.
 - Never delete, skip, or weaken tests to pass CI.
 - Never report a test as passed unless it was actually executed and verifiable execution evidence exists (CI log, local command output, or a test report that cites that evidence).
 - Skipped tests are SKIPPED, never PASSED.

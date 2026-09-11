@@ -1,71 +1,791 @@
 ---
-description: Keep GitHub README.md as a generic landing page (structure, usage, not live status)
+description: Keep GitHub README.md as a durable, portfolio-oriented landing page (not live status)
 alwaysApply: true
 ---
 
-# README.md (GitHub landing page)
+# README.md — GitHub landing page
 
-The repository root `README.md` is the **public landing page**. It must stay **generic and durable**. This file is an **agent instruction**, not README content.
+The repository root `README.md` is the project's **public landing page**
+and high-level navigation hub.
 
-Agents generate and update README from this rule when structure, stack, skills, env names, or workflows change — or when the human asks to generate README. Do **not** rewrite README on every commit. Do **not** invent a second always-on file (`readme-template.mdc`).
+It must be:
 
-## When to update
+- accurate
+- concise
+- durable
+- portfolio-oriented
+- useful to a new contributor
+- based on the actual repository
 
-- First implementation on a branch that has no README, or README that is empty / status-dump / contradicts this structure
-- New **documented** capability (feature pack with FS/TS, skill, CI workflow, env var in `.env.example`)
-- Paths, scripts, or stack in `package.json` / `docs/` change
-- After merge to `test` or `main`, if README drifted into live status (strip it)
-- Human says “generate README.md”
+This file is an **agent instruction**, not README content.
 
-## Required sections (this order)
+The README must explain the project at a level that allows a reader to
+understand:
 
-1. **Overview** — product name, one-paragraph purpose, stack (from `package.json` and `docs/architecture/`). **Why** only from accepted ADRs / AUTH TS (Vite + React + TypeScript: ADR-0002; Supabase Auth + PostgreSQL + RLS: AUTH-001). Do not name libraries that are not in `package.json`. Link ADR-0001 / ADR-0002. No release status.
-2. **Features** — durable capabilities. Link **real** FS/TS paths only:
-   - AUTH-001: `docs/specifications/functional/AUTH-001.md`, `docs/specifications/technical/AUTH-001.md`
-   - New increments: `docs/features/<ID>/functional-spec.md`, `technical-spec.md`
-   - Roadmap: `docs/sdlc/roadmap.md` (do not invent a DASH-001 spec file)
-3. **Architecture** — how the SPA talks to Supabase and how RLS is the authorization boundary. Link files that exist: `docs/architecture/README.md`, `environments.md`, `data-model.md`; RLS in AUTH-001/CRM-001 technical specs; git in `docs/git/branching.md`. Never invent `overview.md`, `auth-and-rls.md`, or `docs/sdlc/git-workflow.md`.
-4. **Project structure** — tree of real top-level dirs: `src/`, `supabase/migrations/`, `tests/`, `docs/`, `.github/workflows/`, `.cursor/`. For each: what it contains and how a developer uses it. Extending `src/` or SQL is only after `PLANNED` and the approved plan (`docs/sdlc/lifecycle.md`).
-5. **Engineering & Skills** — `.cursor/rules/` (always-on constraints) and `.cursor/skills/` (on-demand procedures). Name skills that exist on disk. Link `docs/ai/README.md`. Then two subsections (wording must not say the agent runs on a cron):
-   - **What the agent does when asked** — draft specs, stories, BDD, tests, plans; implement **after** `PLANNED`; run tests when `execute-tests` is invoked; PR to `test`; update landing README when this rule requires it. Skills do not start by themselves.
-   - **What the human must do** — DoR, plan approval, QA on `test`, merge to `main`, add GitHub secret `PRODUCTION_SUPABASE_DB_URL` once, approve Vercel production, invoke skills/prompts. Agent never merges `main`. Production schema apply is the smoke workflow, not the Dashboard.
-6. **Development workflow** — pointer to `docs/sdlc/lifecycle.md`: specify → DoR → plan → implement → PR `test` → QA → human `main` → production smoke. Roles ADMIN / VIEWER. No calendar estimates. There is no `docs/sdlc/README.md`.
-7. **Git workflow** — describe **roles** of `main`, `test`, `release/<rel-id>`, `feature/<feature-id>-<description>`, `bugfix/`, `docs/`, `chore/` as in `docs/git/branching.md`. That table is allowed. Do not name the **current** working branch or PR. Agent does not merge `main`.
-8. **Installation** — Node from `package.json` `engines` (`>=20`). `npm install`, copy `.env.example`. List **variable names only**. Service role is `SUPABASE_SERVICE_ROLE_KEY` — never `VITE_*`.
-9. **Running locally** — `npm run dev` (Vite). Point the SPA at a real Supabase project. Non-prod schema apply is still a human step for the project you use locally. Production schema: `production-smoke.yml` on `main`.
-10. **Testing** — `npm test` (Vitest), `npm run test:e2e` (Playwright), `npm run test:smoke`. Point to `docs/sdlc/testing-strategy.md`, `docs/test-plans/`, `docs/test-cases/`, `docs/test-reports/`, and feature `test-plan.md` / `test-cases.md` where they exist. There is no `docs/qa/`. No pass/fail counts, no SHA, no "N skipped".
-11. **CI/CD** — GitHub Actions: Prettier, commitlint (PRs), gitleaks, ESLint, Vitest, Playwright (`.github/workflows/ci.yml`). Production **Vite build and deploy = Vercel**, not an Actions `build` job. Smoke: `.github/workflows/production-smoke.yml`. Release follow-up: `release-sync.yml`. Do not mention Newman/Postman unless those files exist.
-12. **Documentation** — `docs/` map using directories that exist (`sdlc/`, `features/`, `architecture/`, `releases/`, `test-plans/`, `test-cases/`, `test-reports/`, `ai/`, `git/`, `specifications/`, `requirements/`).
-13. **Security** — RLS, secrets in GitHub/Vercel not in git. Link `SECURITY.md` and `docs/sdlc/security-review.md`. Do not invent `docs/security/`.
-14. **License** — match root `LICENSE` (this repo: MIT).
-15. **How to use and extend** — durable examples that **keep human gates**. Do not describe “create a page and wire Supabase” as the first step.
+```
+WHAT
+  ↓
+What BankCRM is and what it does
 
-    - **New product feature:** REQ + FS → user stories/AC → BDD (risk class) → test design → TS → **human DoR** → implementation plan → **human PLANNED** → branch `feature/<id>-…` → implement + tests → PR to `test`. Canonical: `docs/sdlc/lifecycle.md`. Start with skill `feature-orchestrator` when the human asks.
-    - **New page or component in `src/`:** only if the increment is `PLANNED` and the file is in the approved plan. Add the route, UI, and tests named in that plan. Do not invent fields or roles.
-    - **New database table:** describe it in TS (and data-model if the table is shared) → add a file under `supabase/migrations/` as planned → human applies to **non-prod** they use locally; **production** apply is `production-smoke.yml` after the SQL is on `main`. Add tests. Do not paste production SQL in the Dashboard.
-    - **New RLS behaviour:** update TS, migration in git, integration tests; production RLS rides the same apply job. UI-only checks are not enough.
-    - **Skills:** the human invokes them (prompt or @skill). They are not a background workflow.
+HOW
+  ↓
+Architecture, database and project structure
 
-## Language and tone
+QUALITY
+  ↓
+Testing, security and CI/CD
 
-- **English**, concise, present tense.
-- Facts a new contributor needs to clone, run, find specs, and know gates.
-- Use **real paths** only. Never invent Tailwind, `docs/qa/`, `develop`, REST/Newman, or a GitHub Actions compile job that does not exist.
+PROCESS
+  ↓
+SDLC, Git/GitHub and human gates
 
-## Never put in README.md
+AI
+  ↓
+How AI-assisted engineering fits into the SDLC
 
-- Current git branch, PR number, or "this agent/session"
-- Feature increment `ON_MAIN` / `RELEASED` / `READY` / `PLANNED` as **status banners** (those live in `docs/features/<ID>/README.md`, `docs/sdlc/roadmap.md`, and GitHub Issues). Naming those states in the **workflow explanation** is allowed.
-- CI run IDs, test pass/skip/fail counts, commit SHAs, "evidence as of DATE"
-- Banners like "AUTH-001 is RELEASED on production"
-- Secrets, passwords, JWT, service role values
-- Process commentary ("PO asked…", "waiting on human…")
-- Claims that the agent generates specs, tests, or code **automatically** without a human prompt and without gates
+DETAILS
+  ↓
+Where specifications, tests and other documentation live
+```
 
-## Relationship to other docs
+The README is **not** a replacement for feature specifications, test
+plans, SDLC documentation, database migrations, or GitHub Issues/PRs.
 
-Root README **points to** feature packs and SDLC. It does **not** replace them.
+Do **not** invent a second always-on file (`readme-template.mdc`).
 
-- Increment status, AC, DoD, test evidence → `docs/features/<ID>/`, `docs/sdlc/roadmap.md`, GitHub Issue, `docs/test-reports/`
-- Skills that sync feature docs (`sync-feature-docs`) **must not** write increment status into root `README.md`
-- Validation "root README stale" means: missing sections from this rule, broken links, or **live status dumped into README**. It does **not** mean README must announce every `RELEASED` increment
+## 1. Source of truth
+
+Before creating or updating `README.md`, inspect the actual repository.
+
+Relevant sources include:
+
+- `package.json`
+- `src/`
+- `supabase/`
+- `supabase/migrations/`
+- `tests/`
+- `docs/`
+- `.github/workflows/`
+- `.cursor/`
+- `.env.example`
+- `LICENSE`
+- `SECURITY.md`
+
+Use the repository as the source of truth. Verify claims against the
+actual files before adding them to the README.
+
+Do not infer or invent:
+
+- features
+- architecture
+- database tables
+- database relationships
+- technologies
+- scripts
+- environment variables
+- Git branches
+- workflow triggers
+- CI/CD dependencies
+- security controls
+- documentation paths
+
+If information cannot be verified from the repository, **omit it**
+rather than guessing.
+
+**Known path facts (verify they still exist; do not invent others):**
+
+- ADRs live under `docs/adr/` (for example
+  `docs/adr/0001-engineering-foundation.md`,
+  `docs/adr/0002-vite-react-typescript.md`), **not**
+  `docs/architecture/ADR-0001.md` unless that file exists.
+- AUTH-001 FS/TS: `docs/specifications/functional/AUTH-001.md`,
+  `docs/specifications/technical/AUTH-001.md`.
+- CRM-001 FS/TS: `docs/features/CRM-001/functional-spec.md`,
+  `docs/features/CRM-001/technical-spec.md` — **not**
+  `docs/specifications/technical/CRM-001.md` unless that file exists.
+
+## 2. When to update
+
+Do **not** rewrite `README.md` on every commit.
+
+Update it when **stable** project information changes, including:
+
+- initial README creation
+- a new documented feature/capability
+- a new feature specification or feature pack
+- a meaningful architecture change
+- a database/schema change
+- a change to `package.json` scripts or stack
+- a new environment variable documented in `.env.example`
+- a new or changed GitHub Actions workflow
+- a change to the documented testing strategy
+- a change to the documented Git/branching workflow
+- a change to the documentation structure
+- a human explicitly asks to generate or update the README
+
+If a change affects only **temporary** project state, do not update the
+README. Temporary state includes: current branch, PR, commit, CI run,
+test result, coverage, or feature increment status.
+
+After merges to `test` or `main`, README may be checked for drift, but
+it must remain a durable description rather than a release/status
+report.
+
+## 3. Required README structure
+
+Keep these sections in this order. Subsections are allowed. Do not add
+sections merely to increase length.
+
+Small supporting sections are allowed only when this rule requires
+them (**Database**, **AI-assisted engineering**, **CI/CD execution
+flow**).
+
+```
+# BankCRM
+
+## Overview
+## Features
+## Architecture
+## Database
+## Project structure
+## Engineering and skills
+## AI-assisted engineering
+## Development workflow
+## Git workflow
+## Installation
+## Running locally
+## Testing
+## CI/CD
+## CI/CD execution flow
+## Documentation
+## Security
+## License
+## How to use and extend
+```
+
+## 4. Overview
+
+Must contain:
+
+- product/project name
+- one concise paragraph describing BankCRM
+- purpose of the project
+- actual technology stack
+
+Describe BankCRM as a **simple banking CRM practice/portfolio
+project**, not as a production banking system.
+
+The purpose is to demonstrate an end-to-end, AI-assisted software
+development lifecycle combining product/business analysis, software
+development, QA and test automation, data/database work, CI/CD,
+security, and AI-assisted engineering.
+
+Derive the stack from `package.json`, `docs/architecture/`, accepted
+ADRs, and AUTH/architecture documentation. Do not name libraries that
+are not actually used.
+
+Current accepted architectural decisions (link the files that exist):
+
+- Vite + React + TypeScript — ADR-0002
+- Supabase Auth + PostgreSQL + RLS — AUTH-001
+
+Do not include release status or current implementation status.
+
+## 5. Features
+
+Document durable, **implemented** capabilities.
+
+For each major feature: actual name, one- or two-sentence summary, link
+to real FS/TS. Do not reproduce the complete specification.
+
+Known documentation patterns (link only if the path exists):
+
+- `docs/specifications/functional/AUTH-001.md`
+- `docs/specifications/technical/AUTH-001.md`
+- `docs/features/<ID>/functional-spec.md`
+- `docs/features/<ID>/technical-spec.md`
+
+For new increments, inspect the feature directory before adding links.
+Do not invent a specification file merely because an increment ID
+exists.
+
+Roadmap: `docs/sdlc/roadmap.md`. Do not invent
+`docs/features/DASH-001/` unless it exists.
+
+## 6. Architecture
+
+Describe the actual application architecture at a high level:
+
+- how the SPA communicates with Supabase
+- where application responsibilities live
+- how authentication works
+- how RLS participates in authorization
+- where the database sits
+
+Make the security boundary clear:
+
+```
+SPA
+ ↓
+Supabase
+ ↓
+PostgreSQL
+ ↓
+RLS
+```
+
+RLS is an **authorization boundary**. Do not describe it as merely a
+UI restriction.
+
+Known paths (use only if they exist):
+
+- `docs/architecture/README.md`
+- `docs/architecture/environments.md`
+- `docs/architecture/data-model.md`
+- AUTH-001 / CRM-001 technical specs (actual paths; see §1)
+- Git/branching: `docs/git/branching.md`
+
+Never invent `docs/architecture/overview.md`,
+`docs/architecture/auth-and-rls.md`, or `docs/sdlc/git-workflow.md`
+unless those files exist.
+
+## 7. Database
+
+The README **must** contain a concise representation of the actual
+Supabase/PostgreSQL schema.
+
+Before updating this section, inspect `supabase/migrations/`,
+`docs/architecture/data-model.md`, and relevant technical
+specifications. Generate the overview from the actual schema. Do not
+guess table names or relationships. Do not paste complete SQL into the
+README.
+
+Provide a compact ER-style diagram when readable, and a compact table
+when useful (table, purpose, key relationships). Only document actual
+tables and relationships.
+
+Link to the data-model doc, relevant TS files, and
+`supabase/migrations/`.
+
+**Database security:** briefly explain PostgreSQL, Supabase, Row Level
+Security, and authorization/access-control behaviour **only if those
+controls exist**.
+
+## 8. Project structure
+
+Show the important **real** repository structure. Inspect at least
+`src/`, `supabase/migrations/`, `tests/`, `docs/`,
+`.github/workflows/`, `.cursor/`.
+
+Adjust the tree to match the repository. For each important directory:
+what it contains and how a developer uses it. Do not list every file.
+Do not invent directories.
+
+Extending `src/` or adding SQL under `supabase/migrations/` must be
+described as part of the approved development process. Do not imply
+that developers should freely create application/database structure
+outside documented planning gates (`PLANNED` + approved plan;
+`docs/sdlc/lifecycle.md`).
+
+## 9. Engineering and skills
+
+Communicate what the project demonstrates. Organize by capability, not
+a flat technology catalogue. Only include practices and tools
+**supported by the repository**.
+
+**Product / business analysis** (when supported): requirements,
+functional specifications, user stories, acceptance criteria, business
+rules, process analysis, translating requirements into implementation
+and testing.
+
+**QA and testing:** functional, regression, integration, E2E,
+automated, negative testing, test design, defect analysis, quality
+gates. Include API testing **only** if API/Newman/Postman (or
+equivalent) actually exists.
+
+**Data and database** (when supported): SQL, PostgreSQL, Supabase,
+relational modelling, relationships, validation, RLS, test data.
+
+**Development:** TypeScript, React, application architecture, Git,
+code review, refactoring, automated validation.
+
+**CI/CD:** GitHub Actions, automated quality checks, automated tests,
+release workflows, production smoke testing — as actually configured.
+
+## 10. AI-assisted engineering
+
+Link `docs/ai/README.md` if it exists.
+
+Explain:
+
+- `.cursor/rules/` — always-on project constraints and instructions
+- `.cursor/skills/` — on-demand procedures invoked when appropriate
+
+Name skills that **actually exist on disk**. Do not claim that skills
+execute automatically.
+
+### What the agent does when asked
+
+The agent may assist with: requirements/specification drafting; user
+stories and AC; BDD; test design; implementation planning;
+implementation **after** `PLANNED`; test creation; test execution when
+`execute-tests` is explicitly invoked; code review support; pull-request
+preparation; documentation updates; README maintenance when this rule
+requires it.
+
+Skills do **not** start by themselves. Do not describe the agent as a
+background, scheduled, or autonomous workflow.
+
+### What the human must do
+
+Preserve human decision gates. The human is responsible for:
+
+- Definition of Ready
+- approving the implementation plan / setting `PLANNED`
+- QA validation on `test`
+- merging to `main`
+- adding GitHub secret `PRODUCTION_SUPABASE_DB_URL` once
+- approving Vercel production deployment
+- explicitly invoking relevant skills/prompts
+
+The agent must **never** merge `main`. Production schema application
+is performed by the production smoke workflow, not by pasting SQL in
+the Supabase Dashboard.
+
+## 11. Development workflow
+
+Link `docs/sdlc/lifecycle.md` (canonical SDLC). There is no
+`docs/sdlc/README.md` unless it is actually created later.
+
+Summarize:
+
+```
+Requirement
+    ↓
+Specification
+    ↓
+DoR
+    ↓
+Implementation Plan
+    ↓
+Human approval → PLANNED
+    ↓
+Implementation
+    ↓
+Tests
+    ↓
+PR → test
+    ↓
+QA
+    ↓
+Human merge → main
+    ↓
+Production verification
+```
+
+Explain: specify before implement; DoR is a human gate; plan must be
+approved; implement after `PLANNED`; PRs target `test`; QA on `test`;
+a human merges `main`; production verification uses the production
+smoke workflow.
+
+Document application roles when relevant: **ADMIN**, **VIEWER**.
+
+Do not include calendar estimates or temporary timelines.
+
+## 12. Git workflow
+
+Link `docs/git/branching.md`. Use the actual descriptions from that
+file.
+
+| Branch / pattern                     | Purpose                         |
+| ------------------------------------ | ------------------------------- |
+| `main`                               | Production / mainline           |
+| `test`                               | Integration and QA              |
+| `release/<rel-id>`                   | Release preparation             |
+| `feature/<feature-id>-<description>` | Feature development             |
+| `bugfix/`                            | Bug fixing                      |
+| `docs/`                              | Documentation changes           |
+| `chore/`                             | Maintenance / tooling           |
+
+Do not name the current working branch, current PR, or branch status.
+The agent does not merge `main`.
+
+## 13. Installation
+
+Derive from the repository. Node version from `package.json`
+`engines` (currently `>=20`; use the actual value if it changes).
+
+Typical: `npm install`. If copying `.env.example` is part of setup,
+document that command.
+
+List **environment variable names only**. Never expose secret values,
+tokens, passwords, JWTs, service-role values, or credentials.
+
+The service-role variable is `SUPABASE_SERVICE_ROLE_KEY`. Do not
+describe it as a `VITE_*` variable.
+
+## 14. Running locally
+
+Local development server is Vite. Use the actual script from
+`package.json` (`npm run dev`).
+
+The SPA must point to a real Supabase project. For local/non-production:
+schema application remains a **human** step for that project;
+environment variables must be configured locally; production
+credentials must not be used as local defaults.
+
+Production schema application is **not** a local setup step. It is
+handled by `.github/workflows/production-smoke.yml` when that workflow
+runs as configured.
+
+## 15. Testing
+
+Document the **strategy**, not current execution results.
+
+Verify commands against `package.json` before documenting. Known
+scripts: `npm test`, `npm run test:e2e`, `npm run test:smoke`.
+
+Expected tools (verify): Vitest, Playwright. Do not mention Newman or
+Postman unless they are in the repository.
+
+Link existing docs: `docs/sdlc/testing-strategy.md`, `docs/test-plans/`,
+`docs/test-cases/`, `docs/test-reports/`, and feature `test-plan.md` /
+`test-cases.md` when those files exist.
+
+There is no `docs/qa/` unless created later.
+
+Make clear that tests are derived from requirements and expected
+behaviour:
+
+```
+Requirement
+    ↓
+Acceptance Criteria
+    ↓
+Test Design
+    ↓
+Implementation
+    ↓
+Validation
+```
+
+A skipped test is not a passed test.
+
+Never include pass/fail/skip counts, coverage, current test run, CI
+run ID, commit SHA, or temporary test failures.
+
+## 16. CI/CD
+
+Document the **design** of CI/CD, not live execution state.
+
+Inspect every workflow under `.github/workflows/`. Document workflows
+that exist. Known files: `ci.yml`, `production-smoke.yml`,
+`release-sync.yml` — verify before describing behaviour.
+
+**CI:** document the actual checks (currently Prettier, commitlint on
+PRs, gitleaks, ESLint, Vitest, Playwright). Verify triggers and
+ordering from `.github/workflows/ci.yml`. Do not invent additional
+checks.
+
+**Production:** Vite build and deploy are **Vercel**, not a GitHub
+Actions build/deploy job unless such a job actually exists. Production
+smoke and schema application:
+`.github/workflows/production-smoke.yml` according to its actual
+configuration.
+
+**Release sync:** describe `.github/workflows/release-sync.yml` from
+its actual triggers and steps. Do not claim it deploys unless it does.
+
+## 17. CI/CD execution flow
+
+Explain the relationship between development events and workflows using
+the actual YAML.
+
+A conceptual flow (only claim a dependency when YAML supports it):
+
+```
+Code change
+    ↓
+GitHub event
+    ↓
+CI
+    ↓
+Quality checks
+    ↓
+Automated tests
+    ↓
+Pull Request / review
+    ↓
+Human merge to main
+    ↓
+Release-related automation
+    ↓
+Vercel production deployment
+    ↓
+Production smoke workflow
+    ↓
+Production verification
+```
+
+Do **not** claim “Workflow A directly triggers Workflow B” unless the
+YAML establishes that.
+
+Where useful, document:
+
+- **Pull request:** what triggers CI, which checks run, what happens
+  when a required check fails
+- **`main`:** which workflows run, what release/deployment automation
+  occurs, how production verification is performed
+- **Production smoke:** when it runs, schema application, smoke
+  purpose
+
+## 18. Documentation
+
+Use `docs/` as the documentation hub. Map only directories/files that
+exist. Known areas (verify): `sdlc/`, `features/`, `architecture/`,
+`releases/`, `test-plans/`, `test-cases/`, `test-reports/`, `ai/`,
+`git/`, `specifications/`, `requirements/`.
+
+Link rather than reproduce.
+
+## 19. Security
+
+Document actual security controls. When supported: Supabase Auth,
+PostgreSQL RLS, authorization/access control, secret handling,
+GitHub/Vercel environment secrets, secret scanning.
+
+Secrets must never be stored in Git. Never expose secret values.
+
+Link `SECURITY.md` and `docs/sdlc/security-review.md` when they exist.
+Do not invent `docs/security/`.
+
+## 20. License
+
+Read the root `LICENSE` and document that license. Do not infer the
+license from `package.json` if `LICENSE` says otherwise.
+
+This repository: MIT. Link `[MIT License](./LICENSE)` when applicable.
+
+## 21. How to use and extend
+
+Durable examples that **keep human gates**. Do not describe “create a
+page and wire it directly to Supabase” as the normal first step.
+Development starts from requirements and planning.
+
+**New product feature**
+
+```
+REQ + FS
+    ↓
+User Stories / Acceptance Criteria
+    ↓
+BDD / Risk Classification
+    ↓
+Test Design
+    ↓
+Technical Specification
+    ↓
+Human DoR
+    ↓
+Implementation Plan
+    ↓
+Human approval → PLANNED
+    ↓
+feature/<id>-<description>
+    ↓
+Implementation + Tests
+    ↓
+PR → test
+    ↓
+QA
+```
+
+Canonical: `docs/sdlc/lifecycle.md`. When appropriate, the human
+starts with the `feature-orchestrator` skill. Do not claim the skill
+starts automatically.
+
+**New page or component in `src/`:** only if the increment is
+`PLANNED`, the approved plan includes the file/change, implementation
+follows the specification, and required tests are added. Do not invent
+fields, roles, permissions, business rules, or routes outside approved
+requirements/specification.
+
+**New database table**
+
+```
+Technical Specification
+    ↓
+Data Model update when shared
+    ↓
+Approved implementation plan
+    ↓
+Migration under supabase/migrations/
+    ↓
+Tests
+    ↓
+Human applies to non-production environment
+    ↓
+main
+    ↓
+Production smoke workflow
+```
+
+Do not paste production SQL into the Supabase Dashboard. Production
+schema application is the configured production smoke workflow.
+
+**New RLS behaviour:** updated TS, migration in Git,
+integration/security tests, production application through the same
+controlled workflow. UI-only checks are not sufficient.
+
+**Skills:** invoked by the human (prompt or @skill). Not a background
+workflow, cron, or autonomous process.
+
+## 22. Permanent vs temporary information
+
+The root README describes **stable** project information.
+
+**Allowed:** project purpose, implemented capabilities, architecture,
+database model, repository structure, stack, SDLC, branching, GitHub
+workflow, CI/CD design, testing strategy, security model,
+documentation structure.
+
+**Do not include:** current branch, PR, commit, SHA, CI status, test
+results, coverage, skip/fail counts, “evidence as of DATE”, temporary
+bugs, temporary implementation notes, agent/session commentary.
+
+Lifecycle states (`PLANNED`, `READY`, `RELEASED`, `ON_MAIN`) may be
+explained as **process**, never as current README status banners.
+Feature status belongs in `docs/features/<ID>/`, `docs/sdlc/roadmap.md`,
+GitHub Issues, and `docs/test-reports/` as appropriate.
+
+`sync-feature-docs` **must not** write increment status into root
+`README.md`.
+
+## 23. Links
+
+Use relative Markdown links. Before adding a link: verify the target
+exists; use the correct relative path; do not invent filenames.
+
+Do not invent: `docs/qa/`, `docs/security/`, `docs/sdlc/README.md`,
+`docs/sdlc/git-workflow.md`, `docs/architecture/overview.md`,
+`docs/architecture/auth-and-rls.md` — unless those files exist.
+
+## 24. Language and tone
+
+English, concise technical language, present tense, clear headings,
+short paragraphs, tables and diagrams when useful.
+
+Write for a new contributor, technical reviewer, and portfolio
+evaluator. Enough to: understand, clone, configure, run, find specs,
+understand testing, Git/GitHub, CI/CD, and human/AI responsibilities.
+
+Avoid marketing language, exaggerated claims, unnecessary repetition,
+long specifications, and temporary commentary.
+
+Do not invent Tailwind, Newman, Postman, a `develop` branch,
+REST-specific tooling, a GitHub Actions compile/build job, or
+`docs/qa/` unless the repository actually contains and uses them.
+
+## 25. Never put these in README.md
+
+- current Git branch, PR number, commit SHA, agent/session
+- live CI status, CI run IDs
+- current test pass/fail/skip counts or coverage
+- “evidence as of DATE”
+- feature status banners (`ON_MAIN`, `RELEASED`, `READY`, `PLANNED` as
+  current status)
+- secrets, passwords, JWTs, service-role values
+- process commentary (“waiting on human”, “PO asked…”)
+- claims that the agent works automatically without a human prompt
+- claims that the agent merges `main`
+- claims that production schema is applied manually through the
+  Dashboard
+
+Do not turn the README into a project status dashboard.
+
+## 26. Relationship to other documentation
+
+The root README is the overview and navigation layer. It does not
+replace FS/TS, requirements, SDLC, roadmap, test plans/cases/reports,
+architecture, migrations, security review, branching, or AI/agent docs.
+
+Use the appropriate document as source of truth (only include rows
+whose paths exist):
+
+| Information               | Source                                              |
+| ------------------------- | --------------------------------------------------- |
+| Feature status            | `docs/features/<ID>/`, `docs/sdlc/roadmap.md`       |
+| Requirements              | `docs/requirements/`                                |
+| AUTH-001 FS               | `docs/specifications/functional/`                   |
+| AUTH-001 TS               | `docs/specifications/technical/`                    |
+| New-increment FS/TS       | `docs/features/<ID>/`                               |
+| Lifecycle                 | `docs/sdlc/lifecycle.md`                            |
+| Testing strategy          | `docs/sdlc/testing-strategy.md`                     |
+| Test plans                | `docs/test-plans/`                                  |
+| Test cases                | `docs/test-cases/`                                  |
+| Test evidence             | `docs/test-reports/`                                |
+| Architecture              | `docs/architecture/`                                |
+| Database migrations       | `supabase/migrations/`                              |
+| AI workflow               | `docs/ai/README.md`                                 |
+| Git branching             | `docs/git/branching.md`                             |
+| Security                  | `SECURITY.md`, `docs/sdlc/security-review.md`       |
+| CI/CD                     | `.github/workflows/`                                |
+
+Validation “root README stale” means: missing sections from this rule,
+broken links, or **live status dumped into README**. It does **not**
+mean README must announce every `RELEASED` increment.
+
+## 27. README validation before finishing
+
+After creating or updating `README.md`, validate against the
+repository.
+
+**Structure:** required sections in order; concise; landing page, not
+a specification.
+
+**Accuracy:** stack matches `package.json`; architecture matches
+code/docs; schema and relationships match migrations; tree matches the
+repo; Git matches `docs/git/branching.md`; Actions match YAML (triggers
+and dependencies not invented); install commands and npm scripts exist;
+env names match `.env.example`; testing tools match the repo; security
+claims are supported.
+
+**Links:** every link exists; relative; no invented paths.
+
+**Status hygiene:** no current branch/PR/SHA/CI/test counts/coverage;
+no release banners; no temporary notes.
+
+**AI/agent accuracy:** prompt/skill-driven; human gates preserved;
+skills do not auto-run; agent does not merge `main`; production schema
+workflow described accurately.
+
+## 28. Final principle
+
+The root `README.md` is a stable public overview of the BankCRM
+engineering approach.
+
+```
+BankCRM
+   ↓
+Banking CRM practice / portfolio project
+   ↓
+Actual features
+   ↓
+Actual architecture + Supabase/PostgreSQL schema
+   ↓
+QA + testing + security
+   ↓
+Git + GitHub + CI/CD
+   ↓
+AI-assisted SDLC
+   ↓
+Human decision gates
+   ↓
+Links to detailed documentation
+```
+
+Answer the most important questions for a first-time reader without
+duplicating detailed documentation.
+
+**Accuracy is more important than completeness.** If information is
+not verifiable from the repository, do not invent it.
