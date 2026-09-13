@@ -19,8 +19,7 @@
 - Prerequisite: human Definition of Ready (**recorded in chat**,
   2026-08-23)
 - Status: **Revised Approved** (`PLANNED` at Gate 2). Code is on
-  `test` (PR #26). Lifecycle for REL-004: **`ON_MAIN` — not
-  `RELEASED`**.
+  `main`. Lifecycle: **`RELEASED`** (REL-005 smoke PASSED).
 
 This is **not** the functional or technical specification.
 

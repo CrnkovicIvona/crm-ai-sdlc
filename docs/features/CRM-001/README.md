@@ -1,9 +1,10 @@
 # CRM-001: Client records
 
 - Risk: **High** (authorization, personal data, DELETE, audit, RLS)
-- State: **`ON_MAIN` — not `RELEASED`** (REL-004 product on `main`;
-  REL-005 promotes apply-schema + test isolation). Production smoke
-  **not executed**. Agent does not merge `main`.
+- State: **`RELEASED`** (REL-004 product on `main`; REL-005
+  apply-schema + production smoke **PASSED**
+  [run 34753193389](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/34753193389)).
+  C008 match oracle still **BLOCKED**. Agent does not merge `main`.
 - GitHub Issue: none (App/MCP blocked). Ready and PLANNED recorded in
   chat.
 - Gate 1 pack: [dor-gate-1.md](dor-gate-1.md) (§5.1 and §5.2 **accepted**)
@@ -14,8 +15,7 @@
 This folder is the CRM-001 feature pack. Release notes:
 [../../releases/REL-004.md](../../releases/REL-004.md),
 [../../releases/REL-005.md](../../releases/REL-005.md). Do not apply
-SQL to production from the agent. Do not claim `RELEASED` without
-production smoke PASSED.
+SQL to production from the agent.
 
 | Artifact            | File                                                                              |
 | ------------------- | --------------------------------------------------------------------------------- |

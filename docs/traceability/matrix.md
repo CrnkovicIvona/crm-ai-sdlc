@@ -26,20 +26,22 @@ not listed as product TDEs.
 ## Gaps
 
 - AUTH-001 on `main` is **`RELEASED`** (REL-003 smoke 5/5, 2026-08-23,
-  `https://crm-ai-sdlc.vercel.app`). Live Auth Playwright on branch
-  SHA `456c9a2` **PASSED** in CI (11 e2e including AUTH). Production
-  smoke **this SHA** SKIPPED ≠ PASSED. Historical 5/5 remains the
-  release record.
+  `https://crm-ai-sdlc.vercel.app`).
+- CRM-001 on `main` is **`RELEASED`** (REL-004 product; REL-005 smoke
+  7/7 **PASSED** 2026-09-13,
+  [run 34753193389](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/34753193389),
+  `https://crm-ai-sdlc.vercel.app`). Implementation paths above exist
+  on `origin/main` SHA `3a33394` (`git ls-tree`). C008 match oracle
+  still **BLOCKED**.
 - TC-003/TC-004 ADMIN vs VIEWER UI **PASSED** e2e CI `456c9a2`.
-  RLS/audit: `tests/integration/clients-rls.test.ts` — 6 **PASSED**
-  CI `456c9a2` (0 skipped). C008 match oracle still **BLOCKED**.
+  RLS/audit: `tests/integration/clients-rls.test.ts`. Isolation pack
+  CI `9b7594d` (PR #34).
 - AUTH-001 DoR on Issue #5. CRM-001 Gate 1/2 in chat 2026-08-23; no
-  GitHub Issue. CRM-001 is **`ON_MAIN` — not `RELEASED`** (REL-004;
-  REL-005 promotes apply-schema). Production smoke **MISSING**.
+  GitHub Issue.
 - Phase 5/6: [test-reports/CRM-001.md](../test-reports/CRM-001.md),
   [test-reports/QA-CLOSEOUT-001.md](../test-reports/QA-CLOSEOUT-001.md).
 
 Release: [REL-001](../releases/REL-001.md), [REL-002](../releases/REL-002.md),
 [REL-003](../releases/REL-003.md) (`RELEASED`; smoke 5/5 PASS),
-[REL-004](../releases/REL-004.md) (`ON_MAIN` — not `RELEASED`),
-[REL-005](../releases/REL-005.md) (promote `test`; smoke still not executed).
+[REL-004](../releases/REL-004.md) (product on `main`),
+[REL-005](../releases/REL-005.md) (`RELEASED` smoke 7/7 PASS).

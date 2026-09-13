@@ -3,9 +3,7 @@
 - Work item: CRM-001
 - Requirement: REQ-CRM-001
 - Functional specification: [functional-spec.md](functional-spec.md)
-- Status: Specified (not Ready)
-- Owner (draft): Agent as BA
-- Approval: Human DoR not recorded
+- Status: Implemented; **`RELEASED`** (REL-005 smoke PASSED)
 - Traceability: [traceability.md](traceability.md)
 
 Do not add behavior that is not in the FS or approved BD-C\* items.
