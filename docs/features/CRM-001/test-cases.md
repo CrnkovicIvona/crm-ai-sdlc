@@ -6,26 +6,38 @@
   integration). Paths: `tests/e2e/clients.spec.ts`,
   `tests/unit/clientValidation.test.ts`, `tests/unit/products.test.ts`,
   `tests/integration/clients-rls.test.ts`.
-- Execution status: **PARTIAL** on SHA `456c9a2` (2026-08-23).
-  See [../../test-reports/CRM-001.md](../../test-reports/CRM-001.md).
-  E2E **PASSED** in CI (11/11). Vitest **PASSED** (19/19, 0 skipped)
-  including RLS. C008 match oracle still **BLOCKED**. SKIPPED ≠ PASSED.
+- Execution status: **DESIGNED split not yet re-executed** on this
+  branch. Prior grouped e2e/RLS evidence: SHA `456c9a2` — that SHA is
+  not this isolation change. C008 match oracle still **BLOCKED**.
+  SKIPPED ≠ PASSED.
 - Risk: High
 - Owner (draft): Agent as QA
 - Source: [bdd.md](bdd.md), [user-stories.md](user-stories.md)
 
 ## Automation map (not an execution report)
 
-| TC           | Automated in                                             | Execution                                                                           |
-| ------------ | -------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| TC-C001      | `tests/e2e/clients.spec.ts`                              | **PASSED** CI SHA `456c9a2` (run 32673921138)                                       |
-| TC-C002      | e2e empty-submit + `tests/unit/clientValidation.test.ts` | **PASSED** unit CI; empty-submit e2e CI                                             |
-| TC-C003–C006 | `tests/e2e/clients.spec.ts` ADMIN CRUD                   | **PASSED** CI (catalog present; not skipped)                                        |
-| TC-C007–C011 | `tests/e2e/clients.spec.ts` VIEWER                       | **PASSED** CI grouped; C011 not field-by-field; C008 match oracle still **BLOCKED** |
-| TC-C012–C019 | `tests/integration/clients-rls.test.ts`                  | **PASSED** CI SHA `456c9a2` — 6 executed, 0 skipped                                 |
-| TC-C020      | `tests/unit/products.test.ts` + e2e product checkbox     | **PASSED** unit; checkbox in C003–C006 e2e CI                                       |
-| TC-C021      | e2e assign on create + integration                       | **PASSED** e2e assign CI; integration write **PASSED** with C012 pack               |
-| TC-C022      | e2e search after delete                                  | **PASSED** CI (asserted inside C003–C006)                                           |
+| TC           | Automated in                                             | Execution                                                    |
+| ------------ | -------------------------------------------------------- | ------------------------------------------------------------ |
+| TC-C001      | `tests/e2e/clients.spec.ts` `TC-C001`                    | Re-execute on the PR SHA; prior grouped CI is not this split |
+| TC-C002      | e2e empty-submit + `tests/unit/clientValidation.test.ts` | Unit always; e2e when `E2E_*`                                |
+| TC-C003      | e2e `TC-C003`                                            | One Playwright case                                          |
+| TC-C004      | e2e `TC-C004`                                            | One Playwright case                                          |
+| TC-C005      | e2e `TC-C005`                                            | One Playwright case                                          |
+| TC-C006      | e2e `TC-C006`                                            | One Playwright case                                          |
+| TC-C007      | e2e `TC-C007`                                            | One Playwright case                                          |
+| TC-C008      | e2e search **UI** only                                   | Match rule still **BLOCKED** (no oracle)                     |
+| TC-C009      | e2e `TC-C009`                                            | One Playwright case                                          |
+| TC-C010      | e2e `TC-C010`                                            | One Playwright case                                          |
+| TC-C011      | e2e detail field-by-field                                | Approved fields only                                         |
+| TC-C012      | `tests/integration/clients-rls.test.ts` `TC-C012`        | Secrets required                                             |
+| TC-C013      | integration `TC-C013`                                    | One `it()`                                                   |
+| TC-C014      | integration `TC-C014`                                    | One `it()`                                                   |
+| TC-C015      | integration `TC-C015`                                    | One `it()`                                                   |
+| TC-C016      | integration `TC-C016`                                    | One `it()`                                                   |
+| TC-C017–C019 | integration named `it()`                                 | Unchanged isolation                                          |
+| TC-C020      | `tests/unit/products.test.ts`                            | Always                                                       |
+| TC-C021      | e2e `TC-C021` + integration `TC-C021`                    | Assign on create / `client_products` RLS                     |
+| TC-C022      | e2e `TC-C022`                                            | One Playwright case                                          |
 
 ## ISTQB P/N/E matrix (existing TCs — no new product rules)
 
@@ -45,7 +57,7 @@ Kind: **P** positive, **N** negative, **E** edge/state. Technique per
 | C008 | P     | Use-case         | e2e         | VIEWER search UI; **matching rule BLOCKED**                                                                                   |
 | C009 | N     | Decision         | e2e         | VIEWER cannot create (UI)                                                                                                     |
 | C010 | N     | Decision         | e2e         | VIEWER cannot update/delete (UI)                                                                                              |
-| C011 | P     | Use-case         | e2e         | VIEWER sees all fields (grouped)                                                                                              |
+| C011 | P     | Use-case         | e2e         | VIEWER sees all approved fields on detail                                                                                     |
 | C012 | N     | Decision         | integration | VIEWER write denied at DB                                                                                                     |
 | C013 | P     | Use-case         | integration | Audit CREATE                                                                                                                  |
 | C014 | P     | Use-case         | integration | Audit UPDATE values                                                                                                           |
@@ -273,15 +285,18 @@ UI + DB deny. DB **PASSED** CI `456c9a2`.
 
 ### Preconditions
 
-VIEWER. Grouped with C007–C011 (not field-by-field).
+VIEWER. Existing Client (ADMIN may create as setup). Detail
+field-by-field for approved fields only.
 
 ### Steps
 
-1. Open clients as VIEWER.
+1. Open Client detail as VIEWER.
 
 ### Expected result
 
-No field-level hide in UI. Detail field-by-field **PARTIAL**.
+`client-first-name`, `client-last-name`, `client-email`,
+`client-phone`, `client-oib`, `client-created-at`, `client-products`
+visible. No match-rule search (C008).
 
 ## TC-C012: Database authorization boundary
 

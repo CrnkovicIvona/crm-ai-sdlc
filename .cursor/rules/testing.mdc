@@ -33,3 +33,6 @@ alwaysApply: true
   invented. SKIPPED (no secrets / job skipped) is also never PASSED.
   High-risk RLS/integration skip without secrets is **BLOCKED** for
   Gate 3 / DoD, not “done”.
+- One designed TC → one automated `test()`/`it()` (do not group CRUD).
+  New features add tests; do not delete the prior pack to go green.
+  Missing DB schema in e2e is FAIL, not SKIPPED.
