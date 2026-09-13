@@ -60,6 +60,8 @@ to `main`. Exceptions (no extra prompt):
 
 - release→test sync and release-branch deletion — Actions or Agent
   fallback, no extra product approval
-- CI **Prettier** (`format:check`) FAIL on a PR branch this agent
-  owns: format locally, commit, push **that branch** so a new SHA
-  re-runs CI. Never push `main` or `test` for this.
+- CI **Prettier** (`format:check`) FAIL, or CI **Playwright / Vitest
+  / ESLint** FAIL, on a PR branch this agent owns: `heal` in the same
+  turn (format and/or fix harness/product), commit, push **that
+  branch** so a new SHA re-runs CI. Never push `main` or `test` for
+  this. Never skip tests to go green.

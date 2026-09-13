@@ -19,8 +19,10 @@ alwaysApply: true
   `heal` **in the same session**. Do not wait for the human to name the
   job. Prettier / `format:check` FAIL → in the same turn, without
   asking: `npm run format`, commit, push the PR branch, wait for a
-  **new** CI SHA. Do not rerun the failed job on the old SHA and do
-  not weaken the CI job.
+  **new** CI SHA. Playwright or Vitest `expect` FAIL → in the same
+  turn, without asking: run `heal` (fix harness or product, keep the
+  AC), commit, push, wait for a **new** SHA. Do not rerun the failed
+  job on the old SHA and do not weaken the CI job.
 - Never delete, skip, or weaken tests to pass CI.
 - Never report a test as passed unless it was actually executed and verifiable execution evidence exists (CI log, local command output, or a test report that cites that evidence).
 - Skipped tests are SKIPPED, never PASSED.

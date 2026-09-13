@@ -88,6 +88,14 @@ async function createClientAsAdmin(
   );
   const id = page.url().match(/\/app\/clients\/([^/?#]+)/)?.[1];
   expect(id, 'create must land on /app/clients/:id').toBeTruthy();
+  // After navigate, success comes from location.state before getClient
+  // hydrates the controlled inputs. Wait for the edit form or Save
+  // submits empty values and never shows "Client saved."
+  await expect(page.getByTestId('client-first-name')).toHaveValue(
+    payload.first_name,
+  );
+  await expect(page.getByTestId('client-created-at')).toBeVisible();
+  await expect(page.getByTestId('client-save')).toBeEnabled();
   return id!;
 }
 
@@ -135,8 +143,11 @@ test('TC-C005 ADMIN can update a Client', async ({ page }) => {
   await loginAdmin(page);
   await createClientAsAdmin(page, payload, false);
   await page.getByTestId('client-first-name').fill('Updated');
+  await expect(page.getByTestId('client-first-name')).toHaveValue('Updated');
   await page.getByTestId('client-save').click();
-  await expect(page.getByTestId('client-success')).toHaveText('Client saved.');
+  await expect(page.getByTestId('client-success')).toHaveText('Client saved.', {
+    timeout: 15_000,
+  });
   await expect(page.getByTestId('client-first-name')).toHaveValue('Updated');
 });
 
