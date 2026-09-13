@@ -1,11 +1,8 @@
 # What happens on “Start CRM-001.”
 
-This is the repeatable simulation of the canonical process. The
-orchestrator (`.cursor/skills/feature-orchestrator/SKILL.md`) must
-follow it without the human restating SDLC rules.
-
-CRM-001 spec pack lives in `docs/features/CRM-001/`. It is **`READY`**
-(PO chat 2026-08-23). It is **not `PLANNED`** and **not implemented**.
+Historical start playbook. CRM-001 is **`RELEASED`** (REL-005 smoke
+PASSED 2026-09-13). Do not re-implement Clients. DASH-001 is still
+not specified.
 
 ## REQUESTED → SPECIFIED (already done in-repo)
 

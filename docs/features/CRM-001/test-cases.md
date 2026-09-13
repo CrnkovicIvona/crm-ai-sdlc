@@ -6,10 +6,9 @@
   integration). Paths: `tests/e2e/clients.spec.ts`,
   `tests/unit/clientValidation.test.ts`, `tests/unit/products.test.ts`,
   `tests/integration/clients-rls.test.ts`.
-- Execution status: **DESIGNED split not yet re-executed** on this
-  branch. Prior grouped e2e/RLS evidence: SHA `456c9a2` — that SHA is
-  not this isolation change. C008 match oracle still **BLOCKED**.
-  SKIPPED ≠ PASSED.
+- Execution status: High pack CI `456c9a2` plus isolation CI
+  `9b7594d`. Production smoke **PASSED** 7/7 run 34753193389.
+  C008 match oracle still **BLOCKED**. SKIPPED ≠ PASSED.
 - Risk: High
 - Owner (draft): Agent as QA
 - Source: [bdd.md](bdd.md), [user-stories.md](user-stories.md)

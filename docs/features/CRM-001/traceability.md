@@ -4,10 +4,11 @@ Chain: REQ → FR → US → AC → BDD → TC → TDE → Implementation →
 Verification.
 
 Implementation paths are filled. Automated tests exist. Lifecycle:
-**`ON_MAIN` — not `RELEASED`** (REL-004). Verification on SHA
-`456c9a2`: e2e **PASSED** in CI (11/11); RLS **PASSED** (19/19).
-C008 match rule still **BLOCKED**. Production smoke **MISSING**.
-SKIPPED ≠ PASSED. Details:
+**`RELEASED`**. Verification on SHA `456c9a2`: e2e **PASSED** in CI
+(11/11); RLS **PASSED** (19/19). Production smoke **PASSED** 7/7
+[run 34753193389](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/34753193389)
+against `https://crm-ai-sdlc.vercel.app`. C008 match rule still
+**BLOCKED**. SKIPPED ≠ PASSED. Details:
 [../../test-reports/CRM-001.md](../../test-reports/CRM-001.md).
 
 | REQ         | FR      | US      | AC      | BDD                                  | TC      | TDE                | Implementation | Verification                                              |

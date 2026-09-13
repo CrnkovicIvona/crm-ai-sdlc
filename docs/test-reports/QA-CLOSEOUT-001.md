@@ -10,9 +10,10 @@
 - Prior e2e-only SHA: `1c98f14` —
   [actions/32672184863](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/32672184863)
 - PR: [#26](https://github.com/CrnkovicIvona/crm-ai-sdlc/pull/26) → `test`
-- Lifecycle: **AUTH-001 remains `RELEASED`**. **CRM-001 is `ON_MAIN` —
-  not `RELEASED`** (REL-004; human QA on `test` 2026-08-24; production
-  smoke not executed).
+- Lifecycle: **AUTH-001 remains `RELEASED`**. **CRM-001 is `RELEASED`**
+  after REL-005 production smoke **PASSED** 2026-09-13
+  ([run 34753193389](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/34753193389)).
+  Human QA on `test` 2026-08-24. C008 match oracle still **BLOCKED**.
 
 Remediation on this branch (controlled): P0 selectors/docs freeze →
 P1 historical AUTH/strategy notes → CI logout wait + Prettier → P2
@@ -163,7 +164,7 @@ freeze (P0 remediaiton).
 ## K. Specification consistency
 
 Addressed on this branch vs original audit: AUTH TS/plan historical;
-testing-strategy CRM implemented on feature branch not RELEASED;
+testing-strategy CRM implemented; CRM-001 later **`RELEASED`**;
 REL-003 CRM-specs-only scoped to that release; CRM test-cases no longer
 claim “no src”; matrix paths updated; AUTH error uses
 `GENERIC_AUTH_ERROR`; testids kebab; ISTQB templates + BLOCKED word.

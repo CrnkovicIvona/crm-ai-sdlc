@@ -27,8 +27,9 @@ Phase 55/66 gaps that **closed**: High RLS/audit **PASSED** (not SKIPPED,
 not BLOCKED). Sections 6, 10, A, E, J below are superseded by this
 addendum where they still describe the `1c98f14` skip.
 
-Gaps that **remain**: C008 match oracle; C011 grouped; profiles RLS pack;
-live AC-012 e2e; human QA on `test`; CRM-001 **not RELEASED**.
+Gaps that **remain**: C008 match oracle; C011 grouped on `456c9a2`;
+profiles RLS pack. Human QA on `test` 2026-08-24. CRM-001 **`RELEASED`**
+after REL-005 smoke (see [CRM-001.md](CRM-001.md)).
 AUTH-001 stays **RELEASED**. SKIPPED ≠ PASSED.
 
 ---
@@ -207,10 +208,13 @@ Changed: CRM/QA evidence docs for CI `456c9a2` (this report addendum
 ISTQB design and UI/e2e/unit/**RLS** evidence are in place on CI
 `456c9a2` (Vitest 19/19, Playwright 11/11). High RLS/audit is
 **PASSED**, not BLOCKED. Gaps that remain: C008 match oracle; C011
-grouped; profiles RLS pack; live AC-012 e2e; human QA on `test`.
-**Not CLEAN.** CRM-001 is **not RELEASED**. AUTH-001 stays **RELEASED**.
+was grouped on that SHA (later isolated on PR #34); profiles RLS
+pack. Human QA on `test` 2026-08-24. CRM-001 is **`RELEASED`** after
+REL-005 smoke 7/7
+([34753193389](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/34753193389)).
+AUTH-001 stays **RELEASED**.
 
-Automated DoD High (unit + integration + e2e) **met** on that SHA.
-Human Gate 3 on `test` is **not** claimed. SKIPPED ≠ PASSED.
+Automated DoD High (unit + integration + e2e) **met** on `456c9a2`.
+SKIPPED ≠ PASSED.
 
 **STOP.**
