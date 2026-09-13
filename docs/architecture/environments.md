@@ -33,7 +33,10 @@ production deploy workflows until a later, approved phase.
   (`.github/workflows/production-smoke.yml` job `apply-schema`) using
   secret `PRODUCTION_SUPABASE_DB_URL` and SQL on `main`. Missing secret
   is FAIL, not SKIPPED. Do not print the URI. Do not paste SQL in the
-  Dashboard.
+  Dashboard. If `public.profiles` / `clients` / `products` already
+  exist but migration versions are missing from
+  `supabase_migrations`, the job records those versions as applied
+  then `db push` (no row-data change).
 - Non-prod Supabase: a human still applies SQL to the project they use
   for local/QA unless that project is the same as production.
 - Do not modify production **row data** except via documented smoke
