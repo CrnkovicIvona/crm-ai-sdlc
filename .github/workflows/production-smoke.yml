@@ -46,6 +46,34 @@ jobs:
             echo "Missing GitHub secret PRODUCTION_SUPABASE_DB_URL (production Postgres URI). Never VITE_*. Do not print the value." >&2
             exit 1
           fi
+          csv_count() {
+            supabase --output csv db query --db-url "$PRODUCTION_SUPABASE_DB_URL" "$1" \
+              | tail -n 1 \
+              | tr -d '\r[:space:]'
+          }
+          record_if_present() {
+            local version="$1"
+            local table="$2"
+            local tables hist_tables recorded
+            tables="$(csv_count "select count(*) from information_schema.tables where table_schema = 'public' and table_name = '${table}'")"
+            if [ "$tables" != "1" ]; then
+              echo "public.${table} not found; leaving ${version} for db push"
+              return 0
+            fi
+            hist_tables="$(csv_count "select count(*) from information_schema.tables where table_schema = 'supabase_migrations' and table_name = 'schema_migrations'")"
+            if [ "$hist_tables" = "1" ]; then
+              recorded="$(csv_count "select count(*) from supabase_migrations.schema_migrations where version = '${version}'")"
+              if [ "$recorded" != "0" ]; then
+                echo "${version} already recorded"
+                return 0
+              fi
+            fi
+            echo "Recording ${version} as applied (public.${table} already exists; no row changes)"
+            supabase migration repair --db-url "$PRODUCTION_SUPABASE_DB_URL" --status applied --yes "$version"
+          }
+          record_if_present 20260822150000 profiles
+          record_if_present 20260823190000 clients
+          record_if_present 20260823210000 products
           supabase db push --db-url "$PRODUCTION_SUPABASE_DB_URL" --yes
           echo "Applied supabase/migrations from main. Do not treat this as smoke PASSED." >> "$GITHUB_STEP_SUMMARY"
 
