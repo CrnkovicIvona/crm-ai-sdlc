@@ -34,12 +34,12 @@ not listed as product TDEs.
   RLS/audit: `tests/integration/clients-rls.test.ts` — 6 **PASSED**
   CI `456c9a2` (0 skipped). C008 match oracle still **BLOCKED**.
 - AUTH-001 DoR on Issue #5. CRM-001 Gate 1/2 in chat 2026-08-23; no
-  GitHub Issue. CRM-001 is **`ON_MAIN` — not `RELEASED`** (REL-004).
-  Automated DoD High met on `456c9a2`. Human QA on `test` 2026-08-24.
-  Production smoke **MISSING**.
+  GitHub Issue. CRM-001 is **`ON_MAIN` — not `RELEASED`** (REL-004;
+  REL-005 promotes apply-schema). Production smoke **MISSING**.
 - Phase 5/6: [test-reports/CRM-001.md](../test-reports/CRM-001.md),
   [test-reports/QA-CLOSEOUT-001.md](../test-reports/QA-CLOSEOUT-001.md).
 
 Release: [REL-001](../releases/REL-001.md), [REL-002](../releases/REL-002.md),
 [REL-003](../releases/REL-003.md) (`RELEASED`; smoke 5/5 PASS),
-[REL-004](../releases/REL-004.md) (`ON_MAIN` — not `RELEASED`).
+[REL-004](../releases/REL-004.md) (`ON_MAIN` — not `RELEASED`),
+[REL-005](../releases/REL-005.md) (promote `test`; smoke still not executed).

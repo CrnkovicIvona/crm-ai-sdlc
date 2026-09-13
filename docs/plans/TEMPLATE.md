@@ -28,7 +28,7 @@ Approved (`PLANNED`).
 
 | AC / TC | Automated test path (to be created) |
 | ------- | ----------------------------------- |
-|         |                                     |
+|         | one TC per row; do not group CRUD   |
 
 ## Security notes
 

@@ -15,4 +15,8 @@ The TS is not this plan. Name files, seed/out-of-band provisioning,
 migration **order**, test file paths. Do not contradict FS/TS. Do not
 invent requirements.
 
+Mapping table: **one row per TC** to an automated path. Do not map
+C003–C006 to a single Playwright `test()`. Follow
+`.cursor/skills/plan-tests/SKILL.md` (automation quality).
+
 Stop until the human approves. Then state is `PLANNED`.

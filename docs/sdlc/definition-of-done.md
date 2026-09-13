@@ -29,14 +29,16 @@ SKIPPED, NOT APPLICABLE, NOT EXECUTED, BLOCKED, and HEALING are never PASSED.
 - [ ] Human QA/acceptance for release
 - [ ] Human merge of the **release PR** to `main` (state `ON_MAIN` until smoke PASSES)
 - [ ] Deployment state **known** (production URL or recorded “not configured”)
-- [ ] Production smoke **PASSED**: `tests/smoke/` executed against the
-      production URL (`npm run test:smoke` or Production smoke
-      workflow) with a log. A markdown checklist alone is not PASSED.
+- [ ] Production smoke **PASSED**: workflow
+      `.github/workflows/production-smoke.yml` applied schema from
+      `main` then ran `tests/smoke/` against the production URL. Apply
+      alone is not PASSED. A markdown checklist alone is not PASSED.
       If smoke was not run or any case FAILED, state remains `ON_MAIN`.
       Do not call this `RELEASED`.
 - [ ] `sync-feature-docs` applied on `main` at `ON_MAIN` then at `RELEASED`
 - [ ] Traceability on `main` includes implementation paths, test execution, verification, release id
-- [ ] Docs on `main` match what shipped (REQ, FS, US, TS, feature README, roadmap, root README, REL)
+- [ ] Docs on `main` match what shipped (REQ, FS, US, TS, feature README, roadmap, REL)
+- [ ] Root `README.md` is a generic landing page per `.cursor/rules/readme.mdc` (capabilities and real paths; no increment `ON_MAIN`/`RELEASED` banners)
 - [ ] Release branch deleted **only after** successful sync into `test`
 
 The agent must not say `RELEASED`, Done, or “complete” unless every

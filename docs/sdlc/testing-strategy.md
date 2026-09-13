@@ -36,6 +36,13 @@ PASSED. SKIPPED ≠ PASSED.
 BVA; integration for RLS; e2e for use-case CRUD). Do not duplicate
 the full e2e pack as smoke.
 
+**Automation isolation:** one TC identifier maps to one runner case.
+Do not fold ADMIN create/update/delete or VIEWER allow/deny into a
+single Playwright or Vitest case. A later increment **adds** tests;
+it does not delete the previous pack (`heal` / CI green is not a
+reason to drop coverage). Missing application schema in credentialed
+e2e is **FAIL**, not SKIPPED.
+
 **Independence:** the implementing agent may draft TCs; High-risk
 features need a **human review of the P/N/E matrix** at DoR (Gate 1),
 not only of the code plan.

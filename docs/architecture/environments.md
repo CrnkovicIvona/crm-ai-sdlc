@@ -29,23 +29,31 @@ production deploy workflows until a later, approved phase.
 
 ## Agent rules
 
-- Do not apply migrations to production
-- Do not modify production data without explicit human authorization
-- Do not deploy production
+- Production schema: GitHub Actions
+  (`.github/workflows/production-smoke.yml` job `apply-schema`) using
+  secret `PRODUCTION_SUPABASE_DB_URL` and SQL on `main`. Missing secret
+  is FAIL, not SKIPPED. Do not print the URI. Do not paste SQL in the
+  Dashboard.
+- Non-prod Supabase: a human still applies SQL to the project they use
+  for local/QA unless that project is the same as production.
+- Do not modify production **row data** except via documented smoke
+  users
+- Do not deploy the production SPA (Vercel tracks `main`)
 - Do not invent connection strings
 
 ## Variables
 
 Documented in `.env.example` (names only):
 
-| Name                                       | Where                       | Purpose                                    |
-| ------------------------------------------ | --------------------------- | ------------------------------------------ |
-| `VITE_SUPABASE_URL`                        | Vite, Vercel                | Public Supabase URL                        |
-| `VITE_SUPABASE_ANON_KEY`                   | Vite, Vercel                | Public anon key (never service role)       |
-| `SMOKE_BASE_URL`                           | GitHub variable / local env | Production origin for `npm run test:smoke` |
-| `E2E_ADMIN_EMAIL` / `E2E_ADMIN_PASSWORD`   | GitHub secrets              | Documented ADMIN test user                 |
-| `E2E_VIEWER_EMAIL` / `E2E_VIEWER_PASSWORD` | GitHub secrets              | Documented VIEWER test user                |
-| `SUPABASE_SERVICE_ROLE_KEY`                | GitHub secrets (CI Vitest)  | Non-prod service role for RLS cleanup only |
+| Name                                       | Where                       | Purpose                                                |
+| ------------------------------------------ | --------------------------- | ------------------------------------------------------ |
+| `VITE_SUPABASE_URL`                        | Vite, Vercel                | Public Supabase URL                                    |
+| `VITE_SUPABASE_ANON_KEY`                   | Vite, Vercel                | Public anon key (never service role)                   |
+| `SMOKE_BASE_URL`                           | GitHub variable / local env | Production origin for `npm run test:smoke`             |
+| `E2E_ADMIN_EMAIL` / `E2E_ADMIN_PASSWORD`   | GitHub secrets              | Documented ADMIN test user                             |
+| `E2E_VIEWER_EMAIL` / `E2E_VIEWER_PASSWORD` | GitHub secrets              | Documented VIEWER test user                            |
+| `SUPABASE_SERVICE_ROLE_KEY`                | GitHub secrets (CI Vitest)  | Non-prod service role for RLS cleanup only             |
+| `PRODUCTION_SUPABASE_DB_URL`               | GitHub secret (Actions)     | Production Postgres URI for `db push` (never `VITE_*`) |
 
 Production smoke does not hardcode the Production URL in test files.
 Set `SMOKE_BASE_URL` (and GitHub Actions variable `SMOKE_BASE_URL` for
