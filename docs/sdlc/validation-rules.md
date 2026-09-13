@@ -62,7 +62,11 @@ PASS for `RELEASED`.
 17. Refuse to claim `RELEASED` or Done if **any** of the following is true:
     - specifications or feature README still `IN_QA` (or earlier) while
       code is on `main`
-    - roadmap or root README stale vs `main`
+    - roadmap stale vs `main` (increment state)
+    - root README not a landing page: missing sections from
+      `.cursor/rules/readme.mdc`, broken links, or live increment/CI
+      status dumped into `README.md` (root README must **not** be
+      used as a release dashboard)
     - traceability matrix missing implementation paths, test execution,
       or verification
     - release document missing

@@ -34,6 +34,25 @@ Templates: `docs/test-cases/TEMPLATE.md`, `docs/test-plans/TEMPLATE.md`.
   in FS; security review before later READY_FOR_PR.
 - After TCs, update traceability, then technical spec if missing.
 
+## Automation quality (for later implementation)
+
+When TCs are later automated under `PLANNED`, the implementation plan
+and `tests/` must follow this (same AC, no new oracles):
+
+- **One TC id → one automated case** (`test()` / `it()`). Do not
+  group CRUD or VIEWER read/search/deny into a single case. Setup
+  (create a row) may repeat per case.
+- Put P/N/E on the cheapest honest level (unit BVA, integration RLS,
+  e2e use-case). Do not copy the full e2e pack as smoke.
+- Missing schema or High-pack preconditions: **FAIL**, not skip-to-green.
+  Skip only documented secrets (`E2E_*` / `VITE_*`); skip ≠ pass.
+- BLOCKED oracles stay BLOCKED (do not invent search-match, copy, or
+  extra formats). A search **UI** case may exist without a match rule.
+- New increment: **add** TCs and files. Do not delete the prior pack
+  to pass CI. Regression **runs** the old pack (`risk-based-testing.md`).
+- Change to an approved AC updates BDD + that TC (`change-control.md`);
+  it is not permission to drop coverage.
+
 ## Done
 
 A human can see which tests will run, which are BLOCKED without an

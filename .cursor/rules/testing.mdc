@@ -9,6 +9,20 @@ alwaysApply: true
 - Vitest: unit and integration (when the application exists).
 - Playwright: e2e in `tests/e2e/` (local Vite). Production smoke in
   `tests/smoke/` against `SMOKE_BASE_URL` — not the same suite.
+- Live Vitest integration (`tests/integration/`) uses Supabase. Default
+  Vitest timeout is 5s. A CI **timeout** (not a failed `expect`) is
+  latency, not a skip. Raise `testTimeout` / `hookTimeout` for
+  integration in `vitest.config.ts` (keep assertions). Never
+  `skipIf`/delete tests to go green.
+- When GitHub CI fails on a branch this agent pushed, open the Actions
+  log, classify (timeout vs assertion vs Prettier vs secrets), and run
+  `heal` **in the same session**. Do not wait for the human to name the
+  job. Prettier / `format:check` FAIL → in the same turn, without
+  asking: `npm run format`, commit, push the PR branch, wait for a
+  **new** CI SHA. Playwright or Vitest `expect` FAIL → in the same
+  turn, without asking: run `heal` (fix harness or product, keep the
+  AC), commit, push, wait for a **new** SHA. Do not rerun the failed
+  job on the old SHA and do not weaken the CI job.
 - Never delete, skip, or weaken tests to pass CI.
 - Never report a test as passed unless it was actually executed and verifiable execution evidence exists (CI log, local command output, or a test report that cites that evidence).
 - Skipped tests are SKIPPED, never PASSED.
@@ -21,3 +35,6 @@ alwaysApply: true
   invented. SKIPPED (no secrets / job skipped) is also never PASSED.
   High-risk RLS/integration skip without secrets is **BLOCKED** for
   Gate 3 / DoD, not “done”.
+- One designed TC → one automated `test()`/`it()` (do not group CRUD).
+  New features add tests; do not delete the prior pack to go green.
+  Missing DB schema in e2e is FAIL, not SKIPPED.

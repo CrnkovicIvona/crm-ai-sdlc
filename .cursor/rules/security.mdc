@@ -9,8 +9,12 @@ alwaysApply: true
 - Never print secrets
 - Never bypass authn/authz, RLS, fail-closed missing-profile, or
   required audit recording in tests or code as a shortcut
-- Never modify production data or production schema without explicit human authorization
+- Never modify production data or production schema except:
+  production **schema** may be applied only by
+  `.github/workflows/production-smoke.yml` (SQL already on `main`,
+  secret `PRODUCTION_SUPABASE_DB_URL`). Agent must not paste SQL in
+  the Dashboard or print that URL.
 - Never disable branch protection, required checks, or secret scanning
-- Production deploy is not an agent action
+- Production **SPA deploy** is not an agent action (Vercel from `main`)
 - Follow `docs/sdlc/security-review.md` for security-sensitive changes
 - Report vulnerabilities per `SECURITY.md`
