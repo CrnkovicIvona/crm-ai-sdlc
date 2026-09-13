@@ -12,8 +12,10 @@ fix, return to `execute-tests` for the affected tests (or push and wait
 for CI when the failure was CI-only).
 
 When CI fails on a branch this agent owns, **start this skill without
-waiting for the human to ask**. Prettier FAIL is not a question: format,
-commit, and push in the same turn.
+waiting for the human to ask** — Prettier, Playwright, Vitest, ESLint,
+or timeout. Same turn: classify, remediate, commit, push a new SHA.
+Do not wait for the human to paste the log. If CI subscription failed,
+poll the PR checks once and still heal.
 
 ## Rules
 
@@ -33,13 +35,26 @@ Read the failed GitHub Actions job (or local runner) before editing.
 | Signal                                                                                                            | Meaning                                           | Remediation                                                                                                                                                       |
 | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `Test timed out in 5000ms` (or default timeout) on `tests/integration/` while other cases in the same file passed | Live Supabase round-trips exceeded Vitest default | Set integration `testTimeout` and `hookTimeout` to **at least 20s** in `vitest.config.ts` (project `integration`). Keep every `expect`. Do **not** `skipIf(true)` |
-| `expect(...)` / RLS row appeared when it should not                                                               | Product or policy vs AC                           | Fix `src/` or SQL **as planned**; do not loosen the test                                                                                                          |
+| Playwright / Vitest `expect(...)` failed (locator, toHaveText, RLS)                                               | Product, race in harness, or policy vs AC         | Follow **Assertion (CI)** below. Do **not** skip, delete, or loosen the AC                                                                                        |
 | Prettier / `format:check`                                                                                         | Formatting                                        | Follow **Prettier (CI)** below. Do **not** disable the job, add `continue-on-error`, or auto-commit from Actions                                                  |
 | Integration/e2e skipped, missing `VITE_SUPABASE_*` / `E2E_*` / `SUPABASE_SERVICE_ROLE_KEY`                        | Secrets                                           | **BLOCKED**; name the variables; skip ≠ pass                                                                                                                      |
 | Production smoke skipped on a docs PR                                                                             | Not a prod deploy                                 | SKIPPED; do not treat as PASSED                                                                                                                                   |
 
 Timeout is **not** an assertion failure. Do not “heal” it by deleting
 TC-C012–C019.
+
+## Assertion (CI)
+
+When **Playwright** or **Vitest** fails `expect` on a PR branch this
+agent owns:
+
+1. Read the job log (locator, expected, timeout, file:line).
+2. Classify: harness race (navigation before hydrate) vs product vs
+   missing secrets vs BLOCKED oracle. Do not invent AC.
+3. Smallest fix that preserves the AC (wait for loaded state; product
+   bug in `src/` / SQL as planned). Never `test.skip` to go green.
+4. Commit, push the PR branch, subscribe to CI or wait for the **new**
+   SHA. Do not `gh run rerun` the failed SHA.
 
 ## Prettier (CI)
 

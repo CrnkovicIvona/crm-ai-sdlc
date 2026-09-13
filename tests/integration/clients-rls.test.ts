@@ -108,11 +108,8 @@ describe.skipIf(!live)(
       expect(stillThere.data?.id).toBe(created.data!.id);
     });
 
-    it('TC-C013–C016 ADMIN CUD writes audit rows with required attributes', async () => {
+    async function adminInsertClient() {
       const admin = await signIn(adminEmail!, adminPassword!);
-      const service = createClient(url!, serviceKey!, {
-        auth: { persistSession: false, autoRefreshToken: false },
-      });
       const payload = uniqueClient();
       const created = await admin
         .from('clients')
@@ -120,14 +117,22 @@ describe.skipIf(!live)(
         .select('id, first_name')
         .single();
       expect(created.error).toBeNull();
-      const id = created.data!.id;
-      createdIds.push(id);
+      createdIds.push(created.data!.id);
+      return { admin, payload, id: created.data!.id };
+    }
 
+    function serviceClient() {
+      return createClient(url!, serviceKey!, {
+        auth: { persistSession: false, autoRefreshToken: false },
+      });
+    }
+
+    it('TC-C013 successful create is audited', async () => {
+      const { admin, payload, id } = await adminInsertClient();
       const { data: session } = await admin.auth.getUser();
       const actor = session.user?.id;
       expect(actor).toBeTruthy();
-
-      const afterCreate = await service
+      const afterCreate = await serviceClient()
         .from('client_audit_events')
         .select(
           'actor_id, action, entity, entity_id, occurred_at, previous_value, new_value',
@@ -136,17 +141,17 @@ describe.skipIf(!live)(
         .eq('action', 'CREATE')
         .maybeSingle();
       expect(afterCreate.error).toBeNull();
-      expect(afterCreate.data?.actor_id).toBe(actor);
-      expect(afterCreate.data?.entity).toBe('Client');
-      expect(afterCreate.data?.entity_id).toBe(id);
-      expect(afterCreate.data?.occurred_at).toBeTruthy();
-      expect(afterCreate.data?.previous_value).toBeNull();
+      expect(afterCreate.data?.action).toBe('CREATE');
       expect(afterCreate.data?.new_value).toMatchObject({
         id,
         first_name: payload.first_name,
         email: payload.email,
       });
+      expect(afterCreate.data?.previous_value).toBeNull();
+    });
 
+    it('TC-C014 update is audited with previous and new values', async () => {
+      const { admin, payload, id } = await adminInsertClient();
       const updated = await admin
         .from('clients')
         .update({ first_name: 'Updated' })
@@ -154,20 +159,23 @@ describe.skipIf(!live)(
         .select('id')
         .single();
       expect(updated.error).toBeNull();
-
-      const afterUpdate = await service
+      const afterUpdate = await serviceClient()
         .from('client_audit_events')
         .select('previous_value, new_value, action')
         .eq('entity_id', id)
         .eq('action', 'UPDATE')
         .maybeSingle();
+      expect(afterUpdate.data?.action).toBe('UPDATE');
       expect(afterUpdate.data?.previous_value).toMatchObject({
         first_name: payload.first_name,
       });
       expect(afterUpdate.data?.new_value).toMatchObject({
         first_name: 'Updated',
       });
+    });
 
+    it('TC-C015 successful delete is audited', async () => {
+      const { admin, id } = await adminInsertClient();
       const deleted = await admin
         .from('clients')
         .update({ deleted_at: new Date().toISOString() })
@@ -175,15 +183,36 @@ describe.skipIf(!live)(
         .select('id')
         .maybeSingle();
       expect(deleted.error).toBeNull();
-
-      const afterDelete = await service
+      const afterDelete = await serviceClient()
         .from('client_audit_events')
         .select('previous_value, new_value, action')
         .eq('entity_id', id)
         .eq('action', 'DELETE')
         .maybeSingle();
+      expect(afterDelete.data?.action).toBe('DELETE');
       expect(afterDelete.data?.new_value).toBeNull();
       expect(afterDelete.data?.previous_value).toMatchObject({ id });
+    });
+
+    it('TC-C016 audit record has required attributes', async () => {
+      const { admin, id } = await adminInsertClient();
+      const { data: session } = await admin.auth.getUser();
+      const actor = session.user?.id;
+      expect(actor).toBeTruthy();
+      const row = await serviceClient()
+        .from('client_audit_events')
+        .select(
+          'actor_id, action, entity, entity_id, occurred_at, previous_value, new_value',
+        )
+        .eq('entity_id', id)
+        .eq('action', 'CREATE')
+        .maybeSingle();
+      expect(row.error).toBeNull();
+      expect(row.data?.actor_id).toBe(actor);
+      expect(row.data?.entity).toBe('Client');
+      expect(row.data?.entity_id).toBe(id);
+      expect(row.data?.occurred_at).toBeTruthy();
+      expect(row.data?.action).toBe('CREATE');
     });
 
     it('TC-C017 authenticated users cannot update or delete audit rows', async () => {
@@ -279,7 +308,7 @@ describe.skipIf(!live)(
       expect(after.count ?? 0).toBe(before.count ?? 0);
     });
 
-    it('ADMIN may assign catalog products; VIEWER may not write client_products', async () => {
+    it('TC-C021 ADMIN may assign catalog products; VIEWER may not write client_products', async () => {
       const admin = await signIn(adminEmail!, adminPassword!);
       const viewer = await signIn(viewerEmail!, viewerPassword!);
       const payload = uniqueClient();
