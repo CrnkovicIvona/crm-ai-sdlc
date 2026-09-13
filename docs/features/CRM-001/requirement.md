@@ -2,9 +2,9 @@
 
 - Work item: CRM-001
 - Issue: **none** (see [issue-draft.md](issue-draft.md))
-- Status: **`ON_MAIN` — not `RELEASED`** (REL-004). Product +
-  ClientProduct + soft-delete are in scope. Human QA on `test`
-  2026-08-24. Production smoke not executed.
+- Status: **`RELEASED`** (REL-004 product; REL-005 smoke
+  [34753193389](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/34753193389)).
+  Human QA on `test` 2026-08-24. C008 match oracle still **BLOCKED**.
 - Owner (draft): Agent as BA
 - Owner (approve): Human PO/BA
 - Source: Human-approved CRM-001 business decisions (this task)
