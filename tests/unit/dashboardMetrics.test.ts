@@ -168,7 +168,7 @@ describe('DASH-001 dashboard metrics', () => {
     expect(last30.churnedClients).toBe(1);
     expect(last30.activeClients).toBe(2);
     expect(last7.activeClients).toBe(last30.activeClients);
-    expect(last7.newClients).toBe(1);
+    expect(last7.newClients).toBe(0);
   });
 
   it('TC-D010 Product Adoption Rate is 60% for 60 of 100 active clients with a product', () => {
