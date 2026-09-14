@@ -184,7 +184,11 @@ export function ClientFormPage() {
           {error}
         </p>
       ) : null}
-      {success ? <p data-testid="client-success">{success}</p> : null}
+      {success ? (
+        <p data-testid="client-success" role="status">
+          {success}
+        </p>
+      ) : null}
       <form
         className="crm-form-narrow"
         data-testid="client-form"
