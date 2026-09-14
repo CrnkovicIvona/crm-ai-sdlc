@@ -142,14 +142,33 @@ td {
   font-size: 1.1rem;
 }
 
-.crm-topbar nav {
+.crm-nav {
   flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.crm-topbar nav a {
-  margin-right: 0;
+.crm-nav a {
+  margin: 0;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--crm-border);
+  border-radius: 0.25rem;
+  background: var(--crm-surface);
+  color: var(--crm-text);
   text-decoration: none;
   font-weight: 600;
+}
+
+.crm-nav a:hover {
+  border-color: var(--crm-accent);
+}
+
+.crm-nav a.active {
+  background: var(--crm-accent);
+  border-color: var(--crm-accent);
+  color: #fff;
 }
 
 .crm-topbar [data-testid='user-role'] {
