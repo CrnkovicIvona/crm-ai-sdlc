@@ -1,9 +1,9 @@
 # DASH-001 test cases
 
 - Work item: DASH-001
-- Design status: **DESIGNED** (not executed)
-- Automation status: **not automated** (no `src/` / `tests/` this
-  pack). Planned paths below. One TC → one `it()` / `test()`.
+- Design status: **DESIGNED**
+- Automation status: **automated** (`tests/unit/dashboardMetrics.test.ts`,
+  `tests/e2e/dashboard.spec.ts`). Execution is separate from design.
 - C008 CRM search oracle remains **BLOCKED** (out of DASH-001).
 - Risk: High
 - Source: [bdd.md](bdd.md), [user-stories.md](user-stories.md)
@@ -12,7 +12,7 @@
 
 | TC       | AC      | Kind | Technique | Level    | Planned path                                                          |
 | -------- | ------- | ---- | --------- | -------- | --------------------------------------------------------------------- |
-| TC-D001  | AC-D001 | P    | use-case  | e2e      | `tests/e2e/dashboard.spec.ts` `TC-D001`                               |
+| TC-D001  | AC-D001 | P    | use-case  | e2e      | `tests/e2e/dashboard.spec.ts` `TC-D001-admin` / `TC-D001-viewer`      |
 | TC-D002  | AC-D002 | N    | decision  | e2e      | `tests/e2e/dashboard.spec.ts` `TC-D002`                               |
 | TC-D003  | AC-D003 | P    | EP        | unit     | `tests/unit/dashboardMetrics.test.ts` `TC-D003`                       |
 | TC-D004  | AC-D004 | E    | state     | unit     | same file `TC-D004`                                                   |
@@ -37,7 +37,8 @@ documented missing `E2E_*` / `VITE_*` (skip ≠ pass).
 - Kind: P — use-case — e2e — High
 - AC: AC-D001
 - Expected: `/app/dashboard` visible; no write controls
-- Automation: `not automated`
+- Automation: `tests/e2e/dashboard.spec.ts` `TC-D001-admin` /
+  `TC-D001-viewer`
 
 ## TC-D002 Unauthenticated
 
@@ -45,7 +46,7 @@ documented missing `E2E_*` / `VITE_*` (skip ≠ pass).
 - Kind: N — decision — e2e — High
 - AC: AC-D002
 - Expected: AUTH-001 login path; no KPI values
-- Automation: `not automated`
+- Automation: `tests/e2e/dashboard.spec.ts` `TC-D002`
 
 ## TC-D003–TC-D013 calculations
 
@@ -54,7 +55,7 @@ documented missing `E2E_*` / `VITE_*` (skip ≠ pass).
 - Expected: FS formulas (Active 8/10; New includes deleted-in-period;
   Churn Rate 5%; N/A cases; Net +14; adoption 60%; distinct products;
   deleted excluded)
-- Automation: `not automated`
+- Automation: `tests/unit/dashboardMetrics.test.ts` `TC-D003`–`TC-D013`
 
 ## TC-D014 Schema missing FAIL
 
@@ -62,7 +63,7 @@ documented missing `E2E_*` / `VITE_*` (skip ≠ pass).
 - Kind: N — e2e — High
 - Expected: dashboard cannot load expected data → test **FAILED**,
   not skipped
-- Automation: `not automated`
+- Automation: `tests/e2e/dashboard.spec.ts` `TC-D014`
 
 ## Production smoke (later release)
 

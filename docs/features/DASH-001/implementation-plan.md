@@ -6,19 +6,17 @@
 - Source: DoR chat 2026-09-13; [functional-spec.md](functional-spec.md);
   Cursor plan approved (“odobreno”)
 - Open questions: none blocking
-- Approval: **Draft for in-repo coding gate.** Metric contracts and
-  file names are those of the approved Cursor plan. **Do not create
-  `src/` or `tests/` until a human sets this file to Approved and
-  asks to implement** (execution gate: docs first).
+- Approval: **Approved** 2026-09-14 (human: implement DASH-001 now).
+  Metric contracts stay frozen. Status: **`IN_DEVELOPMENT`**. Not
+  `RELEASED`.
 - Traceability: [traceability.md](traceability.md)
 - Prerequisite: human DoR recorded 2026-09-13
-- Status: **Draft** (`READY` to plan; **not** `PLANNED` / coding)
+- Status: **Approved** (`PLANNED` / coding). Human approved 2026-09-14.
 
 This is **not** the FS or TS.
 
-When Approved, implementation belongs on
-`cursor/dash-001-dashboard-73b9` targeting `test`. Agent does not
-merge `main` or claim `RELEASED`.
+Implementation belongs on `cursor/dash-001-dashboard-73b9`
+targeting `test`. Agent does not merge `main` or claim `RELEASED`.
 
 ---
 
@@ -41,7 +39,7 @@ from the existing schema: **STOP**.
 
 ---
 
-## 3. Scope of code changes (names; coding not this PR)
+## 3. Scope of code changes
 
 | Add / change                          | Role                                                                             |
 | ------------------------------------- | -------------------------------------------------------------------------------- |
