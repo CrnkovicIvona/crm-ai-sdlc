@@ -23,12 +23,10 @@ Auth and Postgres with RLS
 ([AUTH-001 TS](docs/specifications/technical/AUTH-001.md)). Platform
 intent: [ADR-0001](docs/adr/0001-engineering-foundation.md).
 
-## Production live demo, try the app:
-[https://crm-ai-sdlc.vercel.app](https://crm-ai-sdlc.vercel.app)
+## 🚀 Try the Production App
 
-This README is the public landing page. Increment status and test
-evidence live in feature packs, the roadmap, Issues, and test reports
-— not as banners here.
+👉 **Live demo:** [https://crm-ai-sdlc.vercel.app](https://crm-ai-sdlc.vercel.app)
+
 
 ## Features
 
