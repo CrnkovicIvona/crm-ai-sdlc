@@ -4,8 +4,9 @@
 
 BankCRM is a **simple banking CRM practice/portfolio project**, not a
 production banking system. Staff sign in, then work with **clients**
-and catalog **products** (accounts, cards, and similar items). Access
-is enforced in the UI and in **PostgreSQL Row Level Security**.
+and catalog **products** (accounts, cards, and similar items), and
+open a **read-only dashboard** of those same records. Access is
+enforced in the UI and in **PostgreSQL Row Level Security**.
 
 The repository demonstrates an end-to-end, **AI-assisted SDLC**:
 product/business analysis, implementation, QA and test automation,
@@ -31,14 +32,15 @@ evidence live in feature packs, the roadmap, Issues, and test reports
 
 ## Features
 
-| Area                 | What it covers                                                                 | Specs                                                                                                      |
-| -------------------- | ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
-| Sign-in and session  | Email/password login, `/login` vs `/app`, ADMIN and VIEWER, logout             | [AUTH-001 FS](docs/specifications/functional/AUTH-001.md), [TS](docs/specifications/technical/AUTH-001.md) |
-| Clients and products | Client registry, products by type, soft-delete, RLS (ADMIN write, VIEWER read) | [CRM-001 FS](docs/features/CRM-001/functional-spec.md), [TS](docs/features/CRM-001/technical-spec.md)      |
+| Area                 | What it covers                                                                                   | Specs                                                                                                      |
+| -------------------- | ------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| Sign-in and session  | Email/password login, `/login` vs `/app`, ADMIN and VIEWER, logout                               | [AUTH-001 FS](docs/specifications/functional/AUTH-001.md), [TS](docs/specifications/technical/AUTH-001.md) |
+| Clients and products | Client registry, products by type, soft-delete, RLS (ADMIN write, VIEWER read)                   | [CRM-001 FS](docs/features/CRM-001/functional-spec.md), [TS](docs/features/CRM-001/technical-spec.md)      |
+| Dashboard            | Read-only `/app/dashboard` KPIs, charts, Clients by Product (existing tables; anon client + RLS) | [DASH-001 FS](docs/features/DASH-001/functional-spec.md), [TS](docs/features/DASH-001/technical-spec.md)   |
 
 Later increments are listed on the
-[product roadmap](docs/sdlc/roadmap.md). Do not assume a DASH-001 spec
-file exists until that directory is in the repo.
+[product roadmap](docs/sdlc/roadmap.md). Feature status lives there
+and in each pack, not as banners in this README.
 
 ## Architecture
 
@@ -52,14 +54,17 @@ Supabase Auth + PostgreSQL
 Postgres tables (see Database)
 ```
 
-The SPA talks to Supabase with the **anon** key. Authorization is
-**RLS in Postgres**, not only the UI.
+The SPA talks to Supabase with the **anon** key. Pages under `/app`
+(clients, dashboard) share that client. Authorization is **RLS in
+Postgres**, not only the UI. The dashboard does not use a service-role
+key and does not add tables.
 
 - [Architecture index](docs/architecture/README.md)
 - [Environments](docs/architecture/environments.md)
 - [Data model](docs/architecture/data-model.md)
 - RLS: [AUTH-001 TS](docs/specifications/technical/AUTH-001.md),
-  [CRM-001 TS](docs/features/CRM-001/technical-spec.md)
+  [CRM-001 TS](docs/features/CRM-001/technical-spec.md),
+  [DASH-001 TS](docs/features/DASH-001/technical-spec.md)
 - [Branching](docs/git/branching.md)
 
 ## Database
@@ -97,7 +102,10 @@ SQL in the Dashboard.
 .cursor/              always-on rules and on-demand skills
 .github/workflows/    ci.yml, production-smoke.yml, release-sync.yml
 docs/                 SDLC, features, architecture, tests, AI
-src/                  Vite React SPA
+src/auth/             session, RequireAuth / RequireAdmin
+src/lib/              Supabase client, clients, products, dashboard metrics
+src/pages/            login, app shell, clients, dashboard
+src/components/       shared UI (for example delete confirmation)
 supabase/migrations/  PostgreSQL + RLS
 tests/                Vitest (unit, rls) and Playwright (e2e, smoke)
 package.json
@@ -106,14 +114,14 @@ LICENSE
 README.md
 ```
 
-| Path                   | What it is                | How you use it                                                                        |
-| ---------------------- | ------------------------- | ------------------------------------------------------------------------------------- |
-| `src/`                 | UI, auth, data access     | Change only after `PLANNED`; add files named in the approved plan                     |
-| `supabase/migrations/` | Schema and RLS in git     | Commit SQL as planned; apply non-prod yourself; production via `production-smoke.yml` |
-| `tests/`               | Automated checks          | `npm test`, `npm run test:e2e`, `npm run test:smoke`                                  |
-| `docs/`                | Product and process truth | Specs and SDLC; not increment banners in this README                                  |
-| `.github/workflows/`   | CI and smoke              | Gates on PRs; Vercel builds production                                                |
-| `.cursor/`             | Rules and skills          | Rules always load; skills run when you invoke them                                    |
+| Path                   | What it is                   | How you use it                                                                        |
+| ---------------------- | ---------------------------- | ------------------------------------------------------------------------------------- |
+| `src/`                 | UI, auth, clients, dashboard | Change only after `PLANNED`; add files named in the approved plan                     |
+| `supabase/migrations/` | Schema and RLS in git        | Commit SQL as planned; apply non-prod yourself; production via `production-smoke.yml` |
+| `tests/`               | Automated checks             | `npm test`, `npm run test:e2e`, `npm run test:smoke`                                  |
+| `docs/`                | Product and process truth    | Specs and SDLC; not increment banners in this README                                  |
+| `.github/workflows/`   | CI and smoke                 | Gates on PRs; Vercel builds production                                                |
+| `.cursor/`             | Rules and skills             | Rules always load; skills run when you invoke them                                    |
 
 Extending `src/` or SQL is part of the documented process
 ([lifecycle](docs/sdlc/lifecycle.md)), not ad-hoc scaffolding.
@@ -282,7 +290,9 @@ npm run test:smoke    # Playwright against SMOKE_BASE_URL
 [test cases](docs/test-cases/),
 [test reports](docs/test-reports/),
 [CRM-001 test plan](docs/features/CRM-001/test-plan.md),
-[CRM-001 test cases](docs/features/CRM-001/test-cases.md).
+[CRM-001 test cases](docs/features/CRM-001/test-cases.md),
+[DASH-001 test plan](docs/features/DASH-001/test-plan.md),
+[DASH-001 test cases](docs/features/DASH-001/test-cases.md).
 
 A skipped test is not a passed test. There is no `docs/qa/`.
 

@@ -34,7 +34,9 @@ export async function submitLoginFromRoot(
 }
 
 export async function expectGenericAuthError(page: Page): Promise<void> {
-  await expect(page.getByTestId('login-error')).toHaveText(GENERIC_AUTH_ERROR);
+  await expect(page.getByTestId('login-error')).toHaveText(GENERIC_AUTH_ERROR, {
+    timeout: OUTCOME_TIMEOUT_MS,
+  });
 }
 
 /** Wait until login succeeds into the CRM shell, or fail with a specific cause. */

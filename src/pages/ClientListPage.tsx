@@ -93,7 +93,9 @@ export function ClientListPage() {
         ) : null}
       </div>
       {noticeFromState ? (
-        <p data-testid="client-success">{noticeFromState}</p>
+        <p data-testid="client-success" role="status">
+          {noticeFromState}
+        </p>
       ) : null}
       <label className="crm-search">
         Search
