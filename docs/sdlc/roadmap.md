@@ -5,11 +5,11 @@ agentic SDLC. GitHub + `docs/` are the source of truth.
 
 ## Increments (do not reorder)
 
-| ID       | Meaning                                                  | Spec location                                     | State                                                                 |
-| -------- | -------------------------------------------------------- | ------------------------------------------------- | --------------------------------------------------------------------- |
-| AUTH-001 | Login, roles, logout, fail-closed access                 | `docs/requirements/REQ-001.md` and AUTH-001 specs | **`RELEASED`** (REL-003; smoke 5/5 PASS)                              |
-| CRM-001  | Client + Product catalog + optional assign + soft-delete | [../features/CRM-001/](../features/CRM-001/)      | **`RELEASED`** (REL-004 on `main`; REL-005 smoke 7/7 PASS 2026-09-13) |
-| DASH-001 | Dashboard after Clients exist                            | [../features/DASH-001/](../features/DASH-001/)    | **`IN_DEVELOPMENT`** (plan approved 2026-09-14; not `RELEASED`)       |
+| ID       | Meaning                                                  | Spec location                                     | State                                                                               |
+| -------- | -------------------------------------------------------- | ------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| AUTH-001 | Login, roles, logout, fail-closed access                 | `docs/requirements/REQ-001.md` and AUTH-001 specs | **`RELEASED`** (REL-003; smoke 5/5 PASS)                                            |
+| CRM-001  | Client + Product catalog + optional assign + soft-delete | [../features/CRM-001/](../features/CRM-001/)      | **`RELEASED`** (REL-004 on `main`; REL-005 smoke 7/7 PASS 2026-09-13)               |
+| DASH-001 | Dashboard after Clients exist                            | [../features/DASH-001/](../features/DASH-001/)    | **`ON_MAIN`** after REL-006 merge; not `RELEASED` until production smoke **PASSED** |
 
 1. **AUTH-001** — **`RELEASED`**. Code is on `main` (REL-003). Production
    smoke 5/5 PASSED 2026-08-23 (`https://crm-ai-sdlc.vercel.app`; no
@@ -29,9 +29,10 @@ agentic SDLC. GitHub + `docs/` are the source of truth.
    `.cursor/skills/ui-ux-redesign/SKILL.md` and
    [../features/CRM-001/ui-ux-proposal.md](../features/CRM-001/ui-ux-proposal.md)
    (**Proposed** until PO selects). Not a new roadmap ID; not DASH-001.
-3. **DASH-001** — **`IN_DEVELOPMENT`**. Pack:
-   [../features/DASH-001/](../features/DASH-001/). Human DoR 2026-09-13.
-   Implementation plan **Approved** 2026-09-14. **Not** `RELEASED`.
+3. **DASH-001** — **`ON_MAIN`** after REL-006 human merge to `main`.
+   Pack: [../features/DASH-001/](../features/DASH-001/). Human DoR
+   2026-09-13. Coding approved 2026-09-14. READY_FOR_RELEASE: PO
+   2026-09-14. **Not** `RELEASED` until production smoke **PASSED**.
 
 Do not add Jira, Azure DevOps, Notion-as-truth, Datadog, paid IdP,
 GraphQL, Redux, microservices, extra REST APIs, or Next.js.

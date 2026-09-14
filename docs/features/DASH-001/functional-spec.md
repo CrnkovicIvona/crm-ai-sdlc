@@ -3,7 +3,8 @@
 - Work item: DASH-001
 - Requirement: [requirement.md](requirement.md)
 - Issue: none
-- Status: Specified (DoR 2026-09-13). Not implemented. Not `RELEASED`.
+- Status: **`ON_MAIN`** after REL-006 merge (DoR 2026-09-13). Not
+  `RELEASED` until production smoke **PASSED**.
 - Owner (draft): Agent as BA
 - Source: [decisions.md](decisions.md)
 - Open questions: none blocking

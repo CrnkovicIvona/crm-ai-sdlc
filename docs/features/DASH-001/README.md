@@ -2,8 +2,9 @@
 
 - Risk: **High** (reads Client/product tables under existing RLS; PII
   columns must not be fetched for KPIs)
-- State: **`IN_DEVELOPMENT`**. Plan approved 2026-09-14. Not
-  `RELEASED`. AUTH-001 and CRM-001 stay **`RELEASED`**.
+- State: **`ON_MAIN`** after REL-006 merge. Plan approved 2026-09-14.
+  Not `RELEASED` until production smoke **PASSED**. AUTH-001 and
+  CRM-001 stay **`RELEASED`**.
 - GitHub Issue: none (App/MCP). DoR + metric contracts accepted in
   chat 2026-09-13 (“odobreno” on the Cursor DASH-001 plan). Coding
   approved 2026-09-14.

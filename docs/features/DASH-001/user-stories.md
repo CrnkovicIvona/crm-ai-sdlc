@@ -3,7 +3,8 @@
 - Work item: DASH-001
 - Requirement: REQ-DASH-001
 - Functional specification: [functional-spec.md](functional-spec.md)
-- Status: Specified (DoR 2026-09-13)
+- Status: Specified (DoR 2026-09-13). Feature lifecycle **`ON_MAIN`**
+  after REL-006 merge; not `RELEASED`.
 - Traceability: [traceability.md](traceability.md)
 
 Do not add behaviour absent from the FS.

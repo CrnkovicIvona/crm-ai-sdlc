@@ -1,7 +1,8 @@
 # DASH-001 BDD
 
 - Work item: DASH-001
-- Status: DESIGNED (not executed)
+- Status: DESIGNED. Mapped e2e/unit **EXECUTED** on `test` CI.
+  Production smoke **NOT EXECUTED**.
 - Source: [user-stories.md](user-stories.md)
 
 ```gherkin

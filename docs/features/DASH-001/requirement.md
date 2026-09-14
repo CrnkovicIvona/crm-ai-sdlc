@@ -2,8 +2,8 @@
 
 - Work item: DASH-001
 - Issue: none
-- Status: **Specified** (DoR recorded in chat 2026-09-13). Not
-  implemented. Not `RELEASED`.
+- Status: **`ON_MAIN`** after REL-006 merge (DoR 2026-09-13). Not
+  `RELEASED` until production smoke **PASSED**.
 - Owner (draft): Agent as BA
 - Owner (approve): Human PO
 - Source: PO prompt DASH-001 CRM Dashboard; plan refinements 2026-09-13

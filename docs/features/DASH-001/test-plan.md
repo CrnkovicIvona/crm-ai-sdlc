@@ -3,10 +3,11 @@
 - Work item: DASH-001
 - Issue: none
 - Risk: **High**
-- Status of tests: **DESIGNED**. Not executed. Not PASSED.
+- Status of tests: **EXECUTED** on `test` CI (Vitest + Playwright).
+  Production smoke: **NOT EXECUTED**. Not `RELEASED`.
 - Owner (draft): Agent as QA
 - Approval: DoR 2026-09-13
-- Report: none yet
+- Report: [../../test-reports/DASH-001.md](../../test-reports/DASH-001.md)
 
 ## In scope
 
