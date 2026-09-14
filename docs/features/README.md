@@ -26,8 +26,9 @@ docs/features/<WORK-ITEM-ID>/
   implementation-plan.md   # after READY; Draft until human Approved
 ```
 
-CRM-001 uses this layout. Index rows still go in
-`docs/traceability/matrix.md`.
+CRM-001 and DASH-001 use this layout. Index rows still go in
+`docs/traceability/matrix.md`. DASH-001 is **`SPECIFIED`**
+([DASH-001/](DASH-001/)); not `RELEASED`.
 
 Templates: copy headings from `docs/requirements/TEMPLATE.md`,
 `docs/specifications/*/TEMPLATE.md`, `docs/decisions/TEMPLATE.md`,
