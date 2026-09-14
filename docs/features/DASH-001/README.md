@@ -2,15 +2,12 @@
 
 - Risk: **High** (reads Client/product tables under existing RLS; PII
   columns must not be fetched for KPIs)
-- State: **`SPECIFIED`** — docs pack. Not `IN_DEVELOPMENT`. Not
+- State: **`IN_DEVELOPMENT`**. Plan approved 2026-09-14. Not
   `RELEASED`. AUTH-001 and CRM-001 stay **`RELEASED`**.
 - GitHub Issue: none (App/MCP). DoR + metric contracts accepted in
-  chat 2026-09-13 (“odobreno” on the Cursor DASH-001 plan).
+  chat 2026-09-13 (“odobreno” on the Cursor DASH-001 plan). Coding
+  approved 2026-09-14.
 - Depends on: AUTH-001, CRM-001 (`RELEASED`)
-
-Do not implement `src/` or `tests/` until
-[implementation-plan.md](implementation-plan.md) is **Approved** and
-the human asks to code. Agent does not merge `main`.
 
 | Artifact            | File                                             |
 | ------------------- | ------------------------------------------------ |

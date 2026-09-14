@@ -6,6 +6,7 @@ import { AppShell } from './pages/AppShell';
 import { ClientDetailPage } from './pages/ClientDetailPage';
 import { ClientFormPage } from './pages/ClientFormPage';
 import { ClientListPage } from './pages/ClientListPage';
+import { DashboardPage } from './pages/DashboardPage';
 import { HomeRedirect } from './pages/HomeRedirect';
 import { LoginPage } from './pages/LoginPage';
 
@@ -40,6 +41,7 @@ export function App() {
             }
           >
             <Route index element={<Navigate to="clients" replace />} />
+            <Route path="dashboard" element={<DashboardPage />} />
             <Route path="clients" element={<ClientListPage />} />
             <Route
               path="clients/new"

@@ -10,6 +10,9 @@ export function AppShell() {
       <header className="crm-topbar">
         <h1>BankCRM</h1>
         <nav>
+          <Link data-testid="nav-dashboard" to="/app/dashboard">
+            Dashboard
+          </Link>
           <Link data-testid="nav-clients" to="/app/clients">
             Clients
           </Link>

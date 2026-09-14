@@ -14,12 +14,12 @@ Element → Implementation.
 | AUTH-001 [#5](https://github.com/CrnkovicIvona/crm-ai-sdlc/issues/5) | REQ-001, BD-005, BD-007 | FR-007, FR-008                 | US-004          | AC-006, AC-007         | [bdd/AUTH-001.md](../bdd/AUTH-001.md)                   | TC-005, TC-006         | TDE-003, TDE-004; [TS](../specifications/technical/AUTH-001.md)          | `src/lib/auth.ts`, `src/pages/AppShell.tsx`, `tests/e2e/auth.spec.ts`                                                                                                                                                                                                                                                          | High |
 | AUTH-001 [#5](https://github.com/CrnkovicIvona/crm-ai-sdlc/issues/5) | REQ-001, BD-008         | FR-013                         | US-002          | AC-012                 | [bdd/AUTH-001.md](../bdd/AUTH-001.md)                   | (none; unit)           | TDE-001, TD-008; [TS](../specifications/technical/AUTH-001.md)           | `src/lib/access.ts`, `src/pages/AccessDeniedPage.tsx`, `tests/unit/require-auth.test.ts`                                                                                                                                                                                                                                       | High |
 | CRM-001 (no Issue yet)                                               | REQ-CRM-001             | FR-C001–FR-C016                | US-C001–US-C007 | AC-C001–AC-C022        | [features/CRM-001/bdd.md](../features/CRM-001/bdd.md)   | TC-C001–TC-C022        | TDE-C001–TDE-C008; [TS](../features/CRM-001/technical-spec.md)           | `src/pages/ClientListPage.tsx`, `ClientFormPage.tsx`, `ClientDetailPage.tsx`, `src/lib/clients.ts`, `src/lib/products.ts`, `supabase/migrations/20260823190000_clients_and_audit.sql`, `supabase/migrations/20260823210000_products_and_soft_delete.sql`, `tests/e2e/clients.spec.ts`, `tests/integration/clients-rls.test.ts` | High |
-| DASH-001 (no Issue yet)                                              | REQ-DASH-001            | FR-D001–FR-D014                | US-D001–US-D004 | AC-D001–AC-D013        | [features/DASH-001/bdd.md](../features/DASH-001/bdd.md) | TC-D001–TC-D014        | TDE-D001–TDE-D004; [TS](../features/DASH-001/technical-spec.md)          | — (not implemented)                                                                                                                                                                                                                                                                                                            | High |
+| DASH-001 (no Issue yet)                                              | REQ-DASH-001            | FR-D001–FR-D014                | US-D001–US-D004 | AC-D001–AC-D013        | [features/DASH-001/bdd.md](../features/DASH-001/bdd.md) | TC-D001–TC-D014        | TDE-D001–TDE-D004; [TS](../features/DASH-001/technical-spec.md)          | `src/lib/dashboardMetrics.ts`, `src/lib/dashboard.ts`, `src/pages/DashboardPage.tsx`, `src/App.tsx`, `src/pages/AppShell.tsx`, `src/index.css`, `tests/unit/dashboardMetrics.test.ts`, `tests/e2e/dashboard.spec.ts` (`IN_DEVELOPMENT`; not `RELEASED`)                                                                        | High |
 
 Functional specification: [FS-AUTH-001](../specifications/functional/AUTH-001.md).
 CRM-001 pack: [../features/CRM-001/](../features/CRM-001/).
-DASH-001 pack: [../features/DASH-001/](../features/DASH-001/) (`SPECIFIED`;
-implementation empty).
+DASH-001 pack: [../features/DASH-001/](../features/DASH-001/) (`IN_DEVELOPMENT`;
+not `RELEASED`).
 Decisions (approved): [AUTH-001-decisions.md](../decisions/AUTH-001-decisions.md).
 Frontend ADR: [ADR-0002](../adr/0002-vite-react-typescript.md).
 
@@ -41,8 +41,8 @@ not listed as product TDEs.
   CI `9b7594d` (PR #34).
 - AUTH-001 DoR on Issue #5. CRM-001 Gate 1/2 in chat 2026-08-23; no
   GitHub Issue.
-- DASH-001 is **`SPECIFIED`** (docs pack 2026-09-13). Not implemented.
-  Verification **NOT EXECUTED**. Not `RELEASED`.
+- DASH-001 is **`IN_DEVELOPMENT`** (plan approved 2026-09-14). Not
+  `RELEASED`. Verification starts with the implementation PR.
 - Phase 5/6: [test-reports/CRM-001.md](../test-reports/CRM-001.md),
   [test-reports/QA-CLOSEOUT-001.md](../test-reports/QA-CLOSEOUT-001.md).
 
