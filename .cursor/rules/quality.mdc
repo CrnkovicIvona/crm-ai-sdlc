@@ -8,11 +8,15 @@ alwaysApply: true
 - Format with Prettier. Do not bypass `format:check` in CI. CI stays
   check-only. Do not auto-commit from Actions or add
   `continue-on-error` on the Prettier job.
-- When CI **Prettier** fails on a PR branch this agent owns, in the
-  **same turn**, without asking: `npm run format`, Conventional Commit
-  (`style: apply Prettier`), `git push` that branch (new SHA). Do not
-  wait for a human prompt. Do not `gh run rerun` the old SHA. Follow
-  `.cursor/skills/heal/SKILL.md`.
+- When CI **Prettier** fails on a PR this agent opened or last pushed
+  (including after a **human** GitHub conflict resolve / merge from
+  `test`), in the **same turn**, without asking: `npm run format`,
+  Conventional Commit (`style: apply Prettier`), `git push` that
+  branch (new SHA). Do not wait for the human to paste the log or to
+  say “format it”. Do not `gh run rerun` the old SHA. Follow
+  `.cursor/skills/heal/SKILL.md`. CI stays check-only (no
+  `--write` / auto-commit from Actions). Subscribe to CI on **each**
+  such PR head, not only the latest branch in the chat.
 - ESLint is required once application source exists. Until then, document the strategy; do not fake an app lint suite.
 - Conventional Commits are required.
 - Do not weaken GitHub Actions quality gates.

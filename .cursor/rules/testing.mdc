@@ -19,7 +19,8 @@ alwaysApply: true
   `heal` **in the same session**. Do not wait for the human to name the
   job. Prettier / `format:check` FAIL → in the same turn, without
   asking: `npm run format`, commit, push the PR branch, wait for a
-  **new** CI SHA. Playwright or Vitest `expect` FAIL → in the same
+  **new** CI SHA. Same if the failing SHA is a human GitHub conflict
+  resolve on a PR this agent opened. Playwright or Vitest `expect` FAIL → in the same
   turn, without asking: run `heal` (fix harness or product, keep the
   AC), commit, push, wait for a **new** SHA. Do not rerun the failed
   job on the old SHA and do not weaken the CI job.
