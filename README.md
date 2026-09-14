@@ -4,8 +4,9 @@
 
 BankCRM is a **simple banking CRM practice/portfolio project**, not a
 production banking system. Staff sign in, then work with **clients**
-and catalog **products** (accounts, cards, and similar items). Access
-is enforced in the UI and in **PostgreSQL Row Level Security**.
+and catalog **products** (accounts, cards, and similar items), and
+open a **read-only dashboard** of those same records. Access is
+enforced in the UI and in **PostgreSQL Row Level Security**.
 
 The repository demonstrates an end-to-end, **AI-assisted SDLC**:
 product/business analysis, implementation, QA and test automation,
@@ -35,10 +36,11 @@ evidence live in feature packs, the roadmap, Issues, and test reports
 | -------------------- | ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Sign-in and session  | Email/password login, `/login` vs `/app`, ADMIN and VIEWER, logout             | [AUTH-001 FS](docs/specifications/functional/AUTH-001.md), [TS](docs/specifications/technical/AUTH-001.md) |
 | Clients and products | Client registry, products by type, soft-delete, RLS (ADMIN write, VIEWER read) | [CRM-001 FS](docs/features/CRM-001/functional-spec.md), [TS](docs/features/CRM-001/technical-spec.md)      |
+| Dashboard            | Read-only `/app/dashboard` KPIs and charts from existing client/product tables | [DASH-001 FS](docs/features/DASH-001/functional-spec.md), [TS](docs/features/DASH-001/technical-spec.md)   |
 
 Later increments are listed on the
-[product roadmap](docs/sdlc/roadmap.md). Do not assume a DASH-001 spec
-file exists until that directory is in the repo.
+[product roadmap](docs/sdlc/roadmap.md). Feature status lives there
+and in each pack, not as banners in this README.
 
 ## Architecture
 
@@ -59,7 +61,8 @@ The SPA talks to Supabase with the **anon** key. Authorization is
 - [Environments](docs/architecture/environments.md)
 - [Data model](docs/architecture/data-model.md)
 - RLS: [AUTH-001 TS](docs/specifications/technical/AUTH-001.md),
-  [CRM-001 TS](docs/features/CRM-001/technical-spec.md)
+  [CRM-001 TS](docs/features/CRM-001/technical-spec.md),
+  [DASH-001 TS](docs/features/DASH-001/technical-spec.md)
 - [Branching](docs/git/branching.md)
 
 ## Database
@@ -282,7 +285,9 @@ npm run test:smoke    # Playwright against SMOKE_BASE_URL
 [test cases](docs/test-cases/),
 [test reports](docs/test-reports/),
 [CRM-001 test plan](docs/features/CRM-001/test-plan.md),
-[CRM-001 test cases](docs/features/CRM-001/test-cases.md).
+[CRM-001 test cases](docs/features/CRM-001/test-cases.md),
+[DASH-001 test plan](docs/features/DASH-001/test-plan.md),
+[DASH-001 test cases](docs/features/DASH-001/test-cases.md).
 
 A skipped test is not a passed test. There is no `docs/qa/`.
 
