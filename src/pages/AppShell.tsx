@@ -1,4 +1,4 @@
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
 
 export function AppShell() {
@@ -9,13 +9,13 @@ export function AppShell() {
     <div data-testid="crm-shell">
       <header className="crm-topbar">
         <h1>BankCRM</h1>
-        <nav>
-          <Link data-testid="nav-dashboard" to="/app/dashboard">
+        <nav className="crm-nav">
+          <NavLink data-testid="nav-dashboard" to="/app/dashboard">
             Dashboard
-          </Link>
-          <Link data-testid="nav-clients" to="/app/clients">
+          </NavLink>
+          <NavLink data-testid="nav-clients" to="/app/clients">
             Clients
-          </Link>
+          </NavLink>
         </nav>
         <p data-testid="user-role">{role}</p>
         {role === 'ADMIN' ? (
