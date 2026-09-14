@@ -11,11 +11,23 @@ description: Diagnose test or CI failures and remediate without weakening qualit
 fix, return to `execute-tests` for the affected tests (or push and wait
 for CI when the failure was CI-only).
 
-When CI fails on a branch this agent owns, **start this skill without
-waiting for the human to ask** — Prettier, Playwright, Vitest, ESLint,
-or timeout. Same turn: classify, remediate, commit, push a new SHA.
-Do not wait for the human to paste the log. If CI subscription failed,
-poll the PR checks once and still heal.
+When CI fails on a PR this agent opened or last pushed, **start this
+skill without waiting for the human to ask** — Prettier, Playwright,
+Vitest, ESLint, or timeout. Same turn: classify, remediate, commit,
+push a new SHA. Do not wait for the human to paste the log.
+
+This includes a failing SHA the **human** produced (GitHub **Resolve
+conflicts**, Update branch, or merge from `test`). Ownership is the
+PR/head this agent opened or last pushed, not “only commits I
+authored”. Subscribe to CI on **each** of those heads when the PR is
+opened, not only the newest chat branch.
+
+If the CI event arrives while the session is Ask/read-only: do not
+pretend the gate passed. The next Agent/cloud turn on that failure
+must heal immediately (no extra “please format” prompt). Ask mode
+still cannot push.
+
+If CI subscription failed, poll the PR checks once and still heal.
 
 ## Rules
 
@@ -59,7 +71,8 @@ agent owns:
 ## Prettier (CI)
 
 When the **Prettier** job fails (`npm run format:check` in
-`.github/workflows/ci.yml`):
+`.github/workflows/ci.yml`), including after a human conflict resolve
+on this agent’s PR:
 
 1. Read the log for `Code style issues found in` (file list).
 2. Run `npm run format` locally (same Prettier scope as CI; do not
