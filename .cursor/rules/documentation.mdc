@@ -11,7 +11,10 @@ lifecycle).
 - `.cursor/rules/` = constraints
 - Root `README.md` = GitHub landing page (`.cursor/rules/readme.mdc`); not increment status
 - `.cursor/skills/` = procedures; start with `feature-orchestrator`
-- `docs/sdlc/` = lifecycle, DoR, DoD, risk, artifacts, change-control, roadmap
+- `docs/sdlc/` = lifecycle, DoR, DoD, risk, artifacts, change-control,
+  roadmap, exploratory-qa
+- `docs/test-reports/` = planned-suite reports and EXP-YYYYMMDD
+  exploratory sessions (not `docs/qa/`)
 - `docs/product/` = product truth pointers
 - `docs/features/<ID>/` = **new** feature packs (CRM-001+)
 - AUTH-001 stays on existing `docs/requirements|specifications|user-stories|bdd|test-*|decisions` paths

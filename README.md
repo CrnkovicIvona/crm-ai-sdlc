@@ -159,7 +159,7 @@ Skills on disk: `feature-orchestrator`, `analyze-requirements`,
 `author-decisions`, `author-adr`, `plan-implementation`, `plan-tests`,
 `execute-tests`, `report-tests`, `review-code`, `prepare-pr`,
 `sync-feature-docs`, `release-and-verify`, `manage-bugs`, `heal`,
-`ui-ux-redesign`.
+`ui-ux-redesign`, `exploratory-qa-expert`.
 
 Skills do **not** start by themselves. They are not a cron or
 background workflow.
