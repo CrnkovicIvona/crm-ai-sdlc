@@ -41,7 +41,8 @@ BankCRM is a simple professional CRM. Source of truth is GitHub +
 Requirements, functional and technical specifications, decision logs
 (as Proposed), stories, AC, BDD, test design, implementation plans
 (after Ready), coding (after PLANNED), tests, execution, evidence,
-healing, reports, review, commits, PRs to `test`, recording
+healing, reports, review, exploratory QA (EXP reports; not a QA gate),
+commits, PRs to `test`, recording
 production apply+smoke from Actions (not merging `main`).
 
 ## Evidence

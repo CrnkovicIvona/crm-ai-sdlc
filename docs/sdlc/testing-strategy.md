@@ -47,8 +47,11 @@ e2e is **FAIL**, not SKIPPED.
 features need a **human review of the P/N/E matrix** at DoR (Gate 1),
 not only of the code plan.
 
-**Experience-based:** optional exploratory charter on Preview (time-boxed)
-does not replace scripted TCs and is not PASSED without a human log.
+**Experience-based:** optional exploratory session
+([exploratory-qa.md](exploratory-qa.md), skill
+`exploratory-qa-expert`) via Playwright MCP. It does not replace
+scripted TCs, is not GitHub Actions, and is not PASSED without a
+human log. MCP clicks are not `TC-###` PASSED.
 
 ## Quality bar
 
