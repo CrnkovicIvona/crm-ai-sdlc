@@ -1,16 +1,29 @@
-# Exploratory session: EXP-YYYYMMDD
+# Exploratory QA Report — YYYY-MM-DD
+
+## Context
 
 - Session:
-- Date:
-- Tester / agent:
-- Environment: Local Vite | Preview | Production
-- URL:
-- Role(s): unauthenticated | VIEWER | ADMIN
-- Charter:
-- Oracle:
-- Risk focus:
-- Browser tool: Playwright MCP (`browser_*`) | BLOCKED | other (name it)
+- Date/time:
+- Tester/agent: Cursor Agent (`exploratory-qa-expert`)
+- Source branch:
+- Environment: Production
+- Live URL: https://crm-ai-sdlc.vercel.app/
+- Backend: Production Supabase
+- Database: Production database
+- Browser tool: Playwright MCP (`browser_*`) | computer-use fallback | other (name it)
+- Playwright MCP: available | unavailable
+- Scope:
 - Product code modified: **No**
+
+Identities (no passwords):
+
+- VIEWER: authenticated using the application's documented test-user
+  mechanism. | not used (reason)
+- ADMIN: authenticated using the application's documented test-user
+  mechanism. | not used (reason)
+
+Do not treat missing `E2E_*` as a blocker when the login-page
+`test-users` aside is available.
 
 ## Charter
 
@@ -18,39 +31,45 @@
 
 ```
 
+## Oracle
+
+- AUTH:
+- CRM: (C008 BLOCKED unless docs change)
+- DASH:
+- Risk/lifecycle:
+
 ## Coverage
 
-| Area           | Role | Status                                                 | Notes |
-| -------------- | ---- | ------------------------------------------------------ | ----- |
-| Authentication |      | Explored / Partially explored / Blocked / Not explored |       |
-| CRM            |      |                                                        |       |
-| Dashboard      |      |                                                        |       |
+Per area and role. Status only: Explored, Partial, Blocked, Not
+explored, N/A.
 
-Status values only: Explored, Partially explored, Blocked, Not
-explored.
+Do not label the whole session “Partially explored” because one area
+is blocked.
 
-## Happy path
+| Area             | Unauthenticated | VIEWER | ADMIN | Status / notes |
+| ---------------- | --------------- | ------ | ----- | -------------- |
+| Authentication   |                 |        |       |                |
+| Authorization    |                 |        |       |                |
+| CRM list         |                 |        |       |                |
+| CRM detail       |                 |        |       |                |
+| CRM create       | N/A             |        |       |                |
+| CRM edit         | N/A             |        |       |                |
+| CRM delete       | N/A             |        |       |                |
+| Dashboard        |                 |        |       |                |
+| Session / logout |                 |        |       |                |
+| Messy paths      |                 |        |       |                |
 
-## Messy paths
-
-| Messy path                             | Status            | Result / reason if not tried |
-| -------------------------------------- | ----------------- | ---------------------------- |
-| Interrupt form + Back                  | Tried / Not tried |                              |
-| Refresh after Save                     |                   |                              |
-| Double Save / submit                   |                   |                              |
-| Browser Back / Forward                 |                   |                              |
-| Dirty / stale / extra tab              |                   |                              |
-| Partial / Cancel                       |                   |                              |
-| Role leftover (logout then other role) |                   |                              |
-| Empty / large / dashboard period       |                   |                              |
-| Direct URL (unauth / VIEWER / ADMIN)   |                   |                              |
-
-“Not tried” without a reason is incomplete.
+C008 search: Blocked — requirement remains BLOCKED (not a product
+blocker for the rest of the session).
 
 ## Findings
 
 Classify each as BUG, IMP, QUESTION, or OBSERVATION. Do not mark
 TC-### PASSED.
+
+The login-page `test-users` aside is **intended** for this practice
+app. Do not file it as a security BUG. If AUTH FS/TS are silent,
+optional QUESTION only.
 
 ### BUG
 
@@ -62,23 +81,48 @@ TC-### PASSED.
 
 ### OBSERVATION
 
+## Messy Paths
+
+| Path            | Tried | Result | Finding |
+| --------------- | ----- | ------ | ------- |
+| Refresh         |       |        |         |
+| Double Save     |       |        |         |
+| Back/Forward    |       |        |         |
+| Dirty state     |       |        |         |
+| Cancel          |       |        |         |
+| Partial input   |       |        |         |
+| Role transition |       |        |         |
+| Empty state     |       |        |         |
+| Large input     |       |        |         |
+| Direct URL      |       |        |         |
+
+If not tried, give a precise reason (for example `Not tried —
+production data safety`). Never invent a result.
+
+## Not Explored / Blocked
+
+Distinguish **Blocked** (external constraint, e.g. C008) from **Not
+explored** (intentional, e.g. delete of a non-test client).
+
 ## Evidence
 
-Steps, screenshots/snapshots (paths), console/network notes. No
-secrets.
+Steps, URLs, roles, screenshots/snapshots (paths), console/network
+notes. No secrets or passwords.
 
 ## Confidence
 
-High / Medium / Low — and why.
+High / Medium / Low — per important finding, not as severity.
 
-## Areas not explored
-
-## Blockers
-
-## Follow-up charters
+## Follow-Up Recommendations
 
 ## Bugs promoted
 
 | Session id | `docs/bugs/`    |
 | ---------- | --------------- |
 | BUG-S1-01  | BUG-### or none |
+
+## Human QA Gate
+
+Final approval: HUMAN QA REQUIRED
+
+Human QA gate remains required.

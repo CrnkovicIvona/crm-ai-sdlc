@@ -12,4 +12,4 @@ Exploratory sessions (Playwright MCP, not CI): [EXP-TEMPLATE.md](EXP-TEMPLATE.md
 - [QA-CLOSEOUT-001](QA-CLOSEOUT-001.md) — Phase 6; human QA on `test` 2026-08-24; CRM-001 **`RELEASED`** after REL-005 smoke
 - [ISTQB-QA-REVIEW](ISTQB-QA-REVIEW.md) — Phase 55+66; RLS **PASSED** CI `456c9a2`; C008 oracle still BLOCKED
 - [EXP-2026-09-15](EXP-2026-09-15.md) — skill install; live UI **BLOCKED** (no Playwright MCP in that run)
-- [EXP-2026-09-16](EXP-2026-09-16.md) — Production unauth + VIEWER read-only at crm-ai-sdlc.vercel.app (computer-use fallback; Playwright MCP still not connected)
+- [EXP-2026-09-16](EXP-2026-09-16.md) — Production unauth + VIEWER (charter later expanded: ADMIN + login-page test users are in default scope; see [exploratory-qa.md](../sdlc/exploratory-qa.md))

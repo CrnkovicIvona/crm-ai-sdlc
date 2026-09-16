@@ -49,9 +49,12 @@ not only of the code plan.
 
 **Experience-based:** optional exploratory session
 ([exploratory-qa.md](exploratory-qa.md), skill
-`exploratory-qa-expert`) via Playwright MCP. It does not replace
-scripted TCs, is not GitHub Actions, and is not PASSED without a
-human log. MCP clicks are not `TC-###` PASSED.
+`exploratory-qa-expert`) via a real browser (Playwright MCP, or
+computer-use fallback). Default target is live Production. Login-page
+`test-users` identities are intended for this practice app; `E2E_*`
+are not required for EXP. It does not replace scripted TCs, is not
+GitHub Actions, and is not PASSED without a human log. Browser clicks
+are not `TC-###` PASSED.
 
 ## Quality bar
 

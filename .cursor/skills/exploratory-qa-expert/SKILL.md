@@ -1,53 +1,150 @@
 ---
 name: exploratory-qa-expert
-description: Manually explore and test the BankCRM application through Playwright MCP, focusing on risk-based exploratory testing, messy paths, UX issues, defects, evidence, and actionable findings. Creates exploratory session reports and confirmed bug records without modifying product code or approving QA/release gates.
+description: Expert exploratory QA skill for BankCRM. Investigates the live application through a real browser, using repository documentation as the product oracle. Covers unauthenticated, VIEWER, and ADMIN behavior, including safe authenticated write paths, authorization, RLS-sensitive behavior, dashboard behavior, UX, messy paths, and production-safety boundaries. Produces evidence-based exploratory reports, promotes confirmed defects through manage-bugs, and preserves the human QA approval gate.
 ---
 
-# Exploratory QA Expert
+# Exploratory QA Expert — BankCRM
 
-## Purpose
+## 1. Purpose
 
-You are the **Exploratory QA Expert** for the BankCRM project.
+This skill performs **exploratory quality assurance of the BankCRM
+application through a real browser**.
 
-Your job is to investigate the live application as a skilled human
-tester would:
+It is an agent-mode investigation skill.
 
-- explore the UI and user flows;
-- validate behavior against the repository's specifications and
-  acceptance criteria;
-- investigate unexpected behavior;
-- deliberately test non-happy-path and messy scenarios;
-- inspect browser console and network behavior when useful;
-- identify bugs, UX/product improvement opportunities, questions, and
-  observations;
-- collect reproducible evidence;
-- create an exploratory session report;
-- promote confirmed defects through the existing `manage-bugs`
-  process.
+The goal is to discover functional defects, authorization and
+role-boundary defects, state and lifecycle problems, UI/UX
+inconsistencies, validation problems, data integrity problems,
+session/authentication problems, dashboard inconsistencies,
+error-handling problems, edge cases, problems revealed by interrupted
+or non-happy paths, and opportunities for product and UX improvement.
 
-This skill is an **exploratory investigation layer** of the existing
-BankCRM QA/SDLC process.
+The skill must reason from the application's documented requirements
+and actual observed behavior.
 
-It does **not** replace scripted E2E/smoke tests, formal QA approval,
-release gates, or implementation work.
+The repository documentation is the product oracle.
 
-# 1. Mandatory BankCRM Rules
+The live application is the system under test.
 
-Before exploring the application, understand and respect these rules.
+The human remains the final QA decision-maker.
 
-## 1.1 Source of truth
+BankCRM is a **practice / portfolio** CRM. Anyone may log in with the
+identities that the application **intentionally** shows on the login
+page `test-users` aside. That is the documented exploratory identity
+mechanism. It is not a missing-secret blocker and not a production
+hygiene BUG.
 
-The repository documentation is the primary oracle for expected
-product behavior.
+## 2. Core BankCRM Rules
 
-Do not invent requirements, business rules, fields, roles, routes,
-calculations, permissions, or acceptance criteria.
+These rules are mandatory.
 
-Use the relevant documentation before judging behavior.
+1. Do not invent acceptance criteria.
+2. Do not invent undocumented product behavior.
+3. Do not modify `src/`.
+4. Do not modify migrations or database schema.
+5. Do not silently modify functional specifications.
+6. Do not silently modify approved acceptance criteria.
+7. Do not create `docs/qa/`.
+8. Do not create a new QA process.
+9. Do not replace the human QA gate.
+10. Do not treat automated test success as proof that exploratory
+    testing passed.
+11. Do not treat exploratory testing as scripted E2E execution.
+12. Use the real browser for live application exploration.
+13. Use repository documentation as the oracle.
+14. Record actual evidence for findings.
+15. Distinguish BUG, IMP, QUESTION, and OBSERVATION.
+16. Use `manage-bugs` for confirmed defects.
+17. Keep UX proposals separate from confirmed defects.
+18. C008 remains BLOCKED unless the repository documentation
+    explicitly changes its status.
+19. Never expose passwords or secrets in reports (even though the
+    login page shows them).
+20. Production safety rules always apply (safe writes ≠ damage real
+    business data).
 
-Important BankCRM oracles include:
+## 3. System Under Test
 
-### Lifecycle and human approval
+The live application is currently hosted at:
+
+`https://crm-ai-sdlc.vercel.app/`
+
+Conceptually:
+
+```text
+Current Git branch
+        ↓
+Application deployed/live at production URL
+        ↓
+Production backend
+        ↓
+Production Supabase
+        ↓
+Production database
+```
+
+The **Git branch identifies the source code/version being
+investigated**.
+
+The live environment is **Production**.
+
+Do not assume that Local, Preview, Staging, or another environment
+exists merely because generic environment documentation mentions them.
+
+If the repository explicitly documents another available environment,
+it may be investigated only when the invocation specifically requests
+it.
+
+Default exploratory testing targets the live production application.
+
+## 4. Branch-Aware Testing
+
+Before browser exploration, identify the current source branch when
+repository tooling makes this available.
+
+Record:
+
+- source branch
+- live URL
+- live environment
+- backend
+- database/environment boundary
+- browser tool used
+
+Example:
+
+```text
+Application source: cursor/exploratory-qa-skill-73b9
+Application environment: Production
+Backend: Production Supabase
+Database: Production database
+Live URL: https://crm-ai-sdlc.vercel.app/
+Browser tool: Playwright MCP
+```
+
+The branch is the code context being investigated.
+
+The fact that the browser points to Production does not make the
+branch irrelevant.
+
+Do not claim that the live deployment contains the current branch's
+changes unless deployment evidence confirms this.
+
+If the task explicitly requires testing the currently deployed
+production application, test the deployed application as it exists.
+
+If the task explicitly requires testing a branch deployment and no
+such deployment exists, report the mismatch as a blocker.
+
+## 5. Product Oracle
+
+Before making substantive product judgments, inspect the relevant
+repository documentation.
+
+Use the smallest relevant set of documents necessary to establish the
+expected behavior.
+
+### Lifecycle
 
 - `docs/sdlc/lifecycle.md`
 - `docs/sdlc/human-approval.md`
@@ -57,894 +154,687 @@ Important BankCRM oracles include:
 - `docs/sdlc/risk-model.md`
 - `docs/sdlc/risk-based-testing.md`
 
-### Authentication
+### AUTH-001
 
 - `docs/specifications/functional/AUTH-001.md`
 - `docs/specifications/technical/AUTH-001.md`
 - `docs/decisions/AUTH-001-decisions.md`
 
-### CRM
+### CRM-001
 
-- `docs/features/CRM-001/` (functional specification, acceptance
-  criteria, BDD, test cases)
+Use `docs/features/CRM-001/`.
 
-If a CRM requirement is explicitly marked as blocked or undefined, do
-not invent expected behavior. C008 search-match is **BLOCKED**.
+C008 is BLOCKED. Do not invent search-match behavior, acceptance
+criteria, or expected implementation for C008.
 
-### Dashboard
+If the UI suggests behavior that cannot be validated because C008
+remains BLOCKED:
 
-- `docs/features/DASH-001/`
+```text
+QUESTION
+TBD — HUMAN DECISION REQUIRED
+```
 
-Use the documented/frozen dashboard metrics and formulas as the
-oracle.
+Do not create a bug merely because a blocked requirement cannot be
+tested.
 
-For VIEWER behavior, verify against the documented RLS/data-access
-behavior rather than assuming that the UI alone defines the expected
-result. Churned / opening / created-then-deleted New for VIEWER use
-only rows RLS returns.
+### DASH-001
 
-# 2. What This Skill Is and Is Not
+Use `docs/features/DASH-001/`.
 
-## This skill IS
+Dashboard metrics are frozen according to the documented feature
+specification.
 
-- agent-mode exploratory testing;
-- live UI investigation;
-- risk-based exploration;
-- exploratory testing of happy and unhappy paths;
-- deliberate messy-path testing;
-- visual and interaction inspection;
-- investigation of browser console/network behavior;
-- defect discovery;
-- UX/product observation;
-- evidence collection;
-- exploratory reporting.
+For VIEWER dashboard behavior, interpret returned data according to
+the documented RLS model.
 
-## This skill IS NOT
+Do not assume that dashboard metrics represent unrestricted database
+totals when RLS intentionally limits the rows returned to the
+authenticated user.
 
-- `execute-tests`;
-- the Playwright test runner;
-- a replacement for `npm run test:e2e`;
-- a replacement for `npm run test:smoke`;
-- a formal QA approval gate;
-- a release approval mechanism;
-- an implementation/healing skill;
-- a source-code refactoring skill;
-- a new SDLC process;
-- a roadmap-generation mechanism.
+Do not call a metric a BUG merely because it differs from an
+unrestricted database count.
 
-Never claim that a manual MCP interaction caused a planned test case
-to become `PASSED`.
+## 6. Browser Access
 
-A scripted test and an exploratory observation are different types of
-evidence.
+Use Playwright MCP `browser_*` tools when available.
 
-# 3. Product Write Boundary
+The browser is the primary instrument for exploratory investigation.
 
-The default product behavior of this skill is **read-only**.
+Do not install `@playwright/mcp` into the project.
 
-You may write only:
+Do not modify the repository merely to make browser exploration
+possible.
 
-- exploratory reports under `docs/test-reports/`;
-- confirmed bug records under `docs/bugs/`;
-- optional UX proposal content explicitly marked as **Proposed**.
+## 7. Browser Fallback
 
-Do not modify:
+If Playwright MCP is unavailable, use the available approved
+browser/computer-use capability if possible.
 
-- `src/`;
-- database migrations;
-- application configuration;
-- approved functional specifications;
-- acceptance criteria;
-- BDD scenarios;
-- approved test cases;
-- production data;
-- security configuration.
+A fallback browser is valid for exploratory investigation.
 
-Implementation must be requested separately by a human and performed
-through the appropriate development workflow.
+Do not automatically mark the session as failed because Playwright
+MCP is unavailable.
 
-# 4. Before the First Browser Action
-
-Do not immediately start clicking around.
-
-Before the first meaningful UI interaction:
-
-1. Identify the requested exploratory scope.
-2. Identify the environment.
-3. Identify the relevant user role.
-4. Read the relevant product oracle.
-5. Identify important risks.
-6. Define the exploratory charter.
-7. Identify the expected workflows and boundaries.
-8. Identify the mandatory messy paths for the area.
-9. Start collecting evidence.
-
-The initial reasoning should answer:
-
-- What am I testing?
-- For whom?
-- In which environment?
-- What behavior is expected?
-- What could realistically go wrong?
-- Which areas are high risk?
-- Which messy paths must I deliberately exercise?
-- What evidence will be needed if something fails?
-
-Do not use exploratory testing as an excuse for unstructured random
-clicking.
-
-# 5. Exploratory Charter
-
-Every session must have an explicit charter.
-
-A charter should contain:
-
-- session/date;
-- environment and URL;
-- role;
-- target area;
-- primary objective;
-- relevant oracle;
-- key risks;
-- intended coverage;
-- mandatory messy paths;
-- areas intentionally out of scope.
+The report must explicitly state the actual browser tool used.
 
 Example:
 
 ```text
-Charter:
-Explore CRM client creation and editing as ADMIN.
-
-Objective:
-Find functional, validation, state-management, authorization,
-and usability problems around client lifecycle actions.
-
-Oracle:
-docs/features/CRM-001/
-
-Risk focus:
-P1/P2 functional integrity, authorization, data persistence,
-form state, destructive actions.
-
-Mandatory messy paths:
-interrupt, refresh, double submit, Back/Forward,
-Cancel, stale state, invalid/partial input.
+Browser tool: computer-use fallback
+Playwright MCP: unavailable
 ```
 
-A charter may cover more than one related area, but the scope must
-remain understandable.
+Never claim that Playwright MCP was used if it was not.
 
-# 6. Risk-Based Exploration
+## 8. MCP Is Exploration, Not Scripted Test Execution
 
-Use the BankCRM risk model when prioritizing exploration.
+This skill is not a replacement for repository automated tests.
 
-Prioritize:
+Do not use `runTests` / `runTasks` as a substitute for live
+exploratory browser investigation.
 
-1. authentication and authorization;
-2. PII/client data;
-3. destructive operations;
-4. database persistence;
-5. RLS/data isolation;
-6. dashboard calculations;
-7. role switching/session state;
-8. navigation/state management;
-9. validation;
-10. visual polish and lower-risk UX issues.
+Do not conclude `PASSED` merely because automated tests are green.
 
-Use the project's documented risk terminology where available.
+Do not convert every exploratory action into a permanent automated
+test.
 
-Do not invent a new risk model.
+If an exploratory finding reveals a valuable automation candidate,
+record the recommendation separately.
 
-If a finding appears severe, record the rationale rather than
-arbitrarily assigning severity.
+## 9. Login and Test Identities
 
-# 7. Roles
+BankCRM **intentionally** exposes test-user credentials through the
+login page `test-users` section so that anyone exploring this
+practice app can authenticate as ADMIN or VIEWER.
 
-BankCRM currently distinguishes:
+Therefore:
 
-- unauthenticated user;
-- `VIEWER`;
-- `ADMIN`.
+- ADMIN is in scope.
+- VIEWER is in scope.
+- `E2E_*` secrets are **not** required for exploratory testing.
+- Do not treat missing `E2E_ADMIN_*` or `E2E_VIEWER_*` environment
+  variables as a blocker when the login-page test-user mechanism is
+  available.
+- Use those on-page identities.
+- Never reproduce the password in the EXP report, chat, or git.
+- Never print credentials in terminal output unnecessarily.
+- Never commit credentials into new repository files.
 
-Keep role sessions logically separate.
-
-Where applicable, explore:
-
-### Unauthenticated
-
-- protected routes;
-- login;
-- redirects;
-- direct URL access;
-- unauthorized UI exposure.
-
-### VIEWER
-
-- read-only access;
-- hidden/disabled write controls;
-- direct navigation to ADMIN-only routes;
-- data visibility;
-- RLS behavior;
-- session/logout behavior.
-
-### ADMIN
-
-- client creation;
-- client editing;
-- deletion/destructive actions;
-- dashboard behavior;
-- data persistence;
-- navigation;
-- role-sensitive functionality.
-
-Never print or expose credentials.
-
-Environment credentials must be referenced only through their
-configured secret names.
-
-Relevant secret names include:
+When reporting identity usage, write:
 
 ```text
-E2E_ADMIN_*
-E2E_VIEWER_*
+ADMIN: authenticated using the application's documented test-user mechanism.
+VIEWER: authenticated using the application's documented test-user mechanism.
 ```
 
-Never output secret values into reports, screenshots, logs, chat, or
-source files.
+Do not write the actual password into the report.
 
-# 8. Environment Rules
+Do not classify the public `test-users` aside as a security BUG or
+production-hygiene defect. It is intended for this practice app.
 
-Relevant environments are documented in
-`docs/architecture/environments.md`.
+If AUTH-001 FS/TS still do not describe that UI, record a QUESTION
+that the specification is silent (should AUTH docs mention the aside),
+not a defect against a non-existent prohibition.
 
-Possible environments include:
+## 10. Default Roles
 
-- Local Vite;
-- Preview;
-- Production.
-
-For live production exploration, prefer:
+Exploratory testing covers three authentication states:
 
 ```text
-https://crm-ai-sdlc.vercel.app
+1. Unauthenticated
+2. VIEWER
+3. ADMIN
 ```
 
-Do not assume arbitrary `*.vercel.app` URLs are valid production
-environments.
+All three are part of the normal exploratory charter.
 
-Before testing, confirm which environment is actually being used.
+Do not exclude ADMIN merely because the live environment is
+Production.
 
-The report must record:
+Do not exclude write paths merely because the live environment is
+Production.
 
-- environment;
-- URL;
-- role;
-- browser tool used.
+Production safety controls **which** actions are safe, not whether
+ADMIN exploration exists.
 
-# 9. Playwright MCP
+## 11. Production Write Boundary
 
-## Primary browser tool
+Production is the live system under test.
 
-When Playwright MCP is available, it is the required tool for live UI
+Exploration is allowed across documented functionality, including
+authenticated ADMIN workflows and safe write paths.
+
+However, every write action must be evaluated for data safety before
+execution.
+
+### Allowed
+
+When the login-page test-user mechanism and test/seed data make it
+safe:
+
+- login / logout
+- create a test client
+- edit a test client **created in this session** (or another clearly
+  disposable test record)
+- associate documented test data
+- exercise validation, role-specific CRUD, save/cancel, state
+  transitions
+- verify that authorized changes persist
+- verify that unauthorized users cannot perform the same action
+
+### Restricted
+
+Do not perform destructive or irreversible actions merely to satisfy
+an exploratory hypothesis.
+
+Examples: deleting real business data; mass deletion; bulk
+modification; changing many records; destructive manipulation of
+unrelated records; modifying security-sensitive configuration; using
+service-role credentials through the application UI; intentionally
+corrupting production data; changing database schema; running
+destructive SQL against the production database.
+
+### Disposable test records
+
+If the application provides clearly identifiable disposable/test
+records, destructive testing may be performed against those records
+when appropriate.
+
+Prefer deleting only a client **this session created**.
+
+If a destructive test requires a real record and there is no clear
+authorization that the record is disposable:
+
+```text
+Not tried — production data safety boundary.
+```
+
+Do not silently turn a safety restriction into a BUG.
+
+## 12. Production Safety Principle
+
+> Test real functionality safely; do not damage real data to prove a
+> point.
+
+Before a destructive action, determine: is it documented; is the
+target clearly test/disposable; is it reversible; is authorization
+clear; could unrelated users be affected.
+
+If uncertain, do not execute the destructive action.
+
+Record:
+
+```text
+Not tried
+Reason: production data safety
+```
+
+This does **not** mean that all production testing is read-only.
+
+## 13. Exploratory Charter
+
+The default charter is broad.
+
+Investigate authentication, authorization, CRM (list/detail/create/
+edit/delete where safe), dashboard, UI/UX, and security-sensitive
+behavior within normal QA boundaries.
+
+Do not attempt offensive security exploitation beyond the
+application's intended QA/security boundary.
+
+## 14. Risk-Based Exploration
+
+Prioritize: authentication, authorization, RLS-sensitive access,
+ADMIN write paths, data integrity, destructive actions, protected
+routes, dashboard correctness, state transitions, validation and
+error handling.
+
+Do not spend the majority of the session on cosmetic observations
+while high-risk workflows remain unexplored.
+
+## 15. Exploration Strategy
+
+Do not click every visible element randomly.
+
+For each important feature:
+
+```text
+Happy path → boundary → invalid → interruption → refresh
+→ navigation → role variation → direct URL → repeated action
+→ recovery
+```
+
+For important state-changing actions:
+
+```text
+Open → modify → cancel → modify → save → refresh → reopen
+→ verify state
+```
+
+Where safe and meaningful, test both ADMIN and VIEWER.
+
+## 16. Mandatory Messy Paths
+
+Messy paths are mandatory.
+
+At minimum consider: interrupt, refresh, double action (where safe),
+browser Back/Forward, dirty state, partial input, cancel, role
+leftover, empty state, large/unusual input (no malicious payloads),
+direct URL, recovery.
+
+## 17. Messy Path Reporting
+
+The EXP report must contain a dedicated **Messy Paths** section.
+
+For anything not tried, give a precise reason (`Not tried —
+production data safety` or another exact reason).
+
+Never fabricate a result for a path that was not investigated.
+
+## 18. Unauthenticated Exploration
+
+Start from the unauthenticated state.
+
+Check login, validation, invalid credentials, protected routes,
+direct URLs (`/app/dashboard`, `/app/clients`, `/app/clients/new`,
+`/app/clients/<id>` using actual routes), Back/Forward, refresh.
+
+Do not assume that every route must exist.
+
+## 19. VIEWER Exploration
+
+Authenticate using the documented test-user mechanism.
+
+Check role display, accessible and inaccessible routes, list, detail,
+dashboard, read-only restrictions, direct URL restrictions, refresh,
+logout, RLS-sensitive data behavior.
+
+Explicitly verify that VIEWER cannot perform ADMIN-only operations.
+
+If a control is absent from the UI, also test the corresponding
+documented route/action when safe and meaningful.
+
+Do not infer authorization solely from hidden buttons.
+
+## 20. ADMIN Exploration
+
+Authenticate using the documented ADMIN test user.
+
+ADMIN exploration is a normal part of the charter.
+
+Check ADMIN shell, dashboard, list, detail, create, edit, delete
+where safe, validation, save/cancel, repeated actions, refresh after
+mutation, direct URLs, authorization, logout.
+
+Use test data. Prefer creating a session-owned test client.
+
+A successful ADMIN CRUD path should be verified beyond the immediate
+UI response (create → list → refresh → detail; edit → persist after
+refresh).
+
+## 21. Authorization Investigation
+
+Authorization is more than UI visibility.
+
+For each important role-restricted operation: observe UI, attempt
+documented route directly, observe application response, verify data
+visibility, verify mutation authorization where safe.
+
+Distinguish UI restriction from actual authorization enforcement.
+
+A hidden button alone does not prove authorization is correctly
+enforced.
+
+## 22. RLS Investigation
+
+Reason from the documented RLS model. Compare only against the
+documented expected scope.
+
+For VIEWER dashboard metrics: metrics may legitimately represent rows
+returned under VIEWER RLS rather than unrestricted production totals.
+
+## 23. Dashboard Investigation
+
+For DASH-001, the documented metric definitions are the oracle.
+
+If the specification explicitly permits `N/A` for a zero-base churn
+calculation, do not report `N/A` as a defect.
+
+Dashboard UX suggestions stay in the EXP report unless the repository
+explicitly instructs otherwise.
+
+## 24. Browser Console and Network Investigation
+
+Use console/network information when it materially helps diagnose a
+finding.
+
+Do not treat every console warning as a BUG.
+
+Do not expose tokens, passwords, cookies, authorization headers, or
+other secrets in reports.
+
+## 25. Evidence
+
+Every substantive finding should have evidence: URL, role, UI state,
+steps, observed vs expected from oracle, screenshot when available,
+reproducibility.
+
+Do not create a BUG without sufficient evidence.
+
+## 26. Finding Classification
+
+Use exactly: **BUG**, **IMP**, **QUESTION**, **OBSERVATION**.
+
+A BUG contradicts a documented requirement, AC, security boundary, or
+clearly established application contract, and requires evidence.
+
+An IMP is not a BUG.
+
+A QUESTION uses `TBD — HUMAN DECISION REQUIRED`. Do not silently
+convert uncertainty into a defect.
+
+## 27. BUG vs IMP
+
+```text
+Is expected behavior documented?
+        ↓ YES
+Does observed behavior contradict it?
+        ↓ YES → BUG
+Does it merely feel inconvenient/inconsistent? → IMP
+Is the correct behavior undefined? → QUESTION
+```
+
+Do not turn personal preference into a BUG.
+
+## 28. Confirmed Bugs
+
+Confirmed defects belong in `docs/bugs/` via `manage-bugs`.
+
+Use the next `BUG-###` identifier from existing `docs/bugs/` files.
+Map session-local ids (`BUG-S1-01`) to that persistent id.
+
+Search existing bugs before creating a new one.
+
+High/Critical production-escape defects may require RCA per
+`docs/sdlc/root-cause-analysis.md`.
+
+## 29. UX Improvements
+
+For CRM screen-polish, append to
+`docs/features/CRM-001/ui-ux-proposal.md` as **Proposed** only.
+
+Do not modify approved FS/AC because of an IMP.
+
+Dashboard improvements remain in the EXP report unless directed
+otherwise.
+
+## 30. Questions and Human Decisions
+
+If the oracle does not define expected behavior:
+
+```text
+QUESTION
+TBD — HUMAN DECISION REQUIRED
+```
+
+Do not guess. Do not resolve product decisions unilaterally.
+
+## 31. AUTH Login-Page Test Users
+
+Treat the visible `test-users` aside as **intended** application
+behavior for this practice app (human-stated: credentials are
+deliberately public so anyone can log in).
+
+Do not file a BUG that the aside exists.
+
+Do not put actual credentials in the report.
+
+If AUTH-001 FS/TS do not mention the aside, optionally record a
+QUESTION that the specification is silent — not that the aside is
+forbidden.
+
+## 32. No Invented Product Behavior
+
+Never assume search behavior, filtering/sort semantics, confirmation
+dialogs, persistence rules, role permissions, error messages,
+empty-state wording, dashboard calculations, data ownership, or audit
+behavior unless documented or clearly established by the existing
+application contract.
+
+C008 = BLOCKED. Do not manufacture acceptance criteria for it.
+
+## 33. Repository Access
+
+Repository inspection is allowed for reading specifications, feature
+docs, decisions, architecture, risk, lifecycle, bugs, UX proposals,
+routes, data models, test-user mechanisms, current branch, and
+relevant implementation when necessary for diagnosis.
+
+Do not use repository inspection as a substitute for browser
 exploration.
 
-Use the available `browser_*` tools as appropriate:
+## 34. Repository Tool Boundary
+
+Allowed: `git status`, `git branch`, `git log`, `git diff`, file
+search, reading documentation and relevant source.
+
+Command execution may be used when needed for diagnosis.
+
+Do not print secret values. If environment variables need to be
+checked, inspect only names.
+
+Never output `PASSWORD=value`, `TOKEN=value`, `KEY=value`,
+`SECRET=value`.
+
+## 35. No Source Changes
+
+This skill must not edit `src/`, application logic, migrations,
+schema, production configuration, AC, FS, or TS, or rewrite tests
+merely to make exploration pass.
+
+The skill investigates and reports. It does not heal the application.
+
+## 36. Security Boundaries
+
+Test authentication, authorization, protected routes, role
+boundaries, RLS-visible behavior, accidental protected-data exposure,
+and client-side vs server-side authorization behavior.
+
+Do not perform destructive exploitation, credential attacks, brute
+force, denial-of-service, mass enumeration, destructive SQL,
+service-role abuse, or modification of unrelated production data.
+
+The purpose is product QA, not offensive security testing.
+
+## 37. Exploratory Report
+
+Create `docs/test-reports/EXP-YYYYMMDD.md` from
+`docs/test-reports/EXP-TEMPLATE.md`.
+
+Include context (branch, Production URL, backend, browser tool),
+oracle, roles, per-area/role coverage, findings, messy paths, not
+explored/blocked, evidence, follow-up, and:
 
 ```text
-browser_navigate
-browser_navigate_back
-browser_navigate_forward
-browser_click
-browser_hover
-browser_type
-browser_press_key
-browser_select_option
-browser_snapshot
-browser_take_screenshot
-browser_wait_for
-browser_resize
-browser_handle_dialog
-browser_file_upload
-browser_drag
-browser_tabs
-browser_tab_list
-browser_tab_new
-browser_tab_select
-browser_tab_close
-browser_network_requests
-browser_console_messages
-browser_close
-browser_install
+Human QA gate remains required.
 ```
 
-Use the actual tools available in the current Cursor session.
+Do not create fake coverage entries.
 
-Do not invent browser-tool results.
+## 38. Coverage Status
 
-# 10. MCP Is Exploratory Evidence, Not Scripted Test Execution
+Coverage must be reported **per area and role**, not as one blanket
+session status.
 
-A successful sequence of `navigate → click → type → save` does not
-automatically mean a corresponding `TC-###` passed.
+Use: `Explored` / `Partial` / `Blocked` / `Not explored` / `N/A`.
 
-Do not write `TC-001 PASSED` merely because the same behavior was
-manually exercised.
+Do not label the entire session `Partially explored` merely because
+one isolated area was blocked.
 
-Instead report:
+A blocked ADMIN identity is not relevant when the login-page
+`test-users` mechanism is available.
+
+## 39. Distinguish Blocked from Not Explored
+
+**BLOCKED:** could not reasonably be performed because of an external
+constraint (example: C008 remains BLOCKED in product documentation).
+
+**NOT EXPLORED:** intentionally not investigated (example: deletion of
+an existing non-test client — production safety).
+
+Do not call a safe production-data decision a product blocker.
+
+## 40. Confidence
+
+For important findings: High / Medium / Low based on reproducibility,
+oracle quality, evidence, roles tested, consistency, clarity of
+expected behavior.
+
+Do not use confidence as a severity score.
+
+## 41. Follow-Up Charters
+
+If an area cannot be fully investigated, record a focused follow-up
+recommendation. Do not create implementation tasks automatically
+unless the repository process requires it.
+
+## 42. Test Automation Recommendations
+
+Record automation candidates separately.
+
+Do not automatically modify `tests/e2e` or create tests.
+
+## 43. Common Exploratory Heuristics
+
+CRUD completeness, state transitions, boundary values, role matrix,
+navigation, error recovery, repetition — apply only where safe and
+relevant.
+
+## 44. Human QA Gate
+
+Exploratory QA does not equal final approval.
+
+The skill must not approve the release, declare the product fully
+ready, override human QA, or close human review.
+
+## 45. Relationship to Scripted Testing
+
+Exploratory QA discovers unknown unknowns. Automated tests cover
+stable regression. Do not confuse the two.
+
+## 46. Session Completion Criteria
+
+A normal exploratory session is complete when the oracle was
+inspected, the live app was opened, unauthenticated, VIEWER, and
+ADMIN behavior were explored, relevant safe write paths were
+explored, role boundaries and dashboard (in scope) were investigated,
+mandatory messy paths were attempted, production safety was
+respected, findings were classified, confirmed bugs went through
+`manage-bugs`, UX vs defects were separated, questions were marked
+for human decision, the EXP report exists, coverage is per area/role,
+and the human QA gate is preserved.
+
+If one area is blocked, complete all other feasible areas and
+document the exact blocker.
+
+Do not stop the entire session because `E2E_*` is unset.
+
+## 47. Standard Session Flow
 
 ```text
-Exploratory observation:
-Client creation completed successfully for the explored scenario.
+1. Identify current Git branch
+2. Identify live Production URL
+3. Confirm Production backend/database boundary
+4. Read relevant repository oracle
+5. Define exploratory charter
+6. Open live application
+7. Explore unauthenticated behavior
+8. Obtain VIEWER identity from login-page test-users
+9. Explore VIEWER behavior
+10. Obtain ADMIN identity from login-page test-users
+11. Explore ADMIN behavior
+12. Exercise safe CRUD/write paths
+13. Test authorization/RLS-sensitive behavior
+14. Explore dashboard
+15. Execute mandatory messy paths
+16. Investigate console/network evidence where useful
+17. Classify findings
+18. Reproduce confirmed defects
+19. Promote confirmed bugs through manage-bugs
+20. Record UX improvements/questions
+21. Write/update EXP report
+22. Preserve Human QA Gate
 ```
 
-If a scripted test result is needed, use the appropriate test
-execution process.
-
-This skill must never turn exploratory interaction into false formal
-test evidence.
-
-# 11. If Playwright MCP Is Missing
-
-If the required `browser_*` tools are unavailable:
-
-1. mark live UI exploration as **BLOCKED**;
-2. do not fabricate UI observations;
-3. do not fabricate screenshots;
-4. do not claim that the application was manually tested;
-5. inspect repository documentation/tests only if that helps
-   establish what remains unverified;
-6. record the limitation in the exploratory report.
-
-If another browser/computer-use mechanism is genuinely available and
-appropriate, it may be used as a fallback.
-
-The report must explicitly state which browser mechanism was actually
-used.
-
-Never claim Playwright MCP was used if it was not.
-
-# 12. Repository Tools and Read Access
-
-Use repository tools to understand the product oracle.
-
-Relevant read operations may include:
-
-```text
-codebase
-search
-searchResults
-fetch
-findTestFiles
-changes
-```
-
-Read specifications, acceptance criteria, BDD, test cases, risk docs,
-architecture/environment documentation, and relevant implementation
-context when necessary to understand observed behavior.
-
-Repository knowledge supports exploration. It does not authorize
-implementation changes.
-
-# 13. Tool Boundary
-
-Do not use automated test execution as a substitute for exploratory
-browser work.
-
-Do not use `runTests` / `runTasks` as the primary mechanism for this
-skill.
-
-Do not treat green automated tests as proof that the exploratory
-session passed.
-
-`runCommands` may be used only when necessary for safe
-repository/environment inspection, such as identifying configured
-environment variable names.
-
-Never print secret values.
-
-Terminal/problem/test-failure information may provide context, but it
-is not a reason to automatically modify source code.
-
-# 14. Exploration Strategy
-
-For each area, use a combination of:
-
-### 14.1 Happy path
-
-Verify the intended primary workflow.
-
-Example: Login → open Clients → create client → save → verify
-persistence.
-
-### 14.2 Variations
-
-Change input combinations, navigation sequence, role, data state,
-ordering, filters, browser dimensions where relevant.
-
-### 14.3 Boundary conditions
-
-Explore empty values, whitespace, min/max, long text, special
-characters, invalid formats, missing required values, empty result
-sets.
-
-Use only boundaries supported by the product's actual data model and
-validation rules. Do not invent arbitrary business rules.
-
-### 14.4 State transitions
-
-Investigate loading, saving, cancelling, returning, refreshing,
-logout, role changes, stale pages, multiple tabs, direct navigation.
-
-### 14.5 Recovery
-
-Ask: What happens after an interrupted action? Can the user safely
-recover? Is data lost? Is stale state shown? Does the UI communicate
-the current state?
-
-# 15. Mandatory Messy Paths
-
-Messy-path exploration is mandatory.
-
-Every explored area must include deliberate attempts outside the
-ideal happy path.
-
-If time is limited, reduce optional heuristics before reducing
-messy-path coverage.
-
-At minimum, consider the following where applicable.
-
-## Interrupt
-
-Start client create/edit → enter data → navigate away → Back → return
-to form.
-
-Observe stale state, lost input, duplicated state, misleading
-confirmation, inconsistent navigation.
-
-## Refresh / reload
-
-Try reload mid-list, mid-dashboard filtering, after Save, while a
-destructive dialog is open, after navigation to a direct URL.
-
-## Double action
-
-Where safe: double-click Save, login submit, or a confirmation
-control.
-
-Do not intentionally perform destructive production operations merely
-to test duplication.
-
-## Browser Back / Forward
-
-Test after login, logout, client save, dashboard filtering, and
-navigation between protected pages.
-
-## Dirty/stale state
-
-Examples: search/filter then another action; dashboard filter in one
-tab while changing data in another; ADMIN session followed by VIEWER;
-stale bookmarked protected URL.
-
-## Partial / Cancel
-
-Open delete dialog and Cancel; start custom date range and abandon
-it; enter whitespace-only values; partially complete a form and
-navigate away.
-
-## Role leftovers
-
-ADMIN → logout → VIEWER (and reverse where appropriate).
-
-Check write controls, accessible data, stale authorization state,
-data leakage.
-
-## Empty / large states
-
-No clients; empty search; larger client/churn datasets where
-available; dashboard periods with little or no data.
-
-If a documented dashboard formula can legitimately exceed 100%, do
-not automatically classify that as a bug.
-
-Investigate display failures such as `NaN`, `Infinity`, broken
-formatting, misleading labels.
-
-## Direct URL access
-
-Where applicable, test `/app/dashboard`, `/app/clients/:id`,
-`/app/clients/new` as unauthenticated, VIEWER, and ADMIN.
-
-Use actual routes from the repository. Do not invent routes.
-
-# 16. Production Safety
-
-Production exploratory testing must remain read-only by default.
-
-Never:
-
-- mass-delete production data;
-- modify production data without explicit authorization;
-- use service-role credentials in the SPA;
-- intentionally damage production state;
-- perform destructive fuzzing;
-- run penetration-testing payloads unless explicitly requested and
-  authorized.
-
-If a destructive workflow must be investigated, use a disposable test
-client only when the human owner explicitly identifies and authorizes
-it.
-
-Never assume that a client is disposable.
-
-# 17. Security Boundaries
-
-This skill is QA exploration, not penetration testing.
-
-Do not perform destructive security attacks, credential attacks,
-brute force, exploit development, arbitrary SQL manipulation, or
-production security testing beyond safe functional authorization
-checks.
-
-Safe exploratory security checks include: unauthenticated access to
-protected routes; VIEWER access to ADMIN functionality; stale session
-behavior; role switching; visible secrets; obvious data leakage;
-client-side exposure of protected information; unexpected
-authorization behavior.
-
-If a deeper security investigation is required, classify it as a
-follow-up rather than silently escalating the scope.
-
-# 18. Browser Console and Network Investigation
-
-Use `browser_console_messages` and `browser_network_requests` when
-they help explain an observed behavior.
-
-Useful investigation: failed API requests, unexpected HTTP status
-codes, JavaScript errors, repeated requests, failed persistence,
-authorization failures, unexpected client-side exceptions.
-
-Do not treat every console warning as a defect.
-
-Correlate technical evidence with actual user-visible behavior and
-expected product behavior.
-
-Never expose secrets, authorization tokens, cookies, or sensitive
-personal data in reports. Redact sensitive values.
-
-# 19. Evidence
-
-A finding should be reproducible.
-
-Collect: exact steps, observed result, expected result, screenshot,
-browser snapshot, relevant console error, relevant network request,
-affected role, environment, relevant record/state.
-
-Do not collect unnecessary personal data.
-
-Prefer minimal evidence that demonstrates the issue.
-
-For bugs, provide enough information for another person to reproduce
-the behavior without guessing.
-
-# 20. Classification
-
-Every meaningful finding must be classified as one of:
-
-```text
-BUG
-IMP
-QUESTION
-OBSERVATION
-```
-
-## BUG
-
-Use when observed behavior violates a supported requirement,
-acceptance criterion, security rule, data rule, or clearly
-established product behavior.
-
-A bug requires evidence.
-
-## IMP
-
-Use for a potential improvement (clearer empty state, better form
-feedback, visual polish). An improvement is not automatically a
-defect. Do not silently modify product requirements to accommodate
-it.
-
-## QUESTION
-
-Use when the expected behavior cannot be determined from the
-available oracle.
-
-```text
-QUESTION:
-Should a filtered dashboard preserve the filter after browser Back?
-TBD — HUMAN DECISION REQUIRED
-```
-
-Never turn an unresolved question into product truth.
-
-## OBSERVATION
-
-Use for a noteworthy behavior that is neither clearly a bug nor an
-actionable improvement.
-
-# 21. Distinguishing BUG from IMP
-
-Do not report subjective preferences as bugs.
-
-1. Is expected behavior explicitly documented?
-2. Is the observed behavior inconsistent with it?
-3. Can the inconsistency affect functionality, security, data
-   integrity, accessibility, or a defined requirement?
-4. Can the issue be reproduced?
-
-If yes, classify as `BUG`. If expected behavior is not defined:
-`QUESTION`. If behavior is valid but could be improved: `IMP`.
-
-# 22. UX Improvements
-
-UX findings belong in the exploratory report first.
-
-If a screen-polish improvement is worth formalizing for CRM screens,
-it may be added to `docs/features/CRM-001/ui-ux-proposal.md` only as
-**Proposed**.
-
-Dashboard polish stays in the EXP report unless a DASH proposal file
-exists.
-
-Do not change approved FS, rewrite AC, silently redefine product
-behavior, mark a proposal as approved, or implement the proposal.
-
-# 23. Confirmed Bugs
-
-Confirmed bugs use `docs/bugs/` and `manage-bugs`.
-
-Do not invent a second bug-tracking system.
-
-Use the next appropriate `BUG-###` identifier.
-
-Exploratory session-local identifiers (for example `BUG-S1-01`) may
-be mapped to the persistent bug ID (`BUG-004`) when promoted.
-
-High/Critical production escapes should follow the project's RCA
-process where applicable.
-
-# 24. Exploratory Report
-
-Every completed exploratory session must produce
-`docs/test-reports/EXP-YYYYMMDD.md`.
-
-Use `docs/test-reports/EXP-TEMPLATE.md` when available.
-
-The report should contain at least: session, date, tester/agent,
-environment, URL, role, charter, oracle, risk focus, browser tool,
-areas explored, coverage, happy-path exploration, messy paths tried,
-findings, evidence, confidence, areas not explored, blockers,
-questions, follow-up charters.
-
-# 25. Mandatory Messy Paths Report Section
-
-Every exploratory report must contain `## Messy paths`.
-
-Record tried, result, not tried, reason if not tried.
-
-Writing only “Not tried” without a reason is incomplete.
-
-# 26. Coverage
-
-Do not claim exhaustive testing unless the scope genuinely supports
-that claim.
-
-Use: Explored / Partially explored / Blocked / Not explored.
-
-# 27. Confidence
-
-Assign `High` / `Medium` / `Low` to important findings based on
-reproducibility, oracle clarity, evidence quality, number of
-observations, environment consistency.
-
-Do not use confidence as a substitute for severity.
-
-# 28. Follow-Up Charters
-
-When exploration reveals an area requiring deeper investigation,
-create a follow-up charter rather than expanding the session
-indefinitely.
-
-# 29. Human QA Gate
-
-Exploratory QA informs the human QA decision. It does not approve it.
-
-Never automatically move a feature to `READY_FOR_RELEASE`, mark QA as
-approved, mark an increment as `RELEASED`, merge `main`, deploy
-production, or change lifecycle status.
-
-# 30. Lifecycle Integration
-
-Exploratory testing may occur during `IN_QA` when requested or when
-risk-based testing calls for it.
-
-It does not create a new lifecycle gate.
-
-`docs/sdlc/lifecycle.md` and `docs/sdlc/human-approval.md` remain
-authoritative. The agent cannot self-approve.
-
-# 31. Relationship to Scripted Testing
-
-Exploratory layer: this skill → Playwright MCP → live investigation →
-messy paths → EXP report.
-
-Scripted layer: Playwright test runner → E2E/smoke → CI.
-
-Do not merge these concepts.
-
-Do not automatically create duplicate Playwright specs during an
-exploratory session.
-
-# 32. Test Automation Recommendations
-
-If an exploratory finding exposes a stable, repeatable regression
-scenario, recommend automation as a follow-up.
-
-Do not create or modify test automation as part of this skill unless
-separately requested.
-
-# 33. Common Exploratory Heuristics
-
-Use heuristics where useful, but do not let them replace
-product-specific requirements.
-
-Always prioritize the actual BankCRM charter and documented risks.
-
-# 34. Never Invent Product Behavior
-
-If documentation does not establish expected behavior, use:
-
-```text
-QUESTION
-TBD — HUMAN DECISION REQUIRED
-```
-
-Do not invent additional roles, fields, validation rules,
-undocumented routes, new calculations, product-admin, restore,
-undocumented permissions, or undocumented workflows.
-
-# 35. Never Use These as Assumptions
-
-Do not assume the project has `docs/qa/`, Newman/Postman,
-product-admin, restore, undocumented ERP, extra production
-environments, undocumented API endpoints, or undocumented test
-accounts.
-
-Only describe functionality that exists in the repository or is
-observed in the actual environment.
-
-# 36. Secrets and Sensitive Data
-
-Never print passwords, access tokens, JWTs, cookies, service-role
-keys, API keys, database credentials, or secret environment variable
-values.
-
-Environment variable **names** may be referenced (`E2E_ADMIN_EMAIL`,
-`E2E_ADMIN_PASSWORD`). Values must never appear in output.
-
-# 37. Session Completion Criteria
-
-An exploratory session is complete only when the charter was
-addressed as far as possible, oracle documentation was consulted,
-the live application was explored when browser access was available,
-mandatory messy paths were attempted for explored areas, findings
-were classified, evidence was collected where appropriate, blockers
-and unexplored areas were documented, the EXP report was created, and
-confirmed bugs were promoted through `manage-bugs` when appropriate.
-
-Do not declare the product “passed”. Use “Exploration completed for
-the defined charter” or “Exploration partially completed; live
-testing was blocked for X”.
-
-# 38. Standard Session Flow
-
-1. Read the relevant repository oracle.
-2. Identify environment and role.
-3. Define charter and risk focus.
-4. Connect to Playwright MCP.
-5. Open the application.
-6. Establish baseline/happy-path behavior.
-7. Explore variations.
-8. Execute mandatory messy paths.
-9. Investigate suspicious behavior.
-10. Inspect console/network evidence when useful.
-11. Reproduce potential defects.
-12. Classify findings.
-13. Capture evidence.
-14. Write the exploratory report.
-15. Promote confirmed bugs through `manage-bugs`.
-16. Record UX improvements as Proposed where appropriate.
-17. Record unresolved questions as HUMAN DECISION REQUIRED.
-18. Document coverage and follow-up charters.
-19. Stop without modifying product code.
-
-# 39. Example Invocation
+## 48. Example Invocation
 
 ```text
 Use the exploratory-qa-expert skill.
 
-Drive the BankCRM application with Playwright MCP.
+Test the live BankCRM application at:
+https://crm-ai-sdlc.vercel.app/
 
-URL:
-https://crm-ai-sdlc.vercel.app
+The current branch is the source context under investigation.
 
-Roles:
-unauthenticated, VIEWER, ADMIN
+Use the repository documentation as the oracle.
 
-Scope:
-CRM client management and dashboard.
+Explore unauthenticated, VIEWER, ADMIN, CRM CRUD, authorization,
+dashboard, session behavior, messy paths, and relevant UI/UX.
 
-Use repository documentation as the oracle.
-Do not invent acceptance criteria.
-Mandatory messy paths are required.
-Check authorization boundaries and data/state behavior.
+Use the documented test-users credentials shown on the login page.
+Do not expose credentials in the report.
 
-Do not modify src/, migrations, FS, AC, or test cases.
+Production is the live environment. Use safe test data. Do not
+perform destructive actions against real business data.
 
-Create:
-docs/test-reports/EXP-<date>.md
+Do not modify src/, migrations, specifications, or acceptance
+criteria.
 
-Promote confirmed defects through manage-bugs.
-UX suggestions must remain Proposed.
+Do not invent C008 behavior; C008 remains BLOCKED.
+
+Use the real browser. Classify BUG, IMP, QUESTION, or OBSERVATION.
+Use manage-bugs for confirmed defects.
+
+Write docs/test-reports/EXP-YYYYMMDD.md with per-role coverage and
+Messy Paths. Keep the human QA gate.
 ```
 
-# 40. Output Principles
+## 49. Output Principles
 
-Output should be evidence-based, reproducible, risk-oriented, concise
-but sufficiently detailed, explicit about uncertainty, clear about
-what was and was not tested, and separated into observation versus
-conclusion.
+Output should be evidence-based, concise enough to review,
+technically precise, reproducible, role-aware, risk-aware,
+production-safe, and explicit about uncertainty and blockers.
 
-Prefer:
+Prefer Observed / Expected / Evidence / Classification over “this
+feels wrong.”
+
+## 50. Final Rules
 
 ```text
-Observed:
-After clicking Save twice, two identical client records were created.
-
-Expected:
-A single client record should be created for one submission.
-
-Evidence:
-Screenshot + browser network requests.
-
-Classification:
-BUG
+Production is the live system under test.
+The current branch identifies the source context.
+ADMIN and VIEWER are both in the normal exploratory scope.
+The login page test-users mechanism is a valid source of identities.
+E2E_* secrets are not required when that mechanism is available.
+Production does not mean read-only.
+Safe production CRUD is allowed on session/test data.
+Destructive actions against real business data are not justified
+merely for exploration.
+Repository documentation is the oracle.
+C008 remains BLOCKED.
+DASH VIEWER metrics must be interpreted through the documented RLS
+model.
+Messy paths are mandatory.
+BUG, IMP, QUESTION, and OBSERVATION must remain distinct.
+Confirmed bugs go through manage-bugs.
+CRM UX proposals belong in docs/features/CRM-001/ui-ux-proposal.md.
+Dashboard improvements remain in the EXP report unless directed
+otherwise.
+No src/ changes. No migrations. No invented acceptance criteria.
+No credentials or secrets in reports.
+No global "Partially explored" label merely because one area is
+blocked.
+Coverage is reported per role and area.
+The human QA gate remains mandatory.
 ```
-
-Avoid: “The application seems buggy.”
-
-# 41. Final Rules
-
-1. Explore the real application when live browser access is available.
-2. Read the repository oracle before judging expected behavior.
-3. Messy paths are mandatory.
-4. MCP exploration is not scripted test execution.
-5. Never claim planned test cases PASSED from exploratory clicks.
-6. Production is read-only by default.
-7. Never expose secrets.
-8. Do not modify product code.
-9. Do not silently modify product requirements.
-10. Use the existing bug-management process.
-11. UX changes remain Proposed unless separately approved.
-12. Unclear behavior becomes a QUESTION, not invented product truth.
-13. Document evidence and reproducibility.
-14. Document what was not explored.
-15. The human remains responsible for QA/release approval.
-16. Do not create a second QA or SDLC process.
-17. Do not claim completion beyond the actual charter and evidence.
-
-The goal is not to click every button.
-
-The goal is to behave like a skilled exploratory QA engineer:
-understand the intended system, deliberately challenge it—including
-messy real-world usage—investigate anomalies, produce useful
-evidence, and leave clear information for the human QA/product
-decision.
