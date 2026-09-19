@@ -173,6 +173,12 @@ jobs:
         env:
           TC_D015_REQUIRE_VIEW: '1'
         run: npx vitest run tests/integration/dashboard-stamps.test.ts --reporter=verbose
+      - run: npx playwright install --with-deps chromium
+      - name: TC-D015-ui dashboard surface ADMIN vs VIEWER
+        env:
+          TC_D015_REQUIRE_VIEW: '1'
+          CI: 'true'
+        run: npx playwright test tests/e2e/dashboard.spec.ts --grep "TC-D015-ui" --reporter=list
       - name: Note TC-D015
         if: always()
         run: |

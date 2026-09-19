@@ -3,9 +3,12 @@ import { afterAll, describe, expect, it } from 'vitest';
 import { CLIENT_LIFECYCLE_STAMPS } from '../../src/lib/dashboard';
 import {
   computeDashboard,
+  type AssignmentRow,
   type ClientStamp,
+  type ProductRow,
   resolvePeriod,
 } from '../../src/lib/dashboardMetrics';
+import { dashboardPublicTruth } from '../helpers/dashboardParity';
 
 const url = process.env.VITE_SUPABASE_URL;
 const anonKey = process.env.VITE_SUPABASE_ANON_KEY;
@@ -63,6 +66,28 @@ async function fetchStamps(client: SupabaseClient): Promise<ClientStamp[]> {
   return (data ?? []) as ClientStamp[];
 }
 
+async function fetchProducts(client: SupabaseClient): Promise<ProductRow[]> {
+  const { data, error } = await client
+    .from('products')
+    .select('id, code, name');
+  if (error) {
+    throw error;
+  }
+  return (data ?? []) as ProductRow[];
+}
+
+async function fetchAssignments(
+  client: SupabaseClient,
+): Promise<AssignmentRow[]> {
+  const { data, error } = await client
+    .from('client_products')
+    .select('client_id, product_id');
+  if (error) {
+    throw error;
+  }
+  return (data ?? []) as AssignmentRow[];
+}
+
 describe.skipIf(!live)(
   'dashboard stamps RLS (TC-D015)',
   { timeout: 45_000 },
@@ -77,7 +102,7 @@ describe.skipIf(!live)(
       await admin.from('clients').delete().in('id', createdIds);
     });
 
-    it('TC-D015 VIEWER and ADMIN see the same stamp-backed New and Churned', async ({
+    it('TC-D015 VIEWER and ADMIN see the same dashboard snapshot', async ({
       skip,
     }) => {
       const admin = await signIn(adminEmail!, adminPassword!);
@@ -133,19 +158,19 @@ describe.skipIf(!live)(
       const period = resolvePeriod('last30', new Date());
       const adminSnap = computeDashboard(
         await fetchStamps(admin),
-        [],
-        [],
+        await fetchProducts(admin),
+        await fetchAssignments(admin),
         period,
       );
       const viewerSnap = computeDashboard(
         await fetchStamps(viewer),
-        [],
-        [],
+        await fetchProducts(viewer),
+        await fetchAssignments(viewer),
         period,
       );
-      expect(viewerSnap.newClients).toBe(adminSnap.newClients);
-      expect(viewerSnap.churnedClients).toBe(adminSnap.churnedClients);
-      expect(viewerSnap.activeClients).toBe(adminSnap.activeClients);
+      expect(dashboardPublicTruth(viewerSnap)).toEqual(
+        dashboardPublicTruth(adminSnap),
+      );
     });
   },
 );

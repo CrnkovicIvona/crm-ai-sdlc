@@ -8,6 +8,7 @@ import {
   type ClientStamp,
   resolvePeriod,
 } from '../../src/lib/dashboardMetrics';
+import { dashboardPublicTruth } from '../helpers/dashboardParity';
 
 const adminId = '00000000-0000-4000-8000-00000000000a';
 const viewerId = '00000000-0000-4000-8000-00000000000b';
@@ -152,9 +153,9 @@ describe('TC-D015 client_lifecycle_stamps (PGlite)', () => {
     );
     const adminSnap = computeDashboard(adminStamps, [], [], period);
     const viewerSnap = computeDashboard(viewerStamps, [], [], period);
-    expect(viewerSnap.newClients).toBe(adminSnap.newClients);
-    expect(viewerSnap.churnedClients).toBe(adminSnap.churnedClients);
-    expect(viewerSnap.activeClients).toBe(adminSnap.activeClients);
+    expect(dashboardPublicTruth(viewerSnap)).toEqual(
+      dashboardPublicTruth(adminSnap),
+    );
     expect(viewerSnap.newClients).toBe(2);
     expect(viewerSnap.churnedClients).toBe(1);
     expect(viewerSnap.activeClients).toBe(1);

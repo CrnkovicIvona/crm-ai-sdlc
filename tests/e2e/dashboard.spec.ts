@@ -52,6 +52,43 @@ async function openDashboard(page: Page): Promise<void> {
   await expectDashboardReady(page);
 }
 
+async function readDashboardSurface(page: Page) {
+  await expectDashboardReady(page);
+  const kpiIds = [
+    'kpi-active-value',
+    'kpi-new-value',
+    'kpi-churned-value',
+    'kpi-churn-rate-value',
+    'kpi-net-growth-value',
+    'kpi-adoption-value',
+  ] as const;
+  const kpis: Record<string, string> = {};
+  for (const id of kpiIds) {
+    kpis[id] = (await page.getByTestId(id).innerText()).trim();
+  }
+  const productRows = await page
+    .getByTestId('dashboard-product-row')
+    .evaluateAll((rows) =>
+      rows.map((row) => row.textContent?.replace(/\s+/g, ' ').trim() ?? ''),
+    );
+  return {
+    last30Pressed: await page
+      .getByTestId('dashboard-filter-30')
+      .getAttribute('aria-pressed'),
+    kpis,
+    productRows,
+    emptyProducts: await page.getByTestId('dashboard-empty-products').count(),
+    chartTrendTitles: await page
+      .locator('[data-testid="chart-trend"] title')
+      .allTextContents(),
+    chartNewChurnTitles: await page
+      .locator('[data-testid="chart-new-vs-churned"] title')
+      .allTextContents(),
+    trendEmpty: await page.getByTestId('chart-trend-empty').count(),
+    newChurnEmpty: await page.getByTestId('chart-new-vs-churned-empty').count(),
+  };
+}
+
 function jsonList(route: Route, body: unknown, status = 200): Promise<void> {
   return route.fulfill({
     status,
@@ -151,4 +188,34 @@ test('TC-D014 missing dashboard schema or query FAILs, it is not skipped', async
     );
   }
   await expect(page.getByTestId('kpi-active-value')).toBeVisible();
+});
+
+test('TC-D015-ui VIEWER dashboard matches ADMIN for Last 30 days', async ({
+  browser,
+}) => {
+  test.skip(
+    !hasAdmin || !hasViewer,
+    'E2E_ADMIN_* and E2E_VIEWER_* required (skip ≠ pass)',
+  );
+  test.skip(
+    process.env.TC_D015_REQUIRE_VIEW !== '1',
+    'TC-D015-ui SKIPPED (not PASSED): needs stamps view (TC_D015_REQUIRE_VIEW=1). Hosted Preview still mismatches without apply-schema.',
+  );
+  const adminContext = await browser.newContext();
+  const viewerContext = await browser.newContext();
+  try {
+    const adminPage = await adminContext.newPage();
+    const viewerPage = await viewerContext.newPage();
+    await loginAdmin(adminPage);
+    await openDashboard(adminPage);
+    const adminUi = await readDashboardSurface(adminPage);
+    await loginViewer(viewerPage);
+    await openDashboard(viewerPage);
+    await expectNoDashboardWrites(viewerPage);
+    const viewerUi = await readDashboardSurface(viewerPage);
+    expect(viewerUi).toEqual(adminUi);
+  } finally {
+    await adminContext.close();
+    await viewerContext.close();
+  }
 });
