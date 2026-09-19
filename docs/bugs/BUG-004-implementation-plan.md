@@ -38,8 +38,8 @@ Tests:
 
 ## Mapping
 
-| AC / TC           | Automated test path (to be created) |
-| ----------------- | ----------------------------------- |
+| AC / TC           | Automated test path (to be created)                    |
+| ----------------- | ------------------------------------------------------ |
 | AC-D015 / TC-D015 | `tests/integration/dashboard-stamps.test.ts` `TC-D015` |
 
 ## Security notes
