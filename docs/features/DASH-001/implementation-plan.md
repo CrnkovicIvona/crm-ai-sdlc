@@ -7,17 +7,18 @@
   Cursor plan approved (“odobreno”)
 - Open questions: none blocking
 - Approval: **Approved** 2026-09-14 (human: implement DASH-001 now).
-  Metric contracts stay frozen. Status: **`ON_MAIN`** after REL-006
-  merge. Not `RELEASED` until production smoke **PASSED**.
+  Metric contracts stay frozen. Status: **`RELEASED`** after REL-007
+  smoke 14/14 PASS (run 35469423656).
 - Traceability: [traceability.md](traceability.md)
 - Prerequisite: human DoR recorded 2026-09-13
 - Status: **Approved** (`PLANNED`). Human approved coding 2026-09-14.
-  Lifecycle after REL-006 merge: **`ON_MAIN`**.
+  Lifecycle after REL-007 smoke: **`RELEASED`**.
 
 This is **not** the FS or TS.
 
-Implementation landed on `test` (PRs #41–#43) and is promoted to
-`main` via REL-006. Agent does not merge `main` or claim `RELEASED`.
+Implementation landed on `test` (PRs #41–#43), REL-006, then
+REL-007 stamps. Agent does not merge `main`. Increment is
+**`RELEASED`** after production smoke 14/14.
 
 ---
 
