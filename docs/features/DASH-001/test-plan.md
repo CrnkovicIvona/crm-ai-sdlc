@@ -4,7 +4,7 @@
 - Issue: none
 - Risk: **High**
 - Status of tests: **EXECUTED** on `test` CI (Vitest + Playwright).
-  Production smoke: **NOT EXECUTED**. Not `RELEASED`.
+  Production smoke: **NOT EXECUTED**. **ON_MAIN — not RELEASED.**
 - Owner (draft): Agent as QA
 - Approval: DoR 2026-09-13
 - Report: [../../test-reports/DASH-001.md](../../test-reports/DASH-001.md)

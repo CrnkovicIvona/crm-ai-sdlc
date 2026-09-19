@@ -3,8 +3,9 @@
 - Work item: DASH-001
 - Requirement: [requirement.md](requirement.md)
 - Issue: none
-- Status: **`ON_MAIN`** after REL-006 merge (DoR 2026-09-13). Not
-  `RELEASED` until production smoke **PASSED**.
+- Status: **`ON_MAIN`** after REL-006; REL-007 stamps (DoR
+  2026-09-13). **ON_MAIN — not RELEASED** until production smoke
+  **PASSED**.
 - Owner (draft): Agent as BA
 - Source: [decisions.md](decisions.md)
 - Open questions: none blocking

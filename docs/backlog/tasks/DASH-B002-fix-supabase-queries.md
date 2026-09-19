@@ -2,7 +2,8 @@
 
 **Area:** Dashboard  
 **Priority:** High  
-**Status:** Open (cause identified in repo migration; no query change yet)  
+**Status:** Done — loader uses `client_lifecycle_stamps` (BUG-004 /
+REL-007). Production smoke **NOT EXECUTED**.  
 **Owner:** TBD  
 **Last Updated:** 2026-09-19
 

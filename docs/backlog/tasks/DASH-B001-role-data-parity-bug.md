@@ -2,7 +2,8 @@
 
 **Area:** Dashboard  
 **Priority:** High  
-**Status:** Open (investigation recorded; fix not PLANNED)  
+**Status:** Fixed on `test` (BUG-004 / REL-007). Production smoke
+**NOT EXECUTED**.  
 **Owner:** TBD  
 **Last Updated:** 2026-09-19
 
