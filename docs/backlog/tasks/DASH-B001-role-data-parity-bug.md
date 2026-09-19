@@ -2,8 +2,8 @@
 
 **Area:** Dashboard  
 **Priority:** High  
-**Status:** Fixed on `test` (BUG-004 / REL-007). Production smoke
-**NOT EXECUTED**.  
+**Status:** **`RELEASED`** (BUG-004 / REL-007; smoke 14/14 PASS,
+run 35469423656).  
 **Owner:** TBD  
 **Last Updated:** 2026-09-19
 

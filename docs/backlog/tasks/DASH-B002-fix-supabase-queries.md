@@ -2,8 +2,9 @@
 
 **Area:** Dashboard  
 **Priority:** High  
-**Status:** Done — loader uses `client_lifecycle_stamps` (BUG-004 /
-REL-007). Production smoke **NOT EXECUTED**.  
+**Status:** Done / **`RELEASED`** — loader uses
+`client_lifecycle_stamps` (BUG-004 / REL-007; smoke 14/14 PASS,
+run 35469423656).  
 **Owner:** TBD  
 **Last Updated:** 2026-09-19
 

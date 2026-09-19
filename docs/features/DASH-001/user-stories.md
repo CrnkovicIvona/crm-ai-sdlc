@@ -3,8 +3,8 @@
 - Work item: DASH-001
 - Requirement: REQ-DASH-001
 - Functional specification: [functional-spec.md](functional-spec.md)
-- Status: Specified (DoR 2026-09-13). Feature lifecycle **`ON_MAIN`**
-  (REL-006 + REL-007 stamps). **ON_MAIN — not RELEASED.**
+- Status: Specified (DoR 2026-09-13). Feature lifecycle **`RELEASED`**
+  (REL-006 + REL-007; smoke 14/14 PASS, run 35469423656).
 - Traceability: [traceability.md](traceability.md)
 
 Do not add behaviour absent from the FS.
