@@ -2,8 +2,8 @@
 
 **Area:** Auth  
 **Priority:** Low  
-**Status:** Fixed on `test` (PR #55). REL-007 promotes to `main`.
-After merge: **ON_MAIN — not RELEASED** until production smoke.  
+**Status:** **`RELEASED`** (PR #55 on `test`; REL-007 PR #56; smoke
+14/14 PASS, run 35469423656).  
 **Owner:** TBD  
 **Last Updated:** 2026-09-19
 
@@ -35,7 +35,7 @@ Do **not** change emails, passwords, role copy, or the note text.
 italic) on `test` CI
 [run 35468058847](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/35468058847)
 (included in Playwright 26 PASSED). Production smoke:
-`tests/smoke/rel-007.spec.ts` test 1 — **NOT EXECUTED**.
+`tests/smoke/rel-007.spec.ts` test 1 — **PASSED** (run 35469423656).
 
 ## Related Files
 

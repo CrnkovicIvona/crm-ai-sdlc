@@ -4,7 +4,7 @@
 - Issue: none
 - Risk: **High**
 - Status of tests: **EXECUTED** on `test` CI (Vitest + Playwright).
-  Production smoke: **NOT EXECUTED**. **ON_MAIN — not RELEASED.**
+  Production smoke: **PASSED** (14/14, run 35469423656). **`RELEASED`**.
 - Owner (draft): Agent as QA
 - Approval: DoR 2026-09-13
 - Report: [../../test-reports/DASH-001.md](../../test-reports/DASH-001.md)
@@ -43,7 +43,8 @@ files. Do not delete prior tests.
 ## Entry / exit
 
 Entry: FS + AC + this plan. Exit for READY_FOR_PR: executed evidence
-in a test report. Exit for `RELEASED`: production smoke PASSED (later).
+in a test report. Exit for `RELEASED`: production smoke PASSED
+(run 35469423656, 14/14).
 
 ## Security
 

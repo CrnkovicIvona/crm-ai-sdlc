@@ -5,7 +5,7 @@
 - Plan: [../features/DASH-001/test-plan.md](../features/DASH-001/test-plan.md)
 - Risk level: High
 - Environment: GitHub Actions vs non-prod Vite (`test` CI). Production
-  smoke: **NOT EXECUTED**
+  smoke: **PASSED** (14/14, run 35469423656)
 
 ## Summary
 
@@ -13,7 +13,7 @@
 | --------------------------------------------------- | ------------------------------------------ |
 | Passed (executed, evidence cited)                   | 34 Vitest + 26 Playwright on `test` CI     |
 | Failed                                              | 0 on that run                              |
-| Not executed                                        | Production smoke (rel-003/004/006)         |
+| Not executed                                        | —                                          |
 | Skipped (runner/job)                                | Commitlint on push to `test` (PR-only job) |
 | Blocked (no oracle or High suite not run — secrets) | C008 (CRM, out of DASH-001)                |
 
@@ -29,7 +29,7 @@ Skipped and blocked are never passed.
 | AC-D009 UI   | TC-D009-ui                             | PASSED                        |
 | AC-D013 UI   | TC-D013-ui                             | PASSED                        |
 
-Production smoke ACs: **NOT EXECUTED**.
+Production smoke ACs: **PASSED** (14/14, run 35469423656).
 
 ## Exit criteria
 
@@ -38,15 +38,15 @@ Production smoke ACs: **NOT EXECUTED**.
 | Unit        | TC-D003–D013                          | yes              |
 | Integration | not required for DASH-001             | n/a              |
 | E2E         | TC-D001, D002, D009-ui, D013-ui, D014 | yes on `test` CI |
-| Smoke       | rel-006 / rel-007 on Production       | no               |
+| Smoke       | rel-006 / rel-007 on Production       | yes (14/14)      |
 
 ## Evidence
 
-| Test             | Kind     | Result       | Evidence                                                                                 |
-| ---------------- | -------- | ------------ | ---------------------------------------------------------------------------------------- |
-| Vitest 34        | unit+RLS | PASSED       | [run 34856651861](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/34856651861) |
-| Playwright 26    | e2e      | PASSED       | same run                                                                                 |
-| Production smoke | P        | NOT EXECUTED | after REL-007 merge                                                                      |
+| Test             | Kind     | Result | Evidence                                                                                                                            |
+| ---------------- | -------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| Vitest 34        | unit+RLS | PASSED | [run 34856651861](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/34856651861)                                            |
+| Playwright 26    | e2e      | PASSED | same run                                                                                                                            |
+| Production smoke | P        | PASSED | [run 35469423656](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/35469423656) 14/14; run 35469208189 smoke FAIL not used |
 
 ## Confirmation testing
 
@@ -72,6 +72,8 @@ REL-007), not full-row SELECT.
 - Vitest local RLS TC-D015: 1 PASSED
 - Playwright: 26 PASSED, 1 SKIPPED (`TC-D015-ui` without
   `TC_D015_REQUIRE_VIEW=1`; SKIPPED ≠ PASSED)
-- Production smoke (rel-003/004/006/007): **NOT EXECUTED**
+- Production smoke (rel-003/004/006/007): **PASSED** 14/14
+  [run 35469423656](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/35469423656)
 - AC-D015 / TC-D015: EXECUTED and PASSED on PGlite + local
-  PostgREST; hosted Preview e2e SKIPPED; Production **NOT EXECUTED**
+  PostgREST; hosted Preview e2e SKIPPED; Production smoke test 4
+  **PASSED** (Last-30 KPI ADMIN = VIEWER)

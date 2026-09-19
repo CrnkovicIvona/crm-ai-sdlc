@@ -3,9 +3,8 @@
 - Work item: DASH-001
 - Functional specification: [functional-spec.md](functional-spec.md)
 - Requirement: [requirement.md](requirement.md)
-- Status: **`ON_MAIN`** after REL-006; REL-007 stamps on this
-  release. **ON_MAIN — not RELEASED** until production smoke
-  **PASSED**.
+- Status: **`RELEASED`** after REL-007 smoke 14/14 (run
+  35469423656).
 - Owner (draft): Agent as architect
 - Source: ADR-0001, ADR-0002, AUTH-001 TS, CRM-001 TS,
   [decisions.md](decisions.md)
