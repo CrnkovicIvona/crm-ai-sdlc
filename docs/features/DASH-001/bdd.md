@@ -2,7 +2,7 @@
 
 - Work item: DASH-001
 - Status: DESIGNED. Mapped e2e/unit **EXECUTED** on `test` CI.
-  Production smoke **NOT EXECUTED**.
+  Production smoke **PASSED** (14/14, run 35469423656).
 - Source: [user-stories.md](user-stories.md)
 
 ```gherkin

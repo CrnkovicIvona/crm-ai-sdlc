@@ -4,6 +4,8 @@
 - Design status: **DESIGNED**
 - Automation status: **automated** (`tests/unit/dashboardMetrics.test.ts`,
   `tests/e2e/dashboard.spec.ts`). Execution is separate from design.
+  Non-prod **EXECUTED** on `test` CI; production smoke **PASSED**
+  (REL-007, 14/14).
 - C008 CRM search oracle remains **BLOCKED** (out of DASH-001).
 - Risk: High
 - Source: [bdd.md](bdd.md), [user-stories.md](user-stories.md)
