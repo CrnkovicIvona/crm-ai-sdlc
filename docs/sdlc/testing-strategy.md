@@ -47,8 +47,11 @@ e2e is **FAIL**, not SKIPPED.
 features need a **human review of the P/N/E matrix** at DoR (Gate 1),
 not only of the code plan.
 
-**Experience-based:** optional exploratory charter on Preview (time-boxed)
-does not replace scripted TCs and is not PASSED without a human log.
+**Experience-based:** optional `exploratory-qa-expert` session
+([exploratory-qa.md](exploratory-qa.md)): charter, risks, hypotheses,
+live browser (MCP or computer-use). Not a coverage checklist; not
+`npm run test:e2e`. Default Production; login-page test users.
+Clicks are not `TC-###` PASSED. Human log still required.
 
 ## Quality bar
 
