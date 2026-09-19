@@ -39,8 +39,12 @@ production deploy workflows until a later, approved phase.
   then `db push` (no row-data change).
 - Non-prod Supabase: a human still applies SQL to the project they use
   for local/QA unless that project is the same as production.
-- Do not modify production **row data** except via documented smoke
-  users
+- Do not modify production **row data** except (1) documented smoke
+  users in production smoke, and (2) `exploratory-qa-expert` **safe**
+  writes while authenticated via the login-page `test-users` mechanism
+  (practice app; prefer a client created in that session; no mass
+  delete; no service-role; never print passwords). See
+  [../sdlc/exploratory-qa.md](../sdlc/exploratory-qa.md)
 - Do not deploy the production SPA (Vercel tracks `main`)
 - Do not invent connection strings
 

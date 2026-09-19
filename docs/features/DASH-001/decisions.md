@@ -5,10 +5,10 @@
 - Risk: High
 - Owner (draft / approve): Agent / Human PO
 - Source: Cursor DASH-001 plan; PO refinements; chat **odobreno**
-  2026-09-13
-- Approval: BD-D001–BD-D008 and TD-D001–TD-D004 **APPROVED** (that
-  chat). This is not an ADR.
-- Status of log: **APPROVED** for listed IDs
+  2026-09-13; BD-D009 chat 2026-09-19
+- Approval: BD-D001–BD-D009 **APPROVED** (BD-D009: 2026-09-19).
+  TD-D001–TD-D005 **APPROVED** (TD-D005: 2026-09-19).
+- Status of log: **APPROVED** for BD-D001–D009 and TD-D001–D005
 - Traceability: [functional-spec.md](functional-spec.md)
 
 Gate 1 Ready does **not** authorize `src/` until the implementation
@@ -84,6 +84,15 @@ Platform: ADR-0001, ADR-0002, AUTH-001 session/roles, CRM-001 schema.
 | Approved value | Existing CRM-001 tables. Stop if a frozen metric cannot be computed. |
 | Status         | **APPROVED**                                                         |
 
+### BD-D009 Role metric parity
+
+| Field          | Value                                                                                          |
+| -------------- | ---------------------------------------------------------------------------------------------- |
+| Decision       | May VIEWER see different KPI values than ADMIN for the same period?                            |
+| Approved value | **No.** VIEWER must see the same truth as ADMIN. Write denial does not reduce dashboard truth. |
+| Status         | **APPROVED** (chat 2026-09-19)                                                                 |
+| Note           | BUG-004. HOW remains TD-D005 Proposed.                                                         |
+
 ---
 
 ## Technical decisions (approved)
@@ -123,3 +132,12 @@ Platform: ADR-0001, ADR-0002, AUTH-001 session/roles, CRM-001 schema.
 | Approved value      | Live **`products` table**.        |
 | Conflicts with ADR? | No                                |
 | Status              | **APPROVED**                      |
+
+### TD-D005 Dashboard stamps vs `clients` RLS
+
+| Field               | Value                                                                                                                                                                                                                               |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Decision            | How VIEWER gets `created_at` / `deleted_at` for deleted rows without CRM write rights                                                                                                                                               |
+| Approved value      | Stamps-only view (`client_lifecycle_stamps`: `id`, `created_at`, `deleted_at` including soft-deleted) for ADMIN and VIEWER. Do **not** widen full-row `clients` SELECT of deleted rows to VIEWER (PII). CRM list stays active-only. |
+| Conflicts with ADR? | No. BD-D008 still forbids a warehouse/facts table.                                                                                                                                                                                  |
+| Status              | **APPROVED** (chat 2026-09-19)                                                                                                                                                                                                      |

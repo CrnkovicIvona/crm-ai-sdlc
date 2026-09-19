@@ -245,4 +245,19 @@ describe('DASH-001 dashboard metrics', () => {
       expect(Number.isFinite(point.activeStock)).toBe(true);
     }
   });
+
+  it('active-only stamps understate New and Churned versus a full lifecycle set', () => {
+    const full = [
+      stamp('alive', '2026-03-10T00:00:00.000Z'),
+      stamp('gone', '2026-03-05T00:00:00.000Z', '2026-03-20T00:00:00.000Z'),
+    ];
+    const viewerLike = full.filter((row) => row.deleted_at === null);
+    const adminSnap = computeDashboard(full, [], [], MARCH);
+    const viewerSnap = computeDashboard(viewerLike, [], [], MARCH);
+    expect(adminSnap.newClients).toBe(2);
+    expect(adminSnap.churnedClients).toBe(1);
+    expect(viewerSnap.newClients).toBe(1);
+    expect(viewerSnap.churnedClients).toBe(0);
+    expect(viewerSnap.newClients).toBeLessThan(adminSnap.newClients);
+  });
 });

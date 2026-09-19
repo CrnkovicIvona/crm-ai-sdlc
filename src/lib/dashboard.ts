@@ -9,12 +9,32 @@ import {
 } from './dashboardMetrics';
 import { getSupabase } from './supabase';
 
+export const CLIENT_LIFECYCLE_STAMPS = 'client_lifecycle_stamps';
+
 const PAGE = 1000;
 
 type QueryPage<T> = {
   data: T[] | null;
-  error: { message?: string } | null;
+  error: { code?: string; message?: string } | null;
 };
+
+function isMissingRelation(
+  error: { code?: string; message?: string } | null,
+): boolean {
+  if (!error) {
+    return false;
+  }
+  const code = error.code ?? '';
+  const message = (error.message ?? '').toLowerCase();
+  return (
+    code === 'PGRST205' ||
+    code === '42P01' ||
+    (message.includes('client_lifecycle_stamps') &&
+      (message.includes('schema cache') ||
+        message.includes('does not exist') ||
+        message.includes('not find')))
+  );
+}
 
 async function fetchAllPages<T>(
   run: (from: number, to: number) => PromiseLike<QueryPage<T>>,
@@ -35,6 +55,33 @@ async function fetchAllPages<T>(
   }
 }
 
+export async function loadClientStamps(
+  supabase: NonNullable<ReturnType<typeof getSupabase>>,
+): Promise<{ ok: true; rows: ClientStamp[] } | { ok: false; error: string }> {
+  const probe = await supabase
+    .from(CLIENT_LIFECYCLE_STAMPS)
+    .select('id')
+    .limit(1);
+  if (probe.error && isMissingRelation(probe.error)) {
+    // View not on this database yet. CRM RLS fallback (VIEWER incomplete).
+    return fetchAllPages<ClientStamp>((from, to) =>
+      supabase
+        .from('clients')
+        .select('id, created_at, deleted_at')
+        .range(from, to),
+    );
+  }
+  if (probe.error) {
+    return { ok: false, error: GENERIC_CLIENT_ERROR };
+  }
+  return fetchAllPages<ClientStamp>((from, to) =>
+    supabase
+      .from(CLIENT_LIFECYCLE_STAMPS)
+      .select('id, created_at, deleted_at')
+      .range(from, to),
+  );
+}
+
 export async function loadDashboardSnapshot(
   period: DatePeriod,
 ): Promise<
@@ -44,14 +91,9 @@ export async function loadDashboardSnapshot(
   if (!supabase) {
     return { ok: false, error: GENERIC_CLIENT_ERROR };
   }
-  // Same anon client and RLS as CRM-001. No service role.
+  // Stamps view (TD-D005). No service role. No PII columns.
 
-  const clientsResult = await fetchAllPages<ClientStamp>((from, to) =>
-    supabase
-      .from('clients')
-      .select('id, created_at, deleted_at')
-      .range(from, to),
-  );
+  const clientsResult = await loadClientStamps(supabase);
   if (!clientsResult.ok) {
     return clientsResult;
   }

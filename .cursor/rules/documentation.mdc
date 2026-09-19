@@ -11,13 +11,18 @@ lifecycle).
 - `.cursor/rules/` = constraints
 - Root `README.md` = GitHub landing page (`.cursor/rules/readme.mdc`); not increment status
 - `.cursor/skills/` = procedures; start with `feature-orchestrator`
-- `docs/sdlc/` = lifecycle, DoR, DoD, risk, artifacts, change-control, roadmap
+- `docs/sdlc/` = lifecycle, DoR, DoD, risk, artifacts, change-control,
+  roadmap, exploratory-qa
+- `docs/test-reports/` = planned-suite reports and EXP-YYYYMMDD
+  exploratory sessions (not `docs/qa/`)
 - `docs/product/` = product truth pointers
 - `docs/features/<ID>/` = **new** feature packs (CRM-001+)
 - AUTH-001 stays on existing `docs/requirements|specifications|user-stories|bdd|test-*|decisions` paths
 - `docs/adr/` = platform ADRs only
 - `docs/architecture/` = shared environment/architecture
 - `docs/plans/TEMPLATE.md` = implementation plan template
+- `docs/backlog/` = cross-feature QA/product parking lot (not REQ/FS/AC;
+  not permission to code)
 - `src/` = application (not before PLANNED)
 
 FS = WHAT. TS = HOW. ADR = WHY (platform). Plan = EXACTLY what files
