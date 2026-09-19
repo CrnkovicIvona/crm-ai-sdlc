@@ -10,15 +10,16 @@
   approved 2026-09-14.
 - Depends on: AUTH-001, CRM-001 (`RELEASED`)
 
-| Artifact            | File                                             |
-| ------------------- | ------------------------------------------------ |
-| REQ                 | [requirement.md](requirement.md)                 |
-| FS                  | [functional-spec.md](functional-spec.md)         |
-| TS                  | [technical-spec.md](technical-spec.md)           |
-| Decision log        | [decisions.md](decisions.md)                     |
-| User stories / AC   | [user-stories.md](user-stories.md)               |
-| BDD                 | [bdd.md](bdd.md)                                 |
-| Test cases          | [test-cases.md](test-cases.md)                   |
-| Test plan           | [test-plan.md](test-plan.md)                     |
-| Traceability        | [traceability.md](traceability.md)               |
-| Implementation plan | [implementation-plan.md](implementation-plan.md) |
+| Artifact            | File                                                                      |
+| ------------------- | ------------------------------------------------------------------------- |
+| REQ                 | [requirement.md](requirement.md)                                          |
+| FS                  | [functional-spec.md](functional-spec.md)                                  |
+| TS                  | [technical-spec.md](technical-spec.md)                                    |
+| Decision log        | [decisions.md](decisions.md)                                              |
+| User stories / AC   | [user-stories.md](user-stories.md)                                        |
+| BDD                 | [bdd.md](bdd.md)                                                          |
+| Test cases          | [test-cases.md](test-cases.md)                                            |
+| Test plan           | [test-plan.md](test-plan.md)                                              |
+| Traceability        | [traceability.md](traceability.md)                                        |
+| Implementation plan | [implementation-plan.md](implementation-plan.md)                          |
+| QA parking lot      | [../../backlog/backlog.md](../../backlog/backlog.md) (`DASH-B001`–`B012`) |

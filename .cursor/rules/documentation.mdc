@@ -21,6 +21,8 @@ lifecycle).
 - `docs/adr/` = platform ADRs only
 - `docs/architecture/` = shared environment/architecture
 - `docs/plans/TEMPLATE.md` = implementation plan template
+- `docs/backlog/` = cross-feature QA/product parking lot (not REQ/FS/AC;
+  not permission to code)
 - `src/` = application (not before PLANNED)
 
 FS = WHAT. TS = HOW. ADR = WHY (platform). Plan = EXACTLY what files
