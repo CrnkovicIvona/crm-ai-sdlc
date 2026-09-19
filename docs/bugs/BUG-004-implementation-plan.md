@@ -28,19 +28,17 @@ Preferred HOW (TD-D005 **APPROVED**):
 4. Do **not** broaden `clients_select_admin_deleted` to VIEWER unless
    the human rejects the view/RPC (that path exposes deleted PII).
 
-Tests:
-
-- Unit: already has deleted rows in fixtures; add an explicit
-  “active-only input understates New/Churned” case if useful.
-- Integration or e2e `TC-D015`: same period, VIEWER and ADMIN KPI
-  New/Churned equal on a DB with known deletes (or documented
-  equivalent). Missing `E2E_*`: SKIPPED ≠ PASSED.
+- Unit: `tests/unit/clientLifecycleStamps.tc-d015.test.ts` (PGlite)
+  plus loader `tests/unit/dashboardLoader.test.ts`.
+- Live integration `TC-D015`: same period, VIEWER and ADMIN KPI
+  New/Churned equal on a DB with known deletes. Missing `E2E_*` or
+  missing view: SKIPPED ≠ PASSED.
 
 ## Mapping
 
-| AC / TC           | Automated test path (to be created)                    |
-| ----------------- | ------------------------------------------------------ |
-| AC-D015 / TC-D015 | `tests/integration/dashboard-stamps.test.ts` `TC-D015` |
+| AC / TC           | Automated test path                                                                                   |
+| ----------------- | ----------------------------------------------------------------------------------------------------- |
+| AC-D015 / TC-D015 | `tests/unit/clientLifecycleStamps.tc-d015.test.ts`; live `tests/integration/dashboard-stamps.test.ts` |
 
 ## Security notes
 

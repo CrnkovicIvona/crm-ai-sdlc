@@ -55,7 +55,7 @@ async function fetchAllPages<T>(
   }
 }
 
-async function loadClientStamps(
+export async function loadClientStamps(
   supabase: NonNullable<ReturnType<typeof getSupabase>>,
 ): Promise<{ ok: true; rows: ClientStamp[] } | { ok: false; error: string }> {
   const probe = await supabase
