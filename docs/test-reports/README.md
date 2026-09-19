@@ -3,7 +3,7 @@
 Use [TEMPLATE.md](TEMPLATE.md) for planned-suite reports. Passed means
 executed with evidence.
 
-Exploratory sessions (Playwright MCP, not CI): [EXP-TEMPLATE.md](EXP-TEMPLATE.md),
+Exploratory sessions: [EXP-TEMPLATE.md](EXP-TEMPLATE.md),
 [../sdlc/exploratory-qa.md](../sdlc/exploratory-qa.md).
 
 - [ENG-001](ENG-001.md)
@@ -13,3 +13,4 @@ Exploratory sessions (Playwright MCP, not CI): [EXP-TEMPLATE.md](EXP-TEMPLATE.md
 - [ISTQB-QA-REVIEW](ISTQB-QA-REVIEW.md) — Phase 55+66; RLS **PASSED** CI `456c9a2`; C008 oracle still BLOCKED
 - [EXP-2026-09-15](EXP-2026-09-15.md) — skill install; live UI **BLOCKED** (no Playwright MCP in that run)
 - [EXP-2026-09-16](EXP-2026-09-16.md) — Production 16-3 aligned charter (unauth + VIEWER + ADMIN session CRUD) vs 16-2 comparison
+- [EXP-2026-09-19](EXP-2026-09-19.md) — first-time user mental model; VIEWER/ADMIN; not DEEPLY on authz
