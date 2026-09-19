@@ -2,7 +2,7 @@
 
 **Area:** Dashboard  
 **Priority:** High  
-**Status:** Open  
+**Status:** Open (investigation recorded; fix not PLANNED)  
 **Owner:** TBD  
 **Last Updated:** 2026-09-19
 
@@ -10,19 +10,19 @@
 
 On Production Last 30 days, VIEWER saw New **620** and Churned **0**
 while ADMIN saw New **815** and Churned **195**. Active **620** and Net
-**+620** matched. A VIEWER can form a “no churn” model. Recorded as
-[BUG-004](../../bugs/BUG-004.md);
-[EXP-2026-09-19-2](../../test-reports/EXP-2026-09-19-2.md). UI only;
-not RLS proof.
+**+620** matched.
 
-DASH-001 actors: VIEWER views all dashboard data. FR-D003/FR-D004
-include New with later delete and Churned by `deleted_at`.
+**Cause (repo):** VIEWER RLS cannot SELECT `clients` where
+`deleted_at is not null`. Dashboard reads `clients` stamps with that
+RLS. Metrics code is not role-split. PO: BD-D009 same truth.
+
+See [BUG-004](../../bugs/BUG-004.md),
+[BUG-004-RCA.md](../../bugs/BUG-004-RCA.md).
 
 ## Acceptance Criteria
 
-- ADMIN and VIEWER show the same KPI values for the same period, **or**
-  a human-accepted spec change documents a VIEWER slice and the UI
-  explains it.
+- ADMIN and VIEWER show the same KPI values for the same period
+  (BD-D009).
 - Charts and cards tell the same story for a given role after B006.
 - No invented AC beyond DASH-001 plus BUG-004.
 

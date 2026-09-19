@@ -27,6 +27,7 @@
 | TC-D012  | AC-D012 | N    | state     | unit     | `TC-D012`                                                             |
 | TC-D013  | AC-D013 | E    | state     | unit+e2e | unit `TC-D013`; e2e empty/error UI `TC-D013-ui`                       |
 | TC-D014  | AC-D001 | N    | use-case  | e2e      | schema/query missing → **FAIL** not skip `TC-D014`                    |
+| TC-D015  | AC-D015 | P    | decision  | e2e/int  | VIEWER vs ADMIN same New/Churned for the same period `TC-D015`        |
 
 Missing dashboard data / schema: **FAIL**, not skip-to-green. Skip only
 documented missing `E2E_*` / `VITE_*` (skip ≠ pass).
@@ -64,6 +65,16 @@ documented missing `E2E_*` / `VITE_*` (skip ≠ pass).
 - Expected: dashboard cannot load expected data → test **FAILED**,
   not skipped
 - Automation: `tests/e2e/dashboard.spec.ts` `TC-D014`
+
+## TC-D015 VIEWER and ADMIN metric parity
+
+- Status: DESIGNED (not executed)
+- Kind: P — decision — e2e or integration — High
+- AC: AC-D015
+- Expected: Same period, VIEWER New/Churned/Active/Rate/Net/Adoption
+  equal ADMIN. VIEWER has no write controls. Skip without `E2E_*` ≠
+  PASSED.
+- Automation: to be named `TC-D015` when the BUG-004 plan is PLANNED
 
 ## Production smoke (later release)
 

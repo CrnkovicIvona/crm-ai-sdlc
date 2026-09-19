@@ -2,7 +2,7 @@
 
 **Area:** Dashboard  
 **Priority:** High  
-**Status:** Open  
+**Status:** Open (policy text identified; no live PostgREST trace; no policy edit)  
 **Owner:** TBD  
 **Last Updated:** 2026-09-19
 
@@ -15,12 +15,16 @@ write. UI hiding is not enforcement. This item is investigation;
 **do not edit policies** until a PLANNED bugfix. Not a pentest; no
 service role.
 
+**Conclusion from migration (not a live GRANT dump):** VIEWER cannot
+SELECT deleted `clients` rows. ADMIN can. That is enough to explain
+BUG-004 without claiming a production `pg_policies` snapshot.
+
 ## Acceptance Criteria
 
 - Written conclusion: VIEWER can or cannot read the rows/columns the
   dashboard formulas need.
-- If they cannot, DASH-B001 remains a defect vs “view all dashboard
-  data” unless the human documents a slice.
+- If they cannot, that is BUG-004 vs BD-D009 (same truth). Fix is
+  not this parking-lot item.
 - Hidden UI ≠ DEEPLY EXPLORED authz.
 
 ## Steps

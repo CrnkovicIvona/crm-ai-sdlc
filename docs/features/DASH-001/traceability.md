@@ -22,5 +22,6 @@ REL-006 merge; not `RELEASED`. Verification: **PASSED** on `test` CI
 | REQ-DASH-001 | FR-D009 | US-D003 | AC-D011 | AC-D011 | TC-D011         | TDE-D002 | `src/lib/dashboardMetrics.ts`, `tests/unit/dashboardMetrics.test.ts`                                                               | PASSED `test` CI; prod smoke NOT EXECUTED |
 | REQ-DASH-001 | FR-D013 | US-D003 | AC-D012 | AC-D012 | TC-D012         | TDE-D002 | `src/lib/dashboardMetrics.ts`, `tests/unit/dashboardMetrics.test.ts`                                                               | PASSED `test` CI; prod smoke NOT EXECUTED |
 | REQ-DASH-001 | FR-D014 | US-D004 | AC-D013 | AC-D013 | TC-D013         | TDE-D004 | `src/pages/DashboardPage.tsx`, `src/index.css`, `tests/unit/dashboardMetrics.test.ts`, `tests/e2e/dashboard.spec.ts`               | PASSED `test` CI; prod smoke NOT EXECUTED |
+| REQ-DASH-001 | FR-D015 | US-D002 | AC-D015 | AC-D015 | TC-D015         | TDE-D005 | **NOT IMPLEMENTED** (BUG-004; plan Draft)                                                                                          | NOT EXECUTED                              |
 
 Also [../../traceability/matrix.md](../../traceability/matrix.md).

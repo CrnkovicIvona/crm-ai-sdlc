@@ -41,11 +41,11 @@ Out of scope: see REQ.
 
 ## Actors
 
-| Actor                  | Dashboard                                             |
-| ---------------------- | ----------------------------------------------------- |
-| ADMIN                  | Access and view all dashboard data; no writes         |
-| VIEWER                 | Access and view all dashboard data; no writes         |
-| Unauthenticated person | No dashboard (existing AUTH-001 unauthenticated path) |
+| Actor                  | Dashboard                                                                                                    |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------ |
+| ADMIN                  | Access and view all dashboard data; no writes                                                                |
+| VIEWER                 | Access and view all dashboard data; **same metric values as ADMIN** for the same period (BD-D009); no writes |
+| Unauthenticated person | No dashboard (existing AUTH-001 unauthenticated path)                                                        |
 
 ## Preconditions
 
@@ -54,24 +54,25 @@ Employee is authenticated with a usable ADMIN or VIEWER profile
 
 ## Functional requirements
 
-| ID      | Statement                                                                                        | Source  |
-| ------- | ------------------------------------------------------------------------------------------------ | ------- |
-| FR-D001 | Authenticated ADMIN and VIEWER SHALL access `/app/dashboard`.                                    | REQ     |
-| FR-D002 | The dashboard SHALL display Active Clients (`deleted_at` is empty).                              | REQ 3.1 |
-| FR-D003 | The dashboard SHALL display New Clients in the selected `[start, end)` range by `created_at`.    | REQ 3.2 |
-| FR-D004 | The dashboard SHALL display Churned Clients in the range by `deleted_at`.                        | REQ 3.3 |
-| FR-D005 | The dashboard SHALL calculate Churn Rate using the opening active client base.                   | REQ 3.4 |
-| FR-D006 | The dashboard SHALL calculate Net Client Growth as New Clients minus Churned Clients.            | REQ 3.5 |
-| FR-D007 | The dashboard SHALL display Client Base Trend (active stock over time, monthly aggregation).     | REQ 5.1 |
-| FR-D008 | The dashboard SHALL display New vs. Churned Clients over time (monthly events).                  | REQ 5.2 |
-| FR-D009 | The dashboard SHALL display active clients by product (`COUNT` of distinct clients).             | REQ 3.7 |
-| FR-D010 | The dashboard SHALL display Product Adoption Rate.                                               | REQ 3.6 |
-| FR-D011 | The dashboard SHALL provide Last 7 / 30 / 90 days, This year, and Custom range. Default Last 30. | REQ 6   |
-| FR-D012 | The dashboard SHALL be read-only.                                                                | REQ     |
-| FR-D013 | Soft-deleted clients SHALL be excluded from Active Clients, product adoption, and by-product.    | REQ     |
-| FR-D014 | The dashboard SHALL handle zero/empty states without NaN, Infinity, or undefined.                | REQ 9   |
+| ID      | Statement                                                                                        | Source          |
+| ------- | ------------------------------------------------------------------------------------------------ | --------------- |
+| FR-D001 | Authenticated ADMIN and VIEWER SHALL access `/app/dashboard`.                                    | REQ             |
+| FR-D002 | The dashboard SHALL display Active Clients (`deleted_at` is empty).                              | REQ 3.1         |
+| FR-D003 | The dashboard SHALL display New Clients in the selected `[start, end)` range by `created_at`.    | REQ 3.2         |
+| FR-D004 | The dashboard SHALL display Churned Clients in the range by `deleted_at`.                        | REQ 3.3         |
+| FR-D005 | The dashboard SHALL calculate Churn Rate using the opening active client base.                   | REQ 3.4         |
+| FR-D006 | The dashboard SHALL calculate Net Client Growth as New Clients minus Churned Clients.            | REQ 3.5         |
+| FR-D007 | The dashboard SHALL display Client Base Trend (active stock over time, monthly aggregation).     | REQ 5.1         |
+| FR-D008 | The dashboard SHALL display New vs. Churned Clients over time (monthly events).                  | REQ 5.2         |
+| FR-D009 | The dashboard SHALL display active clients by product (`COUNT` of distinct clients).             | REQ 3.7         |
+| FR-D010 | The dashboard SHALL display Product Adoption Rate.                                               | REQ 3.6         |
+| FR-D011 | The dashboard SHALL provide Last 7 / 30 / 90 days, This year, and Custom range. Default Last 30. | REQ 6           |
+| FR-D012 | The dashboard SHALL be read-only.                                                                | REQ             |
+| FR-D013 | Soft-deleted clients SHALL be excluded from Active Clients, product adoption, and by-product.    | REQ             |
+| FR-D014 | The dashboard SHALL handle zero/empty states without NaN, Infinity, or undefined.                | REQ 9           |
+| FR-D015 | ADMIN and VIEWER SHALL see the same dashboard metric values for the same selected period.        | REQ 10, BD-D009 |
 
-DASH-001-FR-01 … FR-14 in the request map 1:1 to FR-D001 … FR-D014.
+DASH-001-FR-01 … FR-15 in the request map 1:1 to FR-D001 … FR-D015.
 
 ## Date filter (do not apply blindly)
 

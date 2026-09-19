@@ -37,6 +37,13 @@ Feature: CRM dashboard
     Given clients with deleted_at inside and outside the period
     Then only inside-period deleted_at values count as Churned Clients
 
+  Scenario: AC-D015 VIEWER and ADMIN see the same KPI values
+    Given the same selected period and the same client rows
+    When I open the dashboard as VIEWER
+    And I open the dashboard as ADMIN
+    Then Active, New, Churned, Churn Rate, Net Growth, and Adoption match
+    And VIEWER still has no write controls
+
   Scenario: AC-D006 Churn Rate five percent
     Given opening active base is 100
     And 5 clients churn in the period
