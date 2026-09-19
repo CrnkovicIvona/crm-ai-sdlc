@@ -104,6 +104,9 @@ test('TC-D013-ui empty and error states do not show NaN', async ({ page }) => {
   test.skip(!hasAdmin, 'E2E_ADMIN_EMAIL / E2E_ADMIN_PASSWORD not set');
   await loginAdmin(page);
   await page.route('**/rest/v1/clients*', (route) => jsonList(route, []));
+  await page.route('**/rest/v1/client_lifecycle_stamps*', (route) =>
+    jsonList(route, []),
+  );
   await page.route('**/rest/v1/products*', (route) => jsonList(route, []));
   await page.route('**/rest/v1/client_products*', (route) =>
     jsonList(route, []),
@@ -121,7 +124,11 @@ test('TC-D013-ui empty and error states do not show NaN', async ({ page }) => {
   await expect(page.locator('text=Infinity')).toHaveCount(0);
 
   await page.unroute('**/rest/v1/clients*');
+  await page.unroute('**/rest/v1/client_lifecycle_stamps*');
   await page.route('**/rest/v1/clients*', (route) =>
+    jsonList(route, { message: 'schema missing' }, 400),
+  );
+  await page.route('**/rest/v1/client_lifecycle_stamps*', (route) =>
     jsonList(route, { message: 'schema missing' }, 400),
   );
   await page.getByTestId('dashboard-filter-7').click();

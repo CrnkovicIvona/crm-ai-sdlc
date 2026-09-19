@@ -56,8 +56,8 @@ null` for both roles; only ADMIN may SELECT deleted rows
 `clients` with that RLS, so VIEWER under-counts New/Churned.
 
 If SELECT/count is denied: **STOP**, document, do not use service
-role in the browser. Fix HOW is TD-D005 **Proposed** (stamps view/RPC,
-not widening deleted PII on `clients`).
+role in the browser. HOW: view `client_lifecycle_stamps` (TD-D005
+**APPROVED**). Do not widen deleted PII on `clients` for VIEWER.
 
 ## Security
 
