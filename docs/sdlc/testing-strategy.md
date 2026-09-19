@@ -47,14 +47,11 @@ e2e is **FAIL**, not SKIPPED.
 features need a **human review of the P/N/E matrix** at DoR (Gate 1),
 not only of the code plan.
 
-**Experience-based:** optional exploratory session
-([exploratory-qa.md](exploratory-qa.md), skill
-`exploratory-qa-expert`) via a real browser (Playwright MCP, or
-computer-use fallback). Default target is live Production. Login-page
-`test-users` identities are intended for this practice app; `E2E_*`
-are not required for EXP. It does not replace scripted TCs, is not
-GitHub Actions, and is not PASSED without a human log. Browser clicks
-are not `TC-###` PASSED.
+**Experience-based:** optional `exploratory-qa-expert` session
+([exploratory-qa.md](exploratory-qa.md)): charter, risks, hypotheses,
+live browser (MCP or computer-use). Not a coverage checklist; not
+`npm run test:e2e`. Default Production; login-page test users.
+Clicks are not `TC-###` PASSED. Human log still required.
 
 ## Quality bar
 

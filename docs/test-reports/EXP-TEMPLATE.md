@@ -6,70 +6,50 @@
 - Date/time:
 - Tester/agent: Cursor Agent (`exploratory-qa-expert`)
 - Source branch:
-- Environment: Production
-- Live URL: https://crm-ai-sdlc.vercel.app/
-- Backend: Production Supabase
-- Database: Production database
-- Browser tool: Playwright MCP (`browser_*`) | computer-use fallback | other (name it)
+- Deployed SPA (evidence): Production `https://crm-ai-sdlc.vercel.app/` | other
+- Browser tool actually used:
 - Playwright MCP: available | unavailable
-- Scope:
 - Product code modified: **No**
 
-Identities (no passwords):
+Identities (no passwords): login-page test-user mechanism — VIEWER /
+ADMIN / not used (reason).
 
-- VIEWER: authenticated using the application's documented test-user
-  mechanism. | not used (reason)
-- ADMIN: authenticated using the application's documented test-user
-  mechanism. | not used (reason)
+## Mission
 
-Do not treat missing `E2E_*` as a blocker when the login-page
-`test-users` aside is available.
+What we are trying to **learn**:
 
-## Charter
+## Risks (2–3)
 
-```text
+## Hypotheses
 
-```
+Generated from this product (not copied from the skill):
 
-## Oracle
-
-- AUTH:
-- CRM: (C008 BLOCKED unless docs change)
-- DASH:
-- Risk/lifecycle:
+1.
+2.
+3.
 
 ## Coverage
 
-Per area and role. Status only: Explored, Partial, Blocked, Not
-explored, N/A.
+Use only: NOT EXPLORED | TOUCHED | PARTIALLY EXPLORED |
+DEEPLY EXPLORED | BLOCKED | N/A.
 
-Do not label the whole session “Partially explored” because one area
-is blocked.
+High-risk areas need variation/investigation for DEEPLY. A happy path
+is not enough.
 
-| Area             | Unauthenticated | VIEWER | ADMIN | Status / notes |
-| ---------------- | --------------- | ------ | ----- | -------------- |
-| Authentication   |                 |        |       |                |
-| Authorization    |                 |        |       |                |
-| CRM list         |                 |        |       |                |
-| CRM detail       |                 |        |       |                |
-| CRM create       | N/A             |        |       |                |
-| CRM edit         | N/A             |        |       |                |
-| CRM delete       | N/A             |        |       |                |
-| Dashboard        |                 |        |       |                |
-| Session / logout |                 |        |       |                |
-| Messy paths      |                 |        |       |                |
+| Area                | Unauth | VIEWER | ADMIN | State | Evidence of variation (or why not) |
+| ------------------- | ------ | ------ | ----- | ----- | ---------------------------------- |
+| Authn               |        |        |       |       |                                    |
+| Authz / enforcement |        |        |       |       |                                    |
+| CRM                 |        |        |       |       |                                    |
+| Dashboard           |        |        |       |       |                                    |
+| Session             |        |        |       |       |                                    |
 
-C008 search: Blocked — requirement remains BLOCKED (not a product
-blocker for the rest of the session).
+C008 match: BLOCKED for conclusions about matching. Note any search
+**UI** still investigated.
 
-## Findings
+## Requirement-based findings
 
-Classify each as BUG, IMP, QUESTION, or OBSERVATION. Do not mark
-TC-### PASSED.
-
-The login-page `test-users` aside is **intended** for this practice
-app. Do not file it as a security BUG. If AUTH FS/TS are silent,
-optional QUESTION only.
+BUG / IMP / QUESTION / OBSERVATION against the oracle.
 
 ### BUG
 
@@ -77,52 +57,39 @@ optional QUESTION only.
 
 ### QUESTION
 
-`TBD — HUMAN DECISION REQUIRED` where the oracle is silent.
+`TBD — HUMAN DECISION REQUIRED`
 
 ### OBSERVATION
 
-## Messy Paths
+## Exploratory findings
 
-| Path            | Tried | Result | Finding |
-| --------------- | ----- | ------ | ------- |
-| Refresh         |       |        |         |
-| Double Save     |       |        |         |
-| Back/Forward    |       |        |         |
-| Dirty state     |       |        |         |
-| Cancel          |       |        |         |
-| Partial input   |       |        |         |
-| Role transition |       |        |         |
-| Empty state     |       |        |         |
-| Large input     |       |        |         |
-| Direct URL      |       |        |         |
-
-If not tried, give a precise reason (for example `Not tried —
-production data safety`). Never invent a result.
-
-## Not Explored / Blocked
-
-Distinguish **Blocked** (external constraint, e.g. C008) from **Not
-explored** (intentional, e.g. delete of a non-test client).
+Messy paths, mental model, UI clarity, spec-silent behavior. Same
+four labels. Confidence and **severity/impact** separately.
 
 ## Evidence
 
-Steps, URLs, roles, screenshots/snapshots (paths), console/network
-notes. No secrets or passwords.
+Reproducible steps in **this file** (role, start state, actions,
+important inputs without secrets, observed, expected if known). `/tmp`
+logs are optional supplement only.
 
-## Confidence
+## Debrief
 
-High / Medium / Low — per important finding, not as severity.
-
-## Follow-Up Recommendations
+- Learned:
+- Surprised:
+- Risks investigated:
+- Risks remaining:
+- Anomalies to follow up:
+- Disproven:
+- Next:
+- We can confidently say:
+- We must **not** claim:
 
 ## Bugs promoted
 
 | Session id | `docs/bugs/`    |
 | ---------- | --------------- |
-| BUG-S1-01  | BUG-### or none |
+|            | none or BUG-### |
 
 ## Human QA Gate
 
 Final approval: HUMAN QA REQUIRED
-
-Human QA gate remains required.
