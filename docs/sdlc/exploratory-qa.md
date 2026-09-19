@@ -6,11 +6,11 @@ Skill:
 Investigation layer. Not `execute-tests`, not GitHub Actions e2e/
 smoke, not the human `IN_QA` gate.
 
-**Unit of work:** a charter session (mission, 2–3 risks, hypotheses,
-adaptive exploration, evidence in the EXP file, debrief). Not a
-coverage checklist. Success is new information, a confidence change,
-a challenged assumption, or unexpected behavior — not a filled table
-or “0 bugs”.
+**Unit of work:** a full session over Login/Auth, CRM, and Dashboard.
+Initial 2–3 hypotheses are **orientation**, not boundaries. Adapt to
+new signals; evidence in the EXP; debrief. Not a coverage checklist.
+Success is new information, a confidence change, a challenged
+assumption, or unexpected behavior — not a filled table or “0 bugs”.
 
 **DEEPLY EXPLORED** means meaningful variation or investigation, not
 more copies of the same happy path. Hidden UI ≠ authorization

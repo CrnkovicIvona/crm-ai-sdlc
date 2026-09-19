@@ -18,15 +18,14 @@ ADMIN / not used (reason).
 
 What we are trying to **learn**:
 
-## Risks (2–3)
+## Initial risks / hypotheses (orientation only)
 
-## Hypotheses
+Not session boundaries. Add more as they appear.
 
-Generated from this product (not copied from the skill):
+## Hypotheses added during the session
 
 1.
 2.
-3.
 
 ## Coverage
 
@@ -34,7 +33,8 @@ Use only: NOT EXPLORED | TOUCHED | PARTIALLY EXPLORED |
 DEEPLY EXPLORED | BLOCKED | N/A.
 
 High-risk areas need variation/investigation for DEEPLY. A happy path
-is not enough.
+is not enough. A full session must not leave Login/Auth, CRM, or
+Dashboard as NOT EXPLORED unless BLOCKED.
 
 | Area                | Unauth | VIEWER | ADMIN | State | Evidence of variation (or why not) |
 | ------------------- | ------ | ------ | ----- | ----- | ---------------------------------- |
@@ -76,8 +76,9 @@ logs are optional supplement only.
 
 - Learned:
 - Surprised:
-- Risks investigated:
+- Risks investigated (initial and discovered):
 - Risks remaining:
+- Hypotheses added mid-session:
 - Anomalies to follow up:
 - Disproven:
 - Next:

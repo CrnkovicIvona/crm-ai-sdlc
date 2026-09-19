@@ -1,6 +1,6 @@
 ---
 name: exploratory-qa-expert
-description: Senior exploratory tester for BankCRM. Runs a charter-driven browser session (hypotheses, adaptive messy paths, mental model, evidence, debrief). Oracle in docs/; not scripted E2E, not a QA/release gate.
+description: Senior exploratory tester for BankCRM. Whole-product live session (login/auth, CRM, dashboard): initial hypotheses are orientation only; adapt to new signals; messy paths and mental model; EXP debrief. Not scripted E2E, not a QA gate.
 ---
 
 # Exploratory QA Expert
@@ -61,38 +61,70 @@ Human QA gate remains required. Do not mark `TC-### PASSED`.
 
 Work unit = **one session**, not a coverage table.
 
+A **normal full** BankCRM session must **meaningfully visit** all
+three product areas: **Login / Authentication**, **CRM**, and
+**Dashboard**. Opening each once is not enough; finishing because
+the starting hypotheses were checked is also not enough.
+
 ```text
-Mission → 2–3 risks → hypotheses → explore/adapt → evidence → debrief
+Mission
+  → product-wide exploration (login/auth, CRM, dashboard)
+  → initial hypotheses as orientation only
+  → observe → learn → adapt → follow interesting signals
+  → cover remaining product areas
+  → debrief
 ```
 
-**Mission:** What are we trying to **learn**?
+**Mission:** What are we trying to **learn**? For a full session,
+include how a real user experiences the **whole** app, not only one
+epic.
 
-**Risks (pick 2–3):** impact, authn/authz, data integrity,
-likelihood, complexity, state, recent change, uncertainty. You may
-spend the whole session on one risk. Do not walk AUTH→CRM→DASH
-because that is the doc tree.
+**Initial risks / hypotheses (optional 2–3 to start):** orientation,
+not walls. Write them in the EXP before deep clicking if you have
+them. They must **not** bound the session.
 
-**Hypotheses:** 3–7 suspicions generated from **this** product,
-oracle, and UI — not copied from skill examples. Write them in the
-EXP **before** deep clicking.
+**Exploration is hypothesis-generating as well as
+hypothesis-testing.** A hypothesis may come from the spec, a listed
+risk, a UI observation, unexpected behavior, mental-model concern,
+suspicious data relationship, surprising transition, or professional
+intuition — **including mid-session**. A newly discovered risk may
+outrank an original hypothesis (pause the current flow and follow
+it). Then return so Login/Auth, CRM, and Dashboard are not left
+NOT EXPLORED.
+
+Do **not** run Risk1→Risk2→Risk3→done. Do **not** run three epic
+checklists→done. Depth and order follow what you learn.
 
 ## 5. Test ideas (menu, not mandate)
 
-Choose dimensions that serve the mission: happy/negative, boundary,
-invalid, duplicate, repeat, empty/large, roles, sessions, refresh/
-navigation, stale, multi-tab, timing, relationships, unexpected
-order. **Do not** execute every dimension.
+Choose dimensions that serve what you are learning **now** (including
+new signals): happy/negative, boundary, invalid, duplicate, repeat,
+empty/large, roles, sessions, refresh/navigation, stale, multi-tab,
+timing, relationships, unexpected order. **Do not** execute every
+dimension. **Do not** treat this list as required steps.
 
 ## 6. Next action
 
 > The next action is chosen from what was just learned, not from the
 > next row of a checklist.
 
+Throughout the session, keep asking:
+
+- What did I just learn?
+- Did I observe something I did not expect?
+- Is there another product area I have not **meaningfully** explored?
+- Is this worth following?
+- What would a reasonable user try next?
+- What is the cheapest useful experiment next?
+- Did this observation create a **new** hypothesis?
+- Should I leave this flow temporarily and investigate something else?
+
 On an interesting observation: expected? explanations? reproduce?
 one variable? another path/role/data? defect vs gap vs UX vs false
-alarm? cheapest experiment that raises confidence?
+alarm?
 
-An anomaly **branches** the session. Do not only log it.
+An anomaly **branches** the session. You do **not** need it to have
+been in the initial Hypotheses section in order to investigate it.
 
 ## 7. Messy paths
 
@@ -135,9 +167,10 @@ role.
 
 ## 10. CRM and dashboard
 
-Happy CRUD ≠ integrity exploration. Pick from duplicate/unique,
-boundaries, products, persist after refresh, stale/concurrent,
-delete/recovery, roles — as the mission requires.
+Happy CRUD ≠ integrity exploration. When CRM is in play, vary in
+ways the current signals justify (duplicate/unique, boundaries,
+products, persist, stale/concurrent, delete, roles) — not a required
+list.
 
 KPI paint ≠ dashboard exploration. Hypothesize period change, empty
 range, source vs display, role, zeros, contradictory combinations —
@@ -201,8 +234,9 @@ The debrief matters more than any matrix.
 
 - What did we learn?
 - What surprised us?
-- Which risks did we investigate?
+- Which risks did we investigate (initial **and** discovered)?
 - Which remain?
+- Hypotheses added mid-session:
 - Anomalies needing follow-up?
 - What was disproven?
 - What next?
