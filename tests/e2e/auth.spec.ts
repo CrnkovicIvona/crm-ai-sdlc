@@ -22,8 +22,24 @@ test('TC-008 unauthenticated root goes to login', async ({ page }) => {
   await expect(page).toHaveURL(/\/login/);
   await expectLoginSurface(page);
   await expect(page.getByTestId('test-users')).toBeVisible();
-  await expect(page.getByTestId('test-users')).toContainText('admin@test.com');
-  await expect(page.getByTestId('test-users')).toContainText('viewer@test.com');
+  await expect(page.getByTestId('test-users-admin')).toContainText(
+    'admin@test.com',
+  );
+  await expect(page.getByTestId('test-users-viewer')).toContainText(
+    'viewer@test.com',
+  );
+  await expect(page.getByTestId('test-users-note')).toHaveCSS(
+    'font-style',
+    'italic',
+  );
+  const adminBox = await page.getByTestId('test-users-admin').boundingBox();
+  const viewerBox = await page.getByTestId('test-users-viewer').boundingBox();
+  const noteBox = await page.getByTestId('test-users-note').boundingBox();
+  expect(adminBox).toBeTruthy();
+  expect(viewerBox).toBeTruthy();
+  expect(noteBox).toBeTruthy();
+  expect(viewerBox!.y).toBeGreaterThan(adminBox!.y + adminBox!.height + 8);
+  expect(noteBox!.y).toBeGreaterThan(viewerBox!.y + viewerBox!.height + 8);
 });
 
 test('TC-007 failed login is generic', async ({ page }) => {

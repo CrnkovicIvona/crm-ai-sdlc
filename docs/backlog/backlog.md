@@ -6,31 +6,40 @@ Feature packs stay under `docs/features/`. Defect records stay under
 `docs/bugs/`. Coding still needs DoR + approved implementation plan.
 
 Id scheme: `{AREA}-B{nnn}` (`DASH`, `AUTH`, `CRM`, `SYS`, `UI`). Do not
-reuse feature ids (`DASH-001` is the dashboard feature). This seed is
-dashboard-only; AUTH/CRM/SYS rows are added when real work exists.
+reuse feature ids (`DASH-001` is the dashboard feature). AUTH/CRM/SYS
+rows are added when real work exists.
 
 Evidence for DASH-B001: [EXP-2026-09-19-2](../test-reports/EXP-2026-09-19-2.md),
 [BUG-004](../bugs/BUG-004.md) (Triaged; RCA). BD-D009: VIEWER and ADMIN
 same dashboard truth. Production Last 30: VIEWER New **620** /
 Churned **0**; ADMIN New **815** / Churned **195**.
 
-| ID                                                         | Title                      | Area      | Status   | Priority | Owner | Last Updated |
-| ---------------------------------------------------------- | -------------------------- | --------- | -------- | -------- | ----- | ------------ |
-| [DASH-B001](tasks/DASH-B001-role-data-parity-bug.md)       | Role Data Parity Bug       | Dashboard | Open     | High     | TBD   | 2026-09-19   |
-| [DASH-B002](tasks/DASH-B002-fix-supabase-queries.md)       | Fix Supabase Queries       | Dashboard | Open     | High     | TBD   | 2026-09-19   |
-| [DASH-B003](tasks/DASH-B003-add-total-clients-kpi.md)      | Add Total Clients KPI      | Dashboard | Proposed | High     | TBD   | 2026-09-19   |
-| [DASH-B004](tasks/DASH-B004-add-kpi-tooltips.md)           | Add KPI Tooltips           | Dashboard | Proposed | Medium   | TBD   | 2026-09-19   |
-| [DASH-B005](tasks/DASH-B005-unify-metric-logic.md)         | Unify Metric Logic         | Dashboard | Open     | Medium   | TBD   | 2026-09-19   |
-| [DASH-B006](tasks/DASH-B006-validate-charts.md)            | Validate Charts            | Dashboard | Open     | Medium   | TBD   | 2026-09-19   |
-| [DASH-B007](tasks/DASH-B007-add-last-updated-timestamp.md) | Add Last Updated Timestamp | Dashboard | Proposed | Low      | TBD   | 2026-09-19   |
-| [DASH-B008](tasks/DASH-B008-add-product-filter.md)         | Add Product Filter         | Dashboard | Proposed | Low      | TBD   | 2026-09-19   |
-| [DASH-B009](tasks/DASH-B009-add-status-pie-chart.md)       | Add Status Pie Chart       | Dashboard | Proposed | Low      | TBD   | 2026-09-19   |
-| [DASH-B010](tasks/DASH-B010-extend-unit-tests.md)          | Extend Unit Tests          | Dashboard | Open     | Medium   | TBD   | 2026-09-19   |
-| [DASH-B011](tasks/DASH-B011-check-empty-states.md)         | Check Empty States         | Dashboard | Open     | Medium   | TBD   | 2026-09-19   |
-| [DASH-B012](tasks/DASH-B012-check-rls-enforcement.md)      | Check RLS Enforcement      | Dashboard | Open     | High     | TBD   | 2026-09-19   |
+| ID                                                         | Title                          | Area      | Status      | Priority | Owner | Last Updated |
+| ---------------------------------------------------------- | ------------------------------ | --------- | ----------- | -------- | ----- | ------------ |
+| [AUTH-B001](tasks/AUTH-B001-login-test-user-spacing.md)    | Login test-user blocks spacing | Auth      | In progress | Low      | TBD   | 2026-09-19   |
+| [DASH-B001](tasks/DASH-B001-role-data-parity-bug.md)       | Role Data Parity Bug           | Dashboard | Open        | High     | TBD   | 2026-09-19   |
+| [DASH-B002](tasks/DASH-B002-fix-supabase-queries.md)       | Fix Supabase Queries           | Dashboard | Open        | High     | TBD   | 2026-09-19   |
+| [DASH-B003](tasks/DASH-B003-add-total-clients-kpi.md)      | Add Total Clients KPI          | Dashboard | Proposed    | High     | TBD   | 2026-09-19   |
+| [DASH-B004](tasks/DASH-B004-add-kpi-tooltips.md)           | Add KPI Tooltips               | Dashboard | Proposed    | Medium   | TBD   | 2026-09-19   |
+| [DASH-B005](tasks/DASH-B005-unify-metric-logic.md)         | Unify Metric Logic             | Dashboard | Open        | Medium   | TBD   | 2026-09-19   |
+| [DASH-B006](tasks/DASH-B006-validate-charts.md)            | Validate Charts                | Dashboard | Open        | Medium   | TBD   | 2026-09-19   |
+| [DASH-B007](tasks/DASH-B007-add-last-updated-timestamp.md) | Add Last Updated Timestamp     | Dashboard | Proposed    | Low      | TBD   | 2026-09-19   |
+| [DASH-B008](tasks/DASH-B008-add-product-filter.md)         | Add Product Filter             | Dashboard | Proposed    | Low      | TBD   | 2026-09-19   |
+| [DASH-B009](tasks/DASH-B009-add-status-pie-chart.md)       | Add Status Pie Chart           | Dashboard | Proposed    | Low      | TBD   | 2026-09-19   |
+| [DASH-B010](tasks/DASH-B010-extend-unit-tests.md)          | Extend Unit Tests              | Dashboard | Open        | Medium   | TBD   | 2026-09-19   |
+| [DASH-B011](tasks/DASH-B011-check-empty-states.md)         | Check Empty States             | Dashboard | Open        | Medium   | TBD   | 2026-09-19   |
+| [DASH-B012](tasks/DASH-B012-check-rls-enforcement.md)      | Check RLS Enforcement          | Dashboard | Open        | High     | TBD   | 2026-09-19   |
 
 ```yaml
 # Parking lot only. Proposed ≠ approved AC.
+auth_backlog:
+  - id: AUTH-B001
+    title: Login test-user blocks spacing
+    area: Auth
+    description: Separate ADMIN block, VIEWER block, and italic spec note on login with vertical space. Do not change credentials or copy.
+    priority: low
+    status: in_progress
+
 dashboard_backlog:
   - id: DASH-B001
     title: Role Data Parity Bug
