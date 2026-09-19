@@ -17,9 +17,9 @@ TC-D001–TC-D015 as [test-cases.md](test-cases.md).
 metrics (AC-D003–D013). Do not prove all BI via Playwright.
 
 **E2E** (`dashboard.spec.ts`): access, AUTH, visible filter default,
-empty/error UI, schema missing **FAIL**. **TC-D015** (role KPI
-parity) is DESIGNED; not in the current e2e file until BUG-004 is
-PLANNED.
+empty/error UI, schema missing **FAIL**. **TC-D015** is integration
+`tests/integration/dashboard-stamps.test.ts` (SKIPPED without secrets
+or stamps view; skip ≠ pass).
 
 **Integration:** not required if unit + existing CRM RLS SELECT is
 enough. If a dashboard query is denied by RLS, **STOP** (TD), do not

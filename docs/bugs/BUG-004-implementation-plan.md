@@ -4,42 +4,41 @@
 - Issue: none
 - Owner: Agent draft / Human approve
 - Source: BD-D009 (chat 2026-09-19), [BUG-004-RCA.md](BUG-004-RCA.md)
-- Open Questions: TD-D005 (stamps view/RPC vs widening `clients`
-  SELECT) — **PROPOSED**
-- Approval: **Draft — not PLANNED**
+- Open Questions: none (TD-D005 **APPROVED** 2026-09-19)
+- Approval: **Approved** (`PLANNED`)
 - Traceability: FR-D015, AC-D015, TC-D015
 - Prerequisite: BD-D009 recorded
-- Status: **Draft**
+- Status: **Approved**
 
-Do **not** create `src/` or migrations until a human sets this plan
-to Approved.
+Do **not** merge `main` from this bugfix. Apply the stamps migration
+via the existing production apply-schema path after a **human**
+release merge.
 
 ## Scope of code changes (proposed)
 
-Preferred HOW (TD-D005 Proposed):
+Preferred HOW (TD-D005 **APPROVED**):
 
-1. Migration: view or RPC returning only `id, created_at, deleted_at`
-   for **all** clients (including `deleted_at not null`), SELECT to
-   authenticated ADMIN **and** VIEWER. No names, email, phone, OIB.
-2. `src/lib/dashboard.ts`: read that object instead of `clients` for
-   stamps. Keep `products` / `client_products` as today.
+1. Migration `20260919193000_client_lifecycle_stamps.sql`: view
+   `client_lifecycle_stamps` (`id, created_at, deleted_at`), SELECT
+   for authenticated ADMIN and VIEWER, including soft-deleted rows.
+2. `src/lib/dashboard.ts` reads that view. Fallback to `clients` only
+   if the relation is missing (pre-apply). Keep `products` /
+   `client_products`.
 3. Do **not** change CRM `listClients` active-only filter.
 4. Do **not** broaden `clients_select_admin_deleted` to VIEWER unless
    the human rejects the view/RPC (that path exposes deleted PII).
 
-Tests:
-
-- Unit: already has deleted rows in fixtures; add an explicit
-  “active-only input understates New/Churned” case if useful.
-- Integration or e2e `TC-D015`: same period, VIEWER and ADMIN KPI
-  New/Churned equal on a DB with known deletes (or documented
-  equivalent). Missing `E2E_*`: SKIPPED ≠ PASSED.
+- Unit: `tests/unit/clientLifecycleStamps.tc-d015.test.ts` (PGlite)
+  plus loader `tests/unit/dashboardLoader.test.ts`.
+- Live integration `TC-D015`: same period, VIEWER and ADMIN KPI
+  New/Churned equal on a DB with known deletes. Missing `E2E_*` or
+  missing view: SKIPPED ≠ PASSED.
 
 ## Mapping
 
-| AC / TC           | Automated test path (to be created) |
-| ----------------- | ----------------------------------- |
-| AC-D015 / TC-D015 | e2e or integration named `TC-D015`  |
+| AC / TC           | Automated test path                                                                                   |
+| ----------------- | ----------------------------------------------------------------------------------------------------- |
+| AC-D015 / TC-D015 | `tests/unit/clientLifecycleStamps.tc-d015.test.ts`; live `tests/integration/dashboard-stamps.test.ts` |
 
 ## Security notes
 

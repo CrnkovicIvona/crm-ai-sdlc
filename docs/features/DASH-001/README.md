@@ -23,4 +23,4 @@
 | Traceability        | [traceability.md](traceability.md)                                        |
 | Implementation plan | [implementation-plan.md](implementation-plan.md)                          |
 | QA parking lot      | [../../backlog/backlog.md](../../backlog/backlog.md) (`DASH-B001`–`B012`) |
-| BUG-004             | [../../bugs/BUG-004.md](../../bugs/BUG-004.md) (Triaged; RCA; plan Draft) |
+| BUG-004             | [../../bugs/BUG-004.md](../../bugs/BUG-004.md) (In progress; stamps view) |
