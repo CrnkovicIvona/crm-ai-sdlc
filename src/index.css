@@ -218,6 +218,9 @@ td {
 }
 
 .test-users {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
   margin-top: 1.5rem;
   padding-top: 1rem;
   border-top: 1px solid var(--crm-border);
@@ -231,16 +234,12 @@ td {
 }
 
 .test-users-heading {
-  margin-top: 0.75rem;
+  margin-top: 0;
   font-weight: 600;
 }
 
-.test-users-heading:first-child {
-  margin-top: 0;
-}
-
 .test-users-note {
-  margin-top: 0.75rem;
+  margin: 0;
   font-style: italic;
 }
 
