@@ -11,13 +11,15 @@
 
 ## In scope
 
-TC-D001–TC-D014 as [test-cases.md](test-cases.md).
+TC-D001–TC-D015 as [test-cases.md](test-cases.md).
 
 **Unit** (`dashboardMetrics.test.ts`): business correctness of frozen
 metrics (AC-D003–D013). Do not prove all BI via Playwright.
 
 **E2E** (`dashboard.spec.ts`): access, AUTH, visible filter default,
-empty/error UI, schema missing **FAIL**.
+empty/error UI, schema missing **FAIL**. **TC-D015** (role KPI
+parity) is DESIGNED; not in the current e2e file until BUG-004 is
+PLANNED.
 
 **Integration:** not required if unit + existing CRM RLS SELECT is
 enough. If a dashboard query is denied by RLS, **STOP** (TD), do not

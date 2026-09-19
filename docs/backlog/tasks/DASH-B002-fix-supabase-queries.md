@@ -2,7 +2,7 @@
 
 **Area:** Dashboard  
 **Priority:** High  
-**Status:** Open  
+**Status:** Open (cause identified in repo migration; no query change yet)  
 **Owner:** TBD  
 **Last Updated:** 2026-09-19
 
@@ -13,6 +13,11 @@
 VIEWER metrics that ignore churn may mean the VIEWER result set omits
 soft-deleted rows or `deleted_at`. Investigate SELECT list and
 filters. Do not change schema or RLS in this parking-lot item.
+
+Repo: `clients_select_authenticated` is `deleted_at is null` for
+ADMIN and VIEWER. Only `clients_select_admin_deleted` lets ADMIN
+read deleted rows. Dashboard `select('id, created_at, deleted_at')`
+has no extra client-side role filter.
 
 ## Acceptance Criteria
 

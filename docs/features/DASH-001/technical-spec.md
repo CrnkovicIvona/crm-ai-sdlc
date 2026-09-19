@@ -46,9 +46,18 @@ by default).
 
 ## Row Level Security
 
-Intent: authenticated ADMIN/VIEWER already SELECT clients and
-products for CRM-001. Dashboard uses the same. If SELECT/count is
-denied: **STOP**, document, do not use service role in the browser.
+Intent: authenticated ADMIN/VIEWER already SELECT **active** clients
+for the CRM list. Dashboard KPIs also need soft-deleted stamps
+(`created_at`, `deleted_at`) for FR-D003, FR-D004, FR-D015.
+
+**BUG-004:** policy `clients_select_authenticated` is `deleted_at is
+null` for both roles; only ADMIN may SELECT deleted rows
+(`clients_select_admin_deleted`). The dashboard loader reads
+`clients` with that RLS, so VIEWER under-counts New/Churned.
+
+If SELECT/count is denied: **STOP**, document, do not use service
+role in the browser. Fix HOW is TD-D005 **Proposed** (stamps view/RPC,
+not widening deleted PII on `clients`).
 
 ## Security
 
@@ -68,6 +77,7 @@ Designed in [test-plan.md](test-plan.md). Not executed here.
 | TDE-D002 | dashboardMetrics + fetch timestamps | FR-D002–D011, D013, D014 |
 | TDE-D003 | Dashboard UI without write controls | FR-D012                  |
 | TDE-D004 | SVG/CSS charts, empty/`N/A`         | FR-D007–D009, D014       |
+| TDE-D005 | Same stamp set both roles (BUG-004) | FR-D015                  |
 
 ## Dependencies
 

@@ -10,7 +10,8 @@ reuse feature ids (`DASH-001` is the dashboard feature). This seed is
 dashboard-only; AUTH/CRM/SYS rows are added when real work exists.
 
 Evidence for DASH-B001: [EXP-2026-09-19-2](../test-reports/EXP-2026-09-19-2.md),
-[BUG-004](../bugs/BUG-004.md). Production Last 30: VIEWER New **620** /
+[BUG-004](../bugs/BUG-004.md) (Triaged; RCA). BD-D009: VIEWER and ADMIN
+same dashboard truth. Production Last 30: VIEWER New **620** /
 Churned **0**; ADMIN New **815** / Churned **195**.
 
 | ID                                                         | Title                      | Area      | Status   | Priority | Owner | Last Updated |
