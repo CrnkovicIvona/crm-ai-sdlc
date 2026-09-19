@@ -27,9 +27,9 @@ docs/features/<WORK-ITEM-ID>/
 ```
 
 CRM-001 and DASH-001 use this layout. Index rows still go in
-`docs/traceability/matrix.md`. DASH-001 is **`ON_MAIN`** after
-REL-006 merge ([DASH-001/](DASH-001/)); not `RELEASED` until
-production smoke **PASSED**.
+`docs/traceability/matrix.md`. DASH-001 is **`RELEASED`**
+([DASH-001/](DASH-001/); REL-006 product, REL-007 smoke 14/14 PASS,
+run 35469423656).
 
 Templates: copy headings from `docs/requirements/TEMPLATE.md`,
 `docs/specifications/*/TEMPLATE.md`, `docs/decisions/TEMPLATE.md`,
