@@ -4,7 +4,7 @@
 - Requirement: REQ-DASH-001
 - Functional specification: [functional-spec.md](functional-spec.md)
 - Status: Specified (DoR 2026-09-13). Feature lifecycle **`ON_MAIN`**
-  after REL-006 merge; not `RELEASED`.
+  (REL-006 + REL-007 stamps). **ON_MAIN — not RELEASED.**
 - Traceability: [traceability.md](traceability.md)
 
 Do not add behaviour absent from the FS.
@@ -36,7 +36,7 @@ Dashboard; unauthenticated cannot. Not a copy of the full e2e pack.
 As a staff member, I see Active, New, Churned, Churn Rate, and Net
 Growth so I understand stock vs flow.
 
-- FR: FR-D002–FR-D006, FR-D011, FR-D013, FR-D014
+- FR: FR-D002–FR-D006, FR-D011, FR-D013, FR-D014, FR-D015
 
 ### AC-D003 Active Clients
 
@@ -54,6 +54,13 @@ deleted in the same period still counts.
 
 Given various `deleted_at` values, then only those in `[start, end)`
 count as Churned Clients.
+
+### AC-D015 Role metric parity
+
+Given the same selected period and the same database, when I open the
+dashboard as VIEWER and as ADMIN, then Active, New, Churned, Churn
+Rate, Net Growth, and Product Adoption Rate **match**. VIEWER still
+has no write controls.
 
 ### AC-D006 Churn Rate 5%
 

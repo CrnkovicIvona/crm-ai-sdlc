@@ -2,14 +2,15 @@
 
 - Work item: DASH-001
 - Issue: none
-- Status: **`ON_MAIN`** after REL-006 merge (DoR 2026-09-13). Not
-  `RELEASED` until production smoke **PASSED**.
+- Status: **`ON_MAIN`** after REL-006; REL-007 stamps (DoR
+  2026-09-13). **ON_MAIN — not RELEASED** until production smoke
+  **PASSED**.
 - Owner (draft): Agent as BA
 - Owner (approve): Human PO
 - Source: PO prompt DASH-001 CRM Dashboard; plan refinements 2026-09-13
 - Risk: High
-- Approval: Metric contracts and date/filter behaviour accepted in
-  chat (“odobreno”). See [decisions.md](decisions.md).
+- Approval: Metric contracts 2026-09-13; BD-D009 role parity
+  2026-09-19. See [decisions.md](decisions.md).
 - Traceability: [traceability.md](traceability.md)
 
 ## Problem
@@ -38,9 +39,12 @@ Quoted/paraphrased from the approved human request (not invented):
 8. Reuse AUTH-001. Unauthenticated users cannot use `/app/dashboard`.
 9. Empty and divide-by-zero states must not show NaN, Infinity, or
    undefined.
-10. Do not implement product-level churn (no historical product
+10. VIEWER and ADMIN SHALL see the same dashboard metric values for
+    the same selected period (PO 2026-09-19, BD-D009). VIEWER write
+    denial does not reduce dashboard truth.
+11. Do not implement product-level churn (no historical product
     ownership).
-11. Do not mark DASH-001 `RELEASED` because code exists.
+12. Do not mark DASH-001 `RELEASED` because code exists.
 
 Metric definitions (active, new, churned, churn rate, net growth,
 adoption, clients by product) are **WHAT** in

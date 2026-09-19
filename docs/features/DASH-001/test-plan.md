@@ -4,20 +4,22 @@
 - Issue: none
 - Risk: **High**
 - Status of tests: **EXECUTED** on `test` CI (Vitest + Playwright).
-  Production smoke: **NOT EXECUTED**. Not `RELEASED`.
+  Production smoke: **NOT EXECUTED**. **ON_MAIN — not RELEASED.**
 - Owner (draft): Agent as QA
 - Approval: DoR 2026-09-13
 - Report: [../../test-reports/DASH-001.md](../../test-reports/DASH-001.md)
 
 ## In scope
 
-TC-D001–TC-D014 as [test-cases.md](test-cases.md).
+TC-D001–TC-D015 as [test-cases.md](test-cases.md).
 
 **Unit** (`dashboardMetrics.test.ts`): business correctness of frozen
 metrics (AC-D003–D013). Do not prove all BI via Playwright.
 
 **E2E** (`dashboard.spec.ts`): access, AUTH, visible filter default,
-empty/error UI, schema missing **FAIL**.
+empty/error UI, schema missing **FAIL**. **TC-D015** is integration
+`tests/integration/dashboard-stamps.test.ts` (SKIPPED without secrets
+or stamps view; skip ≠ pass).
 
 **Integration:** not required if unit + existing CRM RLS SELECT is
 enough. If a dashboard query is denied by RLS, **STOP** (TD), do not

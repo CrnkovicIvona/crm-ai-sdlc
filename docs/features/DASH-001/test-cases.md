@@ -27,6 +27,7 @@
 | TC-D012  | AC-D012 | N    | state     | unit     | `TC-D012`                                                             |
 | TC-D013  | AC-D013 | E    | state     | unit+e2e | unit `TC-D013`; e2e empty/error UI `TC-D013-ui`                       |
 | TC-D014  | AC-D001 | N    | use-case  | e2e      | schema/query missing → **FAIL** not skip `TC-D014`                    |
+| TC-D015  | AC-D015 | P    | decision  | e2e/int  | unit PGlite; live `dashboard-stamps.test.ts`; e2e `TC-D015-ui`        |
 
 Missing dashboard data / schema: **FAIL**, not skip-to-green. Skip only
 documented missing `E2E_*` / `VITE_*` (skip ≠ pass).
@@ -64,6 +65,22 @@ documented missing `E2E_*` / `VITE_*` (skip ≠ pass).
 - Expected: dashboard cannot load expected data → test **FAILED**,
   not skipped
 - Automation: `tests/e2e/dashboard.spec.ts` `TC-D014`
+
+## TC-D015 VIEWER and ADMIN metric parity
+
+- Status: PGlite unit **PASSED**; live Supabase integration **SKIPPED**
+  until `client_lifecycle_stamps` is applied (SKIPPED ≠ PASSED)
+- Kind: P — decision — e2e or integration — High
+- AC: AC-D015
+- Expected: Same period, VIEWER KPI values, product table, and chart
+  bar titles equal ADMIN (Active, New, Churned, Rate, Net, Adoption,
+  Clients by Product, Client Base Trend, New vs Churned). VIEWER has
+  no write controls. Skip without `E2E_*` ≠ PASSED.
+- Automation: `tests/unit/clientLifecycleStamps.tc-d015.test.ts`;
+  live `tests/integration/dashboard-stamps.test.ts` `TC-D015` (full
+  snapshot); e2e `tests/e2e/dashboard.spec.ts` `TC-D015-ui` when
+  `TC_D015_REQUIRE_VIEW=1` (local Supabase job). Hosted Preview without
+  the view: SKIPPED ≠ PASSED.
 
 ## Production smoke (later release)
 

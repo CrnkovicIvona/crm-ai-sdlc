@@ -27,7 +27,6 @@ intent: [ADR-0001](docs/adr/0001-engineering-foundation.md).
 
 👉 **Live demo:** [https://crm-ai-sdlc.vercel.app](https://crm-ai-sdlc.vercel.app)
 
-
 ## Features
 
 | Area                 | What it covers                                                                                   | Specs                                                                                                      |
@@ -157,7 +156,7 @@ Skills on disk: `feature-orchestrator`, `analyze-requirements`,
 `author-decisions`, `author-adr`, `plan-implementation`, `plan-tests`,
 `execute-tests`, `report-tests`, `review-code`, `prepare-pr`,
 `sync-feature-docs`, `release-and-verify`, `manage-bugs`, `heal`,
-`ui-ux-redesign`.
+`ui-ux-redesign`, `exploratory-qa-expert`.
 
 Skills do **not** start by themselves. They are not a cron or
 background workflow.

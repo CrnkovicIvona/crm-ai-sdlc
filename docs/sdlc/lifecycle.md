@@ -39,7 +39,7 @@ There is no `DONE` state. There is no `VERIFICATION_PENDING` or
 | `HEALING`           | A failing test is being diagnosed or remediating. Healing is never recorded as PASSED.                                                       | Return to `TESTING`                                                     |
 | `REGRESSION`        | Required regression suite executing                                                                                                          | Report + agent `review-code` → `READY_FOR_PR`                           |
 | `READY_FOR_PR`      | Implementation, tests, evidence, and agent review complete                                                                                   | PR targeting `test`                                                     |
-| `IN_QA`             | PR open on `test`; CI; human reads the diff                                                                                                  | **Human QA** → `READY_FOR_RELEASE`                                      |
+| `IN_QA`             | PR open on `test`; CI; human reads the diff. Optional `exploratory-qa-expert` session if asked. Agent does **not** self-approve.             | **Human QA** → `READY_FOR_RELEASE`                                      |
 | `READY_FOR_RELEASE` | Human QA passed. Release preparation may begin                                                                                               | Release PR prepared; **human merge to `main`** → `ON_MAIN`              |
 | `ON_MAIN`           | Human merged the release to `main`. Code is on the production branch. Deploy may exist. **Production smoke has not PASSED.** Not `RELEASED`. | Smoke **PASSED** and docs/traceability close-out on `main` → `RELEASED` |
 | `RELEASED`          | Strict conditions in [Release conditions](#released-strict-conditions) are all true                                                          | [DoD](definition-of-done.md); human may close the Issue                 |
@@ -117,7 +117,7 @@ link here, not copy a shorter or longer list.
 1. Product/business TBDs and High-risk decision-log items (BD/TD); agent must not invent
 2. `SPECIFIED` → `READY`: Definition of Ready on the Issue
 3. `READY` → `PLANNED`: implementation plan approval
-4. `IN_QA` → `READY_FOR_RELEASE`: CI plus human QA on `test` (human reads the PR diff)
+4. `IN_QA` → `READY_FOR_RELEASE`: CI plus human QA on `test` (human reads the PR diff). Optional exploratory session (`exploratory-qa-expert`) is evidence, not this gate.
 5. `READY_FOR_RELEASE` → `ON_MAIN`: human merge of the **release PR** to `main`
 6. Production data, security exceptions, and smoke exceptions: explicit human authorization. A recorded smoke skip is not PASSED; state stays `ON_MAIN`
 7. Secrets, seed users, and project config (GitHub/Vercel env, Supabase

@@ -38,7 +38,7 @@ Production smoke ACs: **NOT EXECUTED**.
 | Unit        | TC-D003–D013                          | yes              |
 | Integration | not required for DASH-001             | n/a              |
 | E2E         | TC-D001, D002, D009-ui, D013-ui, D014 | yes on `test` CI |
-| Smoke       | rel-006 on Production                 | no               |
+| Smoke       | rel-006 / rel-007 on Production       | no               |
 
 ## Evidence
 
@@ -46,19 +46,32 @@ Production smoke ACs: **NOT EXECUTED**.
 | ---------------- | -------- | ------------ | ---------------------------------------------------------------------------------------- |
 | Vitest 34        | unit+RLS | PASSED       | [run 34856651861](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/34856651861) |
 | Playwright 26    | e2e      | PASSED       | same run                                                                                 |
-| Production smoke | P        | NOT EXECUTED | after REL-006 merge                                                                      |
+| Production smoke | P        | NOT EXECUTED | after REL-007 merge                                                                      |
 
 ## Confirmation testing
 
 BUG-002 nav buttons and BUG-003 success banner are on `test` (PRs #42,
 #43). Production not retested.
 
-## Residual risk
+## Residual risk (REL-006)
 
-VIEWER cannot SELECT soft-deleted client rows (CRM-001 RLS). Churn
-metrics for VIEWER use only visible rows. High Churn Rate when opening
-base is small is the frozen formula, not a display bug.
+VIEWER cannot SELECT full deleted `clients` rows (CRM-001 RLS; PII).
+Churn/new-including-deleted for KPIs is the stamps view (BUG-004 /
+REL-007), not full-row SELECT.
 
 ## Bugs filed
 
-[BUG-002](../bugs/BUG-002.md), [BUG-003](../bugs/BUG-003.md).
+[BUG-002](../bugs/BUG-002.md), [BUG-003](../bugs/BUG-003.md),
+[BUG-004](../bugs/BUG-004.md).
+
+## REL-007 addendum (`ad191ad`)
+
+- Date: 2026-09-19
+- Evidence: [run 35468058847](https://github.com/CrnkovicIvona/crm-ai-sdlc/actions/runs/35468058847)
+- Vitest: 39 PASSED
+- Vitest local RLS TC-D015: 1 PASSED
+- Playwright: 26 PASSED, 1 SKIPPED (`TC-D015-ui` without
+  `TC_D015_REQUIRE_VIEW=1`; SKIPPED ≠ PASSED)
+- Production smoke (rel-003/004/006/007): **NOT EXECUTED**
+- AC-D015 / TC-D015: EXECUTED and PASSED on PGlite + local
+  PostgREST; hosted Preview e2e SKIPPED; Production **NOT EXECUTED**
