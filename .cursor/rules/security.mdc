@@ -13,7 +13,11 @@ alwaysApply: true
   production **schema** may be applied only by
   `.github/workflows/production-smoke.yml` (SQL already on `main`,
   secret `PRODUCTION_SUPABASE_DB_URL`). Agent must not paste SQL in
-  the Dashboard or print that URL.
+  the Dashboard or print that URL. Production **row data** may also
+  be changed by `exploratory-qa-expert` **safe** writes only: login
+  via the public login-page `test-users` identities (practice app);
+  prefer a client created in that session; no mass delete; no
+  service-role. Never print those passwords in reports or git.
 - Never disable branch protection, required checks, or secret scanning
 - Production **SPA deploy** is not an agent action (Vercel from `main`)
 - Follow `docs/sdlc/security-review.md` for security-sensitive changes
