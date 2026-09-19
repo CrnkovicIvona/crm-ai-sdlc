@@ -86,9 +86,11 @@ describe.skipIf(!live)(
         .select('id')
         .limit(1);
       if (probe.error) {
-        skip(
-          `TC-D015 SKIPPED (not PASSED): client_lifecycle_stamps missing (${probe.error.message})`,
-        );
+        const message = `client_lifecycle_stamps missing (${probe.error.message})`;
+        if (process.env.TC_D015_REQUIRE_VIEW === '1') {
+          throw new Error(`TC-D015 FAILED: ${message}`);
+        }
+        skip(`TC-D015 SKIPPED (not PASSED): ${message}`);
         return;
       }
 

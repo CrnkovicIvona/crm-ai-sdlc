@@ -131,6 +131,53 @@ jobs:
         run: |
           echo "Vitest SKIPPED tests are not PASSED. RLS (TC-C012–C019) needs VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY, and E2E_*. Never put the service role in a VITE_* secret." >> "$GITHUB_STEP_SUMMARY"
 
+  vitest-local-rls:
+    name: Vitest local RLS (TC-D015)
+    needs: application-source
+    if: needs.application-source.outputs.present == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 2.117.0
+      - name: Start local Supabase
+        run: supabase start
+      - name: Seed ADMIN and VIEWER
+        run: |
+          set -euo pipefail
+          eval "$(supabase status -o env)"
+          export VITE_SUPABASE_URL="$API_URL"
+          export VITE_SUPABASE_ANON_KEY="$ANON_KEY"
+          export SUPABASE_SERVICE_ROLE_KEY="$SERVICE_ROLE_KEY"
+          export E2E_ADMIN_EMAIL="admin.local@bank.example"
+          export E2E_ADMIN_PASSWORD="LocalAdminPass1"
+          export E2E_VIEWER_EMAIL="viewer.local@bank.example"
+          export E2E_VIEWER_PASSWORD="LocalViewerPass1"
+          node scripts/seed-local-auth.mjs
+          {
+            echo "VITE_SUPABASE_URL=$VITE_SUPABASE_URL"
+            echo "VITE_SUPABASE_ANON_KEY=$VITE_SUPABASE_ANON_KEY"
+            echo "SUPABASE_SERVICE_ROLE_KEY=$SUPABASE_SERVICE_ROLE_KEY"
+            echo "E2E_ADMIN_EMAIL=$E2E_ADMIN_EMAIL"
+            echo "E2E_ADMIN_PASSWORD=$E2E_ADMIN_PASSWORD"
+            echo "E2E_VIEWER_EMAIL=$E2E_VIEWER_EMAIL"
+            echo "E2E_VIEWER_PASSWORD=$E2E_VIEWER_PASSWORD"
+          } >> "$GITHUB_ENV"
+      - name: TC-D015 against local PostgREST RLS
+        env:
+          TC_D015_REQUIRE_VIEW: '1'
+        run: npx vitest run tests/integration/dashboard-stamps.test.ts --reporter=verbose
+      - name: Note TC-D015
+        if: always()
+        run: |
+          echo "This job applies repo migrations (including client_lifecycle_stamps) on local Supabase. A skip here is not a pass." >> "$GITHUB_STEP_SUMMARY"
+
   playwright:
     name: Playwright
     needs: application-source
