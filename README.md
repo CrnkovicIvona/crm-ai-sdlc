@@ -391,3 +391,20 @@ enough.
 **Skills** — prompt or @skill. Example: `feature-orchestrator` at
 feature start; `execute-tests` for evidence; `release-and-verify`
 after QA on `test`.
+
+# Lessons learned so far through personal projects and by using agents (how to trust an AI-driven process)
+
+- **Modern QA is multi-layered.** Testing today goes beyond a single test suite: it includes a harness around the tests and AI agents working inside it.
+- **Automation is cheap now.** Because the cost of automation has dropped, far more can be automated, including edge cases that used to be skipped. Writing tests is cheap, but reviewing and maintaining them is not.
+- **Metrics and user impact drive the work.** Track meaningful metrics and real impact on users, and keep adjusting the harness based on what they show.
+- **Spec-driven development.** Clear specs and well-defined acceptance criteria are the foundation for both humans and agents.
+- **Human in the loop.** Agents assist, people decide. Checkpoints are essential, and the real question is not *whether* to place them but *where*, because that placement determines quality.
+- **Context quality sets output quality.** Business context is a key input: low-quality input produces low-quality output.
+- **Test architecture and test design come first.** Preparing the test architecture and test design, with enough context behind them, is still an art. If the architecture isn't good enough, it will bite you later, no matter how fast agents generate tests.
+- **Use mutation testing (as used at META) for unit tests** to verify that tests actually catch bugs, and watch out for **false greens** (tests that pass without proving anything).
+- **Review tests regularly.** Consider adding a dedicated review agent and invest in observability so problems are visible early.
+- **Involve more people.** Different perspectives surface blind spots that one person or one agent will miss.
+- **Hard rule for agents: never modify or delete existing work.** Agents may only add new files or changes for review, never overwrite or remove what is already written (tests, specs, configuration).
+- **Start small and measure.** Begin with one agent and a clearly defined task, then expand based on results.
+- **Flaky tests and stable test data.** Agents produce tests fast, and unstable tests quickly destroy trust in the whole suite. Invest in deterministic, well-managed test data.
+- **Traceability.** Every test should map to an acceptance criterion. Otherwise you cannot tell what is covered or why a test exists.
